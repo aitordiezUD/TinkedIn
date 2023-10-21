@@ -6,4 +6,5 @@
  *
  */
 module TinkedIn {
+	requires java.desktop;
 }
