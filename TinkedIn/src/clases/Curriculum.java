@@ -8,7 +8,7 @@ public class Curriculum {
 	
 	private int exp_laboral;
 	private String educacion;
-	private ArrayList<String> titulos;
+	private HashMap<String,String> titulos; //Clave:Titulo ; Valor:Procedencia Título
 	private ArrayList<String> idiomas;
 	
 	
@@ -25,17 +25,10 @@ public class Curriculum {
 	public void setEducacion(String educacion) {
 		this.educacion = educacion;
 	}
-	public ArrayList<String> getTitulos() {
+	public HashMap<String, String> getTitulos() {
 		return titulos;
 	}
-	public String TitulosToString() {
-		String listaTitulos = "";
-		for(int i = 0; i < this.titulos.size()-1; i++) {
-			listaTitulos = listaTitulos + i;
-		}
-		return listaTitulos;
-	}
-	public void setTitulos(ArrayList<String> titulos) {
+	public void setTitulos(HashMap<String, String> titulos) {
 		this.titulos = titulos;
 	}
 	public ArrayList<String> getIdiomas() {
@@ -52,6 +45,13 @@ public class Curriculum {
 		this.idiomas = idiomas;
 	}
 	
+	public String TitulosToString() {
+		String listaTitulos = "";
+		for(int i = 0; i < this.titulos.size()-1; i++) {
+			listaTitulos = listaTitulos + i;
+		}
+		return listaTitulos;
+	}
 	
 	
 	
