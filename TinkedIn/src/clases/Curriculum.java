@@ -9,5 +9,5 @@ public class Curriculum {
 	private int exp_laboral;
 	private String educacion;
 	private ArrayList<String> titulos;
-	
+	//Pinga
 }
