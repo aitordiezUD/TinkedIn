@@ -8,7 +8,6 @@ public class Persona extends Usuario {
 	
 	//Atributos: 
 	
-	private String nombre;
 	private int idPersona;
 	private int edad;
 	private Curriculum curriculum;
@@ -22,13 +21,6 @@ public class Persona extends Usuario {
 	
 	public void setIdPersona(int idPersona) {
 		this.idPersona = idPersona;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public int getEdad() {
@@ -73,7 +65,7 @@ public class Persona extends Usuario {
 
 	@Override
 	public String toString() {
-		return this.nombre + "(" + this.idPersona + "), de" + this.edad + "años de edad, tiene" + this.curriculum.getExp_laboral() + "años"
+		return this.getNombre() + "(" + this.idPersona + "), de" + this.edad + "años de edad, tiene" + this.curriculum.getExp_laboral() + "años"
 				+ " de experiencia en el sector, estudió " + this.curriculum.getEducacion() + " y le pertenecen los siguientes titulos: "
 						+ this.curriculum.TitulosToString() + ". Ademas domina el uso de los siguientes idiomas: "
 								+ this.curriculum.IdiomasToString() + ".";
