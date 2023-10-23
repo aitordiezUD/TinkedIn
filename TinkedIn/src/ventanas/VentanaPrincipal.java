@@ -29,7 +29,9 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 	}
-
+	
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -46,6 +48,8 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(pnlLog,BorderLayout.CENTER);
 		
 		setContentPane(contentPane);
+		
+			
 	}
-
+	
 }

@@ -15,6 +15,10 @@ import javax.swing.*;
 
 
 public class PnlMiPerfil  extends JPanel {
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 	public PnlMiPerfil() {
 		setLayout(null);
 		
@@ -44,11 +48,6 @@ public class PnlMiPerfil  extends JPanel {
 	        Graphics2D g2d = resizedImage.createGraphics();
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
-
-	        // Crea un JLabel y asigna la imagen escalada como ícono
-	        JLabel lblGrafFoto = new JLabel(new ImageIcon(resizedImage));
-			lblGrafFoto.setBounds(266, 45, 101, 102);
-			pnlFotoPerfil.add(lblGrafFoto);
 			
 			
 			
@@ -56,14 +55,74 @@ public class PnlMiPerfil  extends JPanel {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-	
 		
+		JLabel lblNewLabel = new JLabel("Correo Electrónico");
+		lblNewLabel.setBounds(50, 88, 94, 16);
+		pnlFotoPerfil.add(lblNewLabel);
 		
+		textField = new JTextField();
+		textField.setBounds(48, 105, 96, 20);
+		pnlFotoPerfil.add(textField);
+		textField.setColumns(10);
 		
-		JLabel lblEditarFoto = new JLabel("Editar");
-		lblEditarFoto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEditarFoto.setBounds(289, 159, 61, 16);
-		pnlFotoPerfil.add(lblEditarFoto);
+		JLabel lblNewLabel_1 = new JLabel("NºTeléfono");
+		lblNewLabel_1.setBounds(50, 136, 94, 14);
+		pnlFotoPerfil.add(lblNewLabel_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(48, 157, 96, 20);
+		pnlFotoPerfil.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Curriculum");
+		lblNewLabel_2.setBounds(287, 88, 61, 16);
+		pnlFotoPerfil.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBounds(266, 108, 48, 14);
+		pnlFotoPerfil.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Destreza:");
+		lblNewLabel_4.setBounds(191, 108, 48, 14);
+		pnlFotoPerfil.add(lblNewLabel_4);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(311, 105, 96, 20);
+		pnlFotoPerfil.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Experiencia:");
+		lblNewLabel_5.setBounds(191, 136, 61, 14);
+		pnlFotoPerfil.add(lblNewLabel_5);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(311, 132, 96, 22);
+		pnlFotoPerfil.add(comboBox);
+		
+		JLabel lblNewLabel_6 = new JLabel("Recursos Adicionales: ");
+		lblNewLabel_6.setBounds(191, 171, 123, 16);
+		pnlFotoPerfil.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("(Linkedln, Github,...)");
+		lblNewLabel_7.setBounds(191, 189, 109, 14);
+		pnlFotoPerfil.add(lblNewLabel_7);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(311, 165, 96, 20);
+		pnlFotoPerfil.add(textField_3);
+		textField_3.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Editar");
+		btnNewButton.setBounds(356, 192, 89, 23);
+		pnlFotoPerfil.add(btnNewButton);
+		
+		JLabel lblNewLabel_8 = new JLabel("Nombre");
+		lblNewLabel_8.setBounds(127, 63, 48, 14);
+		pnlFotoPerfil.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Apellidos");
+		lblNewLabel_9.setBounds(252, 63, 48, 14);
+		pnlFotoPerfil.add(lblNewLabel_9);
 	
 		
 		//TODO: Arreglar
@@ -92,7 +151,6 @@ public class PnlMiPerfil  extends JPanel {
 		frame.setVisible(true);
 		
 	}
-
 }
 	
 
