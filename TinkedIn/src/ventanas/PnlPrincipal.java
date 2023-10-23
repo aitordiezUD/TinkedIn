@@ -53,7 +53,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = Main.class.getResourceAsStream("/imagenes/perfil.png");
+            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("perfil.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
