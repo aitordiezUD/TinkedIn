@@ -67,12 +67,12 @@ public class PnlPrincipal extends JPanel {
             Graphics2D g2d = resizedImage.createGraphics();
             g2d.drawImage(scaledImage, 0, 0, null);
             g2d.dispose();
-
+            
             // Crea un JLabel y asigna la imagen escalada como ícono
-            JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
-            lblGraphics.setBackground(new Color(240, 240, 240));
-    		lblGraphics.setBounds(20, 0, 38, 38);
-    		pnlPerfil.add(lblGraphics);
+            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
+            lblGrafExp.setBackground(new Color(240, 240, 240));
+    		lblGrafExp.setBounds(20, 0, 38, 38);
+    		pnlPerfil.add(lblGrafExp);
       
         } catch (IOException e) {
             e.printStackTrace();

@@ -12,24 +12,32 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.Font;
 
 
 public class PnlMiPerfil  extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	public PnlMiPerfil() {
 		setLayout(null);
+		setSize(750,650);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(6, 233, 615, 211);
-		add(panel);
+		JPanel panelFotoPerfil = new JPanel();
+		panelFotoPerfil.setBounds(70, 29, 680, 305);
+		add(panelFotoPerfil);
+		panelFotoPerfil.setLayout(null);
 		
-		JPanel pnlFotoPerfil = new JPanel();
-		pnlFotoPerfil.setBounds(6, 6, 615, 215);
-		add(pnlFotoPerfil);
-		pnlFotoPerfil.setLayout(null);
+		JLabel lblNewLabel_9 = new JLabel("Apellidos");
+		lblNewLabel_9.setBounds(400, 250, 98, 14);
+		panelFotoPerfil.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_8 = new JLabel("Nombre");
+		lblNewLabel_8.setBounds(230, 250, 50, 14);
+		panelFotoPerfil.add(lblNewLabel_8);
+		
+		
+		JPanel pnlDatos = new JPanel();
+		pnlDatos.setBounds(70, 358, 680, 215);
+		add(pnlDatos);
+		pnlDatos.setLayout(null);
 		
 		
 		
@@ -39,8 +47,8 @@ public class PnlMiPerfil  extends JPanel {
 	        BufferedImage originalImage = ImageIO.read(imageStream);
 
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-	        int width = 70;
-	        int height = 70;
+	        int width = 100;
+	        int height = 100;
 	        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
 	        // Convierte la imagen escalada en un BufferedImage
@@ -48,7 +56,12 @@ public class PnlMiPerfil  extends JPanel {
 	        Graphics2D g2d = resizedImage.createGraphics();
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
-			
+	        
+			//Crea in JLabel y asigna la imagen
+	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
+	        lblGraphics.setBackground(new Color(240, 240, 240));
+    		lblGraphics.setBounds(290, 91, 100, 100);
+	        panelFotoPerfil.add(lblGraphics);
 			
 			
 	  
@@ -56,73 +69,68 @@ public class PnlMiPerfil  extends JPanel {
 	        e.printStackTrace();
 	    }
 		
-		JLabel lblNewLabel = new JLabel("Correo Electrónico");
-		lblNewLabel.setBounds(50, 88, 94, 16);
-		pnlFotoPerfil.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(48, 105, 96, 20);
-		pnlFotoPerfil.add(textField);
-		textField.setColumns(10);
+		JLabel lblNewLabel = new JLabel("Correo Electrónico");
+		lblNewLabel.setBounds(40, 52, 94, 16);
+		pnlDatos.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("NºTeléfono");
-		lblNewLabel_1.setBounds(50, 136, 94, 14);
-		pnlFotoPerfil.add(lblNewLabel_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(48, 157, 96, 20);
-		pnlFotoPerfil.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("Curriculum");
-		lblNewLabel_2.setBounds(287, 88, 61, 16);
-		pnlFotoPerfil.add(lblNewLabel_2);
+		lblNewLabel_1.setBounds(40, 91, 94, 14);
+		pnlDatos.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(266, 108, 48, 14);
-		pnlFotoPerfil.add(lblNewLabel_3);
+		pnlDatos.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Destreza:");
-		lblNewLabel_4.setBounds(191, 108, 48, 14);
-		pnlFotoPerfil.add(lblNewLabel_4);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(311, 105, 96, 20);
-		pnlFotoPerfil.add(textField_2);
-		textField_2.setColumns(10);
+		lblNewLabel_4.setBounds(369, 53, 70, 14);
+		pnlDatos.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Experiencia:");
-		lblNewLabel_5.setBounds(191, 136, 61, 14);
-		pnlFotoPerfil.add(lblNewLabel_5);
+		lblNewLabel_5.setBounds(369, 91, 96, 14);
+		pnlDatos.add(lblNewLabel_5);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(311, 132, 96, 22);
-		pnlFotoPerfil.add(comboBox);
+		JComboBox comboBoxExperiencia = new JComboBox();
+		comboBoxExperiencia.setBounds(489, 87, 191, 22);
+		pnlDatos.add(comboBoxExperiencia);
 		
 		JLabel lblNewLabel_6 = new JLabel("Recursos Adicionales: ");
-		lblNewLabel_6.setBounds(191, 171, 123, 16);
-		pnlFotoPerfil.add(lblNewLabel_6);
+		lblNewLabel_6.setBounds(369, 135, 150, 14);
+		pnlDatos.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("(Linkedln, Github,...)");
-		lblNewLabel_7.setBounds(191, 189, 109, 14);
-		pnlFotoPerfil.add(lblNewLabel_7);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(311, 165, 96, 20);
-		pnlFotoPerfil.add(textField_3);
-		textField_3.setColumns(10);
+		lblNewLabel_7.setBounds(368, 149, 140, 14);
+		pnlDatos.add(lblNewLabel_7);
 		
 		JButton btnNewButton = new JButton("Editar");
-		btnNewButton.setBounds(356, 192, 89, 23);
-		pnlFotoPerfil.add(btnNewButton);
+		btnNewButton.setBounds(581, 185, 89, 23);
+		pnlDatos.add(btnNewButton);
 		
-		JLabel lblNewLabel_8 = new JLabel("Nombre");
-		lblNewLabel_8.setBounds(127, 63, 48, 14);
-		pnlFotoPerfil.add(lblNewLabel_8);
+		JLabel lblFuenteContacto = new JLabel("Contacto:");
+		lblFuenteContacto.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblFuenteContacto.setBounds(101, 15, 124, 14);
+		pnlDatos.add(lblFuenteContacto);
 		
-		JLabel lblNewLabel_9 = new JLabel("Apellidos");
-		lblNewLabel_9.setBounds(252, 63, 48, 14);
-		pnlFotoPerfil.add(lblNewLabel_9);
+		JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
+		lblFuenteCurriculum.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblFuenteCurriculum.setBounds(438, 11, 201, 22);
+		pnlDatos.add(lblFuenteCurriculum);
+		
+		JLabel lblCorreoElectronico = new JLabel("*****@****");
+		lblCorreoElectronico.setBounds(173, 53, 141, 14);
+		pnlDatos.add(lblCorreoElectronico);
+		
+		JLabel lblTelefono = new JLabel("000000000");
+		lblTelefono.setBounds(173, 91, 94, 14);
+		pnlDatos.add(lblTelefono);
+		
+		JLabel lblDestreza = new JLabel(".................");
+		lblDestreza.setBounds(489, 53, 48, 14);
+		pnlDatos.add(lblDestreza);
+		
+		JLabel lblRecursos = new JLabel(".................");
+		lblRecursos.setBounds(489, 135, 48, 14);
+		pnlDatos.add(lblRecursos);
 	
 		
 		//TODO: Arreglar
