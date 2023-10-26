@@ -90,7 +90,7 @@ public class PnlMiPerfil  extends JPanel {
 		lblNewLabel_5.setBounds(369, 91, 96, 14);
 		pnlDatos.add(lblNewLabel_5);
 		
-		JComboBox comboBoxExperiencia = new JComboBox();
+		JComboBox comboBoxExperiencia = new JComboBox<String>();
 		comboBoxExperiencia.setBounds(489, 87, 191, 22);
 		pnlDatos.add(comboBoxExperiencia);
 		
@@ -124,13 +124,13 @@ public class PnlMiPerfil  extends JPanel {
 		lblTelefono.setBounds(173, 91, 94, 14);
 		pnlDatos.add(lblTelefono);
 		
-		JLabel lblDestreza = new JLabel(".................");
-		lblDestreza.setBounds(489, 53, 48, 14);
-		pnlDatos.add(lblDestreza);
-		
 		JLabel lblRecursos = new JLabel(".................");
 		lblRecursos.setBounds(489, 135, 48, 14);
 		pnlDatos.add(lblRecursos);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(489, 49, 191, 22);
+		pnlDatos.add(comboBox);
 	
 		
 		//TODO: Arreglar
