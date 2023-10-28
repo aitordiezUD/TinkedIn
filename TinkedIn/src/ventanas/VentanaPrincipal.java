@@ -9,10 +9,25 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class VentanaPrincipal extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel pnlContenido;
+	
+
+
+	public JPanel getPnlContenido() {
+		return pnlContenido;
+	}
+
+
+
+	public void setPnlContenido(JPanel pnlContenido) {
+		this.pnlContenido = pnlContenido;
+	}
+
+
 
 	/**
 	 * Launch the application.
@@ -39,15 +54,16 @@ public class VentanaPrincipal extends JFrame {
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 900, 650);
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
-		contentPane.setBackground(new Color(0, 255, 255));
-		contentPane.setSize(900, 650);
-		PnlLogIn pnlLog = new PnlLogIn();
+		setResizable(false);
+		pnlContenido = new JPanel();
+		pnlContenido.setLayout(new BorderLayout());
+		pnlContenido.setBackground(new Color(0, 255, 255));
+		pnlContenido.setSize(900, 650);
+		PnlLogIn pnlLog = new PnlLogIn(this);
 		pnlLog.setSize(450, 600);
-		contentPane.add(pnlLog,BorderLayout.CENTER);
+		pnlContenido.add(pnlLog,BorderLayout.CENTER);
 		
-		setContentPane(contentPane);
+		setContentPane(pnlContenido);
 		
 			
 	}

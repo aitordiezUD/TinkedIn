@@ -17,25 +17,25 @@ import java.awt.Font;
 
 public class PnlMiPerfil  extends JPanel {
 	public PnlMiPerfil() {
+		setBackground(Color.WHITE);
 		setLayout(null);
 		setSize(750,650);
 		
 		JPanel panelFotoPerfil = new JPanel();
-		panelFotoPerfil.setBounds(70, 29, 680, 305);
+		panelFotoPerfil.setBackground(Color.WHITE);
+		panelFotoPerfil.setBounds(10, 28, 730, 305);
 		add(panelFotoPerfil);
 		panelFotoPerfil.setLayout(null);
 		
-		JLabel lblNewLabel_9 = new JLabel("Apellidos");
-		lblNewLabel_9.setBounds(400, 250, 98, 14);
-		panelFotoPerfil.add(lblNewLabel_9);
-		
-		JLabel lblNewLabel_8 = new JLabel("Nombre");
-		lblNewLabel_8.setBounds(230, 250, 50, 14);
-		panelFotoPerfil.add(lblNewLabel_8);
+		JLabel lblNombreApellidos = new JLabel("Nombre");
+		lblNombreApellidos.setBackground(Color.WHITE);
+		lblNombreApellidos.setBounds(340, 280, 50, 14);
+		panelFotoPerfil.add(lblNombreApellidos);
 		
 		
 		JPanel pnlDatos = new JPanel();
-		pnlDatos.setBounds(70, 358, 680, 215);
+		pnlDatos.setBackground(Color.WHITE);
+		pnlDatos.setBounds(10, 358, 730, 215);
 		add(pnlDatos);
 		pnlDatos.setLayout(null);
 		
@@ -43,7 +43,7 @@ public class PnlMiPerfil  extends JPanel {
 		
 		try {
 	        // Carga la imagen original desde el archivo en el paquete "imagenes"
-	        InputStream imageStream = PnlPrincipal.class.getResourceAsStream("FotoPerfil.png");
+	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("FotoPerfil.png");
 	        BufferedImage originalImage = ImageIO.read(imageStream);
 
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -59,9 +59,14 @@ public class PnlMiPerfil  extends JPanel {
 	        
 			//Crea in JLabel y asigna la imagen
 	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
-	        lblGraphics.setBackground(new Color(240, 240, 240));
-    		lblGraphics.setBounds(290, 91, 100, 100);
+	        lblGraphics.setBackground(Color.BLUE);
+    		lblGraphics.setBounds(24, 205, 100, 100);
 	        panelFotoPerfil.add(lblGraphics);
+	        
+	        JPanel pnlImagen = new JPanel();
+	        pnlImagen.setBackground(Color.CYAN);
+	        pnlImagen.setBounds(315, 121, 100, 100);
+	        panelFotoPerfil.add(pnlImagen);
 			
 			
 	  
@@ -128,9 +133,9 @@ public class PnlMiPerfil  extends JPanel {
 		lblRecursos.setBounds(489, 135, 48, 14);
 		pnlDatos.add(lblRecursos);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(489, 49, 191, 22);
-		pnlDatos.add(comboBox);
+		JComboBox comboBoxDestreza = new JComboBox();
+		comboBoxDestreza.setBounds(489, 49, 191, 22);
+		pnlDatos.add(comboBoxDestreza);
 	
 		
 		//TODO: Arreglar

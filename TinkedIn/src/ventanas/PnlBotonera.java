@@ -1,6 +1,9 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -26,13 +30,34 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.Icon;
 
-public class PnlPrincipal extends JPanel {
-
+public class PnlBotonera extends JPanel {
+	
+	private JPanel btnSeleccionado = null;
+	private HashMap<JPanel,JPanel> mapaPaneles;
+	private PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
+	private PnlExplorar pExplorar = new PnlExplorar();
+	
+	
 	/**
 	 * Create the panel.
 	 */
-	public PnlPrincipal() {
+	public PnlBotonera(VentanaPrincipal ventana) {
 		setLayout(null);
+		
+		mapaPaneles = new HashMap<JPanel,JPanel>();
+		
+		JPanel pnlFuncional = new JPanel();
+		pnlFuncional.setBackground(Color.PINK);
+		CardLayout CardLayout = new CardLayout();
+		pnlFuncional.setLayout(CardLayout);
+		pnlFuncional.setBounds(150, 0, 750, 650);
+		setSize(900, 650);
+		add(pnlFuncional);
+		
+		JPanel pnlInicial = new JPanel();
+		pnlInicial.setBackground(Color.PINK);
+		pnlFuncional.add(pnlInicial,"pnlInicial");
+		CardLayout.show(pnlFuncional, "pnlInicial");		
 		
 		JPanel PnlBotones = new JPanel();
 		PnlBotones.setBounds(0, 0, 150, 650);
@@ -46,6 +71,9 @@ public class PnlPrincipal extends JPanel {
 		PnlBotones.add(pnlPerfil);
 		pnlPerfil.setLayout(null);
 		
+		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
+		
+		
 		JLabel lblPerfil = new JLabel("Mi Perfil");
 		lblPerfil.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblPerfil.setHorizontalAlignment(SwingConstants.CENTER);
@@ -54,7 +82,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("perfil.png");
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("perfil.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -81,22 +109,51 @@ public class PnlPrincipal extends JPanel {
 //		Cambio de colores al pasar el ratón por encima
 		pnlPerfil.addMouseListener( new MouseAdapter() {			
 			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (btnSeleccionado != null) {
+					btnSeleccionado.setBackground(new Color(208, 235, 242));
+				}
+				btnSeleccionado = pnlPerfil;
+				CardLayout.show(pnlFuncional, "pnlMiPerfil");
+				pnlPerfil.setBackground(new Color(122, 199, 218));
+			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlPerfil.setBackground(new Color(208, 235, 242));
+				if (btnSeleccionado == pnlPerfil) {
+					
+				}else {
+					pnlPerfil.setBackground(new Color(208, 235, 242));
+				}
+					
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlPerfil.setBackground(new Color(122, 199, 218));
+				if (btnSeleccionado == pnlPerfil) {
+					
+				}else {
+					pnlPerfil.setBackground(new Color(122, 199, 218));
+				}
+				
 			}
 		});
+		
+		
+		
+		
+		
+		
 		
 		JPanel pnlExplorar = new JPanel();
 		pnlExplorar.setLayout(null);
 		pnlExplorar.setBackground(new Color(208, 235, 242));
 		pnlExplorar.setBounds(0, 199, 150, 38);
 		PnlBotones.add(pnlExplorar);
+		
+		pnlFuncional.add(pExplorar,"pnlExplorar");
 		
 		JLabel lblExplorar = new JLabel("Explorar");
 		lblExplorar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -106,7 +163,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("Explorar.png");
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("Explorar.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -133,14 +190,35 @@ public class PnlPrincipal extends JPanel {
 //		Cambio de colores al pasar el ratón por encima
 		pnlExplorar.addMouseListener( new MouseAdapter() {			
 			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (btnSeleccionado != null) {
+					btnSeleccionado.setBackground(new Color(208, 235, 242));
+				}
+				btnSeleccionado = pnlExplorar;
+				CardLayout.show(pnlFuncional, "pnlExplorar");
+				pnlExplorar.setBackground(new Color(122, 199, 218));
+			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlExplorar.setBackground(new Color(208, 235, 242));
+				if (btnSeleccionado == pnlExplorar) {
+					
+				}else {
+					pnlExplorar.setBackground(new Color(208, 235, 242));
+				}
+					
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlExplorar.setBackground(new Color(122, 199, 218));
+				if (btnSeleccionado == pnlExplorar) {
+					
+				}else {
+					pnlExplorar.setBackground(new Color(122, 199, 218));
+				}
+				
 			}
 		});
 		
@@ -149,6 +227,10 @@ public class PnlPrincipal extends JPanel {
 		pnlMensajes.setBackground(new Color(208, 235, 242));
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
+		
+		JPanel pMensajes = new JPanel();
+		pMensajes.setBackground(Color.GREEN);
+		pnlFuncional.add(pMensajes,"pMensajes");
 		
 		JLabel lblMensajes = new JLabel("Mensajes");
 		lblMensajes.setHorizontalAlignment(SwingConstants.CENTER);
@@ -159,7 +241,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("Mensajes.png");
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("Mensajes.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -186,14 +268,35 @@ public class PnlPrincipal extends JPanel {
 //		Cambio de colores al pasar el ratón por encima
 		pnlMensajes.addMouseListener( new MouseAdapter() {			
 			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (btnSeleccionado != null) {
+					btnSeleccionado.setBackground(new Color(208, 235, 242));
+				}
+				btnSeleccionado = pnlMensajes;
+				CardLayout.show(pnlFuncional, "pMensajes");
+				pnlMensajes.setBackground(new Color(122, 199, 218));
+			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlMensajes.setBackground(new Color(208, 235, 242));
+				if (btnSeleccionado == pnlMensajes) {
+					
+				}else {
+					pnlMensajes.setBackground(new Color(208, 235, 242));
+				}
+					
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlMensajes.setBackground(new Color(122, 199, 218));
+				if (btnSeleccionado == pnlMensajes) {
+					
+				}else {
+					pnlMensajes.setBackground(new Color(122, 199, 218));
+				}
+				
 			}
 		});
 		
@@ -202,6 +305,10 @@ public class PnlPrincipal extends JPanel {
 		pnlEstadisticas.setBackground(new Color(208, 235, 242));
 		pnlEstadisticas.setBounds(0, 275, 150, 38);
 		PnlBotones.add(pnlEstadisticas);
+		
+		JPanel pStats = new JPanel();
+		pStats.setBackground(Color.LIGHT_GRAY);
+		pnlFuncional.add(pStats,"pStats");
 		
 		JLabel lblEstadisticas = new JLabel("Estadísticas");
 		lblEstadisticas.setHorizontalAlignment(SwingConstants.CENTER);
@@ -212,7 +319,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("Estadisticas.png");
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("Estadisticas.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -239,14 +346,35 @@ public class PnlPrincipal extends JPanel {
 //		Cambio de colores al pasar el ratón por encima
 		pnlEstadisticas.addMouseListener( new MouseAdapter() {			
 			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (btnSeleccionado != null) {
+					btnSeleccionado.setBackground(new Color(208, 235, 242));
+				}
+				btnSeleccionado = pnlEstadisticas;
+				CardLayout.show(pnlFuncional, "pStats");
+				pnlEstadisticas.setBackground(new Color(122, 199, 218));
+			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlEstadisticas.setBackground(new Color(208, 235, 242));
+				if (btnSeleccionado == pnlEstadisticas) {
+					
+				}else {
+					pnlEstadisticas.setBackground(new Color(208, 235, 242));
+				}
+					
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlEstadisticas.setBackground(new Color(122, 199, 218));
+				if (btnSeleccionado == pnlEstadisticas) {
+					
+				}else {
+					pnlEstadisticas.setBackground(new Color(122, 199, 218));
+				}
+				
 			}
 		});
 		
@@ -255,6 +383,10 @@ public class PnlPrincipal extends JPanel {
 		pnlAjustes.setBackground(new Color(208, 235, 242));
 		pnlAjustes.setBounds(0, 313, 150, 38);
 		PnlBotones.add(pnlAjustes);
+		
+		JPanel pAjustes = new JPanel();
+		pAjustes.setBackground(Color.GREEN);
+		pnlFuncional.add(pAjustes,"pAjustes");
 		
 		JLabel lblAjustes = new JLabel("Ajustes");
 		lblAjustes.setHorizontalAlignment(SwingConstants.CENTER);
@@ -265,7 +397,7 @@ public class PnlPrincipal extends JPanel {
 		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
-            InputStream imageStream = PnlPrincipal.class.getResourceAsStream("Ajustes.png");
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("Ajustes.png");
             BufferedImage originalImage = ImageIO.read(imageStream);
 
             // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -292,31 +424,48 @@ public class PnlPrincipal extends JPanel {
 //		Cambio de colores al pasar el ratón por encima
 		pnlAjustes.addMouseListener( new MouseAdapter() {			
 			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (btnSeleccionado != null) {
+					btnSeleccionado.setBackground(new Color(208, 235, 242));
+				}
+				btnSeleccionado = pnlAjustes;
+				CardLayout.show(pnlFuncional, "pAjustes");
+				pnlAjustes.setBackground(new Color(122, 199, 218));
+			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlAjustes.setBackground(new Color(208, 235, 242));
+				if (btnSeleccionado == pnlAjustes) {
+					
+				}else {
+					pnlAjustes.setBackground(new Color(208, 235, 242));
+				}
+					
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				pnlAjustes.setBackground(new Color(122, 199, 218));
+				if (btnSeleccionado == pnlAjustes) {
+					
+				}else {
+					pnlAjustes.setBackground(new Color(122, 199, 218));
+				}
+				
 			}
 		});
 		
-		JPanel pnlFuncional = new JPanel();
-		pnlFuncional.setBackground(Color.BLACK);
-		pnlFuncional.setBounds(150, 0, 750, 650);
-		setSize(900, 650);
-		add(pnlFuncional);
+		
 
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(900, 650);
-		frame.getContentPane().add(new PnlPrincipal());
-		frame.setVisible(true);
-		
-	}
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setSize(900, 650);
+//		frame.getContentPane().add(new PnlBotonera());
+//		frame.setVisible(true);
+//		
+//	}
 }

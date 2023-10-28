@@ -1,6 +1,8 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -14,12 +16,13 @@ public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
 	private JTextField tfContrasena;
 
-	public PnlLogIn() {
+	public PnlLogIn(VentanaPrincipal ventana) {
 		setBackground(new Color(202, 232, 232));
 		setSize(900, 650);
 		setLayout(null);
 		
 		JPanel pnlFunc = new JPanel();
+		pnlFunc.setBackground(Color.WHITE);
 		pnlFunc.setBounds(0, 0, 410, 650);
 		add(pnlFunc);
 		pnlFunc.setLayout(null);
@@ -51,6 +54,11 @@ public class PnlLogIn extends JPanel {
 		JButton btnIniciarSesion = new JButton("Iniciar sesión\r\n");
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PnlBotonera pnlB = new PnlBotonera(ventana);
+				PnlLogIn.this.setVisible(false);
+//				ventana.setPnlContenido(pnlB);
+				ventana.getPnlContenido().add(pnlB);
+//				ventana.setVisible(true);
 			}
 		});
 		btnIniciarSesion.setBounds(53, 319, 310, 38);

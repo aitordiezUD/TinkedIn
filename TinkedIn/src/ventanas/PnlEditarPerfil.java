@@ -55,7 +55,7 @@ public class PnlEditarPerfil  extends JPanel {
 		
 		try {
 	        // Carga la imagen original desde el archivo en el paquete "imagenes"
-	        InputStream imageStream = PnlPrincipal.class.getResourceAsStream("FotoPerfil.png");
+	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("FotoPerfil.png");
 	        BufferedImage originalImage = ImageIO.read(imageStream);
 
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
