@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -17,17 +18,29 @@ import javax.swing.JTextField;
 public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
 	private JTextField tfContrasena;
+	private PnlRegistro PnlRegistro;
 
 	public PnlLogIn(VentanaPrincipal ventana) {
 		setBackground(new Color(202, 232, 232));
 		setSize(900, 650);
 		setLayout(null);
 		
+		JPanel pnlFuncional = new JPanel();
+		pnlFuncional.setBackground(Color.WHITE);
+		CardLayout CardLayout = new CardLayout();
+		pnlFuncional.setBounds(0, 0, 410, 650);
+		add(pnlFuncional);
+		pnlFuncional.setLayout(CardLayout);
+		
 		JPanel pnlFunc = new JPanel();
 		pnlFunc.setBackground(Color.WHITE);
 		pnlFunc.setBounds(0, 0, 410, 650);
-		add(pnlFunc);
 		pnlFunc.setLayout(null);
+		pnlFuncional.add(pnlFunc, "pnlFunc");
+		CardLayout.show(pnlFuncional, "pnlFunc");
+		
+		PnlRegistro = new PnlRegistro();
+		pnlFuncional.add(PnlRegistro, "PnlRegistro");
 		
 		JLabel lblBienvenida = new JLabel("Bienvenido de nuevo");
 		lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
@@ -84,6 +97,21 @@ public class PnlLogIn extends JPanel {
 				lblRegistro.setText("¿No tienes cuenta todavía? Regístrate");
 				lblRegistro.setForeground(new Color(0, 0, 0));
 				super.mouseExited(e);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout.show(pnlFuncional, "PnlRegistro");
+				super.mouseClicked(e);
+			}
+		});
+		
+		PnlRegistro.getBtnAtras().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout.show(pnlFuncional, "pnlFunc");
+				
 			}
 		});
 	}
