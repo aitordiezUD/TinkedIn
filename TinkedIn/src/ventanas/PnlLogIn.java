@@ -9,6 +9,8 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
@@ -68,5 +70,21 @@ public class PnlLogIn extends JPanel {
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistro.setBounds(53, 368, 310, 14);
 		pnlFunc.add(lblRegistro);
+		
+		lblRegistro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblRegistro.setText("<html><u>¿No tienes cuenta todavía? Regístrate</u></html>");
+				lblRegistro.setForeground(new Color(122, 199, 218));
+				super.mouseEntered(e);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblRegistro.setText("¿No tienes cuenta todavía? Regístrate");
+				lblRegistro.setForeground(new Color(0, 0, 0));
+				super.mouseExited(e);
+			}
+		});
 	}
 }
