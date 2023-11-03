@@ -41,7 +41,7 @@ public class PnlBotonera extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PnlBotonera(VentanaPrincipal ventana) {
+	public PnlBotonera() {
 		setLayout(null);
 		
 		mapaPaneles = new HashMap<JPanel,JPanel>();

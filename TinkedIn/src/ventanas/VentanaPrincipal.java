@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -59,9 +60,13 @@ public class VentanaPrincipal extends JFrame {
 		pnlContenido.setLayout(new BorderLayout());
 		pnlContenido.setBackground(new Color(0, 255, 255));
 		pnlContenido.setSize(900, 650);
-		PnlLogIn pnlLog = new PnlLogIn(this);
+		CardLayout layoutVentana = new CardLayout();
+		pnlContenido.setLayout(layoutVentana);
+		PnlLogIn pnlLog = new PnlLogIn(pnlContenido,layoutVentana);
 		pnlLog.setSize(450, 600);
-		pnlContenido.add(pnlLog,BorderLayout.CENTER);
+		pnlContenido.add(pnlLog,"pnlLogIn");
+		layoutVentana.show(pnlContenido, "pnlLogIn");
+		
 		
 		setContentPane(pnlContenido);
 		
