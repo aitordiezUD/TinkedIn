@@ -161,7 +161,7 @@ public class PnlHabilidad extends JPanel{
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
 		vent.getContentPane().add(new PnlHabilidad());
-		vent.setSize( 900,60 );
+		vent.setSize( 900,650 );
 		vent.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		
 		vent.setVisible(true);

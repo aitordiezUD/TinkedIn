@@ -34,7 +34,7 @@ public class PnlLogIn extends JPanel {
 		pnlFunc.setLayout(null);
 		add(pnlFunc);
 		
-		pnlRegistro = new PnlRegistro();
+		pnlRegistro = new PnlRegistro(pnlContenido, layoutVentana);
 		pnlContenido.add(pnlRegistro,"pnlRegistro");
 		
 		JLabel lblBienvenida = new JLabel("Bienvenido de nuevo");

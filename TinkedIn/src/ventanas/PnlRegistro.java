@@ -5,10 +5,14 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -17,6 +21,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import clases.Habilidad;
+
 import javax.swing.JList;
 
 public class PnlRegistro extends JPanel {
@@ -48,10 +55,14 @@ public class PnlRegistro extends JPanel {
 
 	
 	
-    public PnlRegistro() {
+    public PnlRegistro(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 650);
         setLayout(null);
+        
+//      Añadir 
+        PnlHabilidad pnlHabilidad = new PnlHabilidad();
+        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
         
         lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(100, 128, 215, 14);
@@ -134,10 +145,37 @@ public class PnlRegistro extends JPanel {
         lblCurriculum.setBounds(585, 72, 215, 42);
         add(lblCurriculum);
         
+        JLabel lblHabilidades = new JLabel("Habilidades:");
+        lblHabilidades.setBounds(585, 128, 215, 14);
+        add(lblHabilidades);
+        
+        JList<Habilidad> listaHabilidades = new JList<Habilidad>();
+        
+        JScrollPane spList = new JScrollPane(listaHabilidades);
+        spList.setBounds(585, 148, 215, 351);
+        add(spList);
+        
+        JButton btnAñadirHab = new JButton("Añadir");
+        btnAñadirHab.setBackground(Color.WHITE);
+        btnAñadirHab.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+//				Al hacer click que se muestre el panel para añadir habilidades
+				layoutVentana.show(pnlContenido,"pnlHabilidad");
+			}
+        	
+        });
+        btnAñadirHab.setBounds(585, 505, 89, 23);
+        add(btnAñadirHab);
+        
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBackground(Color.WHITE);
+        btnEliminar.setBounds(711, 505, 89, 23);
+        add(btnEliminar);
+        
         DefaultListModel<String> modeloLista = new DefaultListModel<String>();
-        JList<String> listaHabilidades = new JList<String>(modeloLista);
-        listaHabilidades.setBounds(585, 148, 215, 300);
-        add(new JScrollPane(listaHabilidades));
 
     }
     
