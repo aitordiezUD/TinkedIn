@@ -30,6 +30,7 @@ public class PnlHabilidad extends JPanel{
 	private JPanel pnlArbol;
 	private DefaultMutableTreeNode root;
 	
+	
 	public PnlHabilidad() {
 		setBackground(Color.WHITE);
 		
@@ -43,7 +44,7 @@ public class PnlHabilidad extends JPanel{
 		// Crear el panel del arbol
 		
 		pnlArbol = new JPanel();
-		pnlArbol.setBackground(new Color(194, 146, 199));
+		pnlArbol.setBackground(new Color(208, 235, 242));
 		pnlArbol.setPreferredSize(new Dimension(200,650));
 		add(pnlArbol, BorderLayout.WEST);
 		pnlArbol.setLayout(null);
@@ -59,17 +60,18 @@ public class PnlHabilidad extends JPanel{
 		// Crear el panel de las habilidades para su diseño
 		
 		JPanel PnlHabi = new JPanel();
-		PnlHabi.setBackground(new Color(89, 140, 140));
+		PnlHabi.setBackground(Color.WHITE);
 		add(PnlHabi);
 		PnlHabi.setLayout(null);
 		
-		JLabel lblHab = new JLabel("Habilidad");
-		lblHab.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHab.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
-		lblHab.setBounds(0, 37, 500, 35);
-		PnlHabi.add(lblHab);
+		JLabel lblArea = new JLabel("Habilidad");
+		lblArea.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArea.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
+		lblArea.setBounds(0, 37, 500, 35);
+		PnlHabi.add(lblArea);
 		
 		JPanel pnlDatosHabi = new JPanel();
+		pnlDatosHabi.setBackground(Color.WHITE);
 		pnlDatosHabi.setBounds(10, 140, 480, 390);
 		PnlHabi.add(pnlDatosHabi);
 		pnlDatosHabi.setLayout(null);
@@ -87,6 +89,25 @@ public class PnlHabilidad extends JPanel{
 		JSpinner spDestreza = new JSpinner(spinnerModel);
 		spDestreza.setBounds(133, 12, 30, 24);
 		pnlDatosHabi.add(spDestreza);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(92, 51, 307, 202);
+		pnlDatosHabi.add(textArea);
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDescripcion.setBounds(10, 126, 113, 29);
+		pnlDatosHabi.add(lblDescripcion);
+		
+		JButton btnAnyadirHab = new JButton("Añadir");
+		btnAnyadirHab.setBounds(185, 319, 113, 38);
+		pnlDatosHabi.add(btnAnyadirHab);
+		
+		JLabel lblHabilidad = new JLabel("");
+		lblHabilidad.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHabilidad.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblHabilidad.setBounds(136, 70, 228, 35);
+		PnlHabi.add(lblHabilidad);
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground(Color.WHITE);
@@ -112,20 +133,29 @@ public class PnlHabilidad extends JPanel{
 		
 		//Crear el listener del arbol
 		
-		tree.addTreeSelectionListener( new TreeSelectionListener() {
+tree.addTreeSelectionListener( new TreeSelectionListener() {
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				TreePath ruta = e.getPath();
-			    if (ruta.getPathCount() == 2) { // Cambiar a 3 cuando se añadan las habilidades. 
+			    if (ruta.getPathCount() == 2) { 
 			        Object selectedNode = tree.getLastSelectedPathComponent();
 			        if (selectedNode instanceof DefaultMutableTreeNode) {
 			            DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
 			            Object area = node.getUserObject(); // Obtenemos el objeto asociado al nodo
 			            if (area != null && area instanceof String) {
-			               lblHab.setText( ( String ) area );
+			               lblArea.setText( ( String ) area );
 			            }
 			        }
+			    }else if( ruta.getPathCount() == 3) {
+			    	Object selectedNode = tree.getLastSelectedPathComponent();
+			    	if( selectedNode instanceof DefaultMutableTreeNode ) {
+			    		DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) selectedNode;
+			    		Object habilidad = node.getUserObject();
+			    		if ( habilidad != null && habilidad instanceof String ) {
+			    			lblHabilidad.setText( ( String ) habilidad );
+			    		}
+			    	}
 			    }
 				
 			}
@@ -136,24 +166,24 @@ public class PnlHabilidad extends JPanel{
 		
 		//Crear el listener del boton de añadir
 		
-		btnAñadirHab.addActionListener( new ActionListener() {
+	btnAñadirHab.addActionListener( new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if( tree.getLastSelectedPathComponent() != null ) {
-				String habilidad = JOptionPane.showInputDialog( " Introduce la habilidad que deseas añadir a " + tree.getLastSelectedPathComponent().toString() );
-				DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(habilidad);
-				treeModel.insertNodeInto(nodo, root ,0); //Lo añade mal por que no tiene que añadirselo al root
-				
-				}else {
-					System.out.println( "Error." );
-				}
-				
-				
-			}
-			
-		} );
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if( tree.getLastSelectedPathComponent() != null ) {
+		String habilidad = JOptionPane.showInputDialog( " Introduce la habilidad que deseas añadir a " + tree.getLastSelectedPathComponent().toString() );
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(habilidad);
+		treeModel.insertNodeInto(nodo, root ,0); //Lo añade mal por que no tiene que añadirselo al root
+		
+		}else {
+			System.out.println( "Error." );
+		}
+		
+		
+	}
+	
+} );
 		
 		
 	}

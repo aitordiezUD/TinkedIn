@@ -13,6 +13,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Font;
+import java.awt.Graphics;
 
 
 public class PnlMiPerfil  extends JPanel {
@@ -23,19 +24,29 @@ public class PnlMiPerfil  extends JPanel {
 		
 		JPanel panelFotoPerfil = new JPanel();
 		panelFotoPerfil.setBackground(Color.WHITE);
-		panelFotoPerfil.setBounds(10, 28, 730, 305);
+		panelFotoPerfil.setBounds(10, 32, 711, 193);
 		add(panelFotoPerfil);
 		panelFotoPerfil.setLayout(null);
 		
 		JLabel lblNombreApellidos = new JLabel("Nombre");
 		lblNombreApellidos.setBackground(Color.WHITE);
-		lblNombreApellidos.setBounds(340, 280, 50, 14);
+		lblNombreApellidos.setBounds(350, 122, 50, 14);
 		panelFotoPerfil.add(lblNombreApellidos);
 		
 		
-		JPanel pnlDatos = new JPanel();
-		pnlDatos.setBackground(Color.WHITE);
-		pnlDatos.setBounds(10, 358, 730, 215);
+		JPanel pnlDatos = new JPanel(  ) {
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+		    	
+		    	g.setColor(Color.BLACK);
+		    	g.drawLine(  355,10,355,366 );
+			}
+			
+		};
+		pnlDatos.setBackground(new Color(189, 147, 183));
+		pnlDatos.setBounds(10, 236, 711, 376);
 		add(pnlDatos);
 		pnlDatos.setLayout(null);
 		
@@ -57,16 +68,16 @@ public class PnlMiPerfil  extends JPanel {
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
 	        
-			//Crea in JLabel y asigna la imagen
-	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
-	        lblGraphics.setBackground(Color.BLUE);
-    		lblGraphics.setBounds(24, 205, 100, 100);
-	        panelFotoPerfil.add(lblGraphics);
-	        
 	        JPanel pnlImagen = new JPanel();
 	        pnlImagen.setBackground(Color.CYAN);
-	        pnlImagen.setBounds(315, 121, 100, 100);
+	        pnlImagen.setBounds(322, 11, 100, 100);
 	        panelFotoPerfil.add(pnlImagen);
+	        
+			//Crea in JLabel y asigna la imagen
+	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
+	        lblGraphics.setBounds(291, 11, 100, 100);
+	        panelFotoPerfil.add(lblGraphics);
+	        lblGraphics.setBackground(Color.BLUE);
 			
 			
 	  
@@ -75,67 +86,58 @@ public class PnlMiPerfil  extends JPanel {
 	    }
 		
 		
-		JLabel lblNewLabel = new JLabel("Correo Electrónico");
-		lblNewLabel.setBounds(40, 52, 94, 16);
-		pnlDatos.add(lblNewLabel);
+		JLabel lblCorreoE = new JLabel("Correo Electrónico:");
+		lblCorreoE.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblCorreoE.setBounds(39, 191, 174, 16);
+		pnlDatos.add(lblCorreoE);
 		
-		JLabel lblNewLabel_1 = new JLabel("NºTeléfono");
-		lblNewLabel_1.setBounds(40, 91, 94, 14);
+		JLabel lblNewLabel_1 = new JLabel("NºTeléfono:");
+		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblNewLabel_1.setBounds(39, 218, 105, 23);
 		pnlDatos.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(266, 108, 48, 14);
 		pnlDatos.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_4 = new JLabel("Destreza:");
-		lblNewLabel_4.setBounds(369, 53, 70, 14);
-		pnlDatos.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("Experiencia:");
-		lblNewLabel_5.setBounds(369, 91, 96, 14);
-		pnlDatos.add(lblNewLabel_5);
-		
-		JComboBox comboBoxExperiencia = new JComboBox<String>();
-		comboBoxExperiencia.setBounds(489, 87, 191, 22);
-		pnlDatos.add(comboBoxExperiencia);
-		
-		JLabel lblNewLabel_6 = new JLabel("Recursos Adicionales: ");
-		lblNewLabel_6.setBounds(369, 135, 150, 14);
-		pnlDatos.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_7 = new JLabel("(Linkedln, Github,...)");
-		lblNewLabel_7.setBounds(368, 149, 140, 14);
-		pnlDatos.add(lblNewLabel_7);
-		
 		JButton btnNewButton = new JButton("Editar");
-		btnNewButton.setBounds(581, 185, 89, 23);
+		btnNewButton.setBounds(39, 318, 89, 23);
 		pnlDatos.add(btnNewButton);
 		
-		JLabel lblFuenteContacto = new JLabel("Contacto:");
-		lblFuenteContacto.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFuenteContacto.setBounds(101, 15, 124, 14);
-		pnlDatos.add(lblFuenteContacto);
+		JLabel lblDatosPerfil = new JLabel("Datos:");
+		lblDatosPerfil.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDatosPerfil.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblDatosPerfil.setBounds(10, 15, 124, 14);
+		pnlDatos.add(lblDatosPerfil);
 		
 		JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
 		lblFuenteCurriculum.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFuenteCurriculum.setBounds(438, 11, 201, 22);
+		lblFuenteCurriculum.setBounds(488, 11, 105, 22);
 		pnlDatos.add(lblFuenteCurriculum);
 		
-		JLabel lblCorreoElectronico = new JLabel("*****@****");
-		lblCorreoElectronico.setBounds(173, 53, 141, 14);
-		pnlDatos.add(lblCorreoElectronico);
+		JList list = new JList();
+		list.setBounds(399, 44, 286, 280);
+		pnlDatos.add(list);
 		
-		JLabel lblTelefono = new JLabel("000000000");
-		lblTelefono.setBounds(173, 91, 94, 14);
-		pnlDatos.add(lblTelefono);
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblNombre.setBounds(39, 86, 68, 23);
+		pnlDatos.add(lblNombre);
 		
-		JLabel lblRecursos = new JLabel(".................");
-		lblRecursos.setBounds(489, 135, 48, 14);
-		pnlDatos.add(lblRecursos);
+		JLabel lblApellidos = new JLabel("Apellidos:");
+		lblApellidos.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblApellidos.setBounds(39, 123, 94, 23);
+		pnlDatos.add(lblApellidos);
 		
-		JComboBox comboBoxDestreza = new JComboBox();
-		comboBoxDestreza.setBounds(489, 49, 191, 22);
-		pnlDatos.add(comboBoxDestreza);
+		JLabel lblUsername = new JLabel("Username\r\n:");
+		lblUsername.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblUsername.setBounds(39, 157, 94, 23);
+		pnlDatos.add(lblUsername);
+		
+		JLabel lblProvincia = new JLabel("Provincia:");
+		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblProvincia.setBounds(39, 255, 80, 23);
+		pnlDatos.add(lblProvincia);
 	
 		
 		//TODO: Arreglar
@@ -153,13 +155,17 @@ public class PnlMiPerfil  extends JPanel {
 //		}
 //		
 //	});
-//		
+	
 }
+	
+	
+
+   
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(900, 650);
+		frame.setSize(750, 650);
 		frame.getContentPane().add(new PnlMiPerfil());
 		frame.setVisible(true);
 		
