@@ -10,7 +10,7 @@ public class Persona extends Usuario {
 	
 	private int idPersona;
 	private int edad;
-	private Curriculum curriculum;
+	private ArrayList<Habilidad> curriculum;
 	private ArrayList<String> habilidadesTecnicas;
 	
 	//Getters and setters:
@@ -29,12 +29,15 @@ public class Persona extends Usuario {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-	public Curriculum getCurriculum() {
+
+	public ArrayList<Habilidad> getCurriculum() {
 		return curriculum;
 	}
-	public void setCurriculum(Curriculum curriculum) {
+
+	public void setCurriculum(ArrayList<Habilidad> curriculum) {
 		this.curriculum = curriculum;
 	}
+
 	public ArrayList<String> getHabilidadesTecnicas() {
 		return habilidadesTecnicas;
 	}
@@ -47,7 +50,7 @@ public class Persona extends Usuario {
 	//Constructores: 
 	
 	public Persona(String nombre, String ubicacion, ImageIcon fotoDePerfil, int idPersona, int edad,
-			Curriculum curriculum, ArrayList<String> habilidadesTecnicas) {
+			ArrayList<Habilidad> curriculum, ArrayList<String> habilidadesTecnicas) {
 		super(nombre, ubicacion, fotoDePerfil);
 		this.idPersona = idPersona;
 		this.edad = edad;
@@ -65,10 +68,7 @@ public class Persona extends Usuario {
 
 	@Override
 	public String toString() {
-		return this.getNombre() + "(" + this.idPersona + "), de" + this.edad + "años de edad, tiene" + this.curriculum.getExp_laboral() + "años"
-				+ " de experiencia en el sector, estudió " + this.curriculum.getEducacion() + " y le pertenecen los siguientes titulos: "
-						+ this.curriculum.TitulosToString() + ". Ademas domina el uso de los siguientes idiomas: "
-								+ this.curriculum.IdiomasToString() + ".";
+		return "toString";
 	}
 	
 	
