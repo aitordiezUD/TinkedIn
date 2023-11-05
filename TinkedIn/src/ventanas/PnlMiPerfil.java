@@ -4,8 +4,10 @@ package ventanas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,17 +24,7 @@ public class PnlMiPerfil  extends JPanel {
 		setLayout(null);
 		setSize(750,650);
 		
-		JPanel panelFotoPerfil = new JPanel();
-		panelFotoPerfil.setBackground(Color.WHITE);
-		panelFotoPerfil.setBounds(10, 32, 711, 193);
-		add(panelFotoPerfil);
-		panelFotoPerfil.setLayout(null);
-		
-		JLabel lblNombreApellidos = new JLabel("Nombre");
-		lblNombreApellidos.setBackground(Color.WHITE);
-		lblNombreApellidos.setBounds(350, 122, 50, 14);
-		panelFotoPerfil.add(lblNombreApellidos);
-		
+
 		
 		JPanel pnlDatos = new JPanel(  ) {
 
@@ -51,10 +43,16 @@ public class PnlMiPerfil  extends JPanel {
 		pnlDatos.setLayout(null);
 		
 		
+		JPanel pnlFotoPerfil = new JPanel();
+
+		pnlFotoPerfil.setBackground(new Color(189, 147, 183));
+		pnlFotoPerfil.setBounds(10, 11, 711, 209);
+		add(pnlFotoPerfil);
+		pnlFotoPerfil.setLayout(null);
+		
 		
 		try {
-	        // Carga la imagen original desde el archivo en el paquete "imagenes"
-	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("FotoPerfil.png");
+	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.JPG");
 	        BufferedImage originalImage = ImageIO.read(imageStream);
 
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -65,16 +63,19 @@ public class PnlMiPerfil  extends JPanel {
 	        // Convierte la imagen escalada en un BufferedImage
 	        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	        Graphics2D g2d = resizedImage.createGraphics();
+	        Shape circle = new Ellipse2D.Float(0, 0, width, height);
+	        g2d.setClip(circle);
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
-	        
-	        JPanel pnlPerfil = new JPanel();
-	        pnlPerfil.setBackground(Color.CYAN);
-	        pnlPerfil.setBounds(322, 11, 100, 100);
-	        panelFotoPerfil.add(pnlPerfil);
 			
-			
+	        JLabel lblFoto =new JLabel(new ImageIcon(resizedImage));
+	        lblFoto.setBounds(301, 31, 100, 100);
+	        lblFoto.setBackground(new Color(240, 240, 240));
 	  
+
+	        pnlFotoPerfil.add(lblFoto);
+		
+			
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
@@ -132,7 +133,16 @@ public class PnlMiPerfil  extends JPanel {
 		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
 		lblProvincia.setBounds(39, 255, 80, 23);
 		pnlDatos.add(lblProvincia);
+		
+
+	        
+
 	
+
+		
+		
+		
+		
 		
 		//TODO: Arreglar
 	
