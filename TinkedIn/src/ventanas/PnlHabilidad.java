@@ -9,6 +9,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -72,7 +73,7 @@ public class PnlHabilidad extends JPanel{
 		
 		JPanel pnlDatosHabi = new JPanel();
 		pnlDatosHabi.setBackground(Color.WHITE);
-		pnlDatosHabi.setBounds(10, 140, 480, 390);
+		pnlDatosHabi.setBounds(0, 140, 480, 390);
 		PnlHabi.add(pnlDatosHabi);
 		pnlDatosHabi.setLayout(null);
 		
@@ -96,7 +97,7 @@ public class PnlHabilidad extends JPanel{
 		
 		JLabel lblDescripcion = new JLabel("Descripcion:");
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescripcion.setBounds(10, 126, 113, 29);
+		lblDescripcion.setBounds(10, 46, 113, 29);
 		pnlDatosHabi.add(lblDescripcion);
 		
 		JButton btnAnyadirHab = new JButton("Añadir");
@@ -119,7 +120,7 @@ public class PnlHabilidad extends JPanel{
 		
 		JScrollPane spLista = new JScrollPane(listaHabilidades);
 		spLista.setBounds(10, 103, 180, 450);
-		pnlLista.add(spLista);
+		//pnlLista.add(spLista);
 		
 		
 		
@@ -139,6 +140,7 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				TreePath ruta = e.getPath();
 			    if (ruta.getPathCount() == 2) { 
+			    	lblHabilidad.setText("");
 			        Object selectedNode = tree.getLastSelectedPathComponent();
 			        if (selectedNode instanceof DefaultMutableTreeNode) {
 			            DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
@@ -151,10 +153,14 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 			    	Object selectedNode = tree.getLastSelectedPathComponent();
 			    	if( selectedNode instanceof DefaultMutableTreeNode ) {
 			    		DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) selectedNode;
+			    		DefaultMutableTreeNode padre = (DefaultMutableTreeNode) node.getParent();
+			    		if((String) padre.getUserObject() != lblArea.getText()) {
+			    			lblHabilidad.setText("");
+			    		}else {
 			    		Object habilidad = node.getUserObject();
 			    		if ( habilidad != null && habilidad instanceof String ) {
 			    			lblHabilidad.setText( ( String ) habilidad );
-			    		}
+			    		}}
 			    	}
 			    }
 				
