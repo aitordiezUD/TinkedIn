@@ -68,16 +68,10 @@ public class PnlMiPerfil  extends JPanel {
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
 	        
-	        JPanel pnlImagen = new JPanel();
-	        pnlImagen.setBackground(Color.CYAN);
-	        pnlImagen.setBounds(322, 11, 100, 100);
-	        panelFotoPerfil.add(pnlImagen);
-	        
-			//Crea in JLabel y asigna la imagen
-	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
-	        lblGraphics.setBounds(291, 11, 100, 100);
-	        panelFotoPerfil.add(lblGraphics);
-	        lblGraphics.setBackground(Color.BLUE);
+	        JPanel pnlPerfil = new JPanel();
+	        pnlPerfil.setBackground(Color.CYAN);
+	        pnlPerfil.setBounds(322, 11, 100, 100);
+	        panelFotoPerfil.add(pnlPerfil);
 			
 			
 	  

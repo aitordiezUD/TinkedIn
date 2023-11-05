@@ -7,7 +7,7 @@ public class Empresa extends Usuario {
 	//Atributos:
 	
 	private int idEmpresa;
-	private String ubicacion;
+	private String ubicacionEmpresa;
 	private String infoContacto;
 	private String propietarios;
 	
@@ -21,10 +21,10 @@ public class Empresa extends Usuario {
 		this.idEmpresa = idEmpresa;
 	}
 	public String getUbicacion() {
-		return ubicacion;
+		return ubicacionEmpresa;
 	}
 	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
+		this.ubicacionEmpresa = ubicacionEmpresa;
 	}
 	public String getInfoContacto() {
 		return infoContacto;
@@ -42,11 +42,11 @@ public class Empresa extends Usuario {
 	
 	//Constructores:
 	
-	public Empresa(String nombre, String ubicacion, ImageIcon fotoDePerfil, int idEmpresa, String ubicacion2,
+	public Empresa(String nombre,String apellidos, String ubicacion, ImageIcon fotoDePerfil, int idEmpresa, String ubicacionEmpresa,
 		String infoContacto, String propietarios) {
-	super(nombre, ubicacion, fotoDePerfil);
+	super(nombre,apellidos,ubicacion, fotoDePerfil);
 	this.idEmpresa = idEmpresa;
-	ubicacion = ubicacion2;
+	this.ubicacionEmpresa = ubicacionEmpresa;
 	this.infoContacto = infoContacto;
 	this.propietarios = propietarios;
 	}
@@ -54,7 +54,7 @@ public class Empresa extends Usuario {
 	public Empresa() {
 		super();
 		this.idEmpresa = 0;
-		this.ubicacion = "";
+		this.ubicacionEmpresa = "";
 		this.infoContacto = "";
 		this.propietarios = "";
 	}

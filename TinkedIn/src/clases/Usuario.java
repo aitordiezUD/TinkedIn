@@ -7,6 +7,7 @@ public class Usuario {
 	//Atributos 
 	
 	private String nombre;
+	private String apellidos;
 	private String ubicacion;
 	private ImageIcon fotoDePerfil;
 	
@@ -31,21 +32,32 @@ public class Usuario {
 		this.fotoDePerfil = fotoDePerfil;
 	}
 
+	public String getApellidos() {
+		return apellidos;
+	}
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
 	// Constructores
+		
+
 	
-	public Usuario(String nombre, String ubicacion, ImageIcon fotoDePerfil) {
+	public Usuario(String nombre, String apellidos, String ubicacion, ImageIcon fotoDePerfil) {
 		super();
 		this.nombre = nombre;
+		this.apellidos = apellidos;
 		this.ubicacion = ubicacion;
 		this.fotoDePerfil = fotoDePerfil;
-	} 
-	
+	}
 	public Usuario() {
 		super();
 		this.nombre = "";
+		this.apellidos= "";
 		this.ubicacion = "";
 		this.fotoDePerfil = null;
 	}
+
 
 
 }
