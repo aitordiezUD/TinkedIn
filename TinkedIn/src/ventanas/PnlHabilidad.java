@@ -21,6 +21,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 public class PnlHabilidad extends JPanel{
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
@@ -33,6 +34,7 @@ public class PnlHabilidad extends JPanel{
 	
 	
 	public PnlHabilidad() {
+		setPreferredSize(new Dimension(750, 650));
 		setBackground(Color.WHITE);
 		
 		
@@ -109,6 +111,18 @@ public class PnlHabilidad extends JPanel{
 		lblHabilidad.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
 		lblHabilidad.setBounds(136, 70, 228, 35);
 		PnlHabi.add(lblHabilidad);
+		
+		JButton btnAtras = new JButton("<--");
+		btnAtras.setBounds(136, 605, 89, 23);
+		PnlHabi.add(btnAtras);
+		btnAtras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//
+				
+			}
+		});
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground(Color.WHITE);
