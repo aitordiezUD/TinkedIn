@@ -185,7 +185,7 @@ public class PnlRegistro extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				layoutVentana.show(pnlContenido, "PnlLogIn");
+				layoutVentana.show(pnlContenido, "pnlLogIn");
 				
 			}
 		});
