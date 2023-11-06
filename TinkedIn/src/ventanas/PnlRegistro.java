@@ -52,6 +52,7 @@ public class PnlRegistro extends JPanel {
 	private JTextField tfTelefono;
 	private JLabel lblDatosPersonales;
 	private JLabel lblCurriculum;
+	
 
 	
 	
@@ -174,6 +175,22 @@ public class PnlRegistro extends JPanel {
         btnEliminar.setBackground(Color.WHITE);
         btnEliminar.setBounds(711, 505, 89, 23);
         add(btnEliminar);
+        
+        JButton btnAtras = new JButton("<--");
+        btnAtras.setBounds(400, 573, 89, 23);
+        add(btnAtras);
+        
+        //Boton que mande a la pestaña anterior
+        btnAtras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layoutVentana.show(pnlContenido, "PnlLogIn");
+				
+			}
+		});
+        
+      
         
         DefaultListModel<String> modeloLista = new DefaultListModel<String>();
 
