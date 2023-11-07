@@ -102,6 +102,7 @@ public class PnlHabilidad extends JPanel{
 		lblDescripcion.setBounds(10, 46, 113, 29);
 		pnlDatosHabi.add(lblDescripcion);
 		
+		
 		JButton btnAnyadirHab = new JButton("Añadir");
 		btnAnyadirHab.setBounds(185, 319, 113, 38);
 		pnlDatosHabi.add(btnAnyadirHab);
@@ -113,7 +114,7 @@ public class PnlHabilidad extends JPanel{
 		PnlHabi.add(lblHabilidad);
 		
 		JButton btnAtras = new JButton("<--");
-		btnAtras.setBounds(136, 605, 89, 23);
+		btnAtras.setBounds(200, 541, 89, 23);
 		PnlHabi.add(btnAtras);
 		btnAtras.addActionListener(new ActionListener() {
 			

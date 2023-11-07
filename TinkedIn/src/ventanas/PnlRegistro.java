@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -31,7 +32,7 @@ public class PnlRegistro extends JPanel {
 //	Provincias de España para añadirlas al ComboBox
 	private final String[] provincias = {
             "Álava", "Albacete", "Alicante", "Almería", "Asturias",
-            "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres",
+            "Ávila", "Badajoz", "Barcelona", "Bizkaia", "Burgos", "Cáceres",
             "Cádiz", "Cantabria", "Castellón", "Ceuta", "Ciudad Real", "Córdoba",
             "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa",
             "Huelva", "Huesca", "Islas Baleares", "Jaén", "La Coruña",
@@ -39,7 +40,7 @@ public class PnlRegistro extends JPanel {
             "Madrid", "Málaga", "Melilla", "Murcia", "Navarra", "Orense",
             "Palencia", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Segovia",
             "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo",
-            "Valencia", "Valladolid", "Vizcaya", "Zamora", "Zaragoza"
+            "Valencia", "Valladolid", "Zamora", "Zaragoza"
         };
 	private JLabel lblNombre;
 	private JTextField tfNombre;
@@ -133,6 +134,10 @@ public class PnlRegistro extends JPanel {
         JComboBox<String> cbProvincia = new JComboBox<String>();
         cbProvincia.setBounds(100, 505, 215, 22);
         add(cbProvincia);
+        
+        for(String p: provincias) {
+        	cbProvincia.addItem(p);
+        }
         
         lblDatosPersonales = new JLabel("Datos personales");
         lblDatosPersonales.setHorizontalAlignment(SwingConstants.CENTER);
