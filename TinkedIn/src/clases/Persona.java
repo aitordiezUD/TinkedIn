@@ -84,13 +84,8 @@ public class Persona extends Usuario {
 	}
 
 	@Override
-	public String toString() {
-
-	//	contrasena?
-		
-	return nombre + " " + apellidos + "\t" + correoElectronico + "\t" + nTelefeno;
-
-	
+	public String toString() {		
+	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + nTelefeno;
 	}
 
 	

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -18,7 +19,8 @@ import javax.swing.JPasswordField;
 
 public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
-	private PnlRegistroPersona pnlRegistro;
+	private PnlRegistroPersona pnlRegistroPersona;
+	private PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
@@ -34,8 +36,11 @@ public class PnlLogIn extends JPanel {
 		pnlFunc.setLayout(null);
 		add(pnlFunc);
 		
-		pnlRegistro = new PnlRegistroPersona(pnlContenido, layoutVentana);
-		pnlContenido.add(pnlRegistro,"pnlRegistro");
+		pnlRegistroPersona = new PnlRegistroPersona(pnlContenido, layoutVentana);
+		pnlContenido.add(pnlRegistroPersona,"pnlRegistroPersona");
+		
+		pnlRegistroEmpresa = new PnlRegistroEmpresa(pnlContenido, layoutVentana);
+		pnlContenido.add(pnlRegistroEmpresa,"pnlRegistroEmpresa");
 		
 		JLabel lblBienvenida = new JLabel("Bienvenido de nuevo");
 		lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
@@ -83,21 +88,42 @@ public class PnlLogIn extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				lblRegistro.setText("<html><u>¿No tienes cuenta todavía? Regístrate</u></html>");
 				lblRegistro.setForeground(new Color(122, 199, 218));
-				super.mouseEntered(e);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblRegistro.setText("¿No tienes cuenta todavía? Regístrate");
 				lblRegistro.setForeground(new Color(0, 0, 0));
-				super.mouseExited(e);
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Array de opciones
+		        Object[] opciones = {"Empresa", "Persona"};
+
+		        // Muestra el JOptionPane
+		        int seleccion = JOptionPane.showOptionDialog(
+		                null,
+		                "¿Qué tipo de cuenta quieres crear?",
+		                "Selecciona un tipo de cuenta",
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE,
+		                null,
+		                opciones,
+		                opciones[0]
+		        );
+
+		        // Comprueba la opción seleccionada
+		        if (seleccion == JOptionPane.YES_OPTION) {
+		        	layoutVentana.show(pnlContenido, "pnlRegistroEmpresa");
+		        } else if (seleccion == JOptionPane.NO_OPTION) {
+		            // Opción "Persona" seleccionada
+		        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
+		        } else {}
 				
-				layoutVentana.show(pnlContenido, "pnlRegistro");
-				super.mouseClicked(e);
+				
+				
+				
 			}
 		});
 		

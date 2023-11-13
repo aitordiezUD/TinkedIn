@@ -7,7 +7,22 @@ public abstract class Usuario {
 	
 	private static int count = 0;
 	
-
+	//Atributos 
+	private long id;
+	private ImageIcon fotoDePerfil;
+	private String password;
+	private Tipo tipo;
+	
+	//Getters y setters
+	
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public static int getCount() {
 		return count;
 	}
@@ -18,13 +33,6 @@ public abstract class Usuario {
 		return id;
 	}
 
-
-	//Atributos 
-	private long id;
-	private ImageIcon fotoDePerfil;
-	private Tipo tipo;
-	
-	//Getters y setters
 	
 	public ImageIcon getFotoDePerfil() {
 		return fotoDePerfil;

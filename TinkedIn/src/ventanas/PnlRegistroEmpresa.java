@@ -26,6 +26,8 @@ import javax.swing.SwingConstants;
 import clases.Habilidad;
 
 import javax.swing.JList;
+import javax.swing.JTextArea;
+import java.awt.ComponentOrientation;
 
 public class PnlRegistroEmpresa extends JPanel {
 	
@@ -51,14 +53,14 @@ public class PnlRegistroEmpresa extends JPanel {
 	private JLabel lblTelefono;
 	private JTextField tfTelefono;
 	private JLabel lblDatos;
-	private JLabel lblCurriculum;
+	private JLabel lblDesc;
 	
 
 	
 	
     public PnlRegistroEmpresa(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
-        setBounds(0, 0, 900, 650);
+        setBounds(0, 0, 900, 610);
         setLayout(null);
         
 //      Añadir 
@@ -66,108 +68,119 @@ public class PnlRegistroEmpresa extends JPanel {
         pnlContenido.add(pnlHabilidad,"pnlHabilidad");
         
         lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(100, 128, 215, 14);
+        lblNombre.setBounds(100, 105, 215, 14);
         add(lblNombre);
         
         tfNombre = new JTextField();
-        tfNombre.setBounds(100, 148, 215, 20);
+        tfNombre.setBounds(100, 125, 215, 20);
         add(tfNombre);
         tfNombre.setColumns(10);
         
         JLabel lblCorreo = new JLabel("Correo electrónico:");
-        lblCorreo.setBounds(100, 179, 150, 14);
+        lblCorreo.setBounds(100, 156, 150, 14);
         add(lblCorreo);
         
         tfCorreo = new JTextField();
         tfCorreo.setColumns(10);
-        tfCorreo.setBounds(100, 199, 215, 20);
+        tfCorreo.setBounds(100, 176, 215, 20);
         add(tfCorreo);
         
         JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setBounds(100, 281, 91, 14);
+        lblContrasena.setBounds(100, 258, 91, 14);
         add(lblContrasena);
         
         JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:\r\n");
-        lblRepetirContrasena.setBounds(100, 332, 150, 14);
+        lblRepetirContrasena.setBounds(100, 309, 150, 14);
         add(lblRepetirContrasena);
         
         pfContrasena = new JPasswordField();
-        pfContrasena.setBounds(100, 301, 215, 20);
+        pfContrasena.setBounds(100, 278, 215, 20);
         add(pfContrasena);
         
         pfRepetirContrasena = new JPasswordField();
-        pfRepetirContrasena.setBounds(100, 352, 215, 20);
+        pfRepetirContrasena.setBounds(100, 329, 215, 20);
         add(pfRepetirContrasena);
         
         lblTelefono = new JLabel("Teléfono:");
-        lblTelefono.setBounds(100, 230, 150, 14);
+        lblTelefono.setBounds(100, 207, 150, 14);
         add(lblTelefono);
         
         tfTelefono = new JTextField();
         tfTelefono.setColumns(10);
-        tfTelefono.setBounds(100, 250, 215, 20);
+        tfTelefono.setBounds(100, 227, 215, 20);
         add(tfTelefono);
         
-        JLabel lblProvincia = new JLabel("Provincia:");
-        lblProvincia.setBounds(100, 434, 150, 14);
-        add(lblProvincia);
-        
         JComboBox<String> cbProvincia = new JComboBox<String>();
-        cbProvincia.setBounds(100, 454, 215, 22);
+        cbProvincia.setBounds(100, 513, 215, 22);
         add(cbProvincia);
         
         for(String p: provincias) {
         	cbProvincia.addItem(p);
         }
         
+        JList<String> listaProvincias = new JList<String>();
+        
+        JScrollPane spProvincias = new JScrollPane(listaProvincias);
+        spProvincias.setBounds(100, 380, 215, 130);
+        add(spProvincias);
+        
         lblDatos = new JLabel("Datos");
         lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
         lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblDatos.setBounds(100, 72, 215, 42);
+        lblDatos.setBounds(100, 49, 215, 42);
         add(lblDatos);
         
-        lblCurriculum = new JLabel("Curriculum");
-        lblCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
-        lblCurriculum.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblCurriculum.setBounds(585, 72, 215, 42);
-        add(lblCurriculum);
+        lblDesc = new JLabel("Descripción");
+        lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDesc.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+        lblDesc.setBounds(585, 49, 215, 42);
+        add(lblDesc);
         
-        JLabel lblHabilidades = new JLabel("Habilidades:");
-        lblHabilidades.setBounds(585, 128, 215, 14);
-        add(lblHabilidades);
+        JLabel lblDesc_min = new JLabel("Breve descripción de la empresa:");
+        lblDesc_min.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        lblDesc_min.setBounds(522, 105, 215, 14);
+        add(lblDesc_min);
         
-        JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-        
-        JScrollPane spList = new JScrollPane(listaHabilidades);
-        spList.setBounds(585, 148, 215, 351);
-        add(spList);
-        
-        JButton btnAñadirHab = new JButton("Añadir");
-        btnAñadirHab.setBackground(Color.WHITE);
-        btnAñadirHab.addActionListener(new ActionListener(){
+        JButton btnAnadirHab = new JButton("Añadir");
+        btnAnadirHab.setBackground(Color.WHITE);
+        btnAnadirHab.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-//				Al hacer click que se muestre el panel para añadir habilidades
-				layoutVentana.show(pnlContenido,"pnlHabilidad");
+
 			}
         	
         });
-        btnAñadirHab.setBounds(585, 505, 89, 23);
-        add(btnAñadirHab);
+        btnAnadirHab.setBounds(100, 537, 89, 23);
+        add(btnAnadirHab);
         
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBackground(Color.WHITE);
-        btnEliminar.setBounds(711, 505, 89, 23);
+        btnEliminar.setBounds(226, 537, 89, 23);
         add(btnEliminar);
         
-        JButton btnAtras = new JButton("Cancelar");
-        btnAtras.setBounds(405, 573, 90, 23);
-        add(btnAtras);
+        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBounds(460, 576, 90, 23);
+        add(btnCancelar);
+        
+        JButton btnAceptar = new JButton("Aceptar");
+        btnAceptar.setBounds(350, 576, 90, 23);
+        add(btnAceptar);
+        
+        JLabel lblProvincia = new JLabel("Provincia:");
+        lblProvincia.setBounds(100, 360, 215, 14);
+        add(lblProvincia);
+        
+        JTextArea textArea = new JTextArea();
+        
+        
+        JScrollPane spTextArea = new JScrollPane(textArea);
+        spTextArea.setBounds(522, 125, 324, 385);
+        add(spTextArea);
         
         //Boton que mande a la pestaña anterior
-        btnAtras.addActionListener(new ActionListener() {
+        btnCancelar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
