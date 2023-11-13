@@ -27,7 +27,7 @@ import clases.Habilidad;
 
 import javax.swing.JList;
 
-public class PnlRegistro extends JPanel {
+public class PnlRegistroPersona extends JPanel {
 	
 //	Provincias de España para añadirlas al ComboBox
 	private final String[] provincias = {
@@ -57,7 +57,7 @@ public class PnlRegistro extends JPanel {
 
 	
 	
-    public PnlRegistro(JPanel pnlContenido, CardLayout layoutVentana) {
+    public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 650);
         setLayout(null);
@@ -84,55 +84,46 @@ public class PnlRegistro extends JPanel {
         tfApellidos.setBounds(100, 199, 215, 20);
         add(tfApellidos);
         
-        JLabel lblUsername = new JLabel("Username:");
-        lblUsername.setBounds(100, 230, 91, 14);
-        add(lblUsername);
-        
-        tfUsername = new JTextField();
-        tfUsername.setColumns(10);
-        tfUsername.setBounds(100, 250, 215, 20);
-        add(tfUsername);
-        
         JLabel lblCorreo = new JLabel("Correo electrónico:");
-        lblCorreo.setBounds(100, 281, 150, 14);
+        lblCorreo.setBounds(100, 230, 150, 14);
         add(lblCorreo);
         
         tfCorreo = new JTextField();
         tfCorreo.setColumns(10);
-        tfCorreo.setBounds(100, 301, 215, 20);
+        tfCorreo.setBounds(100, 250, 215, 20);
         add(tfCorreo);
         
         JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setBounds(100, 383, 91, 14);
+        lblContrasena.setBounds(100, 332, 91, 14);
         add(lblContrasena);
         
         JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:\r\n");
-        lblRepetirContrasena.setBounds(100, 434, 150, 14);
+        lblRepetirContrasena.setBounds(100, 383, 150, 14);
         add(lblRepetirContrasena);
         
         pfContrasena = new JPasswordField();
-        pfContrasena.setBounds(100, 403, 215, 20);
+        pfContrasena.setBounds(100, 352, 215, 20);
         add(pfContrasena);
         
         pfRepetirContrasena = new JPasswordField();
-        pfRepetirContrasena.setBounds(100, 454, 215, 20);
+        pfRepetirContrasena.setBounds(100, 403, 215, 20);
         add(pfRepetirContrasena);
         
         lblTelefono = new JLabel("Teléfono:");
-        lblTelefono.setBounds(100, 332, 150, 14);
+        lblTelefono.setBounds(100, 281, 150, 14);
         add(lblTelefono);
         
         tfTelefono = new JTextField();
         tfTelefono.setColumns(10);
-        tfTelefono.setBounds(100, 352, 215, 20);
+        tfTelefono.setBounds(100, 301, 215, 20);
         add(tfTelefono);
         
         JLabel lblProvincia = new JLabel("Provincia:");
-        lblProvincia.setBounds(100, 485, 150, 14);
+        lblProvincia.setBounds(100, 434, 150, 14);
         add(lblProvincia);
         
         JComboBox<String> cbProvincia = new JComboBox<String>();
-        cbProvincia.setBounds(100, 505, 215, 22);
+        cbProvincia.setBounds(100, 454, 215, 22);
         add(cbProvincia);
         
         for(String p: provincias) {
@@ -181,8 +172,8 @@ public class PnlRegistro extends JPanel {
         btnEliminar.setBounds(711, 505, 89, 23);
         add(btnEliminar);
         
-        JButton btnAtras = new JButton("<--");
-        btnAtras.setBounds(400, 573, 89, 23);
+        JButton btnAtras = new JButton("Cancelar");
+        btnAtras.setBounds(405, 573, 90, 23);
         add(btnAtras);
         
         //Boton que mande a la pestaña anterior

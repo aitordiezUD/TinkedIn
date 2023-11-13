@@ -1,30 +1,31 @@
 package clases;
 import javax.swing.*;
 
+enum Tipo {PERSONA, EMPRESA}
 
-public class Usuario {
+public abstract class Usuario {
+	
+	private static int count = 0;
+	
+
+	public static int getCount() {
+		return count;
+	}
+	public static void setCount(int count) {
+		Usuario.count = count;
+	}
+	public long getId() {
+		return id;
+	}
+
 
 	//Atributos 
-	
-	private String nombre;
-	private String apellidos;
-	private String ubicacion;
+	private long id;
 	private ImageIcon fotoDePerfil;
+	private Tipo tipo;
 	
 	//Getters y setters
 	
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getUbicacion() {
-		return ubicacion;
-	}
-	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
-	}
 	public ImageIcon getFotoDePerfil() {
 		return fotoDePerfil;
 	}
@@ -32,30 +33,21 @@ public class Usuario {
 		this.fotoDePerfil = fotoDePerfil;
 	}
 
-	public String getApellidos() {
-		return apellidos;
-	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
 
 	// Constructores
 		
 
 	
-	public Usuario(String nombre, String apellidos, String ubicacion, ImageIcon fotoDePerfil) {
-		super();
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.ubicacion = ubicacion;
+	public Usuario(ImageIcon fotoDePerfil) {
+		
+		if (this instanceof Persona) {
+			this.tipo = Tipo.PERSONA;
+		}else {
+			this.tipo = Tipo.EMPRESA;
+		}
+		id = count;
+		count++;
 		this.fotoDePerfil = fotoDePerfil;
-	}
-	public Usuario() {
-		super();
-		this.nombre = "";
-		this.apellidos= "";
-		this.ubicacion = "";
-		this.fotoDePerfil = null;
 	}
 
 

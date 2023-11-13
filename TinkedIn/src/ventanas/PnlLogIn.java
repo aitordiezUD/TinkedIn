@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 
 public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
-	private PnlRegistro pnlRegistro;
+	private PnlRegistroPersona pnlRegistro;
 	private JPasswordField pfContrasnya;
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
@@ -34,7 +34,7 @@ public class PnlLogIn extends JPanel {
 		pnlFunc.setLayout(null);
 		add(pnlFunc);
 		
-		pnlRegistro = new PnlRegistro(pnlContenido, layoutVentana);
+		pnlRegistro = new PnlRegistroPersona(pnlContenido, layoutVentana);
 		pnlContenido.add(pnlRegistro,"pnlRegistro");
 		
 		JLabel lblBienvenida = new JLabel("Bienvenido de nuevo");

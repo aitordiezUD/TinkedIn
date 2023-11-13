@@ -10,11 +10,13 @@ import javax.swing.JTextField;
 public class Persona extends Usuario {
 	
 	//Atributos: 
-	
 	private int idPersona;
 	private int edad;
 	private String correoElectronico;
 	private int nTelefeno;
+	private String ubicacion;
+	private String nombre;
+	private String apellidos;
 	private ArrayList<Habilidad> curriculum;
 	private ArrayList<String> habilidadesTecnicas;
 
@@ -69,57 +71,27 @@ public class Persona extends Usuario {
 
 	//Constructores: 
 	
-	public Persona(String nombre, String ubicacion, ImageIcon fotoDePerfil,String apellidos, int idPersona, int edad,
-			String correoElectronico, int nTelefeno, ArrayList<Habilidad> curriculum,
-			ArrayList<String> habilidadesTecnicas) {
-		super(nombre, ubicacion, apellidos, fotoDePerfil);
+	public Persona(String nombre, String apellidos,String ubicacion, ImageIcon fotoDePerfil, int idPersona, int edad,
+			String correoElectronico, int nTelefeno, ArrayList<Habilidad> curriculum) {
+		super(fotoDePerfil);
+		this.nombre = nombre;
+		this.apellidos = apellidos;
 		this.idPersona = idPersona;
 		this.edad = edad;
 		this.correoElectronico = correoElectronico;
 		this.nTelefeno = nTelefeno;
 		this.curriculum = curriculum;
-		this.habilidadesTecnicas = habilidadesTecnicas;
 	}
-
-	
-	public Persona() {
-		super();
-		this.idPersona = 0;
-		this.edad = 0;
-		this.correoElectronico = "";
-		this.nTelefeno = 0;
-		this.curriculum = null;
-		this.habilidadesTecnicas = null;
-	}
-
 
 	@Override
 	public String toString() {
 
 	//	contrasena?
 		
-	return "Persona[idPersona=" + idPersona +
-    ", nombre=" + getNombre() +
-    ", apellidos=" + getApellidos() +
-    ", ubicacion=" + getUbicacion() +
-    ", edad=" + edad +
-    ", correoElectronico=" + correoElectronico +
-    ", nTelefeno=" + nTelefeno +
-    ", curriculum=" + curriculum +
-    ", habilidadesTecnicas=" + habilidadesTecnicas +
-    ']';
+	return nombre + " " + apellidos + "\t" + correoElectronico + "\t" + nTelefeno;
+
 	
 	}
-	//Atributos de REGISTRO
-	
-//	Nombre;
-//	Apellidos;
-//	Username;
-//	Correo;
-//	Contrasena;
 
-//	Telefono;
-//	Curriculum;
-//	datos personales: ubicacion,edad,...
 	
 }

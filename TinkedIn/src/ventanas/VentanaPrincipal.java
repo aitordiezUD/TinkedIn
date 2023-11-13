@@ -54,8 +54,9 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal() {
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 900, 650);
+		setSize(900, 650);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		pnlContenido = new JPanel();
 		pnlContenido.setLayout(new BorderLayout());
 		pnlContenido.setBackground(new Color(0, 255, 255));
