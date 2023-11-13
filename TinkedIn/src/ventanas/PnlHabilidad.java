@@ -47,7 +47,7 @@ public class PnlHabilidad extends JPanel{
 		// Crear el panel del arbol
 		
 		pnlArbol = new JPanel();
-		pnlArbol.setBackground(new Color(208, 235, 242));
+		pnlArbol.setBackground(new Color(255, 128, 0));
 		pnlArbol.setPreferredSize(new Dimension(200,650));
 		add(pnlArbol, BorderLayout.WEST);
 		pnlArbol.setLayout(null);
@@ -94,12 +94,13 @@ public class PnlHabilidad extends JPanel{
 		pnlDatosHabi.add(spDestreza);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(92, 51, 307, 202);
+		textArea.setBackground(new Color(192, 192, 192));
+		textArea.setBounds(92, 51, 244, 179);
 		pnlDatosHabi.add(textArea);
 		
 		JLabel lblDescripcion = new JLabel("Descripcion:");
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescripcion.setBounds(10, 46, 113, 29);
+		lblDescripcion.setBounds(10, 121, 82, 29);
 		pnlDatosHabi.add(lblDescripcion);
 		
 		
