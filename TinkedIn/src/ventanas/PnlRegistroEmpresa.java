@@ -118,7 +118,9 @@ public class PnlRegistroEmpresa extends JPanel {
         	cbProvincia.addItem(p);
         }
         
+        DefaultListModel<String> modeloLista = new DefaultListModel<String>();
         JList<String> listaProvincias = new JList<String>();
+        listaProvincias.setModel(modeloLista);
         
         JScrollPane spProvincias = new JScrollPane(listaProvincias);
         spProvincias.setBounds(100, 380, 215, 130);
@@ -141,24 +143,36 @@ public class PnlRegistroEmpresa extends JPanel {
         lblDesc_min.setBounds(522, 105, 215, 14);
         add(lblDesc_min);
         
-        JButton btnAnadirHab = new JButton("Añadir");
-        btnAnadirHab.setBackground(Color.WHITE);
-        btnAnadirHab.addActionListener(new ActionListener(){
+        JButton btnAnadirProv = new JButton("Añadir");
+        btnAnadirProv.setBackground(Color.WHITE);
+        
+        
+        btnAnadirProv.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				if(!modeloLista.contains((String) cbProvincia.getSelectedItem())) {
+					modeloLista.addElement((String) cbProvincia.getSelectedItem());
+				}
 			}
         	
         });
-        btnAnadirHab.setBounds(100, 537, 89, 23);
-        add(btnAnadirHab);
+        btnAnadirProv.setBounds(100, 537, 89, 23);
+        add(btnAnadirProv);
         
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBackground(Color.WHITE);
         btnEliminar.setBounds(226, 537, 89, 23);
         add(btnEliminar);
+        
+        btnEliminar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				modeloLista.removeElement(listaProvincias.getSelectedValue());
+				
+			}
+		});
         
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(460, 576, 90, 23);
@@ -191,7 +205,6 @@ public class PnlRegistroEmpresa extends JPanel {
         
       
         
-        DefaultListModel<String> modeloLista = new DefaultListModel<String>();
 
     }
     

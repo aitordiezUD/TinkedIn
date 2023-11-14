@@ -100,7 +100,6 @@ public class PnlLogIn extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Array de opciones
 		        Object[] opciones = {"Empresa", "Persona"};
-
 		        // Muestra el JOptionPane
 		        int seleccion = JOptionPane.showOptionDialog(
 		                null,
