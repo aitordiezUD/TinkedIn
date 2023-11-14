@@ -174,6 +174,7 @@ public class PnlRegistroEmpresa extends JPanel {
 			}
 		});
         
+        
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setBounds(460, 576, 90, 23);
         add(btnCancelar);
