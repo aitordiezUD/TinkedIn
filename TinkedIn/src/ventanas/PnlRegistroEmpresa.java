@@ -146,7 +146,6 @@ public class PnlRegistroEmpresa extends JPanel {
         JButton btnAnadirProv = new JButton("Añadir");
         btnAnadirProv.setBackground(Color.WHITE);
         
-        
         btnAnadirProv.addActionListener(new ActionListener(){
 
 			@Override
@@ -157,6 +156,7 @@ public class PnlRegistroEmpresa extends JPanel {
 			}
         	
         });
+        
         btnAnadirProv.setBounds(100, 537, 89, 23);
         add(btnAnadirProv);
         
