@@ -41,6 +41,14 @@ public class Habilidad {
 	public String toString() {
 		return nombre;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		Habilidad otra = (Habilidad) obj;
+		return this.nombre.equals(otra.nombre);
+	}
+	
+	
 	
 	
 	

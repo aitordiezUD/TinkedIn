@@ -22,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.FlowLayout;
 
 public class PnlHabilidad extends JPanel{
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
@@ -34,6 +37,7 @@ public class PnlHabilidad extends JPanel{
 	
 	
 	public PnlHabilidad() {
+//		setSize(750,650);
 		setPreferredSize(new Dimension(750, 650));
 		setBackground(Color.WHITE);
 		
@@ -65,126 +69,167 @@ public class PnlHabilidad extends JPanel{
 		JPanel PnlHabi = new JPanel();
 		PnlHabi.setBackground(Color.WHITE);
 		add(PnlHabi);
-		PnlHabi.setLayout(null);
+		PnlHabi.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlHabiSup = new JPanel();
+		pnlHabiSup.setPreferredSize(new Dimension(10, 150));
+		PnlHabi.add(pnlHabiSup, BorderLayout.NORTH);
+		pnlHabiSup.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlHabiSupHab = new JPanel();
+		pnlHabiSupHab.setBackground(new Color(255, 255, 255));
+		pnlHabiSupHab.setPreferredSize(new Dimension(10, 80));
+		pnlHabiSup.add(pnlHabiSupHab, BorderLayout.NORTH);
 		
 		JLabel lblArea = new JLabel("Habilidad");
+		lblArea.setPreferredSize(new Dimension(200, 100));
 		lblArea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArea.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
-		lblArea.setBounds(0, 37, 500, 35);
-		PnlHabi.add(lblArea);
+		pnlHabiSupHab.add(lblArea);
+		
+		JPanel pnlHabiSupLbl = new JPanel();
+		pnlHabiSupLbl.setBackground(new Color(255, 255, 255));
+		pnlHabiSupLbl.setPreferredSize(new Dimension(10, 70));
+		pnlHabiSup.add(pnlHabiSupLbl, BorderLayout.SOUTH);
+		
+		JLabel lblHabilidad = new JLabel("");
+		lblHabilidad.setVerticalAlignment(SwingConstants.TOP);
+		lblHabilidad.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHabilidad.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		pnlHabiSupLbl.add(lblHabilidad);
 		
 		JPanel pnlDatosHabi = new JPanel();
 		pnlDatosHabi.setBackground(Color.WHITE);
-		pnlDatosHabi.setBounds(0, 140, 480, 390);
 		PnlHabi.add(pnlDatosHabi);
-		pnlDatosHabi.setLayout(null);
-		
-		//Crear los labels
-		
-		JLabel lblAñosExp = new JLabel("Nivel de Destreza:");
-		lblAñosExp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblAñosExp.setBounds(10, 11, 113, 24);
-		pnlDatosHabi.add(lblAñosExp);
 		
 		//Crear el spinner
 		
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 5, 1);
+		pnlDatosHabi.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlDestreza = new JPanel();
+		pnlDestreza.setBackground(new Color(255, 255, 255));
+		pnlDestreza.setPreferredSize(new Dimension(10, 40));
+		pnlDatosHabi.add(pnlDestreza, BorderLayout.NORTH);
+		
+		JLabel lblAñosExp = new JLabel("Nivel de Destreza:");
+		lblAñosExp.setFont(new Font("Tahoma", Font.BOLD, 12));
+		pnlDestreza.add(lblAñosExp);
+		
 		JSpinner spDestreza = new JSpinner(spinnerModel);
-		spDestreza.setBounds(133, 12, 30, 24);
-		pnlDatosHabi.add(spDestreza);
+		spDestreza.setMinimumSize(new Dimension(60, 20));
+		pnlDestreza.add(spDestreza);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBackground(new Color(192, 192, 192));
-		textArea.setBounds(92, 51, 244, 179);
-		pnlDatosHabi.add(textArea);
-		
-		JLabel lblDescripcion = new JLabel("Descripcion:");
-		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescripcion.setBounds(10, 121, 82, 29);
-		pnlDatosHabi.add(lblDescripcion);
-		
+		JPanel pnlDatosHabiBtns = new JPanel();
+		pnlDatosHabiBtns.setBackground(new Color(255, 255, 255));
+		pnlDatosHabiBtns.setPreferredSize(new Dimension(10, 40));
+		pnlDatosHabi.add(pnlDatosHabiBtns, BorderLayout.SOUTH);
 		
 		JButton btnAnyadirLista = new JButton("Añadir");
-		btnAnyadirLista.setBounds(185, 319, 113, 38);
-		pnlDatosHabi.add(btnAnyadirLista);
+		pnlDatosHabiBtns.add(btnAnyadirLista);
 		
-		JLabel lblHabilidad = new JLabel("");
-		lblHabilidad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHabilidad.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblHabilidad.setBounds(136, 70, 228, 35);
-		PnlHabi.add(lblHabilidad);
+		JPanel pnlDesc = new JPanel();
+		pnlDatosHabi.add(pnlDesc, BorderLayout.CENTER);
+		pnlDesc.setLayout(new BorderLayout(0, 0));
 		
-		JButton btnAtras = new JButton("<--");
-		btnAtras.setBounds(200, 541, 89, 23);
-		PnlHabi.add(btnAtras);
-		btnAtras.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				
-			}
-		});
+		JPanel pnlDescDer = new JPanel();
+		pnlDesc.add(pnlDescDer, BorderLayout.CENTER);
+		pnlDescDer.setLayout(new BorderLayout(0, 0));
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		textArea.setBackground(Color.WHITE);
+		pnlDescDer.add(textArea);
+		
+		JPanel pnlDerMargen = new JPanel();
+		pnlDerMargen.setBackground(new Color(255, 255, 255));
+		pnlDescDer.add(pnlDerMargen, BorderLayout.EAST);
+		
+		JPanel pnlDescIzq = new JPanel();
+		pnlDescIzq.setBackground(new Color(255, 255, 255));
+		pnlDescIzq.setMaximumSize(new Dimension(100, 32767));
+		pnlDescIzq.setPreferredSize(new Dimension(100, 80));
+		pnlDesc.add(pnlDescIzq, BorderLayout.WEST);
+		pnlDescIzq.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBackground(new Color(255, 255, 255));
+		lblDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		pnlDescIzq.add(lblDescripcion);
+		
+		JPanel pnlBotonera = new JPanel();
+		pnlBotonera.setBackground(new Color(255, 255, 255));
+		pnlBotonera.setPreferredSize(new Dimension(10, 40));
+		PnlHabi.add(pnlBotonera, BorderLayout.SOUTH);
+		
+		JButton btnGuardar = new JButton("Guardar");
+		pnlBotonera.add(btnGuardar);
+		
+		JButton btnVolver = new JButton("Volver");
+		pnlBotonera.add(btnVolver);
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground(Color.WHITE);
 		pnlLista.setPreferredSize(new Dimension(200, 650));
 		add(pnlLista, BorderLayout.EAST);
-		pnlLista.setLayout(null);
 		
 		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
 		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+		pnlLista.setLayout(new BorderLayout(0, 0));
 		listaHabilidades.setModel(modeloLista);
 		
 		JScrollPane spLista = new JScrollPane(listaHabilidades);
-		spLista.setBounds(10, 103, 180, 450);
-		pnlLista.add(spLista);
+		
+		JPanel pnlListaMargSup = new JPanel();
+		pnlListaMargSup.setBackground(new Color(255, 255, 255));
+		pnlListaMargSup.setPreferredSize(new Dimension(10, 50));
+		pnlLista.add(pnlListaMargSup, BorderLayout.NORTH);
+		
+		JPanel pnlMargInf = new JPanel();
+		pnlMargInf.setBackground(new Color(255, 255, 255));
+		pnlMargInf.setPreferredSize(new Dimension(10, 50));
+		pnlLista.add(pnlMargInf, BorderLayout.SOUTH);
+		
+		JPanel pnlMargIzq = new JPanel();
+		pnlMargIzq.setBackground(new Color(255, 255, 255));
+		pnlLista.add(pnlMargIzq, BorderLayout.WEST);
+		
+		JPanel pnlMargDer = new JPanel();
+		pnlMargDer.setBackground(new Color(255, 255, 255));
+		pnlLista.add(pnlMargDer, BorderLayout.EAST);
+		
+		JPanel pnlCentral = new JPanel();
+		pnlCentral.setLayout(new BorderLayout(0, 0));
+		pnlCentral.add(spLista);
+		pnlLista.add(pnlCentral);
+		
+		JPanel pnlListaHabilidadLbl = new JPanel();
+		pnlListaHabilidadLbl.setBackground(new Color(255, 255, 255));
+		pnlListaHabilidadLbl.setPreferredSize(new Dimension(10, 40));
+		pnlCentral.add(pnlListaHabilidadLbl, BorderLayout.NORTH);
+		pnlListaHabilidadLbl.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblHabilidadesAnadidas = new JLabel("Habilidades añadidas:");
+		lblHabilidadesAnadidas.setBackground(new Color(255, 255, 255));
+		lblHabilidadesAnadidas.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblHabilidadesAnadidas.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblHabilidadesAnadidas.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlListaHabilidadLbl.add(lblHabilidadesAnadidas);
+		
+		JPanel pnlListaBtnEliminar = new JPanel();
+		pnlListaBtnEliminar.setPreferredSize(new Dimension(10, 25));
+		pnlCentral.add(pnlListaBtnEliminar, BorderLayout.SOUTH);
+		pnlListaBtnEliminar.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnListaEliminar = new JButton("Eliminar");
+		pnlListaBtnEliminar.add(btnListaEliminar, BorderLayout.NORTH);
 		
 		
 		
 		// Crear el arbol
 		
 		this.crearArbol(areasDeTrabajo);
-		
-		
-		//Crear el listener para añadir habilidades a la JList
-		
-		btnAnyadirLista.addActionListener( new ActionListener() {
-
-		
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TreePath path = tree.getSelectionPath();
-				try {
-					DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
-					DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
-					String campo = (String) fieldNode.getUserObject();
-					String nombre = (String) selectedNode.getUserObject();
-					int destreza = (int) spDestreza.getValue();
-					String descripcion = textArea.getText();
-					Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
-					//Aqui el if da todo el rato false, arreglatelas
-					if(!modeloLista.contains(hab.getNombre())){
-						modeloLista.addElement(hab);
-						listaHabilidades.updateUI();
-						spDestreza.setValue(0);
-						textArea.setText("");
-						}
-				} catch (Exception e2) {
-					int seleccion = JOptionPane.showOptionDialog(
-							null, 
-							"No se ha seleccionado ninguna habilidad", 
-							"Error", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.INFORMATION_MESSAGE,
-							null,
-							new Object[] {"Aceptar"}, 
-							"Aceptar");
-				}
-				
-			}
-			
-		});
 		
 		
 		//Crear el listener del arbol
@@ -875,6 +920,4 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
         this.areasDeTrabajo=areasDeTrabajo;
         
 	}
-	
-	
 }
