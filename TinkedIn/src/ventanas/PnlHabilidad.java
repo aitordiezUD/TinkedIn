@@ -36,7 +36,10 @@ public class PnlHabilidad extends JPanel{
 	private DefaultMutableTreeNode root;
 	
 	
-	public PnlHabilidad() {
+	/**
+	 * 
+	 */
+	public PnlHabilidad(DefaultListModel<Habilidad> modeloLista) {
 //		setSize(750,650);
 		setPreferredSize(new Dimension(750, 650));
 		setBackground(Color.WHITE);
@@ -82,7 +85,7 @@ public class PnlHabilidad extends JPanel{
 		pnlHabiSup.add(pnlHabiSupHab, BorderLayout.NORTH);
 		
 		JLabel lblArea = new JLabel("Habilidad");
-		lblArea.setPreferredSize(new Dimension(200, 100));
+		lblArea.setPreferredSize(new Dimension(600, 100));
 		lblArea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArea.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
 		pnlHabiSupHab.add(lblArea);
@@ -167,6 +170,14 @@ public class PnlHabilidad extends JPanel{
 		pnlBotonera.add(btnGuardar);
 		
 		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		pnlBotonera.add(btnVolver);
 		
 		JPanel pnlLista = new JPanel();
@@ -175,7 +186,7 @@ public class PnlHabilidad extends JPanel{
 		add(pnlLista, BorderLayout.EAST);
 		
 		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+//		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
 		pnlLista.setLayout(new BorderLayout(0, 0));
 		listaHabilidades.setModel(modeloLista);
 		
@@ -230,6 +241,46 @@ public class PnlHabilidad extends JPanel{
 		// Crear el arbol
 		
 		this.crearArbol(areasDeTrabajo);
+		
+		
+		// Añadir el action listener al boton de Añadir al JList
+		btnAnyadirLista.addActionListener( new ActionListener() {
+
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TreePath path = tree.getSelectionPath();
+				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
+				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
+				String campo = (String) fieldNode.getUserObject();
+				String nombre = (String) selectedNode.getUserObject();
+				int destreza = (int) spDestreza.getValue();
+				String descripcion = textArea.getText();
+				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
+				//Aqui el if da todo el rato false, arreglatelas
+				if(!modeloLista.contains(hab)){
+					modeloLista.addElement(hab);
+					listaHabilidades.updateUI();
+					spDestreza.setValue(0);
+					textArea.setText("");
+				}else {
+					JOptionPane.showOptionDialog(
+							null, 
+							"La habilidad seleccionada ya está añadida", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");	
+				}
+
+
+			}
+
+		});
+		
+		
 		
 		
 		//Crear el listener del arbol
@@ -296,7 +347,7 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 	
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
-		vent.getContentPane().add(new PnlHabilidad());
+//		vent.getContentPane().add(new PnlHabilidad());
 		vent.setSize( 900,650 );
 		vent.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		

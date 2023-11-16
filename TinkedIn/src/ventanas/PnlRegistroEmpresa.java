@@ -64,8 +64,8 @@ public class PnlRegistroEmpresa extends JPanel {
         setLayout(null);
         
 //      Añadir 
-        PnlHabilidad pnlHabilidad = new PnlHabilidad();
-        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
+//        PnlHabilidad pnlHabilidad = new PnlHabilidad();
+//        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
         
         lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(100, 105, 215, 14);

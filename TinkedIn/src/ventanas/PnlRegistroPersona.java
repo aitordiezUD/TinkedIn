@@ -53,7 +53,9 @@ public class PnlRegistroPersona extends JPanel {
 	private JTextField tfTelefono;
 	private JLabel lblDatosPersonales;
 	private JLabel lblCurriculum;
-	
+	private CardLayout layoutVentana;
+	private JPanel pnlContenido;
+	private JList<Habilidad> listaHabilidades;
 
 	
 	
@@ -62,9 +64,8 @@ public class PnlRegistroPersona extends JPanel {
         setBounds(0, 0, 900, 650);
         setLayout(null);
         
-//      Añadir 
-        PnlHabilidad pnlHabilidad = new PnlHabilidad();
-        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
+        this.layoutVentana = layoutVentana;
+        this.pnlContenido = pnlContenido;
         
         lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(100, 128, 215, 14);
@@ -146,7 +147,7 @@ public class PnlRegistroPersona extends JPanel {
         lblHabilidades.setBounds(585, 128, 215, 14);
         add(lblHabilidades);
         
-        JList<Habilidad> listaHabilidades = new JList<Habilidad>();
+        listaHabilidades = new JList<Habilidad>();
         
         JScrollPane spList = new JScrollPane(listaHabilidades);
         spList.setBounds(585, 148, 215, 351);
@@ -160,6 +161,7 @@ public class PnlRegistroPersona extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 //				Al hacer click que se muestre el panel para añadir habilidades
+				asignarModeloParaPnlHabilidad();
 				layoutVentana.show(pnlContenido,"pnlHabilidad");
 			}
         	
@@ -181,6 +183,7 @@ public class PnlRegistroPersona extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				asignarModeloParaPnlHabilidad();
 				layoutVentana.show(pnlContenido, "pnlLogIn");
 				
 			}
@@ -188,7 +191,8 @@ public class PnlRegistroPersona extends JPanel {
         
       
         
-        DefaultListModel<String> modeloLista = new DefaultListModel<String>();
+        DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+        listaHabilidades.setModel(modeloLista);
 
     }
     
@@ -198,6 +202,11 @@ public class PnlRegistroPersona extends JPanel {
     	
     	g.setColor(Color.BLACK);
     	g.drawLine(450, 50, 450, 540);
+    }
+    
+    public void asignarModeloParaPnlHabilidad() {
+    	PnlHabilidad pnlHabilidad = new PnlHabilidad((DefaultListModel<Habilidad>) listaHabilidades.getModel());
+        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
     }
 }
 
