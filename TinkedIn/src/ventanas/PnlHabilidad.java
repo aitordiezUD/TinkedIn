@@ -39,7 +39,7 @@ public class PnlHabilidad extends JPanel{
 	/**
 	 * 
 	 */
-	public PnlHabilidad(DefaultListModel<Habilidad> modeloLista) {
+	public PnlHabilidad(JPanel pnlContenido, CardLayout layoutVentana,DefaultListModel<Habilidad> modeloLista) {
 //		setSize(750,650);
 		setPreferredSize(new Dimension(750, 650));
 		setBackground(Color.WHITE);
@@ -166,19 +166,16 @@ public class PnlHabilidad extends JPanel{
 		pnlBotonera.setPreferredSize(new Dimension(10, 40));
 		PnlHabi.add(pnlBotonera, BorderLayout.SOUTH);
 		
-		JButton btnGuardar = new JButton("Guardar");
-		pnlBotonera.add(btnGuardar);
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				layoutVentana.show(pnlContenido, "pnlRegistroPersona");
 			}
 		});
-		pnlBotonera.add(btnVolver);
+		pnlBotonera.add(btnAceptar);
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground(Color.WHITE);

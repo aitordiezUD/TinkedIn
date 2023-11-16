@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -241,16 +242,17 @@ public class PnlRegistroPersona extends JPanel {
     	g.drawLine(450, 50, 450, 540);
     }
     
-//<<<<<<< HEAD
     public void asignarModeloParaPnlHabilidad() {
-    	PnlHabilidad pnlHabilidad = new PnlHabilidad((DefaultListModel<Habilidad>) listaHabilidades.getModel());
-        pnlContenido.add(pnlHabilidad,"pnlHabilidad");}
-//=======
+    	PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlContenido,layoutVentana,(DefaultListModel<Habilidad>) listaHabilidades.getModel());
+        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
+    }
+    
     private void crearArrayList() {
     	for(int i = 0; i<modeloLista.size(); i++) {
     		habilidades.add((Habilidad) modeloLista.get(i));
     	}
-//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
     }
+    
+
 }
 

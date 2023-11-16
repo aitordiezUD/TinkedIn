@@ -39,7 +39,7 @@ public class PnlRegistroEmpresa extends JPanel {
             "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa",
             "Huelva", "Huesca", "Islas Baleares", "Jaén", "La Coruña",
             "La Rioja", "Las Palmas", "León", "Lérida", "Lugo",
-            "Madrid", "Málaga", "Melilla", "Murcia", "Navarra", "Orense",
+            "Madrid", "Málaga", "Melilla", "Murcia", "Navarra", "Orense"                                                                                                                          ,
             "Palencia", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Segovia",
             "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo",
             "Valencia", "Valladolid", "Zamora", "Zaragoza"
@@ -62,6 +62,8 @@ public class PnlRegistroEmpresa extends JPanel {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 610);
         setLayout(null);
+        
+        
         
 //      Añadir 
 //<<<<<<< HEAD
