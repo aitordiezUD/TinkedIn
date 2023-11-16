@@ -13,6 +13,18 @@ public class DatosFicheros implements ManejoDatos{
 	private HashMap<String, String> mapaTlfnoUsuario;
 	
 	
+	
+	
+	public ArrayList<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+
+	public void setUsuarios(ArrayList<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+
 	public DatosFicheros() {
 		init();
 		
@@ -22,6 +34,7 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		usuarios = new ArrayList<>();
 		
 		
 	}

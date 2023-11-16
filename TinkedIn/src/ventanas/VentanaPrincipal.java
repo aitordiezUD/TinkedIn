@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import clases.DatosFicheros;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -15,7 +17,21 @@ import java.awt.Dimension;
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel pnlContenido;
+	private static DatosFicheros datos;
 	
+	
+
+
+	public static DatosFicheros getDatos() {
+		return datos;
+	}
+
+
+
+	public static void setDatos(DatosFicheros datos) {
+		VentanaPrincipal.datos = datos;
+	}
+
 
 
 	public JPanel getPnlContenido() {
@@ -34,10 +50,11 @@ public class VentanaPrincipal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		DatosFicheros datos = new DatosFicheros();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
+					VentanaPrincipal frame = new VentanaPrincipal(datos);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +68,7 @@ public class VentanaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPrincipal() {
+	public VentanaPrincipal( DatosFicheros datos ) {
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(900, 650);
@@ -70,7 +87,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		
 		setContentPane(pnlContenido);
-		
+		datos = new DatosFicheros();
 			
 	}
 	

@@ -2,6 +2,7 @@ package ventanas;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
@@ -14,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -23,7 +25,10 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import clases.DatosFicheros;
 import clases.Habilidad;
+import clases.Persona;
+import clases.Usuario;
 
 import javax.swing.JList;
 
@@ -53,9 +58,15 @@ public class PnlRegistroPersona extends JPanel {
 	private JTextField tfTelefono;
 	private JLabel lblDatosPersonales;
 	private JLabel lblCurriculum;
+//<<<<<<< HEAD
 	private CardLayout layoutVentana;
 	private JPanel pnlContenido;
 	private JList<Habilidad> listaHabilidades;
+//=======
+	private DefaultListModel modeloLista;
+	private ArrayList<Habilidad> habilidades;
+	
+//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
 
 	
 	
@@ -147,7 +158,14 @@ public class PnlRegistroPersona extends JPanel {
         lblHabilidades.setBounds(585, 128, 215, 14);
         add(lblHabilidades);
         
+//<<<<<<< HEAD
         listaHabilidades = new JList<Habilidad>();
+//=======
+//        JList<Habilidad> listaHabilidades = new JList<Habilidad>();
+        modeloLista = new DefaultListModel<>();
+        listaHabilidades.setModel(modeloLista);
+        habilidades = new ArrayList<>();
+//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
         
         JScrollPane spList = new JScrollPane(listaHabilidades);
         spList.setBounds(585, 148, 215, 351);
@@ -175,8 +193,27 @@ public class PnlRegistroPersona extends JPanel {
         add(btnEliminar);
         
         JButton btnAtras = new JButton("Cancelar");
-        btnAtras.setBounds(405, 573, 90, 23);
+        btnAtras.setBounds(402, 601, 90, 23);
         add(btnAtras);
+        
+        JButton btnRegistrarse = new JButton("Registrarse");
+        btnRegistrarse.setBounds(391, 558, 109, 32);
+        add(btnRegistrarse);
+        
+        //Listener del boton registrarse
+        
+        btnRegistrarse.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),new ImageIcon("fotoPerfilEjemplo.jpg"), 20, tfCorreo.getText(), Integer.parseInt(tfTelefono.getText()), habilidades );
+				System.out.println(p);
+				//VentanaPrincipal.getDatos().getUsuarios().add(p);
+				
+			}
+        	
+        } );
         
         //Boton que mande a la pestaña anterior
         btnAtras.addActionListener(new ActionListener() {
@@ -204,9 +241,16 @@ public class PnlRegistroPersona extends JPanel {
     	g.drawLine(450, 50, 450, 540);
     }
     
+//<<<<<<< HEAD
     public void asignarModeloParaPnlHabilidad() {
     	PnlHabilidad pnlHabilidad = new PnlHabilidad((DefaultListModel<Habilidad>) listaHabilidades.getModel());
-        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
+        pnlContenido.add(pnlHabilidad,"pnlHabilidad");}
+//=======
+    private void crearArrayList() {
+    	for(int i = 0; i<modeloLista.size(); i++) {
+    		habilidades.add((Habilidad) modeloLista.get(i));
+    	}
+//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
     }
 }
 
