@@ -1,5 +1,6 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -7,13 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Persona extends Usuario {
+public class Persona extends Usuario implements Serializable{
 	
 	//Atributos: 
 	
 	private int edad;
 	private String correoElectronico;
-	private int nTelefeno;
+	private String telefeno;
 	private String ubicacion;
 	private String nombre;
 	private String apellidos;
@@ -54,30 +55,30 @@ public class Persona extends Usuario {
 		this.correoElectronico = correoElectronico;
 	}
 	
-	public int getnTelefeno() {
-		return nTelefeno;
+	public String getTelefeno() {
+		return telefeno;
 	}
 
-	public void setnTelefeno(int nTelefeno) {
-		this.nTelefeno = nTelefeno;
+	public void setTelefeno(String telefeno) {
+		this.telefeno = telefeno;
 	}
 
 	//Constructores: 
 	
-	public Persona(String nombre, String apellidos,String ubicacion, ImageIcon fotoDePerfil, int edad,
-			String correoElectronico, int nTelefeno, ArrayList<Habilidad> curriculum) {
-		super(fotoDePerfil);
+	public Persona(String nombre, String apellidos,String ubicacion, int edad,
+			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, ImageIcon fotoDePerfil, String password) {
+		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.edad = edad;
 		this.correoElectronico = correoElectronico;
-		this.nTelefeno = nTelefeno;
+		this.telefeno = telefeno;
 		this.curriculum = curriculum;
 	}
 
 	@Override
 	public String toString() {		
-	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + nTelefeno;
+	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + telefeno;
 	}
 
 }

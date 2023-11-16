@@ -16,4 +16,11 @@ public interface ManejoDatos {
 	public void fin();
 	
 	
+	/**
+	 * Añadir un nuevo Usuario de tipo Persona a la base de datos
+	 * @param persona
+	 */
+	public void anadirUsuarioPersona(Persona persona);
+	
+	
 }

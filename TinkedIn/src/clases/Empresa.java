@@ -1,10 +1,11 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class Empresa extends Usuario {
+public class Empresa extends Usuario implements Serializable{
 
 	//Atributos:
 	private String nombre;
@@ -18,9 +19,9 @@ public class Empresa extends Usuario {
 	
 
 	//Constructores:
-	public Empresa(ImageIcon fotoDePerfil, String nombre, String telefono, String correo, String descripcion,
-			ArrayList<String> ubicaciones, ArrayList<PuestoTrabajo> puestos) {
-		super(fotoDePerfil);
+	public Empresa(String nombre, String telefono, String correo, String descripcion,
+			ArrayList<String> ubicaciones, ArrayList<PuestoTrabajo> puestos, ImageIcon fotoDePerfil, String password) {
+		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.correoElectronico = correo;

@@ -32,6 +32,7 @@ import clases.Persona;
 import clases.Usuario;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class PnlRegistroPersona extends JPanel {
 	
@@ -65,7 +66,6 @@ public class PnlRegistroPersona extends JPanel {
 	private JList<Habilidad> listaHabilidades;
 //=======
 	private DefaultListModel modeloLista;
-	private ArrayList<Habilidad> habilidades;
 	
 //>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
 
@@ -159,14 +159,9 @@ public class PnlRegistroPersona extends JPanel {
         lblHabilidades.setBounds(585, 128, 215, 14);
         add(lblHabilidades);
         
-//<<<<<<< HEAD
         listaHabilidades = new JList<Habilidad>();
-//=======
-//        JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-        modeloLista = new DefaultListModel<>();
+        modeloLista = new DefaultListModel<Habilidad>();
         listaHabilidades.setModel(modeloLista);
-        habilidades = new ArrayList<>();
-//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
         
         JScrollPane spList = new JScrollPane(listaHabilidades);
         spList.setBounds(585, 148, 215, 351);
@@ -207,13 +202,31 @@ public class PnlRegistroPersona extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),new ImageIcon("fotoPerfilEjemplo.jpg"), 20, tfCorreo.getText(), Integer.parseInt(tfTelefono.getText()), habilidades );
-				System.out.println(p);
-				//VentanaPrincipal.getDatos().getUsuarios().add(p);
-				
+				char[] passwordChars1 = pfContrasena.getPassword();
+		        char[] passwordChars2 = pfRepetirContrasena.getPassword();
+
+		        String contrasena1 = new String(passwordChars1);
+		        String contrasena2 = new String(passwordChars2);
+		        
+				if (contrasena1.equals(contrasena2)) {
+					System.out.println(pfContrasena.getPassword());
+					System.out.println(pfRepetirContrasena.getPassword());
+					ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
+					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
+							 20, tfCorreo.getText(), tfTelefono.getText(),
+							habilidades,new ImageIcon("fotoPerfilEjemplo.jpg"), contrasena1);
+				} else {
+					JOptionPane.showOptionDialog(
+							null, 
+							"Las dos contraseñas no coinciden.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");	
+				}				
 			}
-        	
         } );
         
         //Boton que mande a la pestaña anterior
@@ -247,10 +260,12 @@ public class PnlRegistroPersona extends JPanel {
         pnlContenido.add(pnlHabilidad,"pnlHabilidad");
     }
     
-    private void crearArrayList() {
+    private ArrayList<Habilidad> crearArrayListHabilidades() {
+    	ArrayList<Habilidad> arr = new ArrayList<Habilidad>();
     	for(int i = 0; i<modeloLista.size(); i++) {
-    		habilidades.add((Habilidad) modeloLista.get(i));
+    		arr.add((Habilidad) modeloLista.get(i));
     	}
+    	return arr;
     }
     
 

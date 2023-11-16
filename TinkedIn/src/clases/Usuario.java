@@ -1,9 +1,15 @@
 package clases;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.Properties;
+
 import javax.swing.*;
 
 enum Tipo {PERSONA, EMPRESA}
 
-public abstract class Usuario {
+public abstract class Usuario implements Serializable{
 	
 	private static int count = 0;
 	
@@ -46,7 +52,9 @@ public abstract class Usuario {
 		
 
 	
-	public Usuario(ImageIcon fotoDePerfil) {
+	public Usuario(ImageIcon fotoDePerfil,String password) {
+
+		
 		
 		if (this instanceof Persona) {
 			this.tipo = Tipo.PERSONA;
@@ -56,6 +64,7 @@ public abstract class Usuario {
 		id = count;
 		count++;
 		this.fotoDePerfil = fotoDePerfil;
+		this.password = password;
 	}
 
 

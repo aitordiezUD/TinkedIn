@@ -257,7 +257,7 @@ public class PnlHabilidad extends JPanel{
 				//Aqui el if da todo el rato false, arreglatelas
 				if(!modeloLista.contains(hab)){
 					modeloLista.addElement(hab);
-					listaHabilidades.updateUI();
+//					listaHabilidades.updateUI();
 					spDestreza.setValue(0);
 					textArea.setText("");
 				}else {
