@@ -133,7 +133,8 @@ public class PnlHabilidad extends JPanel{
 		pnlLista.setLayout(null);
 		
 		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<>();
+		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+		listaHabilidades.setModel(modeloLista);
 		
 		JScrollPane spLista = new JScrollPane(listaHabilidades);
 		spLista.setBounds(10, 103, 180, 450);
@@ -154,18 +155,32 @@ public class PnlHabilidad extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				TreePath path = tree.getSelectionPath();
-				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
-				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
-				String campo = (String) fieldNode.getUserObject();
-				String nombre = (String) selectedNode.getUserObject();
-				int destreza = (int) spDestreza.getValue();
-				String descripcion = textArea.getText();
-				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
-				modeloLista.addElement(hab);
-				listaHabilidades.updateUI();
-				spDestreza.setValue(0);
-				textArea.setText("");
-				
+				try {
+					DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
+					DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
+					String campo = (String) fieldNode.getUserObject();
+					String nombre = (String) selectedNode.getUserObject();
+					int destreza = (int) spDestreza.getValue();
+					String descripcion = textArea.getText();
+					Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
+					//Aqui el if da todo el rato false, arreglatelas
+					if(!modeloLista.contains(hab.getNombre())){
+						modeloLista.addElement(hab);
+						listaHabilidades.updateUI();
+						spDestreza.setValue(0);
+						textArea.setText("");
+						}
+				} catch (Exception e2) {
+					int seleccion = JOptionPane.showOptionDialog(
+							null, 
+							"No se ha seleccionado ninguna habilidad", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+				}
 				
 			}
 			

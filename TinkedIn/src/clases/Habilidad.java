@@ -39,8 +39,7 @@ public class Habilidad {
 	}
 	@Override
 	public String toString() {
-		return "Habilidad [campo=" + campo + ", nombre=" + nombre + ", destreza=" + destreza + ", descripcion="
-				+ descripcion + "]";
+		return nombre;
 	}
 	
 	
