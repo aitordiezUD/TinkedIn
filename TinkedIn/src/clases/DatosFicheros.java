@@ -25,6 +25,13 @@ public class DatosFicheros implements ManejoDatos{
 		
 		
 	}
+
+
+	@Override
+	public void fin() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

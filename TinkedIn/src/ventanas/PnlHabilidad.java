@@ -104,9 +104,9 @@ public class PnlHabilidad extends JPanel{
 		pnlDatosHabi.add(lblDescripcion);
 		
 		
-		JButton btnAnyadirHab = new JButton("Añadir");
-		btnAnyadirHab.setBounds(185, 319, 113, 38);
-		pnlDatosHabi.add(btnAnyadirHab);
+		JButton btnAnyadirLista = new JButton("Añadir");
+		btnAnyadirLista.setBounds(185, 319, 113, 38);
+		pnlDatosHabi.add(btnAnyadirLista);
 		
 		JLabel lblHabilidad = new JLabel("");
 		lblHabilidad.setHorizontalAlignment(SwingConstants.CENTER);
@@ -133,10 +133,11 @@ public class PnlHabilidad extends JPanel{
 		pnlLista.setLayout(null);
 		
 		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
+		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<>();
 		
 		JScrollPane spLista = new JScrollPane(listaHabilidades);
 		spLista.setBounds(10, 103, 180, 450);
-		//pnlLista.add(spLista);
+		pnlLista.add(spLista);
 		
 		
 		
@@ -145,7 +146,30 @@ public class PnlHabilidad extends JPanel{
 		this.crearArbol(areasDeTrabajo);
 		
 		
+		//Crear el listener para añadir habilidades a la JList
 		
+		btnAnyadirLista.addActionListener( new ActionListener() {
+
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TreePath path = tree.getSelectionPath();
+				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
+				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
+				String campo = (String) fieldNode.getUserObject();
+				String nombre = (String) selectedNode.getUserObject();
+				int destreza = (int) spDestreza.getValue();
+				String descripcion = textArea.getText();
+				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
+				modeloLista.addElement(hab);
+				listaHabilidades.updateUI();
+				spDestreza.setValue(0);
+				textArea.setText("");
+				
+				
+			}
+			
+		});
 		
 		
 		//Crear el listener del arbol
@@ -186,7 +210,7 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 		
 
 		
-		//Crear el listener del boton de añadir
+		//Crear el listener del boton de añadir habilidades al JTree
 		
 	btnAñadirHab.addActionListener( new ActionListener() {
 
@@ -836,4 +860,6 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
         this.areasDeTrabajo=areasDeTrabajo;
         
 	}
+	
+	
 }
