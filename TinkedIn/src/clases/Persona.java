@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 public class Persona extends Usuario {
 	
 	//Atributos: 
-	private int idPersona;
+	
 	private int edad;
 	private String correoElectronico;
 	private int nTelefeno;
@@ -23,14 +23,7 @@ public class Persona extends Usuario {
 
 	//Getters and setters:
 	
-	public int getIdPersona() {
-		return idPersona;
-	}
 	
-	public void setIdPersona(int idPersona) {
-		this.idPersona = idPersona;
-	}
-
 	public int getEdad() {
 		return edad;
 	}
@@ -71,12 +64,11 @@ public class Persona extends Usuario {
 
 	//Constructores: 
 	
-	public Persona(String nombre, String apellidos,String ubicacion, ImageIcon fotoDePerfil, int idPersona, int edad,
+	public Persona(String nombre, String apellidos,String ubicacion, ImageIcon fotoDePerfil, int edad,
 			String correoElectronico, int nTelefeno, ArrayList<Habilidad> curriculum) {
 		super(fotoDePerfil);
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.idPersona = idPersona;
 		this.edad = edad;
 		this.correoElectronico = correoElectronico;
 		this.nTelefeno = nTelefeno;
@@ -88,5 +80,4 @@ public class Persona extends Usuario {
 	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + nTelefeno;
 	}
 
-	
 }

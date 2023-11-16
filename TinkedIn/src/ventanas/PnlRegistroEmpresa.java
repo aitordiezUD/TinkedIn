@@ -64,8 +64,7 @@ public class PnlRegistroEmpresa extends JPanel {
         setLayout(null);
         
 //      Añadir 
-        PnlHabilidad pnlHabilidad = new PnlHabilidad();
-        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
+        
         
         lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(100, 105, 215, 14);
@@ -187,10 +186,10 @@ public class PnlRegistroEmpresa extends JPanel {
         lblProvincia.setBounds(100, 360, 215, 14);
         add(lblProvincia);
         
-        JTextArea textArea = new JTextArea();
+        JTextArea tADescripcion = new JTextArea();
         
         
-        JScrollPane spTextArea = new JScrollPane(textArea);
+        JScrollPane spTextArea = new JScrollPane(tADescripcion);
         spTextArea.setBounds(522, 125, 324, 385);
         add(spTextArea);
         
