@@ -17,8 +17,9 @@ public interface ManejoDatos {
 	
 	
 	/**
-	 * Añadir un nuevo Usuario de tipo Persona a la base de datos
-	 * @param persona
+	 * Añadir un nuevo Usuario de tipo Persona a la base de datos. Comprobaremos que los datos de usuario como 
+	 * telefono o email no esten ya asignados a otros usuarios de nuestro sistema
+	 * @param persona que queremos añadir al sistema
 	 */
 	public void anadirUsuarioPersona(Persona persona);
 	

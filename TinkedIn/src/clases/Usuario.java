@@ -38,8 +38,13 @@ public abstract class Usuario implements Serializable{
 	public long getId() {
 		return id;
 	}
+	public Tipo getTipo() {
+		return tipo;
+	}
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
 
-	
 	public ImageIcon getFotoDePerfil() {
 		return fotoDePerfil;
 	}
@@ -53,9 +58,6 @@ public abstract class Usuario implements Serializable{
 
 	
 	public Usuario(ImageIcon fotoDePerfil,String password) {
-
-		
-		
 		if (this instanceof Persona) {
 			this.tipo = Tipo.PERSONA;
 		}else {
@@ -65,6 +67,13 @@ public abstract class Usuario implements Serializable{
 		count++;
 		this.fotoDePerfil = fotoDePerfil;
 		this.password = password;
+	}
+	
+	public Usuario(Usuario u) {
+		this.fotoDePerfil = u.getFotoDePerfil();
+		this.id = u.getId();
+		this.password = u.getPassword();
+		this.tipo = u.getTipo();
 	}
 
 

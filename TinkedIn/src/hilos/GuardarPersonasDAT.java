@@ -17,7 +17,7 @@ public class GuardarPersonasDAT implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f  = new File("personas.dat");
+		File f  = new File("personas222.dat");
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		
@@ -25,9 +25,11 @@ public class GuardarPersonasDAT implements Runnable{
 		try {
 			fos = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fos);
-			ArrayList<Persona> personas = DatosFicheros.getPersonas();
-			for (Persona p : personas) {
+			for (Persona p : DatosFicheros.getPersonas()) {
+				System.out.println("Escribiendo Persona");
+				System.out.println(p);
 				oos.writeObject(p);
+				System.out.println("Persona Escrita");
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

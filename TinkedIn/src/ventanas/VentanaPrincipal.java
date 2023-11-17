@@ -50,7 +50,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		DatosFicheros datos = new DatosFicheros();
+		datos = new DatosFicheros();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {

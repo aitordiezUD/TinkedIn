@@ -210,6 +210,7 @@ public class PnlRegistroPersona extends JPanel {
 					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 20, tfCorreo.getText(), tfTelefono.getText(),
 							habilidades,new ImageIcon("fotoPerfilEjemplo.jpg"), contrasena1);
+					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
 				} else {
 					JOptionPane.showOptionDialog(
 							null, 

@@ -24,10 +24,10 @@ public class CargarEmpresasDAT implements Runnable {
 			Object o = ois.readObject();
 			
 			while ( o != null ) {
-			Empresa e = ( Empresa ) o;
-			empresas.add( e );
-		}
-			
+				Empresa e = ( Empresa ) o;
+				empresas.add( e );
+				o = ois.readObject();
+			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

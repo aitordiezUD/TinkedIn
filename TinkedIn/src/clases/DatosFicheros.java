@@ -8,15 +8,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
+import hilos.CargarPersonasDAT;
+import hilos.GuardarEmpresasDAT;
+import hilos.GuardarPersonasDAT;
+
 public class DatosFicheros implements ManejoDatos{
 	
-	private static ArrayList<Usuario> usuarios;
-	private static ArrayList<Persona> personas;
-	private static ArrayList<Empresa> empresas;
-	private static HashMap<Integer, Usuario> mapaIdUsuario;
-	private static HashMap<String, Usuario> mapaEmailUsuario;
-	private static HashMap<String, Usuario> mapaTlfnoUsuario;
-	private static Properties properties;
+	protected static ArrayList<Usuario> usuarios;
+	protected static ArrayList<Persona> personas;
+	protected static ArrayList<Empresa> empresas;
+	protected static HashMap<Integer, Usuario> mapaIdUsuario;
+	protected static HashMap<String, Usuario> mapaEmailUsuario;
+	protected static HashMap<String, Usuario> mapaTlfnoUsuario;
+	protected static Properties properties;
 	
 	public static ArrayList<Usuario> getUsuarios() {
 		return usuarios;
@@ -109,7 +115,8 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
-		
+//		Runnable r = new CargarPersonasDAT(DatosFicheros.this);
+//		(new Thread(r)).start();
 		
 	}
 
@@ -124,11 +131,30 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void anadirUsuarioPersona(Persona persona) {
 		// TODO Auto-generated method stub
-		usuarios.add(persona);
-		personas.add(persona);
-		mapaIdUsuario.put(Integer.parseInt(persona.getId()+""), persona);
-		mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
-		mapaTlfnoUsuario.put(persona.getTelefeno(), persona);
+		String correo = persona.getCorreoElectronico();
+		String telefono = persona.getTelefono();
+		
+		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
+			JOptionPane.showOptionDialog(
+					null, 
+					"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
+					"Error", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					new Object[] {"Aceptar"}, 
+					"Aceptar");	
+		}else {			
+			usuarios.add(persona);
+			personas.add(persona);
+			mapaIdUsuario.put(Integer.parseInt(persona.getId()+""), persona);
+			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
+			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
+			Runnable r = new GuardarPersonasDAT();
+			(new Thread(r)).start();
+		}
+		
+		
 	}
 	
 	

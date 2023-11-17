@@ -14,7 +14,7 @@ public class Persona extends Usuario implements Serializable{
 	
 	private int edad;
 	private String correoElectronico;
-	private String telefeno;
+	private String telefono;
 	private String ubicacion;
 	private String nombre;
 	private String apellidos;
@@ -35,7 +35,25 @@ public class Persona extends Usuario implements Serializable{
 	public ArrayList<Habilidad> getCurriculum() {
 		return curriculum;
 	}
-
+	
+	public String getUbicacion() {
+		return ubicacion;
+	}
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getApellidos() {
+		return apellidos;
+	}
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
 	public void setCurriculum(ArrayList<Habilidad> curriculum) {
 		this.curriculum = curriculum;
 	}
@@ -55,12 +73,12 @@ public class Persona extends Usuario implements Serializable{
 		this.correoElectronico = correoElectronico;
 	}
 	
-	public String getTelefeno() {
-		return telefeno;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setTelefeno(String telefeno) {
-		this.telefeno = telefeno;
+	public void setTelefono(String telefeno) {
+		this.telefono = telefeno;
 	}
 
 	//Constructores: 
@@ -72,13 +90,23 @@ public class Persona extends Usuario implements Serializable{
 		this.apellidos = apellidos;
 		this.edad = edad;
 		this.correoElectronico = correoElectronico;
-		this.telefeno = telefeno;
+		this.telefono = telefeno;
 		this.curriculum = curriculum;
 	}
-
+	
+	public Persona(Persona p) {
+		super(p);
+		this.nombre = p.getNombre();
+		this.apellidos = p.getApellidos();
+		this.edad = p.getEdad();
+		this.correoElectronico = p.getCorreoElectronico();
+		this.telefono = p.getTelefono();
+		this.curriculum = p.getCurriculum();
+	}
+	
 	@Override
 	public String toString() {		
-	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + telefeno;
+	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + telefono;
 	}
 
 }

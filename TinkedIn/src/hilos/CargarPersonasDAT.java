@@ -16,26 +16,38 @@ import clases.Persona;
 
 public class CargarPersonasDAT implements Runnable{
 
+	DatosFicheros datos;
+	
+	public CargarPersonasDAT(DatosFicheros datos) {
+		this.datos=datos;
+	}
+	
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f = new File("personas.csv");
+		File f = new File("personas.dat");
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
+			System.out.println("Dentro try");
 			fis = new FileInputStream(f);
+			System.out.println("fis creado");
 			ois =  new ObjectInputStream(fis);
-			ArrayList<Persona> personas = DatosFicheros.getPersonas();
+			System.out.println("ois creado");
+			System.out.println("Leyendo o");
 			Object o = ois.readObject();
-			
+			System.out.println("O leido");
 			while ( o != null ) {
-			Persona p = ( Persona ) o;
-			personas.add( p );
-		}
-			
-			
+				System.out.println("Dentro while");
+				Persona p = ( Persona ) o;
+				System.out.println(p);
+				o = ois.readObject();
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+//			System.err.println("Error la lectura del fichero personas.dat");
 		}
 		
 	}
