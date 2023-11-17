@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import clases.DatosFicheros;
 import clases.Persona;
 
-public class GuardarUsuariosDAT implements Runnable{
+public class GuardarPersonasDAT implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f  = new File("personas.csv");
+		File f  = new File("personas.dat");
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		

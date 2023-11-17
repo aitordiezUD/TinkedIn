@@ -60,14 +60,11 @@ public class PnlRegistroPersona extends JPanel {
 	private JTextField tfTelefono;
 	private JLabel lblDatosPersonales;
 	private JLabel lblCurriculum;
-//<<<<<<< HEAD
 	private CardLayout layoutVentana;
 	private JPanel pnlContenido;
 	private JList<Habilidad> listaHabilidades;
-//=======
 	private DefaultListModel modeloLista;
 	
-//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
 
 	
 	
@@ -209,8 +206,6 @@ public class PnlRegistroPersona extends JPanel {
 		        String contrasena2 = new String(passwordChars2);
 		        
 				if (contrasena1.equals(contrasena2)) {
-					System.out.println(pfContrasena.getPassword());
-					System.out.println(pfRepetirContrasena.getPassword());
 					ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
 					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 20, tfCorreo.getText(), tfTelefono.getText(),

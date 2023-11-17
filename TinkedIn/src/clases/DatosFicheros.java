@@ -11,6 +11,13 @@ import java.util.Properties;
 public class DatosFicheros implements ManejoDatos{
 	
 	private static ArrayList<Usuario> usuarios;
+	private static ArrayList<Persona> personas;
+	private static ArrayList<Empresa> empresas;
+	private static HashMap<Integer, Usuario> mapaIdUsuario;
+	private static HashMap<String, Usuario> mapaEmailUsuario;
+	private static HashMap<String, Usuario> mapaTlfnoUsuario;
+	private static Properties properties;
+	
 	public static ArrayList<Usuario> getUsuarios() {
 		return usuarios;
 	}
@@ -71,12 +78,7 @@ public class DatosFicheros implements ManejoDatos{
 	}
 
 
-	private static ArrayList<Persona> personas;
-	private static ArrayList<Empresa> empresas;
-	private static HashMap<Integer, Usuario> mapaIdUsuario;
-	private static HashMap<String, Usuario> mapaEmailUsuario;
-	private static HashMap<String, Usuario> mapaTlfnoUsuario;
-	private static Properties properties;
+	
 	
 	
 	
