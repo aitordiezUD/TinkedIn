@@ -30,7 +30,8 @@ public class CargarEmpresasDAT implements Runnable {
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			System.err.println( "Error en la lectura del archivo empresas.dat" );
 		}
 		
 	}

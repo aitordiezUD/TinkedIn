@@ -157,7 +157,32 @@ public class DatosFicheros implements ManejoDatos{
 		
 	}
 	
-	
+	public void anadirUsuarioEmpresa( Empresa empresa ) {
+		//TODO Auto-generated method stub
+		String correo = empresa.getCorreoElectronico();
+		String telefono = empresa.getTelefono();
+		
+		if(mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)){
+			JOptionPane.showOptionDialog(null, 
+					"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
+					"Error", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					new Object[] {"Aceptar"}, 
+					"Aceptar");
+		}else {
+			usuarios.add(empresa);
+			empresas.add(empresa);
+			mapaIdUsuario.put(Integer.parseInt(empresa.getId()+""), empresa);
+			mapaEmailUsuario.put(empresa.getCorreoElectronico(), empresa);
+			mapaTlfnoUsuario.put(empresa.getTelefono(), empresa);
+			Runnable r = new GuardarEmpresasDAT();
+			(new Thread(r)).start();
+		}
+		
+		
+	}
 	
 	
 	

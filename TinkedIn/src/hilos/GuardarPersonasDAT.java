@@ -33,6 +33,7 @@ public class GuardarPersonasDAT implements Runnable{
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
+			//System.err.println("Error en la lectura del fichero personas222.dat");
 		}
 	}
 

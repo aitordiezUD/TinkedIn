@@ -24,11 +24,15 @@ public class GuardarEmpresasDAT implements Runnable {
 			oos = new ObjectOutputStream(fos);
 			ArrayList<Empresa> empresas = DatosFicheros.getEmpresas();
 			for ( Empresa e : empresas) {
+				System.out.println( "Escribiendo empresa" );
+				System.out.println(e);
 				oos.writeObject(e);
+				System.out.println( "Persona empresa" );
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.err.println( "Error al leer el archivo empresas.dat" );
 	}
 	
 }

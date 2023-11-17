@@ -2,6 +2,7 @@ package ventanas;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
@@ -14,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -24,8 +26,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import clases.Habilidad;
+import clases.Persona;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.ComponentOrientation;
 
@@ -185,9 +189,41 @@ public class PnlRegistroEmpresa extends JPanel {
         btnCancelar.setBounds(460, 576, 90, 23);
         add(btnCancelar);
         
-        JButton btnAceptar = new JButton("Aceptar");
-        btnAceptar.setBounds(350, 576, 90, 23);
-        add(btnAceptar);
+        JButton btnRegistrarse = new JButton("Registrarse");
+        btnRegistrarse.setBounds(350, 576, 90, 23);
+        add(btnRegistrarse);
+        
+        btnRegistrarse.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				char[] passwordChars1 = pfContrasena.getPassword();
+		        char[] passwordChars2 = pfRepetirContrasena.getPassword();
+
+		        String contrasena1 = new String(passwordChars1);
+		        String contrasena2 = new String(passwordChars2);
+		        
+				if (contrasena1.equals(contrasena2)) {
+					/**TODO:
+					 * Hay que crear los puestos de trabajo
+					 * Diseñar la gui para que las empresas los creen
+					 * Crear un objeto empresa y añadir a los datos
+					 * **/
+				} else {
+					JOptionPane.showOptionDialog(
+							null, 
+							"Las dos contraseñas no coinciden.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");	
+				}				
+			}
+        	
+        });
         
         JLabel lblProvincia = new JLabel("Provincia:");
         lblProvincia.setBounds(100, 360, 215, 14);
