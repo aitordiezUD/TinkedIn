@@ -236,6 +236,6 @@ public class PnlEditarPerfil  extends JPanel {
 		frame.setSize(900, 650);
 		frame.getContentPane().add(new PnlEditarPerfil());
 		frame.setVisible(true);
-		//Esto es una prueba
+		
 	}
 }
