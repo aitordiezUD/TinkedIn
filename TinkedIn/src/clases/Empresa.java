@@ -15,8 +15,80 @@ public class Empresa extends Usuario implements Serializable{
 	private ArrayList<String> ubicaciones;
 	private ArrayList<PuestoTrabajo> puestos;
 
-
 	
+	
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+
+
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
+
+
+
+	public void setCorreoElectronico(String correoElectronico) {
+		this.correoElectronico = correoElectronico;
+	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+
+	public ArrayList<String> getUbicaciones() {
+		return ubicaciones;
+	}
+
+
+
+	public void setUbicaciones(ArrayList<String> ubicaciones) {
+		this.ubicaciones = ubicaciones;
+	}
+
+
+
+	public ArrayList<PuestoTrabajo> getPuestos() {
+		return puestos;
+	}
+
+
+
+	public void setPuestos(ArrayList<PuestoTrabajo> puestos) {
+		this.puestos = puestos;
+	}
+
+
 
 	//Constructores:
 	public Empresa(String nombre, String telefono, String correo, String descripcion,

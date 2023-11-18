@@ -1,366 +1,95 @@
 package ventanas;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.awt.Dimension;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
-import clases.Habilidad;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.TreeMap;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.FlowLayout;
 
-public class PnlHabilidad extends JPanel{
+public class pnlPuestoDeTrabajo extends JPanel {
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
 	
-	
-	private JTree tree;
-	private DefaultTreeModel treeModel;
-	private JPanel pnlArbol;
+	private JTree arbolHabilidades;
+	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
+	private JPanel panelArbol;
 	
-	
-	/**
-	 * 
-	 */
-	public PnlHabilidad(JPanel pnlContenido, CardLayout layoutVentana,DefaultListModel<Habilidad> modeloLista) {
-//		setSize(750,650);
-		setPreferredSize(new Dimension(750, 650));
-		setBackground(Color.WHITE);
+	private JTextField tfNombrePT;
+	public pnlPuestoDeTrabajo() {
+		setBackground(new Color(255, 255, 255));
 		
-		
-//		Crear el mapa para despues generar el arbol:
-		this.crearMapaAreas();
-		setLayout(new BorderLayout(0, 0));
-		
-		
-		
-		// Crear el panel del arbol
-		
-		pnlArbol = new JPanel();
-		pnlArbol.setBackground(new Color(202, 232, 232));
-		pnlArbol.setPreferredSize(new Dimension(200,650));
-		add(pnlArbol, BorderLayout.WEST);
-		pnlArbol.setLayout(null);
-		
-		// Crear el boton de añadir
-		
-		JButton btnAñadirHab = new JButton("Añadir");
-		btnAñadirHab.setBounds(10, 541, 180, 35);
-		pnlArbol.add(btnAñadirHab);
-	
-		
-		
-		// Crear el panel de las habilidades para su diseño
-		
-		JPanel PnlHabi = new JPanel();
-		PnlHabi.setBackground(Color.WHITE);
-		add(PnlHabi);
-		PnlHabi.setLayout(new BorderLayout(0, 0));
-		
-		JPanel pnlHabiSup = new JPanel();
-		pnlHabiSup.setPreferredSize(new Dimension(10, 150));
-		PnlHabi.add(pnlHabiSup, BorderLayout.NORTH);
-		pnlHabiSup.setLayout(new BorderLayout(0, 0));
-		
-		JPanel pnlHabiSupHab = new JPanel();
-		pnlHabiSupHab.setBackground(new Color(255, 255, 255));
-		pnlHabiSupHab.setPreferredSize(new Dimension(10, 80));
-		pnlHabiSup.add(pnlHabiSupHab, BorderLayout.NORTH);
-		
-		JLabel lblArea = new JLabel("Habilidad");
-		lblArea.setPreferredSize(new Dimension(600, 100));
-		lblArea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblArea.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
-		pnlHabiSupHab.add(lblArea);
-		
-		JPanel pnlHabiSupLbl = new JPanel();
-		pnlHabiSupLbl.setBackground(new Color(255, 255, 255));
-		pnlHabiSupLbl.setPreferredSize(new Dimension(10, 70));
-		pnlHabiSup.add(pnlHabiSupLbl, BorderLayout.SOUTH);
-		
-		JLabel lblHabilidad = new JLabel("");
-		lblHabilidad.setVerticalAlignment(SwingConstants.TOP);
-		lblHabilidad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHabilidad.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		pnlHabiSupLbl.add(lblHabilidad);
-		
-		JPanel pnlDatosHabi = new JPanel();
-		pnlDatosHabi.setBackground(Color.WHITE);
-		PnlHabi.add(pnlDatosHabi);
-		
-		//Crear el spinner
-		
-		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 5, 1);
-		pnlDatosHabi.setLayout(new BorderLayout(0, 0));
-		
-		JPanel pnlDestreza = new JPanel();
-		pnlDestreza.setBackground(new Color(255, 255, 255));
-		pnlDestreza.setPreferredSize(new Dimension(10, 40));
-		pnlDatosHabi.add(pnlDestreza, BorderLayout.NORTH);
-		
-		JLabel lblAñosExp = new JLabel("Nivel de Destreza:");
-		lblAñosExp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		pnlDestreza.add(lblAñosExp);
-		
-		JSpinner spDestreza = new JSpinner(spinnerModel);
-		spDestreza.setMinimumSize(new Dimension(60, 20));
-		pnlDestreza.add(spDestreza);
-		
-		JPanel pnlDatosHabiBtns = new JPanel();
-		pnlDatosHabiBtns.setBackground(new Color(255, 255, 255));
-		pnlDatosHabiBtns.setPreferredSize(new Dimension(10, 40));
-		pnlDatosHabi.add(pnlDatosHabiBtns, BorderLayout.SOUTH);
-		
-		JButton btnAnyadirLista = new JButton("Añadir");
-		pnlDatosHabiBtns.add(btnAnyadirLista);
-		
-		JPanel pnlDesc = new JPanel();
-		pnlDatosHabi.add(pnlDesc, BorderLayout.CENTER);
-		pnlDesc.setLayout(new BorderLayout(0, 0));
-		
-		JPanel pnlDescDer = new JPanel();
-		pnlDesc.add(pnlDescDer, BorderLayout.CENTER);
-		pnlDescDer.setLayout(new BorderLayout(0, 0));
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		textArea.setBackground(Color.WHITE);
-		pnlDescDer.add(textArea);
-		
-		JPanel pnlDerMargen = new JPanel();
-		pnlDerMargen.setBackground(new Color(255, 255, 255));
-		pnlDescDer.add(pnlDerMargen, BorderLayout.EAST);
-		
-		JPanel pnlDescIzq = new JPanel();
-		pnlDescIzq.setBackground(new Color(255, 255, 255));
-		pnlDescIzq.setMaximumSize(new Dimension(100, 32767));
-		pnlDescIzq.setPreferredSize(new Dimension(100, 80));
-		pnlDesc.add(pnlDescIzq, BorderLayout.WEST);
-		pnlDescIzq.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblDescripcion = new JLabel("Descripcion:");
-		lblDescripcion.setBackground(new Color(255, 255, 255));
-		lblDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		pnlDescIzq.add(lblDescripcion);
-		
-		JPanel pnlBotonera = new JPanel();
-		pnlBotonera.setBackground(new Color(255, 255, 255));
-		pnlBotonera.setPreferredSize(new Dimension(10, 40));
-		PnlHabi.add(pnlBotonera, BorderLayout.SOUTH);
-		
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				layoutVentana.show(pnlContenido, "pnlRegistroPersona");
-			}
-		});
-		pnlBotonera.add(btnAceptar);
+		setPreferredSize( new Dimension(750, 650) );
+		setLayout(null);
 		
 		JPanel pnlLista = new JPanel();
-		pnlLista.setBackground(Color.WHITE);
-		pnlLista.setPreferredSize(new Dimension(200, 650));
-		add(pnlLista, BorderLayout.EAST);
-		
-		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-//		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+		pnlLista.setBounds(566, 87, 174, 476);
+		add(pnlLista);
 		pnlLista.setLayout(new BorderLayout(0, 0));
-		listaHabilidades.setModel(modeloLista);
 		
-		JScrollPane spLista = new JScrollPane(listaHabilidades);
+		JScrollPane spLista = new JScrollPane();
+		pnlLista.add(spLista);
 		
-		JPanel pnlListaMargSup = new JPanel();
-		pnlListaMargSup.setBackground(new Color(255, 255, 255));
-		pnlListaMargSup.setPreferredSize(new Dimension(10, 50));
-		pnlLista.add(pnlListaMargSup, BorderLayout.NORTH);
+		JList listaHabReq = new JList();
+		spLista.setViewportView(listaHabReq);
 		
-		JPanel pnlMargInf = new JPanel();
-		pnlMargInf.setBackground(new Color(255, 255, 255));
-		pnlMargInf.setPreferredSize(new Dimension(10, 50));
-		pnlLista.add(pnlMargInf, BorderLayout.SOUTH);
+		JLabel lblTitulo = new JLabel("PUESTO DE TRABAJO\r\n");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setBounds(-16, 43, 400, 92);
+		add(lblTitulo);
 		
-		JPanel pnlMargIzq = new JPanel();
-		pnlMargIzq.setBackground(new Color(255, 255, 255));
-		pnlLista.add(pnlMargIzq, BorderLayout.WEST);
+		JPanel pnlDatos = new JPanel();
+		pnlDatos.setBackground(new Color(202, 232, 232));
+		pnlDatos.setBounds(21, 146, 336, 331);
+		add(pnlDatos);
+		pnlDatos.setLayout(null);
 		
-		JPanel pnlMargDer = new JPanel();
-		pnlMargDer.setBackground(new Color(255, 255, 255));
-		pnlLista.add(pnlMargDer, BorderLayout.EAST);
+		JLabel lblNombrePT = new JLabel("Nombre del puesto:");
+		lblNombrePT.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombrePT.setBounds(10, 24, 112, 29);
+		pnlDatos.add(lblNombrePT);
 		
-		JPanel pnlCentral = new JPanel();
-		pnlCentral.setLayout(new BorderLayout(0, 0));
-		pnlCentral.add(spLista);
-		pnlLista.add(pnlCentral);
+		tfNombrePT = new JTextField();
+		tfNombrePT.setBounds(132, 28, 86, 20);
+		pnlDatos.add(tfNombrePT);
+		tfNombrePT.setColumns(10);
 		
-		JPanel pnlListaHabilidadLbl = new JPanel();
-		pnlListaHabilidadLbl.setBackground(new Color(255, 255, 255));
-		pnlListaHabilidadLbl.setPreferredSize(new Dimension(10, 40));
-		pnlCentral.add(pnlListaHabilidadLbl, BorderLayout.NORTH);
-		pnlListaHabilidadLbl.setLayout(new BorderLayout(0, 0));
+		JLabel lblDescripcionPT = new JLabel("Descripción del puesto:");
+		lblDescripcionPT.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescripcionPT.setBounds(5, 110, 132, 29);
+		pnlDatos.add(lblDescripcionPT);
 		
-		JLabel lblHabilidadesAnadidas = new JLabel("Habilidades añadidas:");
-		lblHabilidadesAnadidas.setBackground(new Color(255, 255, 255));
-		lblHabilidadesAnadidas.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblHabilidadesAnadidas.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblHabilidadesAnadidas.setHorizontalAlignment(SwingConstants.CENTER);
-		pnlListaHabilidadLbl.add(lblHabilidadesAnadidas);
+		JTextArea taDescripcion = new JTextArea();
+		taDescripcion.setBounds(132, 75, 173, 201);
+		pnlDatos.add(taDescripcion);
 		
-		JPanel pnlListaBtnEliminar = new JPanel();
-		pnlListaBtnEliminar.setPreferredSize(new Dimension(10, 25));
-		pnlCentral.add(pnlListaBtnEliminar, BorderLayout.SOUTH);
-		pnlListaBtnEliminar.setLayout(new BorderLayout(0, 0));
-		
-		JButton btnListaEliminar = new JButton("Eliminar");
-		pnlListaBtnEliminar.add(btnListaEliminar, BorderLayout.NORTH);
-		
-		
-		
-		// Crear el arbol
+		panelArbol = new JPanel();
+		panelArbol.setBounds(367, 85, 174, 478);
+		add(panelArbol);
+		panelArbol.setLayout(new BorderLayout(0, 0));
 		
 		this.crearArbol(areasDeTrabajo);
 		
+		JButton btnAñadir = new JButton("Añadir");
+		panelArbol.add(btnAñadir, BorderLayout.SOUTH);
 		
-		// Añadir el action listener al boton de Añadir al JList
-		btnAnyadirLista.addActionListener( new ActionListener() {
-
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TreePath path = tree.getSelectionPath();
-				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
-				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
-				String campo = (String) fieldNode.getUserObject();
-				String nombre = (String) selectedNode.getUserObject();
-				int destreza = (int) spDestreza.getValue();
-				String descripcion = textArea.getText();
-				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
-				//Aqui el if da todo el rato false, arreglatelas
-				if(!modeloLista.contains(hab)){
-					modeloLista.addElement(hab);
-//					listaHabilidades.updateUI();
-					spDestreza.setValue(0);
-					textArea.setText("");
-				}else {
-					JOptionPane.showOptionDialog(
-							null, 
-							"La habilidad seleccionada ya está añadida", 
-							"Error", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.INFORMATION_MESSAGE,
-							null,
-							new Object[] {"Aceptar"}, 
-							"Aceptar");	
-				}
-
-
-			}
-
-		});
-		
-		
-		
-		
-		//Crear el listener del arbol
-		
-tree.addTreeSelectionListener( new TreeSelectionListener() {
-			
-			@Override
-			public void valueChanged(TreeSelectionEvent e) {
-				TreePath ruta = e.getPath();
-			    if (ruta.getPathCount() == 2) { 
-			    	lblHabilidad.setText("");
-			        Object selectedNode = tree.getLastSelectedPathComponent();
-			        if (selectedNode instanceof DefaultMutableTreeNode) {
-			            DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
-			            Object area = node.getUserObject(); // Obtenemos el objeto asociado al nodo
-			            if (area != null && area instanceof String) {
-			               lblArea.setText( ( String ) area );
-			            }
-			        }
-			    }else if( ruta.getPathCount() == 3) {
-			    	Object selectedNode = tree.getLastSelectedPathComponent();
-			    	if( selectedNode instanceof DefaultMutableTreeNode ) {
-			    		DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) selectedNode;
-			    		DefaultMutableTreeNode padre = (DefaultMutableTreeNode) node.getParent();
-			    		if((String) padre.getUserObject() != lblArea.getText()) {
-			    			lblHabilidad.setText("");
-			    		}else {
-			    		Object habilidad = node.getUserObject();
-			    		if ( habilidad != null && habilidad instanceof String ) {
-			    			lblHabilidad.setText( ( String ) habilidad );
-			    		}}
-			    	}
-			    }
-				
-			}
-			
-		});
-		
-
-		
-		//Crear el listener del boton de añadir habilidades al JTree
-		
-	btnAñadirHab.addActionListener( new ActionListener() {
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if( tree.getLastSelectedPathComponent() != null ) {
-		String habilidad = JOptionPane.showInputDialog( " Introduce la habilidad que deseas añadir a " + tree.getLastSelectedPathComponent().toString() );
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(habilidad);
-		treeModel.insertNodeInto(nodo, root ,0); //Lo añade mal por que no tiene que añadirselo al root
-		
-		}else {
-			System.out.println( "Error." );
-		}
-		
-		
-	}
-	
-} );
-		
-		
-	}
-	
-	public static void main(String[] args) {
-		JFrame vent = new JFrame();
-//		vent.getContentPane().add(new PnlHabilidad());
-		vent.setSize( 900,650 );
-		vent.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		
-		vent.setVisible(true);
 	}
 	
 	public void crearArbol(TreeMap<String,ArrayList<String>> areasDeTrabajo) {
 		root = new DefaultMutableTreeNode( "Habilidades" );
 		JScrollPane spTree = new JScrollPane( );
 		spTree.setBounds(10, 35, 180, 495);
-		pnlArbol.add( spTree );
-		tree = new JTree();
-		treeModel = new DefaultTreeModel(root);
-		tree.setModel(treeModel);
+		panelArbol.add( spTree );
+		arbolHabilidades = new JTree();
+		modeloArbol = new DefaultTreeModel(root);
+		arbolHabilidades.setModel(modeloArbol);
 		this.anyadirHabilidades();
-		spTree.setViewportView(tree);
+		spTree.setViewportView(arbolHabilidades);
 	}
 	
 	private void anyadirHabilidades() {
@@ -376,20 +105,11 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 		}
 	}
 	
-	
 	private DefaultMutableTreeNode crearNodo( Object dato, DefaultMutableTreeNode nodoPadre, int posi ) {
 		DefaultMutableTreeNode nodo1 = new DefaultMutableTreeNode( dato );
-		treeModel.insertNodeInto( nodo1, nodoPadre, posi );
+		modeloArbol.insertNodeInto( nodo1, nodoPadre, posi );
 		return nodo1;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void crearMapaAreas() {
 		// Crear un diccionario de áreas de trabajo con subáreas

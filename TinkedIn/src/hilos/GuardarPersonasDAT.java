@@ -34,6 +34,7 @@ public class GuardarPersonasDAT implements Runnable{
 		}catch(Exception e) {
 			System.err.println("Error: en el guardado de personas.");
 //			e.printStackTrace();
+
 		}
 	}
 
