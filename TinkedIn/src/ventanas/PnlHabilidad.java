@@ -54,7 +54,7 @@ public class PnlHabilidad extends JPanel{
 		// Crear el panel del arbol
 		
 		pnlArbol = new JPanel();
-		pnlArbol.setBackground(new Color(255, 128, 0));
+		pnlArbol.setBackground(new Color(202, 232, 232));
 		pnlArbol.setPreferredSize(new Dimension(200,650));
 		add(pnlArbol, BorderLayout.WEST);
 		pnlArbol.setLayout(null);
