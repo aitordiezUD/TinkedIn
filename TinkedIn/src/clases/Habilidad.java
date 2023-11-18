@@ -1,6 +1,8 @@
 package clases;
 
-public class Habilidad {
+import java.io.Serializable;
+
+public class Habilidad implements Serializable{
 	
 	private String campo; //Informática
 	private String nombre; //Machine Learning

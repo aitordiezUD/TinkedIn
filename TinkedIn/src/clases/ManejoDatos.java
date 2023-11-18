@@ -1,5 +1,7 @@
 package clases;
 
+import ventanas.PnlRegistroPersona;
+
 public interface ManejoDatos {
 	
 

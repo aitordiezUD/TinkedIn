@@ -26,28 +26,22 @@ public class CargarPersonasDAT implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f = new File("personas.dat");
+		File f = new File("personas222.dat");
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
-			System.out.println("Dentro try");
 			fis = new FileInputStream(f);
-			System.out.println("fis creado");
 			ois =  new ObjectInputStream(fis);
-			System.out.println("ois creado");
-			System.out.println("Leyendo o");
 			Object o = ois.readObject();
-			System.out.println("O leido");
 			while ( o != null ) {
-				System.out.println("Dentro while");
 				Persona p = ( Persona ) o;
-				System.out.println(p);
+				datos.anadirUsuarioPersona(p);
 				o = ois.readObject();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
-//			System.err.println("Error la lectura del fichero personas.dat");
+//			e.printStackTrace();
+			System.err.println("Error la lectura del fichero personas.dat");
 		}
 		
 	}

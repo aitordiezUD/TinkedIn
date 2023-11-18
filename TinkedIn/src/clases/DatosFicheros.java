@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
 import hilos.GuardarPersonasDAT;
+import ventanas.PnlRegistroPersona;
 
 public class DatosFicheros implements ManejoDatos{
 	
@@ -115,8 +116,8 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
-//		Runnable r = new CargarPersonasDAT(DatosFicheros.this);
-//		(new Thread(r)).start();
+		Runnable r = new CargarPersonasDAT(DatosFicheros.this);
+		(new Thread(r)).start();
 		
 	}
 
@@ -135,15 +136,8 @@ public class DatosFicheros implements ManejoDatos{
 		String telefono = persona.getTelefono();
 		
 		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
-			JOptionPane.showOptionDialog(
-					null, 
-					"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
-					"Error", 
-					JOptionPane.DEFAULT_OPTION, 
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					new Object[] {"Aceptar"}, 
-					"Aceptar");	
+			//Lanzar aviso
+			PnlRegistroPersona.lanzarAviso();
 		}else {			
 			usuarios.add(persona);
 			personas.add(persona);

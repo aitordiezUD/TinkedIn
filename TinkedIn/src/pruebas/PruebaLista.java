@@ -24,6 +24,7 @@ public class PruebaLista extends JFrame{
 	
 		public PruebaLista() {
 			setSize(200,500);
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			DefaultListModel<String> modeloLista = new DefaultListModel<String>();
 			JList<String> lista = new JList<String>(modeloLista);
 			

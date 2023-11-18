@@ -64,11 +64,9 @@ public class PnlRegistroPersona extends JPanel {
 	private JPanel pnlContenido;
 	private JList<Habilidad> listaHabilidades;
 	private DefaultListModel modeloLista;
-	
 
-	
-	
-    public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
+
+	public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 650);
         setLayout(null);
@@ -264,6 +262,16 @@ public class PnlRegistroPersona extends JPanel {
     	return arr;
     }
     
-
+    public static void lanzarAviso() {
+    		JOptionPane.showOptionDialog(
+    				null, 
+    				"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
+    				"Error", 
+    				JOptionPane.DEFAULT_OPTION, 
+    				JOptionPane.INFORMATION_MESSAGE,
+    				null,
+    				new Object[] {"Aceptar"}, 
+    				"Aceptar");    	
+    };
 }
 

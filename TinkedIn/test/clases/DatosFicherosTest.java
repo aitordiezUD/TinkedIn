@@ -10,12 +10,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ventanas.PnlRegistroPersona;
+
 public class DatosFicherosTest {
 	
 	Persona p1;
 	Persona p2;
 	Persona p3;
 	DatosFicheros datos;
+	PnlRegistroPersona pnlRegistroPersona;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -50,9 +53,12 @@ public class DatosFicherosTest {
 //	@Test
 //	public void pruebaInicializacion() {
 //		datos = new DatosFicheros();
+//		try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+//		System.out.println(datos.getPersonas());
+//		
 //		assertEquals(1, DatosFicheros.personas.size());
 //	}
-	
+//	
 //	Probamos que los mapas se actualizen correctamente
 	@Test
 	public void anadirUsuarios() {
@@ -61,8 +67,6 @@ public class DatosFicherosTest {
 		assertEquals(1, DatosFicheros.mapaEmailUsuario.size());
 		assertEquals(1, DatosFicheros.mapaTlfnoUsuario.size());
 	}
-	
-	
 	
 //	Comparaciones de correo
 //	@Test
