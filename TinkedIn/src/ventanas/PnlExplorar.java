@@ -56,21 +56,33 @@ public class PnlExplorar extends JPanel {
 	        g2d.dispose();
 	        
 	        JPanel pnlDatos = new JPanel();
-	        pnlDatos.setBounds(29, 11, 656, 196);
+	        pnlDatos.setBounds(442, 46, 297, 143);
 	        add(pnlDatos);
 	        pnlDatos.setLayout(null);
 	        
 			//Crea in JLabel y asigna la imagen
 	        JLabel lblFotoUsuario = new JLabel(new ImageIcon(resizedImage));
-	        lblFotoUsuario.setBounds(281, 11, 100, 100);
+	        lblFotoUsuario.setBounds(93, 0, 100, 100);
 	        pnlDatos.add(lblFotoUsuario);
 	        lblFotoUsuario.setBackground(new Color(240, 240, 240));
 	        
 	        JLabel lblNombreUsuario = new JLabel("Nombre Usuario");
-	        lblNombreUsuario.setBounds(256, 122, 142, 36);
+	        lblNombreUsuario.setBounds(82, 96, 142, 36);
 	        pnlDatos.add(lblNombreUsuario);
 	        lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	        lblNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+	        
+	        JPanel pnlLista = new JPanel();
+	        pnlLista.setBounds(10, 11, 160, 627);
+	        add(pnlLista);
+	        pnlLista.setLayout(null);
+	        
+	        JScrollPane spLista = new JScrollPane();
+	        spLista.setBounds(10, 11, 140, 605);
+	        pnlLista.add(spLista);
+	        
+	        JList listaPuestos = new JList();
+	        spLista.setViewportView(listaPuestos);
 			
 			
 	  

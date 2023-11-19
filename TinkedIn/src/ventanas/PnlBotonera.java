@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import clases.Main;
+import clases.Usuario;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -36,12 +37,12 @@ public class PnlBotonera extends JPanel {
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	private PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 	private PnlExplorar pExplorar = new PnlExplorar();
-	
+	private Usuario tipoUsuario;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PnlBotonera() {
+	public PnlBotonera( Usuario tipoUsuario ) {
 		setLayout(null);
 		
 		mapaPaneles = new HashMap<JPanel,JPanel>();

@@ -8,6 +8,11 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+
+import clases.Empresa;
+import clases.Persona;
+import clases.Usuario;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,6 +27,7 @@ public class PnlLogIn extends JPanel {
 	private PnlRegistroPersona pnlRegistroPersona;
 	private PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
+	private Usuario usuarioAutenticado;
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
 		setBackground(new Color(202, 232, 232));
@@ -64,7 +70,7 @@ public class PnlLogIn extends JPanel {
 		JButton btnIniciarSesion = new JButton("Iniciar sesión\r\n");
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PnlBotonera pnlBotones = new PnlBotonera();
+				PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
 				pnlContenido.add(pnlBotones,"pnlBotones");
 				layoutVentana.show(pnlContenido, "pnlBotones");
 				
@@ -128,4 +134,9 @@ public class PnlLogIn extends JPanel {
 		
 
 	}
+	
+	//Metodo que va a detectar si el usuario que se logea es Persona o Empresa
+	
+	
+	
 }
