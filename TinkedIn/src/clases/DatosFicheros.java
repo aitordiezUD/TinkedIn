@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -24,6 +25,8 @@ public class DatosFicheros implements ManejoDatos{
 	protected static HashMap<String, Usuario> mapaEmailUsuario;
 	protected static HashMap<String, Usuario> mapaTlfnoUsuario;
 	protected static Properties properties;
+	
+	protected static boolean test = false;
 	
 	public static ArrayList<Usuario> getUsuarios() {
 		return usuarios;
@@ -85,10 +88,9 @@ public class DatosFicheros implements ManejoDatos{
 	}
 
 
-	
-	
-	
-	
+	public static void setTest(boolean test) {
+		DatosFicheros.test = test;
+	}
 
 
 	public DatosFicheros() {
@@ -134,10 +136,12 @@ public class DatosFicheros implements ManejoDatos{
 		// TODO Auto-generated method stub
 		String correo = persona.getCorreoElectronico();
 		String telefono = persona.getTelefono();
-		
 		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
 			//Lanzar aviso
-			PnlRegistroPersona.lanzarAviso();
+			if (!test) {
+				PnlRegistroPersona.lanzarAviso();
+			}
+			
 		}else {			
 			usuarios.add(persona);
 			personas.add(persona);
@@ -157,14 +161,17 @@ public class DatosFicheros implements ManejoDatos{
 		String telefono = empresa.getTelefono();
 		
 		if(mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)){
-			JOptionPane.showOptionDialog(null, 
-					"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
-					"Error", 
-					JOptionPane.DEFAULT_OPTION, 
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					new Object[] {"Aceptar"}, 
-					"Aceptar");
+			if (!test) {
+				JOptionPane.showOptionDialog(null, 
+						"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
+						"Error", 
+						JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE,
+						null,
+						new Object[] {"Aceptar"}, 
+						"Aceptar");
+			}
+
 		}else {
 			usuarios.add(empresa);
 			empresas.add(empresa);

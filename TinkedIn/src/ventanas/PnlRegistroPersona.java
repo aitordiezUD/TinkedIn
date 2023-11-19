@@ -263,15 +263,15 @@ public class PnlRegistroPersona extends JPanel {
     }
     
     public static void lanzarAviso() {
-    		JOptionPane.showOptionDialog(
-    				null, 
-    				"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
-    				"Error", 
-    				JOptionPane.DEFAULT_OPTION, 
-    				JOptionPane.INFORMATION_MESSAGE,
-    				null,
-    				new Object[] {"Aceptar"}, 
-    				"Aceptar");    	
+		JOptionPane.showOptionDialog(
+				null, 
+				"El correo electrónico o teléfono se encuentran asociados a otro usuario.", 
+				"Error", 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				new Object[] {"Aceptar"}, 
+				"Aceptar");    	
     };
 }
 
