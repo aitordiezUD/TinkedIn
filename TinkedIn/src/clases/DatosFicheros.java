@@ -24,6 +24,7 @@ public class DatosFicheros implements ManejoDatos{
 	protected static HashMap<Integer, Usuario> mapaIdUsuario;
 	protected static HashMap<String, Usuario> mapaEmailUsuario;
 	protected static HashMap<String, Usuario> mapaTlfnoUsuario;
+	protected static HashMap<Usuario, String> mapaContraseñaUsuario;
 	protected static Properties properties;
 	
 	protected static boolean test = false;
@@ -109,6 +110,7 @@ public class DatosFicheros implements ManejoDatos{
 		mapaIdUsuario = new HashMap<Integer, Usuario>();
 		mapaEmailUsuario = new HashMap<String, Usuario>();
 		mapaTlfnoUsuario = new HashMap<String, Usuario>();
+		mapaContraseñaUsuario = new HashMap <Usuario, String>();
 		properties = new Properties();
 		
 		try{
@@ -136,6 +138,7 @@ public class DatosFicheros implements ManejoDatos{
 		// TODO Auto-generated method stub
 		String correo = persona.getCorreoElectronico();
 		String telefono = persona.getTelefono();
+		String contraseña = persona.getPassword();
 		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
 			//Lanzar aviso
 			if (!test) {
@@ -148,6 +151,7 @@ public class DatosFicheros implements ManejoDatos{
 			mapaIdUsuario.put(Integer.parseInt(persona.getId()+""), persona);
 			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
 			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
+			mapaContraseñaUsuario.put(persona, contraseña);
 			Runnable r = new GuardarPersonasDAT();
 			(new Thread(r)).start();
 		}
@@ -159,6 +163,7 @@ public class DatosFicheros implements ManejoDatos{
 		//TODO Auto-generated method stub
 		String correo = empresa.getCorreoElectronico();
 		String telefono = empresa.getTelefono();
+		String contrasñea = empresa.getPassword();
 		
 		if(mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)){
 			if (!test) {
@@ -178,11 +183,16 @@ public class DatosFicheros implements ManejoDatos{
 			mapaIdUsuario.put(Integer.parseInt(empresa.getId()+""), empresa);
 			mapaEmailUsuario.put(empresa.getCorreoElectronico(), empresa);
 			mapaTlfnoUsuario.put(empresa.getTelefono(), empresa);
+			mapaContraseñaUsuario.put(empresa, contrasñea);
 			Runnable r = new GuardarEmpresasDAT();
 			(new Thread(r)).start();
 		}
 		
 		
+	}
+	
+	public static boolean autenticarUsuario(String correo, String contraseña) {
+		return mapaEmailUsuario.containsKey(correo) && mapaEmailUsuario.get(correo).equals(contraseña);
 	}
 	
 	

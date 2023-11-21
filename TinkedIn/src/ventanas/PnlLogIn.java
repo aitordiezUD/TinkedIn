@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Persona;
 import clases.Usuario;
@@ -70,6 +71,9 @@ public class PnlLogIn extends JPanel {
 		JButton btnIniciarSesion = new JButton("Iniciar sesión\r\n");
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (DatosFicheros.autenticarUsuario(tfCorreo.getText(), pfContrasnya.getPassword().toString())) {
+					usuarioAutenticado = null; //TODO: que usuario autenticado sea un usuario y lo cargue con sus atributos.
+				}
 				PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
 				pnlContenido.add(pnlBotones,"pnlBotones");
 				layoutVentana.show(pnlContenido, "pnlBotones");
