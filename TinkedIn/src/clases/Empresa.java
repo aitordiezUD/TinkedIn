@@ -103,7 +103,13 @@ public class Empresa extends Usuario implements Serializable{
 	}
 	
 	
-	
+
+	public Empresa(ImageIcon fotoDePerfil, String password) {
+		super(fotoDePerfil, password);
+	}
+
+
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

@@ -191,9 +191,13 @@ public class DatosFicheros implements ManejoDatos{
 		
 	}
 	
-	public static boolean autenticarUsuario(String correo, String contraseña) {
-		return mapaEmailUsuario.containsKey(correo) && mapaEmailUsuario.get(correo).equals(contraseña);
+	
+	public boolean autenticarUsuario(String correo, String contraseña) {
+		return mapaEmailUsuario.containsKey(correo) && mapaEmailUsuario.get(correo).getPassword().equals(contraseña);
 	}
+
+
+	
 	
 	
 	

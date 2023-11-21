@@ -1,7 +1,5 @@
 package clases;
 
-import ventanas.PnlRegistroPersona;
-
 public interface ManejoDatos {
 	
 
@@ -33,4 +31,9 @@ public interface ManejoDatos {
 	 */
 	public void anadirUsuarioEmpresa(Empresa empresa);
 	
+	/**
+	 *Devuelve true si el correo del usuario coincide con la contraseña del usuario
+	 *@param correo que se indica, contraseña que se indica
+	 */
+	public boolean autenticarUsuario( String correo, String contraseña);
 }

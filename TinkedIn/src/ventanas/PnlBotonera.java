@@ -7,6 +7,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.LayoutManager;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,8 +37,9 @@ public class PnlBotonera extends JPanel {
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	private PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
-	private PnlExplorar pExplorar = new PnlExplorar();
 	private Usuario tipoUsuario;
+	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
+	
 	
 	/**
 	 * Create the panel.

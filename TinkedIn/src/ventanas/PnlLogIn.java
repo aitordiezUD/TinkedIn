@@ -55,6 +55,13 @@ public class PnlLogIn extends JPanel {
 		lblBienvenida.setBounds(10, 108, 390, 55);
 		pnlFunc.add(lblBienvenida);
 		
+		JLabel lblCredIncorrectas = new JLabel("E-mail o contraseña incorrectos.");
+		lblCredIncorrectas.setVisible(false);
+		lblCredIncorrectas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCredIncorrectas.setForeground(new Color(255, 0, 0));
+		lblCredIncorrectas.setBounds(63, 294, 294, 14);
+		pnlFunc.add(lblCredIncorrectas);
+		
 		tfCorreo = new JTextField();
 		tfCorreo.setBounds(53, 210, 310, 25);
 		pnlFunc.add(tfCorreo);
@@ -69,17 +76,7 @@ public class PnlLogIn extends JPanel {
 		pnlFunc.add(lblContrasena);
 		
 		JButton btnIniciarSesion = new JButton("Iniciar sesión\r\n");
-		btnIniciarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (DatosFicheros.autenticarUsuario(tfCorreo.getText(), pfContrasnya.getPassword().toString())) {
-					usuarioAutenticado = null; //TODO: que usuario autenticado sea un usuario y lo cargue con sus atributos.
-				}
-				PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
-				pnlContenido.add(pnlBotones,"pnlBotones");
-				layoutVentana.show(pnlContenido, "pnlBotones");
-				
-			}
-		});
+		
 		btnIniciarSesion.setBounds(53, 319, 310, 38);
 		pnlFunc.add(btnIniciarSesion);
 		
@@ -91,6 +88,8 @@ public class PnlLogIn extends JPanel {
 		pfContrasnya = new JPasswordField();
 		pfContrasnya.setBounds(53, 266, 310, 25);
 		pnlFunc.add(pfContrasnya);
+		
+		
 		
 //		Listener para abrir la ventana de registrarse
 		lblRegistro.addMouseListener(new MouseAdapter() {
@@ -135,12 +134,22 @@ public class PnlLogIn extends JPanel {
 				
 			}
 		});
+		btnIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
+					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
+					pnlContenido.add(pnlBotones,"pnlBotones");
+					layoutVentana.show(pnlContenido, "pnlBotones");
+				}else {
+					lblCredIncorrectas.setVisible(true);
+				}
+				
+				
+			}
+		});
+		
 		
 
 	}
-	
-	//Metodo que va a detectar si el usuario que se logea es Persona o Empresa
-	
-	
-	
 }
