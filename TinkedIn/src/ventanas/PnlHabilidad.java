@@ -351,6 +351,7 @@ tree.addTreeSelectionListener( new TreeSelectionListener() {
 		vent.setVisible(true);
 	}
 	
+	//Sobra el treeMap como argumento
 	public void crearArbol(TreeMap<String,ArrayList<String>> areasDeTrabajo) {
 		root = new DefaultMutableTreeNode( "Habilidades" );
 		JScrollPane spTree = new JScrollPane( );

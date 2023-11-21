@@ -23,36 +23,29 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
 	private JPanel panelArbol;
-	private DefaultListModel modeloLista;
+	private DefaultListModel<Habilidad> modeloLista;
+
 	
 	private JTextField tfNombrePT;
 	
-	public static void main(String[] args) {
-		JFrame vent = new JFrame();
-		vent.getContentPane().add(new pnlPuestoDeTrabajo());
-		vent.setSize(750,650);
-		vent.setVisible(true);
-	}
 	public pnlPuestoDeTrabajo() {
 		setBackground(new Color(255, 255, 255));
 		
-		setPreferredSize( new Dimension(750, 649) );
+		setPreferredSize( new Dimension(783, 649) );
 		setLayout(null);
 		areasDeTrabajo = new TreeMap<>();
 		
 		JPanel pnlLista = new JPanel();
-		pnlLista.setBounds(566, 87, 174, 476);
+		pnlLista.setBounds(566, 87, 174, 435);
 		add(pnlLista);
 		pnlLista.setLayout(new BorderLayout(0, 0));
 		
-		JScrollPane spLista = new JScrollPane();
-		pnlLista.add(spLista);
 		
-		JList listaHabReq = new JList();
-		modeloLista = new DefaultListModel();
+		JList<Habilidad> listaHabReq = new JList<Habilidad>();
+		modeloLista = new DefaultListModel<Habilidad>();
 		listaHabReq.setModel(modeloLista);
-		
-		spLista.setViewportView(listaHabReq);
+		JScrollPane spLista = new JScrollPane(listaHabReq);
+		pnlLista.add(spLista, BorderLayout.CENTER);	
 		
 		JLabel lblTitulo = new JLabel("PUESTO DE TRABAJO\r\n");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -77,37 +70,37 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		tfNombrePT.setColumns(10);
 		
 		JLabel lblDescripcionPT = new JLabel("Descripción del puesto:");
-		lblDescripcionPT.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescripcionPT.setBounds(5, 110, 132, 29);
+		lblDescripcionPT.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDescripcionPT.setBounds(21, 110, 248, 29);
 		pnlDatos.add(lblDescripcionPT);
-		arbolHabilidades = new JTree();
-		arbolHabilidades.setBounds(202, -29, 172, 476);
-		pnlDatos.add(arbolHabilidades);
-		arbolHabilidades.setModel(modeloArbol);
+		
+		JTextArea taDescripcion = new JTextArea();
+		taDescripcion.setBounds(30, 150, 256, 140);
+		pnlDatos.add(taDescripcion);
 		
 		panelArbol = new JPanel();
-		panelArbol.setBounds(367, 85, 174, 478);
+		panelArbol.setBounds(367, 85, 174, 435);
 		add(panelArbol);
 		panelArbol.setLayout(new BorderLayout(0, 0));
 		SpinnerNumberModel nMsp = new SpinnerNumberModel(0,0,5,1);
 		
-		this.crearArbol(areasDeTrabajo);
 		
 		
 		
 		JPanel pnlDescripcionHab = new JPanel();
 		pnlDescripcionHab.setBackground(new Color(255, 255, 255));
-		pnlDescripcionHab.setBounds(21, 487, 321, 76);
+		pnlDescripcionHab.setBounds(21, 505, 321, 89);
 		add(pnlDescripcionHab);
-		pnlDescripcionHab.setLayout(null);
+		pnlDescripcionHab.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblDescrHab = new JLabel("Descripcion de la habilidad:");
-		lblDescrHab.setBounds(10, 11, 135, 54);
-		pnlDescripcionHab.add(lblDescrHab);
+		JLabel lblDescrHab = new JLabel("Descripcion de la habilidad:  ");
+		pnlDescripcionHab.add(lblDescrHab, BorderLayout.WEST);
 		
-		JTextArea tADescrHab = new JTextArea();
-		tADescrHab.setBounds(148, 11, 163, 54);
-		pnlDescripcionHab.add(tADescrHab);
+		JTextArea taDescrHab = new JTextArea();
+		taDescrHab.setBackground(new Color(227, 227, 227));
+		taDescrHab.setForeground(new Color(0, 0, 0));
+		taDescrHab.setLineWrap(true);
+		pnlDescripcionHab.add(taDescrHab, BorderLayout.CENTER);
 		
 		JSpinner spDestreza = new JSpinner();
 		spDestreza.setBounds(367, 574, 174, 20);
@@ -117,6 +110,40 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		JButton btnAñadir = new JButton("Añadir");
 		btnAñadir.setBounds(367, 605, 174, 23);
 		add(btnAñadir);
+		
+		JLabel lblNewLabel = new JLabel("Nivel de destreza:");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(367, 549, 168, 14);
+		add(lblNewLabel);
+		
+		JButton btnCrearPuesto = new JButton("Crear puesto de trabajo");
+		btnCrearPuesto.setBounds(566, 589, 174, 23);
+		add(btnCrearPuesto);
+		
+		btnCrearPuesto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(tfNombrePT != null && taDescripcion != null && taDescrHab != null && listaHabReq != null) {
+					//Crear la funcion de crear puesto de trabajo
+				}else {
+					JOptionPane.showOptionDialog(
+							null, 
+							"Rellena todos los campos.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+				}
+				
+			}
+		});
+		
+		this.crearMapaAreas();
+		this.crearArbol(areasDeTrabajo);
+		
 		btnAñadir.addActionListener( new ActionListener() {
 
 			@Override
@@ -127,14 +154,14 @@ public class pnlPuestoDeTrabajo extends JPanel {
 				String campo = (String) fieldNode.getUserObject();
 				String nombre = (String) selectedNode.getUserObject();
 				int destreza = (int) spDestreza.getValue();
-				String descripcion = tADescrHab.getText();
+				String descripcion = taDescrHab.getText();
 				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
-				//Aqui el if da todo el rato false, arreglatelas
+				//Aqui el if da todo el rato false
 				if(!modeloLista.contains(hab)){
 					modeloLista.addElement(hab);
 					listaHabReq.updateUI();
 					spDestreza.setValue(0);
-					tADescrHab.setText("");
+					taDescrHab.setText("");
 				}else {
 					JOptionPane.showOptionDialog(
 							null, 
@@ -160,11 +187,11 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		JScrollPane spTree = new JScrollPane( );
 		spTree.setBounds(10, 35, 180, 495);
 		panelArbol.add( spTree );
-		
-		JTextArea taDescripcion = new JTextArea();
-		spTree.setViewportView(taDescripcion);
+		arbolHabilidades = new JTree();
 		modeloArbol = new DefaultTreeModel(root);
+		arbolHabilidades.setModel(modeloArbol);
 		this.anyadirHabilidades();
+		spTree.setViewportView(arbolHabilidades);
 	}
 	
 	private void anyadirHabilidades() {
@@ -762,5 +789,12 @@ public class pnlPuestoDeTrabajo extends JPanel {
         
         this.areasDeTrabajo=areasDeTrabajo;
         
+	}
+	
+	public static void main(String[] args) {
+		JFrame vent = new JFrame();
+		vent.getContentPane().add(new pnlPuestoDeTrabajo());
+		vent.setSize(800,700);
+		vent.setVisible(true);
 	}
 }
