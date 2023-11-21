@@ -149,6 +149,7 @@ public class pnlPuestoDeTrabajo extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				TreePath path = arbolHabilidades.getSelectionPath();
+				if(path != null) {
 				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
 				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
 				String campo = (String) fieldNode.getUserObject();
@@ -172,6 +173,7 @@ public class pnlPuestoDeTrabajo extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
+				}
 				}
 
 

@@ -247,6 +247,7 @@ public class PnlHabilidad extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				TreePath path = tree.getSelectionPath();
+				if(path != null) {
 				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
 				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
 				String campo = (String) fieldNode.getUserObject();
@@ -273,6 +274,7 @@ public class PnlHabilidad extends JPanel{
 				}
 
 
+			}
 			}
 
 		});
