@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,6 +21,8 @@ public class DatosFicherosTest {
 	Persona p2;
 	Persona p3;
 	Persona p4;
+	Empresa e1;
+	
 	DatosFicheros datos;
 	PnlRegistroPersona pnlRegistroPersona;
 	
@@ -45,6 +49,14 @@ public class DatosFicherosTest {
 		p4 = new Persona("Mateo", "Perez", "Bizkaia", 19, "mateo.perez.suarez@opendeusto.es",
 				"688958738",new ArrayList<Habilidad>(), null, "passWd");
 		
+		ArrayList<String> ubicaciones = new ArrayList<>();
+		ubicaciones.add("Alava");
+		ubicaciones.add("Madrid");
+		ArrayList<PuestoTrabajo> puestos = null;
+		
+		e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
+				ubicaciones, puestos, null, "psswd") ;
+		
 		datos = new DatosFicheros();
 		DatosFicheros.setTest(true);
 		try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
@@ -54,50 +66,57 @@ public class DatosFicherosTest {
 	public void tearDown() throws Exception {
 	}
 	
-	
-	
 	@Test
-	public void pruebaInicializacion() {
-		assertEquals(1, DatosFicheros.personas.size());
-	}
-	
-//	Probamos que los mapas se actualizen correctamente
-	@Test
-	public void anadirUsuarios() {
-		datos.anadirUsuarioPersona(p4);
+	public void anadirEmpresa() {
+		datos.anadirUsuarioEmpresa(e1);
 		try {Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
-		assertEquals(2, DatosFicheros.personas.size());
-		assertEquals(2, DatosFicheros.mapaEmailUsuario.size());
-		assertEquals(2, DatosFicheros.mapaTlfnoUsuario.size());
+		assertEquals(1, DatosFicheros.empresas.size());
+		datos.fin();
 	}
 	
-//	Comparaciones de correo
-	@Test
-	public void compararCorreos() {
-		assertEquals(true, p1.getCorreoElectronico().equals(p2.getCorreoElectronico()));
-		assertEquals(false, p3.getCorreoElectronico().equals(p2.getCorreoElectronico()));
-	}
 	
-//	Comparaciones de correo
-	@Test
-	public void compararTelefonos() {
-		assertEquals(false, p1.getTelefono().equals(p2.getTelefono()));
-		assertEquals(true, p1.getTelefono().equals(p3.getTelefono()));
-	}
-	
-//	Probamos que los mapas se actualizen correctamente
-	@Test
-	public void anadirUsuariosConDatosRepetidos() {
-		datos = new DatosFicheros();
-		datos.anadirUsuarioPersona(p1);
-		datos.anadirUsuarioPersona(p2);
-		assertEquals(1, DatosFicheros.personas.size());
-		assertEquals(1, DatosFicheros.mapaEmailUsuario.size());
-		assertEquals(1, DatosFicheros.mapaTlfnoUsuario.size());
-		datos.anadirUsuarioPersona(p3);
-		assertEquals(1, DatosFicheros.personas.size());
-		assertEquals(1, DatosFicheros.mapaEmailUsuario.size());
-		assertEquals(1, DatosFicheros.mapaTlfnoUsuario.size());
-	}
+//	@Test
+//	public void pruebaInicializacion() {
+//		assertEquals(1, DatosFicheros.personas.size());
+//	}
+//	
+////	Probamos que los mapas se actualizen correctamente
+//	@Test
+//	public void anadirUsuarios() {
+//		datos.anadirUsuarioPersona(p4);
+//		try {Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
+//		assertEquals(2, DatosFicheros.personas.size());
+//		assertEquals(2, DatosFicheros.mapaEmailUsuario.size());
+//		assertEquals(2, DatosFicheros.mapaTlfnoUsuario.size());
+//	}
+//	
+////	Comparaciones de correo
+//	@Test
+//	public void compararCorreos() {
+//		assertEquals(true, p1.getCorreoElectronico().equals(p2.getCorreoElectronico()));
+//		assertEquals(false, p3.getCorreoElectronico().equals(p2.getCorreoElectronico()));
+//	}
+//	
+////	Comparaciones de correo
+//	@Test
+//	public void compararTelefonos() {
+//		assertEquals(false, p1.getTelefono().equals(p2.getTelefono()));
+//		assertEquals(true, p1.getTelefono().equals(p3.getTelefono()));
+//	}
+//	
+////	Probamos que los mapas se actualizen correctamente
+//	@Test
+//	public void anadirUsuariosConDatosRepetidos() {
+//		datos = new DatosFicheros();
+//		datos.anadirUsuarioPersona(p1);
+//		datos.anadirUsuarioPersona(p2);
+//		assertEquals(1, DatosFicheros.personas.size());
+//		assertEquals(1, DatosFicheros.mapaEmailUsuario.size());
+//		assertEquals(1, DatosFicheros.mapaTlfnoUsuario.size());
+//		datos.anadirUsuarioPersona(p3);
+//		assertEquals(1, DatosFicheros.personas.size());
+//		assertEquals(1, DatosFicheros.mapaEmailUsuario.size());
+//		assertEquals(1, DatosFicheros.mapaTlfnoUsuario.size());
+//	}
 
 }

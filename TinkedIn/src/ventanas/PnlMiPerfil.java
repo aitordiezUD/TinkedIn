@@ -52,7 +52,7 @@ public class PnlMiPerfil  extends JPanel {
 		
 		
 		try {
-	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.JPG");
+	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
 	        BufferedImage originalImage = ImageIO.read(imageStream);
 
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)

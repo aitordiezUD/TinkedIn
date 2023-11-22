@@ -17,7 +17,7 @@ public class GuardarPersonasDAT implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f  = new File("personas222.dat");
+		File f  = new File("personas.dat");
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		

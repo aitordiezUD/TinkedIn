@@ -1,6 +1,9 @@
 package ventanas;
 
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import clases.DatosFicheros;
+import clases.Persona;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -88,6 +92,18 @@ public class VentanaPrincipal extends JFrame {
 		
 		setContentPane(pnlContenido);
 		datos = new DatosFicheros();
+		Persona admin = new Persona("admin", "admin", "admin", 0, "admin", "admin", null, null, "admin");
+		datos.anadirUsuarioPersona(admin);
+		
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				getDatos().fin();
+			}
+
+		});
 			
 	}
 	

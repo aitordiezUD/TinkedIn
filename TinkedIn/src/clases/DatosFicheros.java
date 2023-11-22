@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import hilos.CargarEmpresasDAT;
 import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
 import hilos.GuardarPersonasDAT;
@@ -120,8 +121,10 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
-		Runnable r = new CargarPersonasDAT(DatosFicheros.this);
-		(new Thread(r)).start();
+//		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
+//		(new Thread(r1)).start();
+//		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
+//		(new Thread(r2)).start();
 		
 	}
 
@@ -130,6 +133,9 @@ public class DatosFicheros implements ManejoDatos{
 	public void fin() {
 		// TODO Auto-generated method stub
 		properties.setProperty("count", Integer.toString(Usuario.getCount()));
+//		Runnable r1 = new GuardarPersonasDAT();
+//		(new Thread(r1)).start();
+		
 	}
 
 
@@ -152,8 +158,7 @@ public class DatosFicheros implements ManejoDatos{
 			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
 			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
 			mapaContraseñaUsuario.put(persona, contraseña);
-			Runnable r = new GuardarPersonasDAT();
-			(new Thread(r)).start();
+			
 		}
 		
 		

@@ -22,12 +22,11 @@ public class GuardarEmpresasDAT implements Runnable {
 		try {
 			fos = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fos);
-			ArrayList<Empresa> empresas = DatosFicheros.getEmpresas();
-			for ( Empresa e : empresas) {
-				System.out.println( "Escribiendo empresa" );
-				System.out.println(e);
+			for ( Empresa e : DatosFicheros.getEmpresas()) {
+//				System.out.println( "Escribiendo empresa" );
+//				System.out.println(e);
 				oos.writeObject(e);
-				System.out.println( "Persona empresa" );
+//				System.out.println( "Persona empresa" );
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

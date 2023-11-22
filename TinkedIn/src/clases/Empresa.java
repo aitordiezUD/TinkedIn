@@ -104,8 +104,15 @@ public class Empresa extends Usuario implements Serializable{
 	
 	
 
-	public Empresa(ImageIcon fotoDePerfil, String password) {
-		super(fotoDePerfil, password);
+	public Empresa(Empresa e) {
+		super(e);
+		this.nombre = e.getNombre();
+		this.telefono = e.getTelefono();
+		this.descripcion = e.getDescripcion();
+		this.puestos = e.getPuestos();
+		this.ubicaciones = e.getUbicaciones();
+		this.correoElectronico = e.getCorreoElectronico();
+		
 	}
 
 
