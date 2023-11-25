@@ -36,9 +36,11 @@ public class PnlBotonera extends JPanel {
 	
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
-	private PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
+	public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 	private Usuario tipoUsuario;
 	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
+	public static JPanel pnlFuncional;
+	public static CardLayout CardLayout;
 	
 	
 	/**
@@ -49,9 +51,9 @@ public class PnlBotonera extends JPanel {
 		
 		mapaPaneles = new HashMap<JPanel,JPanel>();
 		
-		JPanel pnlFuncional = new JPanel();
+		pnlFuncional = new JPanel();
 		pnlFuncional.setBackground(Color.PINK);
-		CardLayout CardLayout = new CardLayout();
+		CardLayout = new CardLayout();
 		pnlFuncional.setLayout(CardLayout);
 		pnlFuncional.setBounds(150, 0, 750, 650);
 		setSize(900, 650);

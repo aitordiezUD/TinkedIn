@@ -28,6 +28,8 @@ public class PnlEditarPerfil  extends JPanel {
 	private JTextField textField_5;
 	private JTextField textFieldExp;
 	private JTextField textFieldDes;
+	private PnlMiPerfil pnlMiPerfil;
+
 	public PnlEditarPerfil() {
 		setLayout(null);
 		setSize(750,650);
@@ -148,9 +150,19 @@ public class PnlEditarPerfil  extends JPanel {
 		btnNewButton.setBounds(376, 181, 89, 23);
 		pnlDatos.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Cancelar");
-		btnNewButton_1.setBounds(225, 181, 89, 23);
-		pnlDatos.add(btnNewButton_1);
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(225, 181, 89, 23);
+		pnlDatos.add(btnCancelar);
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		
 		JButton btnAnadirExp = new JButton("+");
 		btnAnadirExp.setBounds(274, 7, 45, 22);
