@@ -15,10 +15,17 @@ import clases.Persona;
 import clases.Usuario;
 
 import java.awt.Font;
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -89,6 +96,22 @@ public class PnlLogIn extends JPanel {
 		pfContrasnya.setBounds(53, 266, 310, 25);
 		pnlFunc.add(pfContrasnya);
 		
+		JLabel lblImagen = new JLabel();
+		lblImagen.setBounds(460, 119, 350, 300);
+		add(lblImagen);
+		
+		
+		
+		try {
+		    InputStream imageStream = PnlBotonera.class.getResourceAsStream("TinkedinPNG.png");
+		    if (imageStream != null) {
+		        BufferedImage originalImage = ImageIO.read(imageStream);
+		        ImageIcon icono = new ImageIcon(originalImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH));
+		        lblImagen.setIcon(icono);
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace(); // Manejo de la excepción, imprime el seguimiento de la pila en la consola
+		}
 		
 		
 //		Listener para abrir la ventana de registrarse
