@@ -137,7 +137,9 @@ public class PnlLogIn extends JPanel {
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
-					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+					
+					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+					//System.out.println(usuarioAutenticado);
 					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");
