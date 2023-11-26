@@ -27,6 +27,7 @@ import javax.swing.UIManager;
 
 import clases.Empresa;
 import clases.Habilidad;
+import clases.PuestoTrabajo;
 import clases.Usuario;
 
 import javax.swing.JTextField;
@@ -41,16 +42,15 @@ import javax.swing.JScrollPane;
 
 public class PnlExplorar extends JPanel {
 
-	protected DefaultListModel modeloLista;
+	protected static DefaultListModel modeloListaPt;
 	
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	public PnlExplorar( Usuario tipoUsuario) {
+	public PnlExplorar( Usuario tipoUsuario ) {
 		setBackground(new Color(129, 186, 207));
-		setLayout(null);
 		
 		try {
 	        // Carga la imagen original desde el archivo en el paquete "imagenes"
@@ -69,6 +69,7 @@ public class PnlExplorar extends JPanel {
 	        g2d.setClip(circle);
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
+	        setLayout(null);
 	        
 	        JPanel pnlDatos = new JPanel();
 	        pnlDatos.setBounds(442, 46, 297, 143);
@@ -94,17 +95,28 @@ public class PnlExplorar extends JPanel {
 	        
 	        if( tipoUsuario instanceof Empresa ) {
 	        	
+	        ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
+	        for (int i = 0; i<5; i++) {
+	        	PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>());
+	        	puestos.add(pt);
+	        }
+	        	
+	        Empresa e = (Empresa) tipoUsuario;	
+	        e.setPuestos(puestos);
 	        JPanel pnlLista = new JPanel();
 	 	    pnlLista.setBounds(10, 11, 174, 630);
 	 	    pnlLista.setBackground( new Color( 129, 186, 207 ) );
 	 	    add(pnlLista);
 	 	    pnlLista.setLayout(null);
 	 	        
-	        modeloLista = new DefaultListModel<Habilidad>();
+	        modeloListaPt = new DefaultListModel<PuestoTrabajo>();
 	        
+	        for ( PuestoTrabajo p : e.getPuestos()) {
+	        	modeloListaPt.addElement( p );
+	        }
 			JList<String> listaPuestos = new JList<String>();
 			
-			listaPuestos.setModel(modeloLista);
+			listaPuestos.setModel(modeloListaPt);
 			JScrollPane spLista = new JScrollPane(listaPuestos);
 	 	    spLista.setBounds(10, 5, 154, 614);
 	 	    pnlLista.add(spLista);	

@@ -19,6 +19,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -26,19 +27,23 @@ import javax.swing.SwingConstants;
 
 import clases.Empresa;
 import clases.Main;
+import clases.Persona;
 import clases.Usuario;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 
 public class PnlBotonera extends JPanel {
 	
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
-	public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
+	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 	private Usuario tipoUsuario = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
+	//private Usuario tipoUsuario = new Persona( "nada","nada","nada", 23, "nada", "nada",null,(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"nada");
 	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
 	public static JPanel pnlFuncional;
 	public static CardLayout CardLayout;
@@ -60,6 +65,9 @@ public class PnlBotonera extends JPanel {
 		setSize(900, 650);
 		add(pnlFuncional);
 		
+		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
+		pnlPuestoDeTrabajo pnlPuestoTrabajo = new pnlPuestoDeTrabajo();
+		
 		JPanel pnlInicial = new JPanel();
 		pnlInicial.setBackground(Color.PINK);
 		pnlFuncional.add(pnlInicial,"pnlInicial");
@@ -78,6 +86,7 @@ public class PnlBotonera extends JPanel {
 		pnlPerfil.setLayout(null);
 		
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
+		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
 		
 		JLabel lblPerfil = new JLabel("Mi Perfil");

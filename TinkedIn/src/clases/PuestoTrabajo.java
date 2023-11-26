@@ -33,6 +33,10 @@ public class PuestoTrabajo {
 		this.descripcion = descripcion;
 		this.habilidadesReq = habilidadesReq;
 	}
+	@Override
+	public String toString() {
+		return nombre;
+	}
 	
 	
 	
