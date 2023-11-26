@@ -5,12 +5,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import clases.DatosFicheros;
+import clases.Empresa;
 import clases.Persona;
 
 import java.awt.BorderLayout;
@@ -93,7 +95,9 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(pnlContenido);
 		datos = new DatosFicheros();
 		Persona admin = new Persona("admin", "admin", "admin", 0, "admin", "admin", null, null, "admin");
+		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
 		datos.anadirUsuarioPersona(admin);
+		datos.anadirUsuarioEmpresa(adminE);
 		
 		addWindowListener(new WindowAdapter() {
 

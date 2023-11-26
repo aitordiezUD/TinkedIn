@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import clases.Empresa;
 import clases.Main;
 import clases.Usuario;
 
@@ -37,7 +38,7 @@ public class PnlBotonera extends JPanel {
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
-	private Usuario tipoUsuario;
+	private Usuario tipoUsuario = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
 	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
 	public static JPanel pnlFuncional;
 	public static CardLayout CardLayout;

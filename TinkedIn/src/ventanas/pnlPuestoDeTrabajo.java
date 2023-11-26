@@ -23,12 +23,12 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
 	private JPanel panelArbol;
-	private DefaultListModel<Habilidad> modeloLista;
+
 
 	
 	private JTextField tfNombrePT;
 	
-	public pnlPuestoDeTrabajo() {
+	public pnlPuestoDeTrabajo( DefaultListModel<Habilidad> modeloLista ) {
 		setBackground(new Color(255, 255, 255));
 		
 		setPreferredSize( new Dimension(783, 649) );
@@ -42,7 +42,7 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		
 		
 		JList<Habilidad> listaHabReq = new JList<Habilidad>();
-		modeloLista = new DefaultListModel<Habilidad>();
+		
 		listaHabReq.setModel(modeloLista);
 		JScrollPane spLista = new JScrollPane(listaHabReq);
 		pnlLista.add(spLista, BorderLayout.CENTER);	
@@ -795,7 +795,7 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
-		vent.getContentPane().add(new pnlPuestoDeTrabajo());
+		vent.getContentPane().add(new pnlPuestoDeTrabajo( new DefaultListModel<Habilidad>()));
 		vent.setSize(800,700);
 		vent.setVisible(true);
 	}

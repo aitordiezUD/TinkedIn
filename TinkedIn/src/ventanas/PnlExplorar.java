@@ -20,10 +20,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import javax.swing.Icon;
 import javax.swing.UIManager;
 
 import clases.Empresa;
+import clases.Habilidad;
 import clases.Usuario;
 
 import javax.swing.JTextField;
@@ -38,6 +41,8 @@ import javax.swing.JScrollPane;
 
 public class PnlExplorar extends JPanel {
 
+	protected DefaultListModel modeloLista;
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -84,8 +89,10 @@ public class PnlExplorar extends JPanel {
 	        
 	       
 	        
+	       
+	        System.out.println( tipoUsuario.getClass());
 	        
-	        if(tipoUsuario instanceof Empresa) {
+	        if( tipoUsuario instanceof Empresa ) {
 	        	
 	        JPanel pnlLista = new JPanel();
 	 	    pnlLista.setBounds(10, 11, 174, 630);
@@ -93,18 +100,18 @@ public class PnlExplorar extends JPanel {
 	 	    add(pnlLista);
 	 	    pnlLista.setLayout(null);
 	 	        
-	        DefaultListModel<String> modeloLista = new DefaultListModel<String>();
+	        modeloLista = new DefaultListModel<Habilidad>();
+	        
 			JList<String> listaPuestos = new JList<String>();
 			
 			listaPuestos.setModel(modeloLista);
 			JScrollPane spLista = new JScrollPane(listaPuestos);
 	 	    spLista.setBounds(10, 5, 154, 614);
 	 	    pnlLista.add(spLista);	
+	 	    
 
 			
-			for (int i = 0; i < 20; i++) {
-				modeloLista.add(i, "Opcion " + i);
-			}
+			
 			
 			listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
 				private static final long serialVersionUID = 1L;
@@ -168,7 +175,7 @@ public class PnlExplorar extends JPanel {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
-		frame.getContentPane().add(new PnlExplorar( new Empresa(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg")), "nada") ));
+		frame.getContentPane().add(new PnlExplorar( new Empresa("nada", "9292932","nada","nada", new ArrayList<>(), new ArrayList<>(), (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))), "nada" )));
 		frame.setVisible(true);
 		
 	}
