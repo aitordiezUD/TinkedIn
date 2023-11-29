@@ -21,7 +21,7 @@ public class CargarEmpresasDAT implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f = new File("empresasTest.dat");
+		File f = new File("empresas.dat");
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
@@ -38,11 +38,14 @@ public class CargarEmpresasDAT implements Runnable {
 					break;
 				}
 			}
+			fis.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-//			System.err.println("Error la lectura del fichero personas.dat");
+//			System.err.println("Error la lectura del fichero empresasTest.dat");
 		}
+		
+		System.out.println(DatosFicheros.getEmpresas());
 	}
 		
 	

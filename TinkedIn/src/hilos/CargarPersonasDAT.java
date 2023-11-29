@@ -26,7 +26,7 @@ public class CargarPersonasDAT implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		File f = new File("personasTest.dat");
+		File f = new File("personas.dat");
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {

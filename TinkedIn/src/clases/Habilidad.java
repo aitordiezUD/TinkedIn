@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Habilidad implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String campo; //Informática
 	private String nombre; //Machine Learning
 	private int destreza; // Rango 1 al 5

@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public class Persona extends Usuario implements Serializable{
 	
 	//Atributos: 
 	
+	/**
+	 * 
+	 */
 	private int edad;
 	private String correoElectronico;
 	private String telefono;
@@ -84,7 +84,7 @@ public class Persona extends Usuario implements Serializable{
 	//Constructores: 
 	
 	public Persona(String nombre, String apellidos,String ubicacion, int edad,
-			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, ImageIcon fotoDePerfil, String password) {
+			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, @SuppressWarnings("exports") ImageIcon fotoDePerfil, String password) {
 		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.apellidos = apellidos;

@@ -26,14 +26,11 @@ public class GuardarPersonasDAT implements Runnable{
 			fos = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fos);
 			for (Persona p : DatosFicheros.getPersonas()) {
-//				System.out.println("Escribiendo Persona");
-//				System.out.println(p);
 				oos.writeObject(p);
-//				System.out.println("Persona Escrita");
 			}
 		}catch(Exception e) {
 			System.err.println("Error: en el guardado de personas.");
-//			e.printStackTrace();
+			e.printStackTrace();
 
 		}
 	}
