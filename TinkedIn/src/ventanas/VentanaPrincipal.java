@@ -62,6 +62,7 @@ public class VentanaPrincipal extends JFrame {
 				try {
 					VentanaPrincipal frame = new VentanaPrincipal(datos);
 					frame.setVisible(true);
+					System.out.println(DatosFicheros.getPersonas());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,7 +77,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal( DatosFicheros datos ) {
 		setTitle("TinkedIn");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 650);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -94,10 +95,14 @@ public class VentanaPrincipal extends JFrame {
 		
 		setContentPane(pnlContenido);
 		datos = new DatosFicheros();
-		Persona admin = new Persona("admin", "admin", "admin", 0, "admin", "admin", null, null, "admin");
-		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
-		datos.anadirUsuarioPersona(admin);
-		datos.anadirUsuarioEmpresa(adminE);
+//		Persona admin = new Persona("admin", "admin", "admin", 0, "admin", "admin", null, null, "admin");
+//		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
+//		datos.anadirUsuarioEmpresa(adminE);
+//		
+//		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
+//		datos.anadirUsuarioEmpresa(adminE2);
+		
+		System.out.println("Empresa: " + DatosFicheros.getEmpresas());
 		
 		addWindowListener(new WindowAdapter() {
 

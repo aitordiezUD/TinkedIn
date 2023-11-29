@@ -67,28 +67,34 @@ public class DatosFicherosTest {
 	}
 	
 	@Test
-	public void anadirEmpresa() {
-		datos.anadirUsuarioEmpresa(e1);
-		try {Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
+	public void pruebaInicializacion() {
 		assertEquals(1, DatosFicheros.empresas.size());
-		datos.fin();
+		assertEquals(1, DatosFicheros.personas.size());
 	}
 	
 	
 //	@Test
-//	public void pruebaInicializacion() {
-//		assertEquals(1, DatosFicheros.personas.size());
-//	}
-//	
-////	Probamos que los mapas se actualizen correctamente
-//	@Test
-//	public void anadirUsuarios() {
-//		datos.anadirUsuarioPersona(p4);
+//	public void anadirEmpresa() {
+//		datos.anadirUsuarioEmpresa(e1);
 //		try {Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
-//		assertEquals(2, DatosFicheros.personas.size());
-//		assertEquals(2, DatosFicheros.mapaEmailUsuario.size());
-//		assertEquals(2, DatosFicheros.mapaTlfnoUsuario.size());
+//		assertEquals(2, DatosFicheros.empresas.size());
+//		datos.fin();
 //	}
+	
+	
+	
+//	Probamos que los mapas se actualizen correctamente
+	@Test
+	public void anadirPersonas() {
+		datos.anadirUsuarioPersona(p4);
+		try {Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
+		System.out.println(DatosFicheros.personas);
+		System.out.println(DatosFicheros.personas.size());
+		assertEquals(2, DatosFicheros.personas.size());
+//		Ahora el esperado es 3 ya que tambien se cuentan los usuarios de tipo Empresa
+		assertEquals(3, DatosFicheros.mapaEmailUsuario.size());
+		assertEquals(3, DatosFicheros.mapaTlfnoUsuario.size());
+	}
 //	
 ////	Comparaciones de correo
 //	@Test

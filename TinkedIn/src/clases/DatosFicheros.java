@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -19,9 +20,9 @@ import ventanas.PnlRegistroPersona;
 
 public class DatosFicheros implements ManejoDatos{
 	
-	protected static ArrayList<Usuario> usuarios;
-	protected static ArrayList<Persona> personas;
-	protected static ArrayList<Empresa> empresas;
+	protected static Vector<Usuario> usuarios;
+	protected static Vector<Persona> personas;
+	protected static Vector<Empresa> empresas;
 	protected static HashMap<Integer, Usuario> mapaIdUsuario;
 	protected static HashMap<String, Usuario> mapaEmailUsuario;
 	protected static HashMap<String, Usuario> mapaTlfnoUsuario;
@@ -30,32 +31,32 @@ public class DatosFicheros implements ManejoDatos{
 	
 	protected static boolean test = false;
 	
-	public static ArrayList<Usuario> getUsuarios() {
+	public static Vector<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
 
-	public static void setUsuarios(ArrayList<Usuario> usuarios) {
+	public static void setUsuarios(Vector<Usuario> usuarios) {
 		DatosFicheros.usuarios = usuarios;
 	}
 
 
-	public static ArrayList<Persona> getPersonas() {
+	public static Vector<Persona> getPersonas() {
 		return personas;
 	}
 
 
-	public static void setPersonas(ArrayList<Persona> personas) {
+	public static void setPersonas(Vector<Persona> personas) {
 		DatosFicheros.personas = personas;
 	}
 
 
-	public static ArrayList<Empresa> getEmpresas() {
+	public static Vector<Empresa> getEmpresas() {
 		return empresas;
 	}
 
 
-	public static void setEmpresas(ArrayList<Empresa> empresas) {
+	public static void setEmpresas(Vector<Empresa> empresas) {
 		DatosFicheros.empresas = empresas;
 	}
 
@@ -97,17 +98,15 @@ public class DatosFicheros implements ManejoDatos{
 
 	public DatosFicheros() {
 		init();
-		
-		
 	}
 
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		usuarios = new ArrayList<Usuario>();
-		personas = new ArrayList<Persona>();
-		empresas = new ArrayList<Empresa>();
+		usuarios = new Vector<Usuario>();
+		personas = new Vector<Persona>();
+		empresas = new Vector<Empresa>();
 		mapaIdUsuario = new HashMap<Integer, Usuario>();
 		mapaEmailUsuario = new HashMap<String, Usuario>();
 		mapaTlfnoUsuario = new HashMap<String, Usuario>();
@@ -121,11 +120,11 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
-//		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
-//		(new Thread(r1)).start();
-//		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
-//		(new Thread(r2)).start();
-		
+		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
+		(new Thread(r1)).start();
+		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
+		(new Thread(r2)).start();
+//		
 	}
 
 
@@ -133,8 +132,10 @@ public class DatosFicheros implements ManejoDatos{
 	public void fin() {
 		// TODO Auto-generated method stub
 		properties.setProperty("count", Integer.toString(Usuario.getCount()));
-//		Runnable r1 = new GuardarPersonasDAT();
-//		(new Thread(r1)).start();
+		Runnable r1 = new GuardarPersonasDAT();
+		(new Thread(r1)).start();
+		Runnable r2 = new GuardarEmpresasDAT();
+		(new Thread(r2)).start();
 		
 	}
 
@@ -146,6 +147,10 @@ public class DatosFicheros implements ManejoDatos{
 		String telefono = persona.getTelefono();
 		String contraseña = persona.getPassword();
 		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
+//			System.out.println("Correo " + correo + " ; tlfno: " + telefono);
+//			System.out.println(mapaEmailUsuario);
+//			System.out.println(mapaTlfnoUsuario);
+//			System.err.println("Error");
 			//Lanzar aviso
 			if (!test) {
 				PnlRegistroPersona.lanzarAviso();
@@ -189,8 +194,6 @@ public class DatosFicheros implements ManejoDatos{
 			mapaEmailUsuario.put(empresa.getCorreoElectronico(), empresa);
 			mapaTlfnoUsuario.put(empresa.getTelefono(), empresa);
 			mapaContraseñaUsuario.put(empresa, contrasñea);
-			Runnable r = new GuardarEmpresasDAT();
-			(new Thread(r)).start();
 		}
 		
 		
