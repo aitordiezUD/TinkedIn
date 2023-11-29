@@ -94,7 +94,7 @@ public class Persona extends Usuario implements Serializable{
 		this.curriculum = curriculum;
 	}
 	
-	public Persona(Persona p) {
+	public Persona( Persona p ) {
 		super(p);
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellidos();

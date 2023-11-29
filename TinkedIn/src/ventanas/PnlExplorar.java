@@ -9,6 +9,8 @@ import javax.swing.SwingConstants;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -27,6 +29,7 @@ import javax.swing.UIManager;
 
 import clases.Empresa;
 import clases.Habilidad;
+import clases.PuestoTrabajo;
 import clases.Usuario;
 
 import javax.swing.JTextField;
@@ -38,20 +41,19 @@ import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
 public class PnlExplorar extends JPanel {
 
-	protected DefaultListModel modeloLista;
+	protected static DefaultListModel modeloListaPt;
 	
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	public PnlExplorar( Usuario tipoUsuario) {
+	public PnlExplorar( Usuario tipoUsuario ) {
 		setBackground(new Color(129, 186, 207));
-		setLayout(null);
-		
 		try {
 	        // Carga la imagen original desde el archivo en el paquete "imagenes"
 	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.JPG");
@@ -69,46 +71,63 @@ public class PnlExplorar extends JPanel {
 	        g2d.setClip(circle);
 	        g2d.drawImage(scaledImage, 0, 0, null);
 	        g2d.dispose();
+	        setLayout(null);
+	        setLayout(null);
+	        
+	        
 	        
 	        JPanel pnlDatos = new JPanel();
-	        pnlDatos.setBounds(442, 46, 297, 143);
-	        add(pnlDatos);
-	        pnlDatos.setLayout(null);
+	        pnlDatos.setLocation(350, 30);
+	        pnlDatos.setSize(200, 150);
+	        pnlDatos.setBackground(new Color(129, 186, 207));
+	        add(pnlDatos, BorderLayout.NORTH);
+	        pnlDatos.setLayout(new BorderLayout(0, 0));
 	        
 			//Crea in JLabel y asigna la imagen
 	        JLabel lblFotoUsuario = new JLabel(new ImageIcon(resizedImage));
-	        lblFotoUsuario.setBounds(93, 0, 100, 100);
-	        pnlDatos.add(lblFotoUsuario);
+	        pnlDatos.add(lblFotoUsuario,BorderLayout.NORTH);
 	        lblFotoUsuario.setBackground(new Color(240, 240, 240));
 	        
 	        JLabel lblNombreUsuario = new JLabel("Nombre Usuario");
-	        lblNombreUsuario.setBounds(82, 96, 142, 36);
 	        pnlDatos.add(lblNombreUsuario);
-	        lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 18));
+	        lblNombreUsuario.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
 	        lblNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 	        
 	       
-	        
+	        JPanel pnlLista = new JPanel();
+	        setLayout(new BorderLayout(0,0));
 	       
 	        System.out.println( tipoUsuario.getClass());
-	        
+
 	        if( tipoUsuario instanceof Empresa ) {
 	        	
-	        JPanel pnlLista = new JPanel();
-	 	    pnlLista.setBounds(10, 11, 174, 630);
-	 	    pnlLista.setBackground( new Color( 129, 186, 207 ) );
-	 	    add(pnlLista);
-	 	    pnlLista.setLayout(null);
-	 	        
-	        modeloLista = new DefaultListModel<Habilidad>();
-	        
-			JList<String> listaPuestos = new JList<String>();
-			
-			listaPuestos.setModel(modeloLista);
-			JScrollPane spLista = new JScrollPane(listaPuestos);
-	 	    spLista.setBounds(10, 5, 154, 614);
-	 	    pnlLista.add(spLista);	
+	        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
+	        	for (int i = 0; i<5; i++) {
+	        		PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>());
+	        		puestos.add(pt);
+	        	}
+	        	
+	        	Empresa e = (Empresa) tipoUsuario;	
+	        	e.setPuestos(puestos);
+	        	
+	        	pnlLista.setLocation(0,0);
+	        	pnlLista.setBackground( new Color( 129, 186, 207 ) );
 	 	    
+	        	pnlLista.setLayout(null);
+	 	        
+	        	modeloListaPt = new DefaultListModel<PuestoTrabajo>();
+	        
+	        	for ( PuestoTrabajo p : e.getPuestos()) {
+	        		modeloListaPt.addElement(p);
+	        	}
+	        	JList<String> listaPuestos = new JList<String>();
+			
+			listaPuestos.setModel(modeloListaPt);
+			JScrollPane spLista = new JScrollPane(listaPuestos);
+	 	    spLista.setSize(150,620);
+	 	    pnlLista.add(spLista);
+	 	    
+	 	   
 
 			
 			
@@ -157,11 +176,10 @@ public class PnlExplorar extends JPanel {
 	            }
 	        });
 			
-			
+			add(pnlLista);
 	       }
-	        	
 	       
-	        
+	     
 	        
 			
 			

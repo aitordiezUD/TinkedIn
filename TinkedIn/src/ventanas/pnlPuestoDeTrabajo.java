@@ -7,6 +7,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import clases.Habilidad;
+import clases.PuestoTrabajo;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -23,23 +24,27 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
 	private JPanel panelArbol;
-
+	private DefaultListModel modeloLista;
+	private DefaultListModel modeloListaPt;
 
 	
 	private JTextField tfNombrePT;
 	
-	public pnlPuestoDeTrabajo( DefaultListModel<Habilidad> modeloLista ) {
+	public pnlPuestoDeTrabajo( ) {
 		setBackground(new Color(255, 255, 255));
 		
 		setPreferredSize( new Dimension(783, 649) );
 		setLayout(null);
 		areasDeTrabajo = new TreeMap<>();
 		
+		modeloListaPt = PnlExplorar.modeloListaPt;
+		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBounds(566, 87, 174, 435);
 		add(pnlLista);
 		pnlLista.setLayout(new BorderLayout(0, 0));
 		
+		modeloLista = new DefaultListModel<Habilidad>();
 		
 		JList<Habilidad> listaHabReq = new JList<Habilidad>();
 		
@@ -125,7 +130,11 @@ public class pnlPuestoDeTrabajo extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(tfNombrePT != null && taDescripcion != null && taDescrHab != null && listaHabReq != null) {
-					//Crear la funcion de crear puesto de trabajo
+					PuestoTrabajo pt = new PuestoTrabajo( tfNombrePT.getText(), taDescrHab.getText(), new ArrayList<>() );
+					for(int i= 0; i<modeloLista.size();i++) {
+						pt.getHabilidadesReq().add((Habilidad) modeloLista.get(i));
+					}
+					modeloListaPt.addElement(pt);
 				}else {
 					JOptionPane.showOptionDialog(
 							null, 
@@ -793,9 +802,15 @@ public class pnlPuestoDeTrabajo extends JPanel {
         
 	}
 	
+	public void limpiarCampos() {
+		tfNombrePT.setText("");
+		modeloLista.clear();
+		
+	}
+	
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
-		vent.getContentPane().add(new pnlPuestoDeTrabajo( new DefaultListModel<Habilidad>()));
+		//vent.getContentPane().add(new pnlPuestoDeTrabajo( new DefaultListModel<PuestoTrabajo>( )));
 		vent.setSize(800,700);
 		vent.setVisible(true);
 	}

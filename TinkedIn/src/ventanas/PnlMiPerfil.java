@@ -95,13 +95,13 @@ public class PnlMiPerfil  extends JPanel {
 		
 		
 		JLabel lblCorreoE = new JLabel("Correo Electrónico:");
-		lblCorreoE.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblCorreoE.setBounds(39, 185, 174, 16);
+		lblCorreoE.setFont(new Font("SansSerif", Font.PLAIN, 17));
+		lblCorreoE.setBounds(20, 141, 174, 16);
 		pnlDatos.add(lblCorreoE);
 		
 		JLabel lblNewLabel_1 = new JLabel("NºTeléfono:");
 		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblNewLabel_1.setBounds(39, 254, 105, 23);
+		lblNewLabel_1.setBounds(20, 168, 105, 23);
 		pnlDatos.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
@@ -151,7 +151,7 @@ public class PnlMiPerfil  extends JPanel {
 		JLabel lblDatosPerfil = new JLabel("Datos:");
 		lblDatosPerfil.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDatosPerfil.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblDatosPerfil.setBounds(20, 140, 124, 14);
+		lblDatosPerfil.setBounds(20, 116, 124, 14);
 		pnlDatos.add(lblDatosPerfil);
 		
 		JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
@@ -176,8 +176,17 @@ public class PnlMiPerfil  extends JPanel {
 		
 		JLabel lblProvincia = new JLabel("Provincia:");
 		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblProvincia.setBounds(39, 321, 80, 23);
+		lblProvincia.setBounds(20, 202, 80, 23);
 		pnlDatos.add(lblProvincia);
+		
+		JButton btnCrearPt = new JButton("Crear Puestos");
+		btnCrearPt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PnlBotonera.CardLayout.show( PnlBotonera.pnlFuncional, "pnlPuestoTrabajo");
+			}
+		});
+		btnCrearPt.setBounds(20, 347, 133, 23);
+		pnlDatos.add(btnCrearPt);
 		
 
 	        

@@ -231,6 +231,9 @@ public class PnlHabilidad extends JPanel{
 		pnlListaBtnEliminar.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnListaEliminar = new JButton("Eliminar");
+		
+		//TODO: listener para eliminar botones de la lista.
+		
 		pnlListaBtnEliminar.add(btnListaEliminar, BorderLayout.NORTH);
 		
 		
@@ -284,7 +287,7 @@ public class PnlHabilidad extends JPanel{
 		
 		//Crear el listener del arbol
 		
-tree.addTreeSelectionListener( new TreeSelectionListener() {
+		tree.addTreeSelectionListener( new TreeSelectionListener() {
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
