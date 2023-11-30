@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import clases.Empresa;
 import clases.Main;
@@ -36,9 +37,12 @@ import java.awt.Font;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 
 public class PnlBotonera extends JPanel {
 	
+	private ImageIcon icono;
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
@@ -68,8 +72,14 @@ public class PnlBotonera extends JPanel {
 		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 		pnlPuestoDeTrabajo pnlPuestoTrabajo = new pnlPuestoDeTrabajo();
 		
-		JPanel pnlInicial = new JPanel();
-		pnlInicial.setBackground(Color.PINK);
+		JPanel pnlInicial = new JPanel(new BorderLayout());
+		icono = new ImageIcon("TinkedinPNG.png");
+		
+		JLabel lblInicial = new JLabel(icono);
+		lblInicial.setHorizontalAlignment(JLabel.CENTER);
+        lblInicial.setVerticalAlignment(JLabel.CENTER);
+		pnlInicial.add(lblInicial,BorderLayout.CENTER);
+        
 		pnlFuncional.add(pnlInicial,"pnlInicial");
 		CardLayout.show(pnlFuncional, "pnlInicial");		
 		
@@ -474,13 +484,4 @@ public class PnlBotonera extends JPanel {
 		
 
 	}
-	
-//	public static void main(String[] args) {
-//		JFrame frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setSize(900, 650);
-//		frame.getContentPane().add(new PnlBotonera());
-//		frame.setVisible(true);
-//		
-//	}
 }

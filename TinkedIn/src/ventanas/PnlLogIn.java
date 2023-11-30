@@ -15,7 +15,9 @@ import clases.Persona;
 import clases.Usuario;
 
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -29,6 +31,10 @@ import java.io.InputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
 
 public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
@@ -40,78 +46,160 @@ public class PnlLogIn extends JPanel {
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
 		setBackground(new Color(202, 232, 232));
 		setSize(900, 650);
-		setLayout(null);
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlLogo = new JPanel(new BorderLayout());
+		pnlLogo.setBackground(new Color(202, 232, 232));
+		
+		ImageIcon icono = new ImageIcon("TinkedinPNG.png");
+		ImageIcon iconoRedimensionado = new ImageIcon(getScaledImage(icono.getImage(), 350, 300));
+		
+		JLabel lblLogo = new JLabel(iconoRedimensionado);
+		lblLogo.setHorizontalAlignment(JLabel.CENTER);
+        lblLogo.setVerticalAlignment(JLabel.CENTER);
+        pnlLogo.add(lblLogo,BorderLayout.CENTER);
+		
+		add(pnlLogo);
+		
+		
 		
 
+		JPanel pnlCont = new JPanel(new BorderLayout());
+		pnlCont.setPreferredSize(new Dimension(400, 10));
+		pnlCont.setBackground(Color.WHITE);
+		add(pnlCont, BorderLayout.WEST);
+		
+//		Margen Superior
+		JPanel p = new JPanel();
+		p.setBackground(Color.white);
+		p.setPreferredSize(new Dimension(100,100));
+		pnlCont.add(p, BorderLayout.NORTH);
+		
+//		Margen Inf
+		p = new JPanel();
+		p.setBackground(Color.white);
+		p.setPreferredSize(new Dimension(50,50));
+		pnlCont.add(p, BorderLayout.SOUTH);
+		
+//		Margen WEST
+		p = new JPanel();
+		p.setPreferredSize(new Dimension(50,50));
+		p.setBackground(Color.white);
+		pnlCont.add(p, BorderLayout.WEST);
+		
+//		Margen EAST
+		p = new JPanel();
+		p.setPreferredSize(new Dimension(50,50));
+		p.setBackground(Color.white);
+		pnlCont.add(p, BorderLayout.EAST);
 		
 		JPanel pnlFunc = new JPanel();
-		pnlFunc.setBackground(Color.WHITE);
-		pnlFunc.setBounds(0, 0, 410, 650);
-		pnlFunc.setLayout(null);
-		add(pnlFunc);
-		
+		pnlFunc.setBackground(Color.white);
 		pnlRegistroPersona = new PnlRegistroPersona(pnlContenido, layoutVentana);
 		pnlContenido.add(pnlRegistroPersona,"pnlRegistroPersona");
 		
 		pnlRegistroEmpresa = new PnlRegistroEmpresa(pnlContenido, layoutVentana);
 		pnlContenido.add(pnlRegistroEmpresa,"pnlRegistroEmpresa");
+		pnlFunc.setLayout(new BoxLayout(pnlFunc, BoxLayout.Y_AXIS));
+		
+		JPanel pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+		pc.setBackground(Color.white);
+		pc.setMaximumSize(new Dimension(20000, 80));
+		pc.setPreferredSize(new Dimension(100, 16));
+		pc.setMinimumSize(new Dimension(100, 20));
 		
 		JLabel lblBienvenida = new JLabel("Bienvenido de nuevo");
+//		lblBienvenida.setMaximumSize(new Dimension(20000, 80));
+		lblBienvenida.setHorizontalTextPosition(SwingConstants.CENTER);
+//		lblBienvenida.setPreferredSize(new Dimension(100, 16));
+//		lblBienvenida.setMinimumSize(new Dimension(100, 20));
 		lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenida.setFont(new Font("Trebuchet MS", Font.BOLD, 26));
-		lblBienvenida.setBounds(10, 108, 390, 55);
-		pnlFunc.add(lblBienvenida);
+//		pnlFunc.add(lblBienvenida);
+		pc.add(lblBienvenida);
+		pnlFunc.add(pc);
 		
-		JLabel lblCredIncorrectas = new JLabel("E-mail o contraseña incorrectos.");
-		lblCredIncorrectas.setVisible(false);
-		lblCredIncorrectas.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCredIncorrectas.setForeground(new Color(255, 0, 0));
-		lblCredIncorrectas.setBounds(63, 294, 294, 14);
-		pnlFunc.add(lblCredIncorrectas);
+		pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+//		pc.setLayout(new FlowLayout());
+		pc.setMaximumSize(new Dimension(2000, 30));
+		pc.setMinimumSize(new Dimension(200, 30));
+		pc.setBackground(Color.white);
+		JLabel lblCorreo = new JLabel("Correo electrónico");
+		lblCorreo.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblCorreo.setMaximumSize(new Dimension(200, 30));
+//		lblCorreo.setMinimumSize(new Dimension(200, 30));
+		pc.add(lblCorreo);
+		pnlFunc.add(pc);
 		
 		tfCorreo = new JTextField();
-		tfCorreo.setBounds(53, 210, 310, 25);
+		tfCorreo.setMaximumSize(new Dimension(2147483647, 25));
 		pnlFunc.add(tfCorreo);
 		tfCorreo.setColumns(10);
 		
-		JLabel lblCorreo = new JLabel("Correo electrónico\r\n");
-		lblCorreo.setBounds(53, 195, 206, 14);
-		pnlFunc.add(lblCorreo);
-		
+		pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+		pc.setMaximumSize(new Dimension(2000, 30));
+		pc.setMinimumSize(new Dimension(80, 30));
+		pc.setBackground(Color.white);
 		JLabel lblContrasena = new JLabel("Contraseña");
-		lblContrasena.setBounds(53, 251, 206, 14);
-		pnlFunc.add(lblContrasena);
+		lblContrasena.setHorizontalAlignment(SwingConstants.LEFT);
+		pc.add(lblContrasena);
+		pnlFunc.add(pc);
 		
-		JButton btnIniciarSesion = new JButton("Iniciar sesión\r\n");
 		
-		btnIniciarSesion.setBounds(53, 319, 310, 38);
-		pnlFunc.add(btnIniciarSesion);
-		
-		JLabel lblRegistro = new JLabel("¿No tienes cuenta todavía? Regístrate");
-		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegistro.setBounds(53, 368, 310, 14);
-		pnlFunc.add(lblRegistro);
 		
 		pfContrasnya = new JPasswordField();
-		pfContrasnya.setBounds(53, 266, 310, 25);
+		pfContrasnya.setMaximumSize(new Dimension(2147483647, 25));
 		pnlFunc.add(pfContrasnya);
 		
-		JLabel lblImagen = new JLabel();
-		lblImagen.setBounds(460, 119, 350, 300);
-		add(lblImagen);
+		pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+		pc.setMaximumSize(new Dimension(2000, 30));
+		pc.setMinimumSize(new Dimension(200, 20));
+		pc.setBackground(Color.white);
+		JLabel lblCredIncorrectas = new JLabel("E-mail o contraseña incorrectos.");
+		lblCredIncorrectas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCredIncorrectas.setForeground(new Color(255, 0, 0));
+		lblCredIncorrectas.setVisible(false);
+		pc.add(lblCredIncorrectas);
+		
+		pnlFunc.add(pc);
+		
+		pc = new JPanel();
+		pc.setLayout(new BorderLayout());
+		pc.setMaximumSize(new Dimension(2000, 26));
+		pc.setBackground(Color.white);
+		JButton btnIniciarSesion = new JButton("Iniciar sesión");
+		btnIniciarSesion.setMaximumSize(new Dimension(20000, 23));
+		pc.add(btnIniciarSesion);
+		pnlFunc.add(pc);
 		
 		
+		pc = new JPanel();
+		pc.setBackground(Color.white);
+		pc.setLayout(new BorderLayout());
+		pc.setMaximumSize(new Dimension(20000, 30));
+		JLabel lblRegistro = new JLabel("¿No tienes cuenta todavía? Regístrate");
+//		lblRegistro.setMaximumSize(new Dimension(20000, 28));
+		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
+		pc.add(lblRegistro);
+		pnlFunc.add(pc);
 		
-		try {
-		    InputStream imageStream = PnlBotonera.class.getResourceAsStream("TinkedinPNG.png");
-		    if (imageStream != null) {
-		        BufferedImage originalImage = ImageIO.read(imageStream);
-		        ImageIcon icono = new ImageIcon(originalImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH));
-		        lblImagen.setIcon(icono);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace(); // Manejo de la excepción, imprime el seguimiento de la pila en la consola
-		}
+		pnlCont.add(pnlFunc,BorderLayout.CENTER);
+		
+		
+//		try {
+//		    InputStream imageStream = PnlBotonera.class.getResourceAsStream("TinkedinPNG.png");
+//		    if (imageStream != null) {
+//		        BufferedImage originalImage = ImageIO.read(imageStream);
+//		        ImageIcon icono = new ImageIcon(originalImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH));
+//		        lblImagen.setIcon(icono);
+//		    }
+//		} catch (IOException e) {
+//		    e.printStackTrace(); // Manejo de la excepción, imprime el seguimiento de la pila en la consola
+//		}
 		
 		
 //		Listener para abrir la ventana de registrarse
@@ -157,6 +245,8 @@ public class PnlLogIn extends JPanel {
 				
 			}
 		});
+		
+		
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
@@ -177,4 +267,13 @@ public class PnlLogIn extends JPanel {
 		
 
 	}
+	
+	private Image getScaledImage(Image srcImg, int width, int height) {
+        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resizedImg.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.drawImage(srcImg, 0, 0, width, height, null);
+        g2d.dispose();
+        return resizedImg;
+    }
 }
