@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
@@ -57,63 +58,140 @@ public class PnlExplorar extends JPanel {
 	public PnlExplorar( Usuario tipoUsuario ) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
-		try {
-	        // Carga la imagen original desde el archivo en el paquete "imagenes"
-	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.JPG");
-	        BufferedImage originalImage = ImageIO.read(imageStream);
-	        
-	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-	        int width = 100;
-	        int height = 100;
-	        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-	        // Convierte la imagen escalada en un BufferedImage
-	        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2d = resizedImage.createGraphics();
-	        Shape circle = new Ellipse2D.Float(0, 0, width, height);
-	        g2d.setClip(circle);
-	        g2d.drawImage(scaledImage, 0, 0, null);
-	        g2d.dispose();
-	        setLayout(null);
-	        setLayout(null);
-	        
-	        
-	        
-	        JPanel pnlDatos = new JPanel();
-	        pnlDatos.setLayout(new BorderLayout(0, 0));
-	        pnlDatos.setLocation(350, 30);
-	        pnlDatos.setMinimumSize(pnlDatos.getSize());
-	        pnlDatos.setMaximumSize(pnlDatos.getSize());
-	        pnlDatos.setSize(new Dimension(200,150));
-	        pnlDatos.setBackground(Color.WHITE);
-	        add(pnlDatos,BorderLayout.NORTH);
-	        
-	        JPanel pnlBotones = new JPanel();
-	        pnlBotones.setBackground(Color.BLACK);
-	        JButton botonLike = new JButton("Like");
-	        JButton botonDislike = new JButton("Dislike");
-	        pnlBotones.add(botonLike);
-	        pnlBotones.add(botonDislike);
-	        add(pnlBotones,BorderLayout.SOUTH);
-	        
-	        
-	        
-			//Crea in JLabel y asigna la imagen
-	        JLabel lblFotoUsuario = new JLabel(new ImageIcon(resizedImage));
-	        pnlDatos.add(lblFotoUsuario,BorderLayout.CENTER);
-	        lblFotoUsuario.setBackground(new Color(240, 240, 240));
-	        
-	        JLabel lblNombreUsuario = new JLabel("Nombre Usuario");
-	        pnlDatos.add(lblNombreUsuario,BorderLayout.NORTH);
-	        lblNombreUsuario.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-	        lblNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		
 	        
 	       
 	        JPanel pnlLista = new JPanel();
 	        setLayout(new BorderLayout(0,0));
+	        
+	        
+	        JPanel pnlContenido = new JPanel();
+	        pnlContenido.setLayout( new BorderLayout());
+	        pnlContenido.setBackground(Color.RED);
+	        pnlContenido.setPreferredSize(new Dimension(getWidth()-250, getHeight()));
+	        add(pnlContenido, BorderLayout.CENTER);
+	        
+	        JPanel pnlInfo = new JPanel();
+	        pnlInfo.setLayout( new BorderLayout() );
+	        pnlInfo.setBackground( Color.WHITE);
+	        pnlContenido.add(pnlInfo);
 	       
-	        System.out.println( tipoUsuario.getClass());
+	        JPanel pnlDatos = new JPanel();
+//	        pnlDatos.setBackground(Color.GREEN);
+	        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
+	        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
+	        
+	        
+	        JPanel pnlBotonera = new JPanel();
+	        pnlBotonera.setLayout( new GridLayout(0,3) );
+//	        pnlBotonera.setBackground( Color.BLUE);
+	        pnlBotonera.setPreferredSize( new Dimension(getWidth()-250, 120 ));
+	        pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
+//	        System.out.println( tipoUsuario.getClass() );
 
+	        JPanel pnlLike = new JPanel();
+	        pnlLike.setLayout(new BorderLayout());
+	        pnlBotonera.add(pnlLike);
+
+	        
+	        JPanel pnlVacio = new JPanel();
+	        pnlVacio.setPreferredSize( new Dimension(10,10));
+	        pnlBotonera.add(pnlVacio);
+	        
+	        JPanel pnlPass = new JPanel();
+	        pnlLike.setLayout(new BorderLayout());
+	        pnlBotonera.add(pnlPass);
+	        pnlPass.setLayout(new BorderLayout(0, 0));
+	        
+	        
+	        
+	        
+	        try {
+	            // Carga la imagen original desde el archivo en el paquete "imagenes"
+	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
+	            BufferedImage originalImage = ImageIO.read(imageStream);
+
+	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+	            int width = 70;
+	            int height = 70;
+	            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+	            // Convierte la imagen escalada en un BufferedImage
+	            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	            Graphics2D g2d = resizedImage.createGraphics();
+	            Shape circle = new Ellipse2D.Float(0, 0, width, height);
+	            g2d.setClip(circle);
+	            g2d.drawImage(scaledImage, 0, 0, null);
+	            g2d.dispose();
+	            
+	            // Crea un JLabel y asigna la imagen escalada como ícono
+	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
+	            lblGrafExp.setBackground(new Color(240, 240, 240));
+	    		lblGrafExp.setBounds(20, 0, 38, 38);
+	    		pnlDatos.add(lblGrafExp);
+	      
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        try {
+	            // Carga la imagen original desde el archivo en el paquete "imagenes"
+	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("cruzar.png");
+	            BufferedImage originalImage = ImageIO.read(imageStream);
+
+	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+	            int width = 40;
+	            int height =  40;
+	            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+	            // Convierte la imagen escalada en un BufferedImage
+	            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	            Graphics2D g2d = resizedImage.createGraphics();
+	            g2d.drawImage(scaledImage, 0, 0, null);
+	            g2d.dispose();
+	            
+	            // Crea un JLabel y asigna la imagen escalada como ícono
+	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
+	            lblGrafExp.setBackground(new Color(240, 240, 240));
+	    		lblGrafExp.setBounds(20, 0, 38, 38);
+	    		pnlPass.add(lblGrafExp, BorderLayout.WEST);
+	      
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        try {
+	            // Carga la imagen original desde el archivo en el paquete "imagenes"
+	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("corazon.png");
+	            BufferedImage originalImage = ImageIO.read(imageStream);
+
+	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+	            int width = 40;
+	            int height =  40;
+	            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+	            // Convierte la imagen escalada en un BufferedImage
+	            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	            Graphics2D g2d = resizedImage.createGraphics();
+	            g2d.drawImage(scaledImage, 0, 0, null);
+	            g2d.dispose();
+	            
+	            // Crea un JLabel y asigna la imagen escalada como ícono
+	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
+	            lblGrafExp.setBackground(new Color(240, 240, 240));
+	    		lblGrafExp.setBounds(20, 0, 38, 38);
+	    		pnlLike.add(lblGrafExp, BorderLayout.EAST);
+	      
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        
+	        JLabel lblNombreUsu = new JLabel( "      Nombre de Usuario" );
+	        lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+	        pnlDatos.add(lblNombreUsu);
+	        
+	        
 	        if( tipoUsuario instanceof Empresa ) {
 	        	
 	        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
@@ -140,6 +218,7 @@ public class PnlExplorar extends JPanel {
 			listaPuestos.setBackground(new Color(202, 232, 232));
 			JScrollPane spLista = new JScrollPane(listaPuestos);
 	 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
+	 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
 	 	    spLista.setBackground(getBackground());
 	 	    pnlLista.add(spLista);
 	 	    
@@ -198,13 +277,6 @@ public class PnlExplorar extends JPanel {
 	       }
 	       
 	     
-	        
-			
-			
-	  
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
 		
 	}
 	public static void main(String[] args) {
