@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.UIManager;
+import javax.swing.border.StrokeBorder;
 
 import clases.Empresa;
 import clases.Habilidad;
@@ -36,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
@@ -53,12 +55,13 @@ public class PnlExplorar extends JPanel {
 	 * Create the panel.
 	 */
 	public PnlExplorar( Usuario tipoUsuario ) {
-		setBackground(new Color(129, 186, 207));
+		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
 		try {
 	        // Carga la imagen original desde el archivo en el paquete "imagenes"
 	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.JPG");
 	        BufferedImage originalImage = ImageIO.read(imageStream);
-
+	        
 	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
 	        int width = 100;
 	        int height = 100;
@@ -77,19 +80,31 @@ public class PnlExplorar extends JPanel {
 	        
 	        
 	        JPanel pnlDatos = new JPanel();
-	        pnlDatos.setLocation(350, 30);
-	        pnlDatos.setSize(200, 150);
-	        pnlDatos.setBackground(new Color(129, 186, 207));
-	        add(pnlDatos, BorderLayout.NORTH);
 	        pnlDatos.setLayout(new BorderLayout(0, 0));
+	        pnlDatos.setLocation(350, 30);
+	        pnlDatos.setMinimumSize(pnlDatos.getSize());
+	        pnlDatos.setMaximumSize(pnlDatos.getSize());
+	        pnlDatos.setSize(new Dimension(200,150));
+	        pnlDatos.setBackground(Color.WHITE);
+	        add(pnlDatos,BorderLayout.NORTH);
+	        
+	        JPanel pnlBotones = new JPanel();
+	        pnlBotones.setBackground(Color.BLACK);
+	        JButton botonLike = new JButton("Like");
+	        JButton botonDislike = new JButton("Dislike");
+	        pnlBotones.add(botonLike);
+	        pnlBotones.add(botonDislike);
+	        add(pnlBotones,BorderLayout.SOUTH);
+	        
+	        
 	        
 			//Crea in JLabel y asigna la imagen
 	        JLabel lblFotoUsuario = new JLabel(new ImageIcon(resizedImage));
-	        pnlDatos.add(lblFotoUsuario,BorderLayout.NORTH);
+	        pnlDatos.add(lblFotoUsuario,BorderLayout.CENTER);
 	        lblFotoUsuario.setBackground(new Color(240, 240, 240));
 	        
 	        JLabel lblNombreUsuario = new JLabel("Nombre Usuario");
-	        pnlDatos.add(lblNombreUsuario);
+	        pnlDatos.add(lblNombreUsuario,BorderLayout.NORTH);
 	        lblNombreUsuario.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
 	        lblNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 	        
@@ -110,21 +125,22 @@ public class PnlExplorar extends JPanel {
 	        	Empresa e = (Empresa) tipoUsuario;	
 	        	e.setPuestos(puestos);
 	        	
-	        	pnlLista.setLocation(0,0);
 	        	pnlLista.setBackground( new Color( 129, 186, 207 ) );
 	 	    
-	        	pnlLista.setLayout(null);
+	        	pnlLista.setLayout(new BorderLayout());
 	 	        
 	        	modeloListaPt = new DefaultListModel<PuestoTrabajo>();
-	        
+	        	
 	        	for ( PuestoTrabajo p : e.getPuestos()) {
 	        		modeloListaPt.addElement(p);
 	        	}
 	        	JList<String> listaPuestos = new JList<String>();
 			
 			listaPuestos.setModel(modeloListaPt);
+			listaPuestos.setBackground(new Color(202, 232, 232));
 			JScrollPane spLista = new JScrollPane(listaPuestos);
-	 	    spLista.setSize(150,620);
+	 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
+	 	    spLista.setBackground(getBackground());
 	 	    pnlLista.add(spLista);
 	 	    
 	 	   
@@ -144,7 +160,9 @@ public class PnlExplorar extends JPanel {
 					// TODO Auto-generated method stub
 					
 					pnl = new JPanel();
+					pnl.setPreferredSize(new Dimension(pnlLista.getWidth()-5,70));
 					pnl.setSize(200,50);
+					pnl.setBorder(BorderFactory.createMatteBorder(0,1,1,1,Color.BLACK));
 					if (isSelected) {
 	                    pnl.setBackground(new Color(122, 199, 218));
 	                } else {
@@ -176,7 +194,7 @@ public class PnlExplorar extends JPanel {
 	            }
 	        });
 			
-			add(pnlLista);
+			add(pnlLista,BorderLayout.WEST);
 	       }
 	       
 	     
