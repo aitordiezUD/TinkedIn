@@ -7,6 +7,8 @@ import java.util.Properties;
 
 import javax.swing.*;
 
+import nube.ImagenesAzure;
+
 enum Tipo {PERSONA, EMPRESA}
 
 public abstract class Usuario implements Serializable{
@@ -15,7 +17,7 @@ public abstract class Usuario implements Serializable{
 	
 	//Atributos 
 	private long id;
-	private ImageIcon fotoDePerfil;
+	private File fotoDePerfil;
 	private String password;
 	private Tipo tipo;
 	
@@ -45,10 +47,10 @@ public abstract class Usuario implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public ImageIcon getFotoDePerfil() {
+	public File getFotoDePerfil() {
 		return fotoDePerfil;
 	}
-	public void setFotoDePerfil(ImageIcon fotoDePerfil) {
+	public void setFotoDePerfil(File fotoDePerfil) {
 		this.fotoDePerfil = fotoDePerfil;
 	}
 
@@ -57,7 +59,7 @@ public abstract class Usuario implements Serializable{
 		
 
 	
-	public Usuario(ImageIcon fotoDePerfil,String password) {
+	public Usuario(File fotoDePerfil,String password) {
 		if (this instanceof Persona) {
 			this.tipo = Tipo.PERSONA;
 		}else {
@@ -67,6 +69,8 @@ public abstract class Usuario implements Serializable{
 		count++;
 		this.fotoDePerfil = fotoDePerfil;
 		this.password = password;
+		new ImagenesAzure();
+		ImagenesAzure.subirImagen(fotoDePerfil,id + ".jpg");
 	}
 	
 	public Usuario(Usuario u) {

@@ -1,5 +1,6 @@
 package clases;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -84,7 +85,7 @@ public class Persona extends Usuario implements Serializable{
 	//Constructores: 
 	
 	public Persona(String nombre, String apellidos,String ubicacion, int edad,
-			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, @SuppressWarnings("exports") ImageIcon fotoDePerfil, String password) {
+			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, @SuppressWarnings("exports") File fotoDePerfil, String password) {
 		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.apellidos = apellidos;

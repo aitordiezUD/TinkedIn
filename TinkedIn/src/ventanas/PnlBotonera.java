@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Main;
 import clases.Persona;
@@ -46,9 +48,9 @@ public class PnlBotonera extends JPanel {
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
-	private Usuario tipoUsuario = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
+//	private Usuario tipoUsuario = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new File("fotoPerfilEjemplo.jpg"))),"adminE");
 	//private Usuario tipoUsuario = new Persona( "nada","nada","nada", 23, "nada", "nada",null,(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"nada");
-	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
+	private PnlExplorar pExplorar = new PnlExplorar(DatosFicheros.getEmpresas().get(0));
 	public static JPanel pnlFuncional;
 	public static CardLayout CardLayout;
 	

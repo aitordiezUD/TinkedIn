@@ -121,9 +121,9 @@ public class DatosFicheros implements ManejoDatos{
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
 		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
-		(new Thread(r1)).start();
+//		(new Thread(r1)).start();
 		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
-		(new Thread(r2)).start();
+//		(new Thread(r2)).start();
 //		
 	}
 

@@ -396,10 +396,11 @@ public class PnlExplorar extends JPanel {
 	}
 	
 	public static void main(String[] args) {
+		DatosFicheros datos = new DatosFicheros();
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
-		frame.getContentPane().add(new PnlExplorar( new Empresa("nada", "9292932","nada","nada", new ArrayList<>(), new ArrayList<>(), (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))), "nada" )));
+		frame.getContentPane().add(new PnlExplorar(DatosFicheros.getEmpresas().get(0)));
 		frame.setVisible(true);
 		
 	}

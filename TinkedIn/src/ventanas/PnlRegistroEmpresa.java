@@ -397,7 +397,7 @@ public class PnlRegistroEmpresa extends JPanel {
 		        	ArrayList<String> ubis = crearArrayListUbicaciones();
 		        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 		        	
-		        	Empresa e = new Empresa(tfNombre.getText(), tfTelefono.getText(),
+		        	Empresa emp = new Empresa(tfNombre.getText(), tfTelefono.getText(),
 		        			tfCorreo.getText(), tADescripcion.getText(),
 		        			ubis, puestos, selectedFile, contrasena1);
 		        	layoutVentana.show(pnlContenido, "pnlLogIn");
