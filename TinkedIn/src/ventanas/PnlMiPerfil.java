@@ -198,7 +198,7 @@ public class PnlMiPerfil  extends JPanel {
 		if (usuarioAutenticado instanceof Persona) {
 			Persona p = (Persona) usuarioAutenticado;
 			System.out.println(p.getUbicacion());
-			lblApellidos.setText( p.getNombre() + " " + p.getApellidos() );
+			lblNombre.setText( p.getNombre() + " " + p.getApellidos() );
 			lblProvU.setText( p.getUbicacion() );
 			lblNumTlfU.setText( p.getTelefono() );
 			
