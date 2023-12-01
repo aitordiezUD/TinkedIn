@@ -203,14 +203,8 @@ public class PnlRegistroPersona extends JPanel {
 		        String contrasena1 = new String(passwordChars1);
 		        String contrasena2 = new String(passwordChars2);
 		        
-				if (contrasena1.equals(contrasena2)) {
-					ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
-					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
-							 20, tfCorreo.getText(), tfTelefono.getText(),
-							habilidades,new ImageIcon("fotoPerfilEjemplo.jpg"), contrasena1);
-					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
-				} else {
-					JOptionPane.showOptionDialog(
+		        if (!contrasena1.equals(contrasena2)) {
+		        	JOptionPane.showOptionDialog(
 							null, 
 							"Las dos contraseñas no coinciden.", 
 							"Error", 
@@ -219,7 +213,33 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
-				}				
+		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"El correo electrónico se encuentra asociado a otro usuario.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        } else if (VentanaPrincipal.getDatos().containsEmail(tfTelefono.getText())) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"El teléfono se encuentra asociado a otro usuario.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        }else {
+		        	ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
+					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
+							 20, tfCorreo.getText(), tfTelefono.getText(),
+							habilidades,new ImageIcon("fotoPerfilEjemplo.jpg"), contrasena1);
+					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
+		        }		
 			}
         } );
         

@@ -240,9 +240,6 @@ public class PnlLogIn extends JPanel {
 		        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
 		        } else {}
 				
-				
-				
-				
 			}
 		});
 		
