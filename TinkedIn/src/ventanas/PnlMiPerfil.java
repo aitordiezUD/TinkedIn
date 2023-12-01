@@ -105,10 +105,10 @@ public class PnlMiPerfil  extends JPanel {
 		lblCorreoE.setBounds(20, 141, 174, 16);
 		pnlDatos.add(lblCorreoE);
 		
-		JLabel lblNewLabel_1 = new JLabel("NºTeléfono:");
-		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblNewLabel_1.setBounds(20, 168, 105, 23);
-		pnlDatos.add(lblNewLabel_1);
+		JLabel lblNTelefono = new JLabel("NºTeléfono:");
+		lblNTelefono.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblNTelefono.setBounds(20, 168, 105, 23);
+		pnlDatos.add(lblNTelefono);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(266, 108, 48, 14);
@@ -169,16 +169,16 @@ public class PnlMiPerfil  extends JPanel {
 		list.setBounds(399, 44, 286, 332);
 		pnlDatos.add(list);
 		
-		JLabel lblNombre = new JLabel("Titulacion principal (ejemplo)");
-		lblNombre.setForeground(new Color(128, 128, 128));
-		lblNombre.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblNombre.setBounds(20, 50, 261, 23);
-		pnlDatos.add(lblNombre);
+		JLabel lblTitPrincipal = new JLabel("Titulacion principal (ejemplo)");
+		lblTitPrincipal.setForeground(new Color(128, 128, 128));
+		lblTitPrincipal.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblTitPrincipal.setBounds(20, 50, 261, 23);
+		pnlDatos.add(lblTitPrincipal);
 		
-		JLabel lblApellidos = new JLabel("Nombre de la persona (ejemplo)");
-		lblApellidos.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
-		lblApellidos.setBounds(20, 23, 332, 31);
-		pnlDatos.add(lblApellidos);
+		JLabel lblNombre = new JLabel("Nombre de la persona (ejemplo)");
+		lblNombre.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
+		lblNombre.setBounds(20, 23, 332, 31);
+		pnlDatos.add(lblNombre);
 		
 		JLabel lblProvincia = new JLabel("Provincia:");
 		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));

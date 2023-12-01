@@ -1,9 +1,11 @@
 package ventanas;
 
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -15,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
@@ -22,11 +25,19 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import clases.DatosFicheros;
+import clases.Empresa;
 import clases.Habilidad;
 import clases.Persona;
+import clases.PuestoTrabajo;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -58,122 +69,234 @@ public class PnlRegistroEmpresa extends JPanel {
 	private JTextField tfTelefono;
 	private JLabel lblDatos;
 	private JLabel lblDesc;
-	
-
+	private DefaultListModel<String> modeloLista;
+	private File selectedFile = null;
 	
 	
     public PnlRegistroEmpresa(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 610);
-        setLayout(null);
+        setLayout(new BorderLayout());
+
+//      PANEL IZQUIERDA
+        JPanel pnlIzq = new JPanel(new BorderLayout());
+        pnlIzq.setBackground(new Color(255, 255, 255));
+        pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
+        add(pnlIzq, BorderLayout.WEST);
+        
+//      MARGEN NORTH
+        JPanel p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlIzq.add(p, BorderLayout.NORTH);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlIzq.add(p, BorderLayout.SOUTH);
+        
+//      MARGEN EAST
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlIzq.add(p, BorderLayout.EAST);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlIzq.add(p, BorderLayout.WEST);
+        
+        JPanel pnlIzqCont = new JPanel();
+        pnlIzqCont.setLayout(new BoxLayout(pnlIzqCont, BoxLayout.Y_AXIS));
+        pnlIzq.add(pnlIzqCont);
+        
+        
+//      PANEL DERECHA  
+        JPanel pnlDer = new JPanel(new BorderLayout());
+        pnlDer.setBackground(new Color(255, 255, 255));
+        pnlDer.setBackground(Color.red);
+        pnlDer.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
+//        SwingUtilities.invokeLater(() -> {pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));});
+        add(pnlDer, BorderLayout.EAST);
+        
+//      MARGEN NORTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.NORTH);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.SOUTH);
+        
+//      MARGEN EAST
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.EAST);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.WEST);
+        
+        JPanel pnlDerCont = new JPanel();
+        pnlDerCont.setLayout(new BoxLayout(pnlDerCont, BoxLayout.Y_AXIS));
+        pnlDer.add(pnlDerCont);
         
         
         
 //      Añadir 
-//<<<<<<< HEAD
-////        PnlHabilidad pnlHabilidad = new PnlHabilidad();
-////        pnlContenido.add(pnlHabilidad,"pnlHabilidad");
-//=======
-//        
-//>>>>>>> branch 'master' of https://github.com/aitordiezUD/TinkedIn.git
+        lblDatos = new JLabel("Datos");
+        lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,60));
+        p.add(lblDatos);
+        pnlIzqCont.add(p);
         
         lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(100, 105, 215, 14);
-        add(lblNombre);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblNombre);
+        pnlIzqCont.add(p);
         
         tfNombre = new JTextField();
-        tfNombre.setBounds(100, 125, 215, 20);
-        add(tfNombre);
         tfNombre.setColumns(10);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfNombre);
+        pnlIzqCont.add(p);
         
         JLabel lblCorreo = new JLabel("Correo electrónico:");
-        lblCorreo.setBounds(100, 156, 150, 14);
-        add(lblCorreo);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblCorreo);
+        pnlIzqCont.add(p);
         
         tfCorreo = new JTextField();
         tfCorreo.setColumns(10);
-        tfCorreo.setBounds(100, 176, 215, 20);
-        add(tfCorreo);
-        
-        JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setBounds(100, 258, 91, 14);
-        add(lblContrasena);
-        
-        JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:\r\n");
-        lblRepetirContrasena.setBounds(100, 309, 150, 14);
-        add(lblRepetirContrasena);
-        
-        pfContrasena = new JPasswordField();
-        pfContrasena.setBounds(100, 278, 215, 20);
-        add(pfContrasena);
-        
-        pfRepetirContrasena = new JPasswordField();
-        pfRepetirContrasena.setBounds(100, 329, 215, 20);
-        add(pfRepetirContrasena);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfCorreo);
+        pnlIzqCont.add(p);
         
         lblTelefono = new JLabel("Teléfono:");
-        lblTelefono.setBounds(100, 207, 150, 14);
-        add(lblTelefono);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblTelefono);
+        pnlIzqCont.add(p);
         
         tfTelefono = new JTextField();
         tfTelefono.setColumns(10);
-        tfTelefono.setBounds(100, 227, 215, 20);
-        add(tfTelefono);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfTelefono);
+        pnlIzqCont.add(p);
         
-        JComboBox<String> cbProvincia = new JComboBox<String>();
-        cbProvincia.setBounds(100, 513, 215, 22);
-        add(cbProvincia);
         
-        for(String p: provincias) {
-        	cbProvincia.addItem(p);
-        }
+        JLabel lblContrasena = new JLabel("Contraseña:");
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblContrasena);
+        pnlIzqCont.add(p);
         
-        DefaultListModel<String> modeloLista = new DefaultListModel<String>();
+        pfContrasena = new JPasswordField();
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(pfContrasena);
+        pnlIzqCont.add(p);
+        
+        JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:");
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblRepetirContrasena);
+        pnlIzqCont.add(p);
+        
+        pfRepetirContrasena = new JPasswordField();
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(pfRepetirContrasena);
+        pnlIzqCont.add(p);
+        
+        JLabel lblImagen = new JLabel("Seleccionar foto de perfil:");
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblImagen);
+        pnlIzqCont.add(p);
+        
+        JButton btnSelImg = new JButton("Seleccionar imagen");
+        JCheckBox check = new JCheckBox();
+        check.setEnabled(false);
+        check.setPreferredSize(new Dimension(25,25));
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(btnSelImg);
+        p.add(check, BorderLayout.EAST);
+        pnlIzqCont.add(p);
+        
+        btnSelImg.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFileChooser fileChooser = new JFileChooser();
+
+		        // Filtrar para mostrar solo archivos de imagen
+		        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter(
+		                "Archivos de imagen", "jpg", "jpeg", "png");
+		        fileChooser.setFileFilter(imageFilter);
+
+		        // Mostrar el diálogo para seleccionar un archivo
+		        int result = fileChooser.showOpenDialog(null);
+
+		        // Verificar si el usuario seleccionó un archivo
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            selectedFile = fileChooser.getSelectedFile();
+		            check.setSelected(true);
+		        } else {
+		        	check.setSelected(false);
+		        }
+			}
+		});
+        
+        JLabel lblProvincia = new JLabel("Provincia:");
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblProvincia);
+        pnlIzqCont.add(p);
+        
+        modeloLista = new DefaultListModel<String>();
         JList<String> listaProvincias = new JList<String>();
         listaProvincias.setModel(modeloLista);
         
         JScrollPane spProvincias = new JScrollPane(listaProvincias);
-        spProvincias.setBounds(100, 380, 215, 130);
-        add(spProvincias);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,300));
+        p.add(spProvincias);
+        pnlIzqCont.add(p);
         
-        lblDatos = new JLabel("Datos");
-        lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblDatos.setBounds(100, 49, 215, 42);
-        add(lblDatos);
+        JComboBox<String> cbProvincia = new JComboBox<String>();
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,30));
+        p.add(cbProvincia);
+        pnlIzqCont.add(p);
         
-        lblDesc = new JLabel("Descripción");
-        lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDesc.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblDesc.setBounds(585, 49, 215, 42);
-        add(lblDesc);
+        for(String prov: provincias) {
+        	cbProvincia.addItem(prov);
+        }
         
-        JLabel lblDesc_min = new JLabel("Breve descripción de la empresa:");
-        lblDesc_min.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        lblDesc_min.setBounds(522, 105, 215, 14);
-        add(lblDesc_min);
-        
+        p = new JPanel(new FlowLayout());
         JButton btnAnadirProv = new JButton("Añadir");
         btnAnadirProv.setBackground(Color.WHITE);
+        p.add(btnAnadirProv);
         
-        btnAnadirProv.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(!modeloLista.contains((String) cbProvincia.getSelectedItem())) {
-					modeloLista.addElement((String) cbProvincia.getSelectedItem());
-				}
-			}
-        	
-        });
-        
-        btnAnadirProv.setBounds(100, 537, 89, 23);
-        add(btnAnadirProv);
         
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBackground(Color.WHITE);
-        btnEliminar.setBounds(226, 537, 89, 23);
-        add(btnEliminar);
+        p.add(btnEliminar);
+        
+        pnlIzqCont.add(p);
+        
+
+
         
         btnEliminar.addActionListener(new ActionListener() {
 			
@@ -184,14 +307,50 @@ public class PnlRegistroEmpresa extends JPanel {
 			}
 		});
         
-        
+        p = new JPanel(new FlowLayout());
+        p.setPreferredSize(new Dimension(300,60));
         JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(460, 576, 90, 23);
-        add(btnCancelar);
-        
+        p.add(btnCancelar, BorderLayout.EAST);
         JButton btnRegistrarse = new JButton("Registrarse");
-        btnRegistrarse.setBounds(350, 576, 90, 23);
-        add(btnRegistrarse);
+        p.add(btnRegistrarse, BorderLayout.WEST);	
+        add(p, BorderLayout.SOUTH);
+			
+        
+ 
+
+        lblDesc = new JLabel("Descripción");
+        lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDesc.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,60));
+        p.add(lblDesc);
+        pnlDerCont.add(p);
+        
+        JLabel lblDesc_min = new JLabel("Breve descripción de la empresa:");
+        lblDesc_min.setHorizontalAlignment(SwingConstants.CENTER);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,50));
+        p.setPreferredSize(new Dimension(300,40));
+        p.add(lblDesc_min);
+        pnlDerCont.add(p);
+        
+        
+        JTextArea tADescripcion = new JTextArea();
+        JScrollPane spTextArea = new JScrollPane(tADescripcion);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,10000));
+        p.add(spTextArea);
+        pnlDerCont.add(p);
+        
+        //Boton que mande a la pestaña anterior
+        btnCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layoutVentana.show(pnlContenido, "pnlLogIn");
+				
+			}
+		});
         
         btnRegistrarse.addActionListener( new ActionListener() {
 
@@ -204,14 +363,8 @@ public class PnlRegistroEmpresa extends JPanel {
 		        String contrasena1 = new String(passwordChars1);
 		        String contrasena2 = new String(passwordChars2);
 		        
-				if (contrasena1.equals(contrasena2)) {
-					/**TODO:
-					 * Hay que crear los puestos de trabajo
-					 * Diseñar la gui para que las empresas los creen
-					 * Crear un objeto empresa y añadir a los datos
-					 * **/
-				} else {
-					JOptionPane.showOptionDialog(
+		        if (!contrasena1.equals(contrasena2)) {
+		        	JOptionPane.showOptionDialog(
 							null, 
 							"Las dos contraseñas no coinciden.", 
 							"Error", 
@@ -220,32 +373,39 @@ public class PnlRegistroEmpresa extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
-				}				
+		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"El correo electrónico se encuentra asociado a otro usuario.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        } else if (VentanaPrincipal.getDatos().containsEmail(tfTelefono.getText())) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"El teléfono se encuentra asociado a otro usuario.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        }else {
+		        	ArrayList<String> ubis = crearArrayListUbicaciones();
+		        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
+		        	
+		        	Empresa e = new Empresa(tfNombre.getText(), tfTelefono.getText(),
+		        			tfCorreo.getText(), tADescripcion.getText(),
+		        			ubis, puestos, selectedFile, contrasena1);
+		        	layoutVentana.show(pnlContenido, "pnlLogIn");
+		        	
+		        }
 			}
         	
         });
-        
-        JLabel lblProvincia = new JLabel("Provincia:");
-        lblProvincia.setBounds(100, 360, 215, 14);
-        add(lblProvincia);
-        
-        JTextArea tADescripcion = new JTextArea();
-        
-        
-        JScrollPane spTextArea = new JScrollPane(tADescripcion);
-        spTextArea.setBounds(522, 125, 324, 385);
-        add(spTextArea);
-        
-        //Boton que mande a la pestaña anterior
-        btnCancelar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layoutVentana.show(pnlContenido, "pnlLogIn");
-				
-			}
-		});
-        
       
         
 
@@ -258,5 +418,27 @@ public class PnlRegistroEmpresa extends JPanel {
     	g.setColor(Color.BLACK);
     	g.drawLine(450, 50, 450, 540);
     }
+    
+    private ArrayList<String> crearArrayListUbicaciones() {
+    	ArrayList<String> arr = new ArrayList<>();
+    	for(int i = 0; i<modeloLista.size(); i++) {
+    		arr.add((String) modeloLista.get(i));
+    	}
+    	return arr;
+    }
+    
+    public static void main(String[] args) {
+    	
+    	PnlRegistroEmpresa p = new PnlRegistroEmpresa(new JPanel(), new CardLayout());
+    	JFrame f = new JFrame();
+    	f.setSize(900,650);
+    	f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//    	SwingUtilities.invokeLater(() -> {p.setPreferredSize(new Dimension((int) (f.getPreferredSize().getWidth()/2),100));});
+    	f.add(p);
+    	
+    	
+    	
+    	f.setVisible(true);
+	}
 }
 

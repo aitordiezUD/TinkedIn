@@ -205,6 +205,20 @@ public class DatosFicheros implements ManejoDatos{
 	}
 
 
+	@Override
+	public boolean containsTelefono(String telefono) {
+		// TODO Auto-generated method stub
+		return mapaTlfnoUsuario.containsKey(telefono);
+	}
+
+
+	@Override
+	public boolean containsEmail(String email) {
+		// TODO Auto-generated method stub
+		return mapaEmailUsuario.containsKey(email);
+	}
+
+
 	
 	
 	

@@ -36,4 +36,19 @@ public interface ManejoDatos {
 	 *@param correo que se indica, contraseña que se indica
 	 */
 	public boolean autenticarUsuario( String correo, String contraseña);
+	
+	
+	
+	/**Comprueba si el telefono esta en la base de datos
+	 * @param telefono
+	 */
+	public boolean containsTelefono(String telefono);
+	
+	
+	
+	/**Comprueba si el telefono esta en la base de datos
+	 * @param email
+	 */
+	public boolean containsEmail(String email);
+
 }

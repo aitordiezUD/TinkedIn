@@ -25,15 +25,20 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.UIManager;
 import javax.swing.border.StrokeBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Habilidad;
+import clases.Persona;
 import clases.PuestoTrabajo;
 import clases.Usuario;
 
@@ -241,66 +246,91 @@ public class PnlExplorar extends JPanel {
 	        	for ( PuestoTrabajo p : e.getPuestos()) {
 	        		modeloListaPt.addElement(p);
 	        	}
-	        	JList<String> listaPuestos = new JList<String>();
+	        	JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
 			
-			listaPuestos.setModel(modeloListaPt);
-			listaPuestos.setBackground(new Color(202, 232, 232));
-			JScrollPane spLista = new JScrollPane(listaPuestos);
-	 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
-	 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
-	 	    spLista.setBackground(getBackground());
-	 	    pnlLista.add(spLista);
-	 	    
-	 	   
-
-			
-			
-			
-			listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
-				private static final long serialVersionUID = 1L;
+				listaPuestos.setModel(modeloListaPt);
+				listaPuestos.setBackground(new Color(202, 232, 232));
+				JScrollPane spLista = new JScrollPane(listaPuestos);
+		 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
+		 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
+		 	    spLista.setBackground(getBackground());
+		 	    pnlLista.add(spLista);
+		 	    
+		 	   
+	
 				
-				JPanel pnl;
-				JLabel lbl;
 				
-				@Override
-				public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-						boolean isSelected, boolean cellHasFocus) {
-					// TODO Auto-generated method stub
+				
+				listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
+					private static final long serialVersionUID = 1L;
 					
-					pnl = new JPanel();
-					pnl.setPreferredSize(new Dimension(pnlLista.getWidth()-5,70));
-					pnl.setSize(200,50);
-					pnl.setBorder(BorderFactory.createMatteBorder(0,1,1,1,Color.BLACK));
-					if (isSelected) {
-	                    pnl.setBackground(new Color(122, 199, 218));
-	                } else {
-	                    pnl.setBackground(new Color(202, 232, 232));
-	                    pnl.setForeground(list.getForeground());
+					JPanel pnl;
+					JLabel lbl1;
+					JLabel lbl2;
+					
+					@Override
+					public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+							boolean isSelected, boolean cellHasFocus) {
+						// TODO Auto-generated method stub
+						
+						pnl = new JPanel();
+						pnl.setPreferredSize(new Dimension(pnlLista.getWidth()-5,70));
+						pnl.setSize(200,50);
+						pnl.setBorder(BorderFactory.createMatteBorder(0,1,1,1,new Color(0, 64, 128)));
+						if (isSelected) {
+		                    pnl.setBackground(new Color(122, 199, 218));
+		                } else {
+		                    pnl.setBackground(new Color(202, 232, 232));
+		                    pnl.setForeground(list.getForeground());
+		                }
+						lbl1 = new JLabel(value.toString() + " chupala hermano");
+						lbl2 = new JLabel("Numero de plazas");
+						lbl2.setForeground(new Color(128, 128, 128));
+						pnl.add(lbl1);
+						pnl.add(lbl2);
+						return pnl;
+					}
+					
+					
+				});
+				
+				listaPuestos.addMouseListener(new MouseAdapter() {
+		            @Override
+		            public void mouseExited(MouseEvent e) {
+		                listaPuestos.clearSelection();
+		            }
+		            
+		        });
+	
+				listaPuestos.addMouseMotionListener(new MouseMotionAdapter() {
+		            @Override
+		            public void mouseMoved(MouseEvent e) {
+		                int index = listaPuestos.locationToIndex(e.getPoint());
+		                if (index != -1) {
+		                    listaPuestos.setSelectedIndex(index);
 	                }
-					lbl = new JLabel(value.toString());
-					pnl.add(lbl);
-					return pnl;
-				}
-				
-				
-			});
-			
-			listaPuestos.addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseExited(MouseEvent e) {
-	                listaPuestos.clearSelection();
 	            }
 	        });
-
-			listaPuestos.addMouseMotionListener(new MouseMotionAdapter() {
-	            @Override
-	            public void mouseMoved(MouseEvent e) {
-	                int index = listaPuestos.locationToIndex(e.getPoint());
-	                if (index != -1) {
-	                    listaPuestos.setSelectedIndex(index);
-	                }
-	            }
-	        });
+				
+//				INTENTO DE PONER DATOS EN EL PANEL INFO
+				
+//				listaPuestos.addListSelectionListener(new ListSelectionListener() {
+//					
+//					@Override
+//					public void valueChanged(ListSelectionEvent e) {
+//						Vector<Persona> candidatos = new Vector<>();
+//				 	    for(Persona p : DatosFicheros.getPersonas()) {
+//				 	    	PuestoTrabajo puesto = listaPuestos.getSelectedValue();
+//				 	    	if(p.getHabilidadesTecnicas().contains(puesto.getHabilidadesReq())) {
+//				 	    		candidatos.add(p);
+//				 	    		}
+//				 	    	}
+//				 	    pnlInfo.add(new JLabel(candidatos.get(0).getNombre()), BorderLayout.CENTER);
+//				 	    
+//				 	    
+//						
+//					}
+//				});
 			
 			add(pnlLista,BorderLayout.WEST);
 	       }
