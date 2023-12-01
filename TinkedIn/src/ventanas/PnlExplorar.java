@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.UIManager;
 import javax.swing.border.StrokeBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import clases.Empresa;
 import clases.Habilidad;
@@ -55,6 +58,12 @@ public class PnlExplorar extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
+	private JLabel lblGrafExpCor; 
+	private JLabel lblGrafExpX; 
+	private JPanel pnlLike;
+	private JPanel pnlPass;
+	
 	public PnlExplorar( Usuario tipoUsuario ) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
@@ -90,21 +99,38 @@ public class PnlExplorar extends JPanel {
 	        pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
 //	        System.out.println( tipoUsuario.getClass() );
 
-	        JPanel pnlLike = new JPanel();
+	        pnlLike = new JPanel();
 	        pnlLike.setLayout(new BorderLayout());
 	        pnlBotonera.add(pnlLike);
+	        
+	        pnlLike.addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					pnlLike.remove(lblGrafExpCor);
+					corazonArojo();
+					pnlLike.repaint();
+				}
+			});;
 
 	        
 	        JPanel pnlVacio = new JPanel();
 	        pnlVacio.setPreferredSize( new Dimension(10,10));
 	        pnlBotonera.add(pnlVacio);
 	        
-	        JPanel pnlPass = new JPanel();
+	        pnlPass = new JPanel();
 	        pnlLike.setLayout(new BorderLayout());
 	        pnlBotonera.add(pnlPass);
 	        pnlPass.setLayout(new BorderLayout(0, 0));
 	        
-	        
+	        pnlPass.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					pnlPass.remove(lblGrafExpX);
+					xArojo();
+					pnlPass.repaint();
+				}
+			});
 	        
 	        
 	        try {
@@ -137,7 +163,7 @@ public class PnlExplorar extends JPanel {
 	        
 	        try {
 	            // Carga la imagen original desde el archivo en el paquete "imagenes"
-	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("cruzar.png");
+	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("xAzul.png");
 	            BufferedImage originalImage = ImageIO.read(imageStream);
 
 	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -152,10 +178,10 @@ public class PnlExplorar extends JPanel {
 	            g2d.dispose();
 	            
 	            // Crea un JLabel y asigna la imagen escalada como ícono
-	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
-	            lblGrafExp.setBackground(new Color(240, 240, 240));
-	    		lblGrafExp.setBounds(20, 0, 38, 38);
-	    		pnlPass.add(lblGrafExp, BorderLayout.WEST);
+	            lblGrafExpX = new JLabel(new ImageIcon(resizedImage));
+	            lblGrafExpX.setBackground(new Color(240, 240, 240));
+	    		lblGrafExpX.setBounds(20, 0, 38, 38);
+	    		pnlPass.add(lblGrafExpX, BorderLayout.WEST);
 	      
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -163,7 +189,7 @@ public class PnlExplorar extends JPanel {
 	        
 	        try {
 	            // Carga la imagen original desde el archivo en el paquete "imagenes"
-	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("corazon.png");
+	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("corazonAzul.png");
 	            BufferedImage originalImage = ImageIO.read(imageStream);
 
 	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -178,14 +204,17 @@ public class PnlExplorar extends JPanel {
 	            g2d.dispose();
 	            
 	            // Crea un JLabel y asigna la imagen escalada como ícono
-	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
-	            lblGrafExp.setBackground(new Color(240, 240, 240));
-	    		lblGrafExp.setBounds(20, 0, 38, 38);
-	    		pnlLike.add(lblGrafExp, BorderLayout.EAST);
+	            lblGrafExpCor = new JLabel(new ImageIcon(resizedImage));
+	            lblGrafExpCor.setBackground(new Color(240, 240, 240));
+	    		lblGrafExpCor.setBounds(20, 0, 38, 38);
+	    		pnlLike.add(lblGrafExpCor, BorderLayout.EAST);
 	      
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
+	        
+	        
+	        
 	        
 	        JLabel lblNombreUsu = new JLabel( "      Nombre de Usuario" );
 	        lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
@@ -279,6 +308,63 @@ public class PnlExplorar extends JPanel {
 	     
 		
 	}
+	
+	public void corazonArojo () {
+		try {
+            // Carga la imagen original desde el archivo en el paquete "imagenes"
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("corazonRojo.png");
+            BufferedImage originalImage = ImageIO.read(imageStream);
+
+            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+            int width = 40;
+            int height =  40;
+            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+            // Convierte la imagen escalada en un BufferedImage
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+            g2d.drawImage(scaledImage, 0, 0, null);
+            g2d.dispose();
+            
+            // Crea un JLabel y asigna la imagen escalada como ícono
+            lblGrafExpCor = new JLabel(new ImageIcon(resizedImage));
+            lblGrafExpCor.setBackground(new Color(240, 240, 240));
+    		lblGrafExpCor.setBounds(20, 0, 38, 38);
+    		pnlLike.add(lblGrafExpCor, BorderLayout.EAST);
+      
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void xArojo () {
+		try {
+            // Carga la imagen original desde el archivo en el paquete "imagenes"
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("xRoja.png");
+            BufferedImage originalImage = ImageIO.read(imageStream);
+
+            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+            int width = 40;
+            int height =  40;
+            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+            // Convierte la imagen escalada en un BufferedImage
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+            g2d.drawImage(scaledImage, 0, 0, null);
+            g2d.dispose();
+            
+            // Crea un JLabel y asigna la imagen escalada como ícono
+            lblGrafExpX = new JLabel(new ImageIcon(resizedImage));
+            lblGrafExpX.setBackground(new Color(240, 240, 240));
+    		lblGrafExpX.setBounds(20, 0, 38, 38);
+    		pnlPass.add(lblGrafExpX, BorderLayout.WEST);
+      
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
