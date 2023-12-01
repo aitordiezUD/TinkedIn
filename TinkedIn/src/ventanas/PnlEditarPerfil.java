@@ -1,7 +1,10 @@
 package ventanas;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -9,245 +12,188 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import clases.Habilidad;
+import clases.Persona;
+import clases.Usuario;
 
 public class PnlEditarPerfil  extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	
+	private JTextField tf_Nombre;
+	private JTextField tf_apellido;
+	private JTextField tf_Telefono;
+	private JTextField tf_Correo;
+	private JTextField tf_LinkedIn;
+	private JTextField tf_Github;
 	private JTextField textFieldExp;
 	private JTextField textFieldDes;
 	private PnlMiPerfil pnlMiPerfil;
 
+//	Provincias de España para añadirlas al ComboBox
+	private final String[] provincias = {
+	            "Álava", "Albacete", "Alicante", "Almería", "Asturias",
+	            "Ávila", "Badajoz", "Barcelona", "Bizkaia", "Burgos", "Cáceres",
+	            "Cádiz", "Cantabria", "Castellón", "Ceuta", "Ciudad Real", "Córdoba",
+	            "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa",
+	            "Huelva", "Huesca", "Islas Baleares", "Jaén", "La Coruña",
+	            "La Rioja", "Las Palmas", "León", "Lérida", "Lugo",
+	            "Madrid", "Málaga", "Melilla", "Murcia", "Navarra", "Orense",
+	            "Palencia", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Segovia",
+	            "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo",
+	            "Valencia", "Valladolid", "Zamora", "Zaragoza"
+	        };
+		private JLabel lblNombre;
+		private JTextField tfNombre;
+		private JTextField tfApellidos;
+		private JTextField tfUsername;
+		private JTextField tfCorreo;
+		private JTextField tfGithub;
+		private JTextField tfLinkedIn;
+		private JLabel lblTelefono;
+		private JTextField tfTelefono;
+		private JLabel lblDatosPersonales;
+		private JLabel lblCurriculum;
+		private CardLayout layoutVentana;
+		private JPanel pnlContenido;
+		private DefaultListModel modeloLista;
+
+
 	public PnlEditarPerfil() {
-		setLayout(null);
-		setSize(750,650);
-		
-		JPanel panelFotoPerfil = new JPanel();
-		panelFotoPerfil.setBounds(243, 29, 680, 305);
-		add(panelFotoPerfil);
-		panelFotoPerfil.setLayout(null);
-		
-		JLabel lblNewLabel_9 = new JLabel("Apellidos");
-		lblNewLabel_9.setBounds(146, 36, 98, 14);
-		panelFotoPerfil.add(lblNewLabel_9);
-		
-		JLabel lblNewLabel_8 = new JLabel("Nombre");
-		lblNewLabel_8.setBounds(146, 11, 50, 14);
-		panelFotoPerfil.add(lblNewLabel_8);
-		
-		
-		JPanel pnlDatos = new JPanel();
-		pnlDatos.setBounds(70, 358, 680, 215);
-		add(pnlDatos);
-		pnlDatos.setLayout(null);
-		
-		
-		
-		try {
-	        // Carga la imagen original desde el archivo en el paquete "imagenes"
-	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("FotoPerfil.png");
-	        BufferedImage originalImage = ImageIO.read(imageStream);
+	        setBackground(Color.WHITE);
+	        setBounds(0, 0, 900, 650);
+	        
+	        
+	        JPanel pnlDatos = new JPanel();
+	        JPanel pnlHab = new JPanel();
 
-	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-	        int width = 100;
-	        int height = 100;
-	        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-	        // Convierte la imagen escalada en un BufferedImage
-	        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2d = resizedImage.createGraphics();
-	        g2d.drawImage(scaledImage, 0, 0, null);
-	        g2d.dispose();
+	        this.layoutVentana = layoutVentana;
+	        this.pnlContenido = pnlContenido;
+	        setLayout(null);
 	        
-			//Crea in JLabel y asigna la imagen
-	        JLabel lblGraphics = new JLabel(new ImageIcon(resizedImage));
-	        lblGraphics.setBackground(new Color(240, 240, 240));
-    		lblGraphics.setBounds(10, 11, 100, 100);
-	        panelFotoPerfil.add(lblGraphics);
+	        lblNombre = new JLabel("Nombre:");
+	        lblNombre.setBounds(42, 64, 215, 14);
+	        add(lblNombre);
 	        
-	        textField = new JTextField();
-	        textField.setBounds(250, 8, 96, 20);
-	        panelFotoPerfil.add(textField);
-	        textField.setColumns(10);
+	        tfNombre = new JTextField();
+	        tfNombre.setBounds(42, 89, 215, 20);
+	        add(tfNombre);
+	        tfNombre.setColumns(10);
 	        
-	        textField_1 = new JTextField();
-	        textField_1.setBounds(250, 33, 96, 20);
-	        panelFotoPerfil.add(textField_1);
-	        textField_1.setColumns(10);
+	        JLabel lblApellidos = new JLabel("Apellidos:");
+	        lblApellidos.setBounds(42, 117, 215, 14);
+	        add(lblApellidos);
+	        
+	        tfApellidos = new JTextField();
+	        tfApellidos.setColumns(10);
+	        tfApellidos.setBounds(42, 142, 215, 20);
+	        add(tfApellidos);
+	        
+	        JLabel lblCorreo = new JLabel("Correo electrónico:");
+	        lblCorreo.setBounds(42, 173, 150, 14);
+	        add(lblCorreo);
+	        
+	        tfCorreo = new JTextField();
+	        tfCorreo.setColumns(10);
+	        tfCorreo.setBounds(42, 198, 215, 20);
+	        add(tfCorreo);
+	        
+	        JLabel lblGithub = new JLabel("Github:");
+	        lblGithub.setBounds(42, 285, 91, 14);
+	        add(lblGithub);
+	        
+	        JLabel lblLinkedIn = new JLabel("LinkedIn:");
+	        lblLinkedIn.setBounds(42, 341, 150, 14);
+	        add(lblLinkedIn);
+	        
+	        tf_Github = new JTextField();
+	        tf_Github.setBounds(42, 310, 215, 20);
+	        add(tf_Github);
+	        
+	        tf_LinkedIn = new JTextField();
+	        tf_LinkedIn.setBounds(42, 366, 215, 20);
+	        add(tf_LinkedIn);
+	        
+	        lblTelefono = new JLabel("Teléfono:");
+	        lblTelefono.setBounds(42, 229, 150, 14);
+	        add(lblTelefono);
+	        
+	        tfTelefono = new JTextField();
+	        tfTelefono.setColumns(10);
+	        tfTelefono.setBounds(42, 254, 215, 20);
+	        add(tfTelefono);
+	        
+	        JLabel lblProvincia = new JLabel("Provincia:");
+	        lblProvincia.setBounds(42, 397, 150, 14);
+	        add(lblProvincia);
+	        
+	        JComboBox<String> cbProvincia = new JComboBox<String>();
+	        cbProvincia.setBounds(42, 422, 215, 20);
+	        add(cbProvincia);
+	        
+	        for(String p: provincias) {
+	        	cbProvincia.addItem(p);
+	        }
+	        
+	        lblDatosPersonales = new JLabel("Datos personales");
+	        lblDatosPersonales.setHorizontalAlignment(SwingConstants.CENTER);
+	        lblDatosPersonales.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+	        lblDatosPersonales.setBounds(42, 11, 215, 42);
+	        add(lblDatosPersonales);
+	        
+	        lblCurriculum = new JLabel("Curriculum");
+	        lblCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
+	        lblCurriculum.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+	        lblCurriculum.setBounds(460, 11, 215, 42);
+	        add(lblCurriculum);
+	        
+	        JLabel lblHabilidades = new JLabel("Habilidades:");
+	        lblHabilidades.setBounds(585, 128, 215, 14);
+	        modeloLista = new DefaultListModel<Habilidad>();
+	        
+	        JScrollPane spList = new JScrollPane();
+	        spList.setBounds(460, 74, 215, 351);
+	        add(spList);
+	        
+	        JPanel pnlBotonesHab = new JPanel();
+	        pnlBotonesHab.setBackground(Color.WHITE);
+	        
+	        JButton btnAñadirHab = new JButton("Añadir");
+	        btnAñadirHab.setBackground(Color.WHITE);
+	        btnAñadirHab.setBounds(585, 505, 89, 23);
+	        pnlBotonesHab.add(btnAñadirHab);
+	        
+	        JButton btnEliminar = new JButton("Eliminar");
+	        btnEliminar.setBackground(Color.WHITE);
+	        btnEliminar.setBounds(711, 505, 89, 23);
 	        
 	        
-	        JLabel lblNewLabel = new JLabel("Correo Electrónico");
-	        lblNewLabel.setBounds(146, 95, 94, 16);
-	        panelFotoPerfil.add(lblNewLabel);
+	        JButton btnCancelar = new JButton("Cancelar");
+	        add(btnCancelar);
+	        btnCancelar.setBounds(238, 471, 105, 23);
 	        
-	        textField_3 = new JTextField();
-	        textField_3.setBounds(250, 93, 96, 20);
-	        panelFotoPerfil.add(textField_3);
-	        textField_3.setColumns(10);
+	        JButton btnActualizar = new JButton("Actualizar");
+	        add(btnActualizar);
+	        btnActualizar.setBounds(390, 471, 105, 23);
 	        
-	        JLabel lblNewLabel_1 = new JLabel("NºTeléfono");
-	        lblNewLabel_1.setBounds(150, 122, 94, 14);
-	        panelFotoPerfil.add(lblNewLabel_1);
-	        
-	        textField_2 = new JTextField();
-	        textField_2.setBounds(250, 124, 96, 20);
-	        panelFotoPerfil.add(textField_2);
-	        textField_2.setColumns(10);
-	        
-	        JLabel lblNewLabel_6 = new JLabel("LinkedIn");
-	        lblNewLabel_6.setBounds(146, 162, 150, 14);
-	        panelFotoPerfil.add(lblNewLabel_6);
-	        
-	        JLabel lblNewLabel_7 = new JLabel("Github");
-	        lblNewLabel_7.setBounds(146, 187, 140, 14);
-	        panelFotoPerfil.add(lblNewLabel_7);
-	        
-	        textField_4 = new JTextField();
-	        textField_4.setBounds(250, 159, 96, 20);
-	        panelFotoPerfil.add(textField_4);
-	        textField_4.setColumns(10);
-	        
-	        textField_5 = new JTextField();
-	        textField_5.setBounds(250, 184, 96, 20);
-	        panelFotoPerfil.add(textField_5);
-	        textField_5.setColumns(10);
-			
-			
-	  
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setBounds(266, 108, 48, 14);
-		pnlDatos.add(lblNewLabel_3);
-		
-		JLabel lblDestreza = new JLabel("Destreza:");
-		lblDestreza.setBounds(10, 70, 70, 14);
-		pnlDatos.add(lblDestreza);
-		
-		JLabel lblExperiencia = new JLabel("Experiencia:");
-		lblExperiencia.setBounds(10, 11, 96, 14);
-		pnlDatos.add(lblExperiencia);
-		
-		JComboBox<String> comboBoxExp = new JComboBox<String>();
-		comboBoxExp.setBounds(479, 7, 191, 22);
-		pnlDatos.add(comboBoxExp);
-		
-		JButton btnNewButton = new JButton("Guardar");
-		btnNewButton.setBounds(376, 181, 89, 23);
-		pnlDatos.add(btnNewButton);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(225, 181, 89, 23);
-		pnlDatos.add(btnCancelar);
-		
-		btnCancelar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-			}
-		});
-		
-		JButton btnAnadirExp = new JButton("+");
-		btnAnadirExp.setBounds(274, 7, 45, 22);
-		pnlDatos.add(btnAnadirExp);
-		
-		JButton btnEliminarExp = new JButton("-");
-		btnEliminarExp.setBounds(333, 7, 40, 22);
-		pnlDatos.add(btnEliminarExp);
-		
-		JComboBox<String> comboBoxDes = new JComboBox();
-		comboBoxDes.setBounds(479, 66, 191, 22);
-		pnlDatos.add(comboBoxDes);
-		
-		JButton btnAnadirDes = new JButton("+");
-		btnAnadirDes.setBounds(274, 66, 45, 22);
-		pnlDatos.add(btnAnadirDes);
-		
-		JButton btnEliminarDes = new JButton("-");
-		btnEliminarDes.setBounds(333, 66, 40, 23);
-		pnlDatos.add(btnEliminarDes);
-		
-		textFieldExp = new JTextField();
-		textFieldExp.setBounds(77, 8, 187, 20);
-		pnlDatos.add(textFieldExp);
-		textFieldExp.setColumns(10);
-		
-		textFieldDes = new JTextField();
-		textFieldDes.setBounds(77, 67, 187, 20);
-		pnlDatos.add(textFieldDes);
-		textFieldDes.setColumns(10);
-	
-		
-		//TODO: Arreglar
-	
-//		lblEditarFoto.addMouseListener( new MouseAdapter() {			
-//		@Override
-//		public void mouseClicked(MouseEvent e) {
-//			// TODO Auto-generated method stub
-//			lblEditarFoto.setBackground(new Color(208, 235, 242));
-//		}
-//		@Override
-//		public void mouseEntered(MouseEvent e) {
-//			// TODO Auto-generated method stub
-//			lblEditarFoto.setBackground(new Color(122, 199, 218));
-//		}
-//		
-//	});
-		
-		
-		
-//		//BOTON AÑADIR EXP
-		btnAnadirExp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              // Obtener el texto del JTextField
-              String texto = textFieldExp.getText();
-
-                // Añadir el texto al JComboBox
-               comboBoxExp.addItem(texto);
-
-                // Limpiar el JTextField
-            textFieldExp.setText("");
-        }
-		});
-	btnAnadirDes.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          // Obtener el texto del JTextField
-          String texto = textFieldDes.getText();
-
-            // Añadir el texto al JComboBox
-           comboBoxDes.addItem(texto);
-
-            // Limpiar el JTextField
-        textFieldDes.setText("");
-    }
-	});
-	}
-	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(900, 650);
-		frame.getContentPane().add(new PnlEditarPerfil());
-		frame.setVisible(true);
-		
 	}
 }
+
+	        
+	        
