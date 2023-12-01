@@ -2,10 +2,7 @@ package clases;
 
 import static org.junit.Assert.*;
 
-import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
 
 import org.junit.After;
 import org.junit.AfterClass;

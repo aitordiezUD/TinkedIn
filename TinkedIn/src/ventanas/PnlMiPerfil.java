@@ -17,6 +17,10 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import clases.Persona;
+import clases.Usuario;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -24,12 +28,14 @@ import java.awt.Graphics;
 public class PnlMiPerfil  extends JPanel {
 	
 	private PnlEditarPerfil PnlEditarPerfil;
+	private static Usuario usuarioAutenticado;
 	
 	public PnlMiPerfil() {
 		
 		setBackground(Color.WHITE);
 		setLayout(null);
 		setSize(750,650);
+		usuarioAutenticado = PnlBotonera.usuarioAutenticado;
 		
 		PnlEditarPerfil = new PnlEditarPerfil();
 		
@@ -178,6 +184,25 @@ public class PnlMiPerfil  extends JPanel {
 		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
 		lblProvincia.setBounds(20, 202, 80, 23);
 		pnlDatos.add(lblProvincia);
+		JLabel lblProvU = new JLabel("");
+		lblProvU.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		lblProvU.setBounds(106, 199, 163, 48);
+		pnlDatos.add(lblProvU);
+		JLabel lblNumTlfU = new JLabel("");
+		lblNumTlfU.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		lblNumTlfU.setForeground(new Color(0, 0, 160));
+		lblNumTlfU.setBounds(118, 163, 151, 39);
+		pnlDatos.add(lblNumTlfU);
+		
+		
+		if (usuarioAutenticado instanceof Persona) {
+			Persona p = (Persona) usuarioAutenticado;
+			System.out.println(p.getUbicacion());
+			lblNombre.setText( p.getNombre() + " " + p.getApellidos() );
+			lblProvU.setText( p.getUbicacion() );
+			lblNumTlfU.setText( p.getTelefono() );
+			
+		}
 		
 		JButton btnCrearPt = new JButton("Crear Puestos");
 		btnCrearPt.addActionListener(new ActionListener() {
@@ -187,6 +212,10 @@ public class PnlMiPerfil  extends JPanel {
 		});
 		btnCrearPt.setBounds(20, 347, 133, 23);
 		pnlDatos.add(btnCrearPt);
+		
+		
+		
+		
 		
 
 	        
