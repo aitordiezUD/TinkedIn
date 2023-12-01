@@ -15,7 +15,7 @@ public class Main {
 				"688680738",new ArrayList<Habilidad>(), null, "passWd");
 		Empresa e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
 				null, null, null, "psswd") ;
-		Persona pAdmin = new Persona("admin", "admin", "admin",20,"admin","admin", null,(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"admin");
+		Persona pAdmin = new Persona("admin", "admin", "Valdemoros",20,"admin","admin", null,(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"admin");
 		
 		datos.anadirUsuarioEmpresa(e1);
 		datos.anadirUsuarioPersona(p1);

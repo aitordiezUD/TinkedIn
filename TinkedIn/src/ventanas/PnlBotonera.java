@@ -46,18 +46,34 @@ public class PnlBotonera extends JPanel {
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
-	private Usuario tipoUsuario = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
+	protected static Usuario usuarioAutenticado;
 	//private Usuario tipoUsuario = new Persona( "nada","nada","nada", 23, "nada", "nada",null,(new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"nada");
-	private PnlExplorar pExplorar = new PnlExplorar(tipoUsuario);
+	private PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
 	public static JPanel pnlFuncional;
 	public static CardLayout CardLayout;
 	
 	
+	
+	public Usuario getUsuarioAutenticado() {
+		return usuarioAutenticado;
+	}
+
+
+
+	public void setUsuarioAutenticado(Usuario usuarioAutenticado) {
+		this.usuarioAutenticado = usuarioAutenticado;
+	}
+
+
+
 	/**
 	 * Create the panel.
 	 */
 	public PnlBotonera( Usuario tipoUsuario ) {
 		setLayout(null);
+		System.out.println(tipoUsuario);
+		
+		usuarioAutenticado = tipoUsuario;
 		
 		mapaPaneles = new HashMap<JPanel,JPanel>();
 		
