@@ -1,6 +1,7 @@
 package ventanas;
 
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -20,6 +21,7 @@ import javax.swing.*;
 
 import clases.Persona;
 import clases.Usuario;
+import nube.ImagenesAzure;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -39,7 +41,7 @@ public class PnlMiPerfil  extends JPanel {
 		
 		PnlEditarPerfil = new PnlEditarPerfil();
 		
-		JPanel pnlDatos = new JPanel(  ) {
+		JPanel pnlDatos = new JPanel() {
 
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -61,44 +63,8 @@ public class PnlMiPerfil  extends JPanel {
 		pnlFotoPerfil.setBackground(new Color(98, 188, 255));
 		pnlFotoPerfil.setBounds(10, 11, 711, 165);
 		add(pnlFotoPerfil);
-		pnlFotoPerfil.setLayout(null);
-		
-		
-		try {
-	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
-	        BufferedImage originalImage = ImageIO.read(imageStream);
-
-	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-	        int width = 100;
-	        int height = 100;
-	        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-	        // Convierte la imagen escalada en un BufferedImage
-	        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2d = resizedImage.createGraphics();
-	        Shape circle = new Ellipse2D.Float(0, 0, width, height);
-	        g2d.setClip(circle);
-	        g2d.drawImage(scaledImage, 0, 0, null);
-	        g2d.dispose();
-			
-	        JLabel lblFoto =new JLabel(new ImageIcon(resizedImage));
-	        lblFoto.setBounds(35, 7, 150, 150);
-	        lblFoto.setBackground(new Color(240, 240, 240));
-	  
-
-	        pnlFotoPerfil.add(lblFoto);
-	        
-	        JLabel lblUsername = new JLabel("@username");
-	        lblUsername.setForeground(new Color(55, 55, 55));
-	        lblUsername.setBounds(190, 125, 94, 23);
-	        pnlFotoPerfil.add(lblUsername);
-	        lblUsername.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		
-			
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
+		pnlFotoPerfil.setLayout(new BorderLayout());
+		pnlFotoPerfil.add(ImagenesAzure.crearImagen(usuarioAutenticado));
 		
 		JLabel lblCorreoE = new JLabel("Correo Electrónico:");
 		lblCorreoE.setFont(new Font("SansSerif", Font.PLAIN, 17));

@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Persona;
+import nube.ImagenesAzure;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -81,6 +82,7 @@ public class VentanaPrincipal extends JFrame {
 		setSize(900, 650);
 		setResizable(false);
 		setLocationRelativeTo(null);
+		new ImagenesAzure();
 		pnlContenido = new JPanel();
 		pnlContenido.setLayout(new BorderLayout());
 		pnlContenido.setBackground(new Color(0, 255, 255));
@@ -95,15 +97,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		setContentPane(pnlContenido);
 		datos = new DatosFicheros();
-//		Persona admin = new Persona("admin", "admin", "admin", 0, "admin", "admin", null, null, "admin");
-//		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE");
-//		datos.anadirUsuarioEmpresa(adminE);
-//		
-//		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
-//		datos.anadirUsuarioEmpresa(adminE2);
-		
-		System.out.println("Empresa: " + DatosFicheros.getEmpresas());
-		
+
 		addWindowListener(new WindowAdapter() {
 
 			@Override

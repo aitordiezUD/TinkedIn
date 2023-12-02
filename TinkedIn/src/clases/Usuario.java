@@ -12,12 +12,13 @@ import nube.ImagenesAzure;
 enum Tipo {PERSONA, EMPRESA}
 
 public abstract class Usuario implements Serializable{
+	private static final String rutaBase = "https://tinkedin.blob.core.windows.net/tinkedinv1/";
 	
 	private static int count = 0;
 	
 	//Atributos 
 	private long id;
-	private File fotoDePerfil;
+	private String fotoDePerfil;
 	private String password;
 	private Tipo tipo;
 	
@@ -47,10 +48,10 @@ public abstract class Usuario implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public File getFotoDePerfil() {
+	public String getFotoDePerfil() {
 		return fotoDePerfil;
 	}
-	public void setFotoDePerfil(File fotoDePerfil) {
+	public void setFotoDePerfil(String fotoDePerfil) {
 		this.fotoDePerfil = fotoDePerfil;
 	}
 
@@ -67,10 +68,10 @@ public abstract class Usuario implements Serializable{
 		}
 		id = count;
 		count++;
-		this.fotoDePerfil = fotoDePerfil;
 		this.password = password;
 		new ImagenesAzure();
 		ImagenesAzure.subirImagen(fotoDePerfil,id + ".jpg");
+		this.fotoDePerfil = rutaBase+this.id+".jpg";
 	}
 	
 	public Usuario(Usuario u) {

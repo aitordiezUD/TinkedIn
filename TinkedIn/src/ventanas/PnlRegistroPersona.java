@@ -1,9 +1,11 @@
 package ventanas;
 
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -15,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +26,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.DatosFicheros;
 import clases.Habilidad;
@@ -58,113 +65,287 @@ public class PnlRegistroPersona extends JPanel {
 	private JPasswordField pfRepetirContrasena;
 	private JLabel lblTelefono;
 	private JTextField tfTelefono;
-	private JLabel lblDatosPersonales;
+	private JLabel lblDatos;
 	private JLabel lblCurriculum;
 	private CardLayout layoutVentana;
 	private JPanel pnlContenido;
 	private JList<Habilidad> listaHabilidades;
 	private DefaultListModel modeloLista;
+	private File selectedFile = null;
 
 
 	public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
-        setBackground(Color.WHITE);
+		setBackground(Color.WHITE);
         setBounds(0, 0, 900, 650);
-        setLayout(null);
+        setLayout(new BorderLayout());
+
+//      PANEL IZQUIERDA
+        JPanel pnlIzq = new JPanel(new BorderLayout());
+        pnlIzq.setBackground(new Color(255, 255, 255));
+        pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
+        add(pnlIzq, BorderLayout.WEST);
         
-        this.layoutVentana = layoutVentana;
-        this.pnlContenido = pnlContenido;
+//      MARGEN NORTH
+        JPanel p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        p.setBackground(Color.WHITE);
+        pnlIzq.add(p, BorderLayout.NORTH);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        p.setBackground(Color.WHITE);
+        pnlIzq.add(p, BorderLayout.SOUTH);
+        
+//      MARGEN EAST
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        p.setBackground(Color.WHITE);
+        pnlIzq.add(p, BorderLayout.EAST);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setPreferredSize(new Dimension(50,50));
+        p.setBackground(Color.WHITE);
+        pnlIzq.add(p, BorderLayout.WEST);
+        
+        JPanel pnlIzqCont = new JPanel();
+        pnlIzqCont.setBackground(Color.WHITE);
+        pnlIzqCont.setLayout(new BoxLayout(pnlIzqCont, BoxLayout.Y_AXIS));
+        pnlIzq.add(pnlIzqCont);
+        
+        
+//      PANEL DERECHA  
+        JPanel pnlDer = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        pnlDer.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
+//        SwingUtilities.invokeLater(() -> {pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));});
+        add(pnlDer, BorderLayout.EAST);
+        
+//      MARGEN NORTH
+        p = new JPanel();
+        p.setBackground(Color.WHITE);
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.NORTH);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setBackground(Color.WHITE);
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.SOUTH);
+        
+//      MARGEN EAST
+        p = new JPanel();
+        p.setBackground(Color.WHITE);
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.EAST);
+        
+//      MARGEN SOUTH
+        p = new JPanel();
+        p.setBackground(Color.WHITE);
+        p.setPreferredSize(new Dimension(50,50));
+        pnlDer.add(p, BorderLayout.WEST);
+        
+        JPanel pnlDerCont = new JPanel();
+        pnlDerCont.setBackground(Color.WHITE);
+        pnlDerCont.setLayout(new BoxLayout(pnlDerCont, BoxLayout.Y_AXIS));
+        pnlDer.add(pnlDerCont);
+        
+        lblDatos = new JLabel("Datos personales");
+        lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,60));
+        p.add(lblDatos);
+        pnlIzqCont.add(p);
         
         lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(100, 128, 215, 14);
-        add(lblNombre);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblNombre);
+        pnlIzqCont.add(p);
         
         tfNombre = new JTextField();
-        tfNombre.setBounds(100, 148, 215, 20);
-        add(tfNombre);
         tfNombre.setColumns(10);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfNombre);
+        pnlIzqCont.add(p);
         
         JLabel lblApellidos = new JLabel("Apellidos:");
-        lblApellidos.setBounds(100, 179, 215, 14);
-        add(lblApellidos);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblApellidos);
+        pnlIzqCont.add(p);
         
         tfApellidos = new JTextField();
         tfApellidos.setColumns(10);
-        tfApellidos.setBounds(100, 199, 215, 20);
-        add(tfApellidos);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfApellidos);
+        pnlIzqCont.add(p);
         
         JLabel lblCorreo = new JLabel("Correo electrónico:");
-        lblCorreo.setBounds(100, 230, 150, 14);
-        add(lblCorreo);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblCorreo);
+        pnlIzqCont.add(p);
         
         tfCorreo = new JTextField();
-        tfCorreo.setColumns(10);
-        tfCorreo.setBounds(100, 250, 215, 20);
-        add(tfCorreo);
-        
-        JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setBounds(100, 332, 91, 14);
-        add(lblContrasena);
-        
-        JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:\r\n");
-        lblRepetirContrasena.setBounds(100, 383, 150, 14);
-        add(lblRepetirContrasena);
-        
-        pfContrasena = new JPasswordField();
-        pfContrasena.setBounds(100, 352, 215, 20);
-        add(pfContrasena);
-        
-        pfRepetirContrasena = new JPasswordField();
-        pfRepetirContrasena.setBounds(100, 403, 215, 20);
-        add(pfRepetirContrasena);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfCorreo);
+        pnlIzqCont.add(p);
         
         lblTelefono = new JLabel("Teléfono:");
-        lblTelefono.setBounds(100, 281, 150, 14);
-        add(lblTelefono);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblTelefono);
+        pnlIzqCont.add(p);
         
         tfTelefono = new JTextField();
         tfTelefono.setColumns(10);
-        tfTelefono.setBounds(100, 301, 215, 20);
-        add(tfTelefono);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(tfTelefono);
+        pnlIzqCont.add(p);
+        
+        JLabel lblContrasena = new JLabel("Contraseña:");
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblContrasena);
+        pnlIzqCont.add(p);
+        
+        pfContrasena = new JPasswordField();
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(pfContrasena);
+        pnlIzqCont.add(p);
+        
+        JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:");
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblRepetirContrasena);
+        pnlIzqCont.add(p);
+        
+        pfRepetirContrasena = new JPasswordField();
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(pfRepetirContrasena);
+        pnlIzqCont.add(p);
+        
+        JLabel lblImagen = new JLabel("Seleccionar foto de perfil:");
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblImagen);
+        pnlIzqCont.add(p);
+        
+        JButton btnSelImg = new JButton("Seleccionar imagen");
+        JCheckBox check = new JCheckBox();
+        check.setEnabled(false);
+        check.setBackground(Color.WHITE);
+        check.setPreferredSize(new Dimension(25,25));
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(btnSelImg);
+        p.add(check, BorderLayout.EAST);
+        pnlIzqCont.add(p);
+        
+        btnSelImg.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFileChooser fileChooser = new JFileChooser();
+
+		        // Filtrar para mostrar solo archivos de imagen
+		        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter(
+		                "Archivos de imagen", "jpg", "jpeg", "png");
+		        fileChooser.setFileFilter(imageFilter);
+
+		        // Mostrar el diálogo para seleccionar un archivo
+		        int result = fileChooser.showOpenDialog(null);
+
+		        // Verificar si el usuario seleccionó un archivo
+		        if (result == JFileChooser.APPROVE_OPTION) {
+		            selectedFile = fileChooser.getSelectedFile();
+		            check.setSelected(true);
+		        } else {
+		        	check.setSelected(false);
+		        }
+			}
+		});
         
         JLabel lblProvincia = new JLabel("Provincia:");
-        lblProvincia.setBounds(100, 434, 150, 14);
-        add(lblProvincia);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblProvincia);
+        p.setBackground(Color.WHITE);
+        pnlIzqCont.add(p);
         
         JComboBox<String> cbProvincia = new JComboBox<String>();
-        cbProvincia.setBounds(100, 454, 215, 22);
-        add(cbProvincia);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,30));
+        p.add(cbProvincia);
+        pnlIzqCont.add(p);
         
-        for(String p: provincias) {
-        	cbProvincia.addItem(p);
+        for(String prov: provincias) {
+        	cbProvincia.addItem(prov);
         }
         
-        lblDatosPersonales = new JLabel("Datos personales");
-        lblDatosPersonales.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDatosPersonales.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblDatosPersonales.setBounds(100, 72, 215, 42);
-        add(lblDatosPersonales);
+
         
         lblCurriculum = new JLabel("Curriculum");
         lblCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
         lblCurriculum.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        lblCurriculum.setBounds(585, 72, 215, 42);
-        add(lblCurriculum);
+        p = new JPanel(new BorderLayout());
+        p.setMaximumSize(new Dimension(300,60));
+        p.setPreferredSize(new Dimension(300,60));
+        p.add(lblCurriculum);
+        pnlDerCont.add(p);
         
         JLabel lblHabilidades = new JLabel("Habilidades:");
-        lblHabilidades.setBounds(585, 128, 215, 14);
-        add(lblHabilidades);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,30));
+        p.setPreferredSize(new Dimension(300,30));
+        p.add(lblHabilidades);
+        pnlDerCont.add(p);
         
         listaHabilidades = new JList<Habilidad>();
         modeloLista = new DefaultListModel<Habilidad>();
         listaHabilidades.setModel(modeloLista);
         
         JScrollPane spList = new JScrollPane(listaHabilidades);
-        spList.setBounds(585, 148, 215, 351);
-        add(spList);
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,10000));
+//        p.setPreferredSize(new Dimension(300,300));
+        p.add(spList);
+        pnlDerCont.add(p);
         
-        JButton btnAñadirHab = new JButton("Añadir");
-        btnAñadirHab.setBackground(Color.WHITE);
-        btnAñadirHab.addActionListener(new ActionListener(){
+        p = new JPanel(new FlowLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,60));
+        JButton btnAnadirHab = new JButton("Añadir");
+        p.add(btnAnadirHab);
+        btnAnadirHab.setBackground(Color.WHITE);
+        btnAnadirHab.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -175,21 +356,24 @@ public class PnlRegistroPersona extends JPanel {
 			}
         	
         });
-        btnAñadirHab.setBounds(585, 505, 89, 23);
-        add(btnAñadirHab);
+//        add(btnAnadirHab);
         
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBackground(Color.WHITE);
-        btnEliminar.setBounds(711, 505, 89, 23);
-        add(btnEliminar);
+        p.add(btnEliminar);
+        pnlDerCont.add(p);
         
-        JButton btnAtras = new JButton("Cancelar");
-        btnAtras.setBounds(402, 601, 90, 23);
-        add(btnAtras);
+        p = new JPanel(new FlowLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(3000,50));
         
         JButton btnRegistrarse = new JButton("Registrarse");
-        btnRegistrarse.setBounds(391, 558, 109, 32);
-        add(btnRegistrarse);
+        p.add(btnRegistrarse);
+        
+        JButton btnAtras = new JButton("Cancelar");
+        p.add(btnAtras);
+        add(p,BorderLayout.SOUTH);
+        
         
         //Listener del boton registrarse
         
@@ -237,8 +421,9 @@ public class PnlRegistroPersona extends JPanel {
 		        	ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
 					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 20, tfCorreo.getText(), tfTelefono.getText(),
-							habilidades,new ImageIcon("fotoPerfilEjemplo.jpg"), contrasena1);
+							habilidades,selectedFile, contrasena1);
 					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
+					layoutVentana.show(pnlContenido, "pnlLogIn");
 		        }		
 			}
         } );
@@ -293,5 +478,16 @@ public class PnlRegistroPersona extends JPanel {
 				new Object[] {"Aceptar"}, 
 				"Aceptar");    	
     };
+    
+    public static void main(String[] args) {
+    	PnlRegistroPersona p = new PnlRegistroPersona(new JPanel(), new CardLayout());
+    	JFrame f = new JFrame();
+    	f.setSize(900,650);
+    	f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	f.add(p);
+    	
+    	f.setVisible(true);
+	}
+    
 }
 

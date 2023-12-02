@@ -80,31 +80,36 @@ public class PnlRegistroEmpresa extends JPanel {
 
 //      PANEL IZQUIERDA
         JPanel pnlIzq = new JPanel(new BorderLayout());
-        pnlIzq.setBackground(new Color(255, 255, 255));
+        pnlIzq.setBackground(Color.WHITE);
         pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
         add(pnlIzq, BorderLayout.WEST);
         
 //      MARGEN NORTH
         JPanel p = new JPanel();
         p.setPreferredSize(new Dimension(50,50));
+        p.setBackground(Color.WHITE);
         pnlIzq.add(p, BorderLayout.NORTH);
         
 //      MARGEN SOUTH
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlIzq.add(p, BorderLayout.SOUTH);
         
 //      MARGEN EAST
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlIzq.add(p, BorderLayout.EAST);
         
 //      MARGEN SOUTH
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlIzq.add(p, BorderLayout.WEST);
         
         JPanel pnlIzqCont = new JPanel();
+        pnlIzqCont.setBackground(Color.WHITE);
         pnlIzqCont.setLayout(new BoxLayout(pnlIzqCont, BoxLayout.Y_AXIS));
         pnlIzq.add(pnlIzqCont);
         
@@ -112,32 +117,36 @@ public class PnlRegistroEmpresa extends JPanel {
 //      PANEL DERECHA  
         JPanel pnlDer = new JPanel(new BorderLayout());
         pnlDer.setBackground(new Color(255, 255, 255));
-        pnlDer.setBackground(Color.red);
         pnlDer.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));
 //        SwingUtilities.invokeLater(() -> {pnlIzq.setPreferredSize(new Dimension((int) (this.getSize().getWidth()/2),10000));});
         add(pnlDer, BorderLayout.EAST);
         
 //      MARGEN NORTH
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlDer.add(p, BorderLayout.NORTH);
         
 //      MARGEN SOUTH
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlDer.add(p, BorderLayout.SOUTH);
         
 //      MARGEN EAST
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlDer.add(p, BorderLayout.EAST);
         
 //      MARGEN SOUTH
         p = new JPanel();
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(50,50));
         pnlDer.add(p, BorderLayout.WEST);
         
         JPanel pnlDerCont = new JPanel();
+        pnlDerCont.setBackground(Color.WHITE);
         pnlDerCont.setLayout(new BoxLayout(pnlDerCont, BoxLayout.Y_AXIS));
         pnlDer.add(pnlDerCont);
         
@@ -148,38 +157,44 @@ public class PnlRegistroEmpresa extends JPanel {
         lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
         lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,60));
         p.add(lblDatos);
         pnlIzqCont.add(p);
         
         lblNombre = new JLabel("Nombre:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblNombre);
         pnlIzqCont.add(p);
         
+        
         tfNombre = new JTextField();
         tfNombre.setColumns(10);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(tfNombre);
         pnlIzqCont.add(p);
         
         JLabel lblCorreo = new JLabel("Correo electrónico:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblCorreo);
         pnlIzqCont.add(p);
         
         tfCorreo = new JTextField();
-        tfCorreo.setColumns(10);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(tfCorreo);
         pnlIzqCont.add(p);
         
         lblTelefono = new JLabel("Teléfono:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblTelefono);
         pnlIzqCont.add(p);
@@ -187,6 +202,7 @@ public class PnlRegistroEmpresa extends JPanel {
         tfTelefono = new JTextField();
         tfTelefono.setColumns(10);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(tfTelefono);
         pnlIzqCont.add(p);
@@ -194,30 +210,35 @@ public class PnlRegistroEmpresa extends JPanel {
         
         JLabel lblContrasena = new JLabel("Contraseña:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblContrasena);
         pnlIzqCont.add(p);
         
         pfContrasena = new JPasswordField();
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(pfContrasena);
         pnlIzqCont.add(p);
         
         JLabel lblRepetirContrasena = new JLabel("Repetir contraseña:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblRepetirContrasena);
         pnlIzqCont.add(p);
         
         pfRepetirContrasena = new JPasswordField();
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(pfRepetirContrasena);
         pnlIzqCont.add(p);
         
         JLabel lblImagen = new JLabel("Seleccionar foto de perfil:");
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblImagen);
         pnlIzqCont.add(p);
@@ -226,7 +247,9 @@ public class PnlRegistroEmpresa extends JPanel {
         JCheckBox check = new JCheckBox();
         check.setEnabled(false);
         check.setPreferredSize(new Dimension(25,25));
+        check.setBackground(Color.WHITE);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(btnSelImg);
         p.add(check, BorderLayout.EAST);
@@ -261,6 +284,7 @@ public class PnlRegistroEmpresa extends JPanel {
         p = new JPanel(new BorderLayout());
         p.setMaximumSize(new Dimension(300,25));
         p.add(lblProvincia);
+        p.setBackground(Color.WHITE);
         pnlIzqCont.add(p);
         
         modeloLista = new DefaultListModel<String>();
@@ -269,12 +293,14 @@ public class PnlRegistroEmpresa extends JPanel {
         
         JScrollPane spProvincias = new JScrollPane(listaProvincias);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,300));
         p.add(spProvincias);
         pnlIzqCont.add(p);
         
         JComboBox<String> cbProvincia = new JComboBox<String>();
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,30));
         p.add(cbProvincia);
         pnlIzqCont.add(p);
@@ -284,6 +310,7 @@ public class PnlRegistroEmpresa extends JPanel {
         }
         
         p = new JPanel(new FlowLayout());
+        p.setBackground(Color.WHITE);
         JButton btnAnadirProv = new JButton("Añadir");
         btnAnadirProv.setBackground(Color.WHITE);
         p.add(btnAnadirProv);
@@ -308,6 +335,7 @@ public class PnlRegistroEmpresa extends JPanel {
 		});
         
         p = new JPanel(new FlowLayout());
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(300,60));
         JButton btnCancelar = new JButton("Cancelar");
         p.add(btnCancelar, BorderLayout.EAST);
@@ -322,6 +350,7 @@ public class PnlRegistroEmpresa extends JPanel {
         lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
         lblDesc.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,60));
         p.add(lblDesc);
         pnlDerCont.add(p);
@@ -330,6 +359,7 @@ public class PnlRegistroEmpresa extends JPanel {
         lblDesc_min.setHorizontalAlignment(SwingConstants.CENTER);
         p = new JPanel(new BorderLayout());
         p.setMaximumSize(new Dimension(300,50));
+        p.setBackground(Color.WHITE);
         p.setPreferredSize(new Dimension(300,40));
         p.add(lblDesc_min);
         pnlDerCont.add(p);
@@ -338,6 +368,7 @@ public class PnlRegistroEmpresa extends JPanel {
         JTextArea tADescripcion = new JTextArea();
         JScrollPane spTextArea = new JScrollPane(tADescripcion);
         p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,10000));
         p.add(spTextArea);
         pnlDerCont.add(p);
@@ -400,6 +431,7 @@ public class PnlRegistroEmpresa extends JPanel {
 		        	Empresa emp = new Empresa(tfNombre.getText(), tfTelefono.getText(),
 		        			tfCorreo.getText(), tADescripcion.getText(),
 		        			ubis, puestos, selectedFile, contrasena1);
+		        	VentanaPrincipal.getDatos().anadirUsuarioEmpresa(emp);
 		        	layoutVentana.show(pnlContenido, "pnlLogIn");
 		        	
 		        }

@@ -2,6 +2,7 @@ package clases;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.spi.FileSystemProvider;
@@ -117,13 +118,15 @@ public class DatosFicheros implements ManejoDatos{
 			InputStream input = new FileInputStream(new File("userCreation.properties"));
             properties.load(input);
         } catch (IOException e) {
+        	System.err.println("Problema al leer properties");
             e.printStackTrace();
         }
-		Usuario.setCount(Integer.parseInt(properties.getProperty("count")+""));
+		Usuario.setCount(Integer.parseInt(properties.getProperty("count")));
+		System.out.println("Set count usuarios a: " + Usuario.getCount());
 		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
-//		(new Thread(r1)).start();
+		(new Thread(r1)).start();
 		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
-//		(new Thread(r2)).start();
+		(new Thread(r2)).start();
 //		
 	}
 
@@ -131,7 +134,17 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void fin() {
 		// TODO Auto-generated method stub
-		properties.setProperty("count", Integer.toString(Usuario.getCount()));
+		System.out.println("Numero total de Usuarios: "  + Usuario.getCount()+ ""
+				+ " ; Guardando numero en properties");
+		properties.setProperty("count", Usuario.getCount()+"");
+		// Guardar los cambios en el archivo
+        try (FileOutputStream fileOutput = new FileOutputStream("userCreation.properties")) {
+            properties.store(fileOutput, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		
 		Runnable r1 = new GuardarPersonasDAT();
 		(new Thread(r1)).start();
 		Runnable r2 = new GuardarEmpresasDAT();
