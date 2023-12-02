@@ -90,6 +90,7 @@ public class Persona extends Usuario implements Serializable{
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.edad = edad;
+		this.ubicacion = ubicacion;
 		this.correoElectronico = correoElectronico;
 		this.telefono = telefeno;
 		this.curriculum = curriculum;
@@ -99,6 +100,7 @@ public class Persona extends Usuario implements Serializable{
 		super(p);
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellidos();
+		this.ubicacion = p.getUbicacion();
 		this.edad = p.getEdad();
 		this.correoElectronico = p.getCorreoElectronico();
 		this.telefono = p.getTelefono();

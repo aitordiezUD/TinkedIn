@@ -283,7 +283,7 @@ public class PnlExplorar extends JPanel {
 		                    pnl.setBackground(new Color(202, 232, 232));
 		                    pnl.setForeground(list.getForeground());
 		                }
-						lbl1 = new JLabel(value.toString() + " chupala hermano");
+						lbl1 = new JLabel(value.toString());
 						lbl2 = new JLabel("Numero de plazas");
 						lbl2.setForeground(new Color(128, 128, 128));
 						pnl.add(lbl1);
