@@ -51,7 +51,7 @@ public class PnlBotonera extends JPanel {
 	protected static Usuario usuarioAutenticado;
 	//private PnlExplorar pExplorar = new PnlExplorar( usuarioAutenticado );
 	public static JPanel pnlFuncional;
-	public static CardLayout CardLayout;
+	protected static CardLayout CardLayout;
 	
 	
 	
@@ -93,7 +93,7 @@ public class PnlBotonera extends JPanel {
 		setSize(900, 650);
 		add(pnlFuncional);
 		
-		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
+		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil(usuarioAutenticado);
 		pnlPuestoDeTrabajo pnlPuestoTrabajo = new pnlPuestoDeTrabajo();
 		
 		JPanel pnlInicial = new JPanel(new BorderLayout());
@@ -122,6 +122,14 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
 		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
+		if (usuarioAutenticado instanceof Persona) {
+			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
+			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
+		}
+
+		
+		PnlEditarPerfil pnlEditarPerfil = new PnlEditarPerfil();
+		pnlFuncional.add(pnlEditarPerfil,"pnlEditarPerfil");
 		
 		JLabel lblPerfil = new JLabel("Mi Perfil");
 		lblPerfil.setFont(new Font("Segoe UI", Font.PLAIN, 14));

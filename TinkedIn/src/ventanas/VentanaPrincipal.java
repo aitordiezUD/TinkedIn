@@ -80,7 +80,7 @@ public class VentanaPrincipal extends JFrame {
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 650);
-		setResizable(false);
+//		setResizable(false);
 		setLocationRelativeTo(null);
 		new ImagenesAzure();
 		pnlContenido = new JPanel();

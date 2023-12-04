@@ -72,7 +72,6 @@ public class PnlRegistroEmpresa extends JPanel {
 	private DefaultListModel<String> modeloLista;
 	private File selectedFile = null;
 	
-	
     public PnlRegistroEmpresa(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
         setBounds(0, 0, 900, 610);
@@ -312,11 +311,27 @@ public class PnlRegistroEmpresa extends JPanel {
         p = new JPanel(new FlowLayout());
         p.setBackground(Color.WHITE);
         JButton btnAnadirProv = new JButton("Añadir");
+        btnAnadirProv.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				modeloLista.add(modeloLista.size(), cbProvincia.getSelectedItem().toString());
+			}
+		});
+        
         btnAnadirProv.setBackground(Color.WHITE);
         p.add(btnAnadirProv);
         
         
         JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				modeloLista.remove(listaProvincias.getSelectedIndex());
+			}
+		});
         btnEliminar.setBackground(Color.WHITE);
         p.add(btnEliminar);
         
@@ -343,9 +358,6 @@ public class PnlRegistroEmpresa extends JPanel {
         p.add(btnRegistrarse, BorderLayout.WEST);	
         add(p, BorderLayout.SOUTH);
 			
-        
- 
-
         lblDesc = new JLabel("Descripción");
         lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
         lblDesc.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
