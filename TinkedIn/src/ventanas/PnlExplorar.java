@@ -41,6 +41,7 @@ import clases.Habilidad;
 import clases.Persona;
 import clases.PuestoTrabajo;
 import clases.Usuario;
+import componentes.botonAnEl;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -69,27 +70,27 @@ public class PnlExplorar extends JPanel {
 	private JPanel pnlLike;
 	private JPanel pnlPass;
 	
-	public PnlExplorar( Usuario tipoUsuario ) {
+	
+	public PnlExplorar( Usuario usuarioAutenticado ) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 		
-		
-	        
-	       
-	        JPanel pnlLista = new JPanel();
-	        setLayout(new BorderLayout(0,0));
+		setLayout(new BorderLayout(0,0));
+	     
+	    
+	  
 	        
 	        
 	        JPanel pnlContenido = new JPanel();
 	        pnlContenido.setLayout( new BorderLayout());
-	        pnlContenido.setBackground(Color.RED);
+	        pnlContenido.setBackground(Color.WHITE);
 	        pnlContenido.setPreferredSize(new Dimension(getWidth()-250, getHeight()));
 	        add(pnlContenido, BorderLayout.CENTER);
-	        
+      
 	        JPanel pnlInfo = new JPanel();
 	        pnlInfo.setLayout( new BorderLayout() );
-	        pnlInfo.setBackground( Color.WHITE);
-	        pnlContenido.add(pnlInfo);
+	        //pnlInfo.setBackground( Color.GREEN);
+	        pnlContenido.add(pnlInfo, BorderLayout.CENTER);
 	       
 	        JPanel pnlDatos = new JPanel();
 //	        pnlDatos.setBackground(Color.GREEN);
@@ -156,6 +157,13 @@ public class PnlExplorar extends JPanel {
 	            g2d.drawImage(scaledImage, 0, 0, null);
 	            g2d.dispose();
 	            
+	            
+	            
+	            
+	            JLabel lblNombreUsu = new JLabel( "      Nombre de Usuario" );
+	            lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+	            pnlDatos.add(lblNombreUsu);
+	            
 	            // Crea un JLabel y asigna la imagen escalada como ícono
 	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
 	            lblGrafExp.setBackground(new Color(240, 240, 240));
@@ -218,23 +226,24 @@ public class PnlExplorar extends JPanel {
 	            e.printStackTrace();
 	        }
 	        
+	       
 	        
-	        
-	        
-	        JLabel lblNombreUsu = new JLabel( "      Nombre de Usuario" );
-	        lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-	        pnlDatos.add(lblNombreUsu);
-	        
-	        
-	        if( tipoUsuario instanceof Empresa ) {
+	        if( usuarioAutenticado instanceof Empresa ) {
 	        	
+	        	JPanel pnlLista = new JPanel();
+		        pnlLista.setLayout( new BorderLayout() );
+		       
+		        
+		        
+	        	
+		        
 	        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 	        	for (int i = 0; i<5; i++) {
 	        		PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>());
 	        		puestos.add(pt);
 	        	}
 	        	
-	        	Empresa e = (Empresa) tipoUsuario;	
+	        	Empresa e = (Empresa) usuarioAutenticado;	
 	        	e.setPuestos(puestos);
 	        	
 	        	pnlLista.setBackground( new Color( 129, 186, 207 ) );
@@ -256,7 +265,14 @@ public class PnlExplorar extends JPanel {
 		 	    spLista.setBackground(getBackground());
 		 	    pnlLista.add(spLista);
 		 	    
-		 	   
+		 	   add(pnlLista,BorderLayout.WEST);
+		 	   JPanel pnlBotoneraIzq = new JPanel();
+		 	   pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
+		 	   pnlBotoneraIzq.setLayout( new FlowLayout() );
+		       pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
+		       pnlBotoneraIzq.setPreferredSize( new Dimension( pnlLista.getWidth(), 75));
+		       pnlBotoneraIzq.add( new botonAnEl("Añadir") );
+		       pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
 	
 				
 				
@@ -332,10 +348,11 @@ public class PnlExplorar extends JPanel {
 //					}
 //				});
 			
-			add(pnlLista,BorderLayout.WEST);
+			
 	       }
 	       
 	     
+	       
 		
 	}
 	
@@ -400,7 +417,7 @@ public class PnlExplorar extends JPanel {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
-		frame.getContentPane().add(new PnlExplorar(DatosFicheros.getEmpresas().get(0)));
+		//frame.getContentPane().add(new PnlExplorar(DatosFicheros.getEmpresas().get(0)));
 		frame.setVisible(true);
 		
 	}

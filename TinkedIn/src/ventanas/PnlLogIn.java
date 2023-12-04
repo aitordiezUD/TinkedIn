@@ -41,7 +41,9 @@ public class PnlLogIn extends JPanel {
 	private PnlRegistroPersona pnlRegistroPersona;
 	private PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
-	private Usuario usuarioAutenticado;
+	
+	
+	
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
 		setBackground(new Color(202, 232, 232));
@@ -248,8 +250,7 @@ public class PnlLogIn extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
 					
-					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-					//System.out.println(usuarioAutenticado);
+					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
 					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");

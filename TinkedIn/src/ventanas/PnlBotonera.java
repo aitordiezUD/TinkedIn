@@ -49,7 +49,7 @@ public class PnlBotonera extends JPanel {
 	private HashMap<JPanel,JPanel> mapaPaneles;
 	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 	protected static Usuario usuarioAutenticado;
-	private PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
+	//private PnlExplorar pExplorar = new PnlExplorar( usuarioAutenticado );
 	public static JPanel pnlFuncional;
 	public static CardLayout CardLayout;
 	
@@ -70,11 +70,18 @@ public class PnlBotonera extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PnlBotonera( Usuario tipoUsuario ) {
+	public PnlBotonera( Usuario usuarioAutenticado ) {
 		setLayout(null);
-		System.out.println(tipoUsuario);
 		
-		usuarioAutenticado = tipoUsuario;
+		
+		
+		this.usuarioAutenticado = usuarioAutenticado;
+		System.out.println("Este es el usuario autenticado en el panel botonera " + PnlBotonera.usuarioAutenticado);
+
+		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
+		
+//		System.out.println(usuarioAutenticado.getClass());
+		
 		
 		mapaPaneles = new HashMap<JPanel,JPanel>();
 		

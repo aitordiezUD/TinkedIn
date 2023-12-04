@@ -9,9 +9,12 @@ import javax.swing.tree.TreePath;
 
 import clases.Habilidad;
 import clases.PuestoTrabajo;
+import componentes.botonAceptar;
+import componentes.botonAnEl;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ import java.awt.BorderLayout;
 
 public class pnlPuestoDeTrabajo extends JPanel {
 	private JTree ArbolHabilidades;
-	private JPanel panelArbol;
+	private JPanel pnlArbol;
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
 	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
@@ -29,266 +32,110 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private JTextField tfNombrePuesto;
 	
 	public pnlPuestoDeTrabajo( ) {
-		setBackground(new Color(255, 255, 255));
+
+		setSize(750,650);
+		setLayout( new BorderLayout());
 		
-		setPreferredSize( new Dimension(783, 649) );
-		setLayout(new BorderLayout(0, 0));
+		areasDeTrabajo = new TreeMap<>();
 		
-		JPanel panelDerecha = new JPanel();
-		add(panelDerecha, BorderLayout.CENTER);
-		panelDerecha.setLayout(new BorderLayout(0, 0));
+		JPanel pnlTitulo = new JPanel();
+		pnlTitulo.setBackground( Color.WHITE );
+		pnlTitulo.setPreferredSize( new Dimension(getWidth(), 50));
 		
-		JPanel panelDerechaArriba = new JPanel();
-		panelDerecha.add(panelDerechaArriba, BorderLayout.NORTH);
-		panelDerechaArriba.setPreferredSize(new Dimension(0, 150));
+		JLabel lblTit = new JLabel("CREAR PUESTOS DE TRABAJO");
+		lblTit.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		pnlTitulo.add(lblTit);
 		
-		JPanel panelDerechaAbajo = new JPanel();
-		panelDerecha.add(panelDerechaAbajo, BorderLayout.SOUTH);
-		panelDerechaAbajo.setLayout(new BorderLayout(0, 0));
-		panelDerechaAbajo.setPreferredSize(new Dimension(0, 150));
+		JPanel pnlCreador = new JPanel();
+		pnlCreador.setBackground( Color.GREEN);
+		pnlCreador.setLayout( new BorderLayout() );
 		
-		JPanel panelDerechaAbajoIzquierda = new JPanel();
-		panelDerechaAbajo.add(panelDerechaAbajoIzquierda, BorderLayout.WEST);
-		panelDerechaAbajoIzquierda.setLayout(new BorderLayout(0, 0));
-		panelDerechaAbajoIzquierda.setPreferredSize(new Dimension(200,0));
+		JPanel pnlArbolyLista = new JPanel();
+		pnlArbolyLista.setLayout( new BorderLayout() );
+		pnlArbolyLista.setPreferredSize( new Dimension( getWidth()/2, pnlCreador.getHeight()));
+		pnlArbolyLista.setBackground( Color.WHITE );
 		
-		JPanel panelSpinnerDestreza = new JPanel();
-		panelDerechaAbajoIzquierda.add(panelSpinnerDestreza, BorderLayout.CENTER);
-		panelSpinnerDestreza.setLayout(new BorderLayout(0, 0));
+		JPanel pnlEditHab = new JPanel();
+		pnlEditHab.setLayout( new BorderLayout() );
+		pnlEditHab.setPreferredSize( new Dimension( getWidth()/2, pnlCreador.getHeight()));
+		
+		JPanel pnlEditCampos = new JPanel();
+		pnlEditCampos.setLayout(  new BorderLayout());
+		pnlEditCampos.setBackground( Color.WHITE );
+		pnlEditCampos.setPreferredSize( new Dimension( getWidth()/2, getHeight()/3-pnlTitulo.getHeight()));
+		
+//		SpinnerNumberModel modelSp = new SpinnerNumberModel(0, 0, 5, 1);
+//		JSpinner spDestreza = new JSpinner( modelSp );
+//		
+//		
+//		pnlEditCampos.add(spDestreza, BorderLayout.WEST);
 		
 		
-		JSpinner spDestreza = new JSpinner();
-		panelSpinnerDestreza.add(spDestreza);
 		
-		JPanel panelLabelDestreza = new JPanel();
-		panelDerechaAbajoIzquierda.add(panelLabelDestreza, BorderLayout.NORTH);
-		panelLabelDestreza.setPreferredSize(new Dimension(150, 50));
+		JPanel pnlBotonAc = new JPanel();
+		pnlBotonAc.setPreferredSize( new Dimension(getWidth()/2, 35));
+		pnlBotonAc.setBackground( Color.WHITE );
+//		pnlBotonAc.setBackground( Color.PINK );
+		pnlBotonAc.setLayout( new FlowLayout() );
 		
-		JLabel lblDestreza = new JLabel("Nivel de destreza:");
-		panelLabelDestreza.add(lblDestreza);
+		pnlBotonAc.add( new botonAceptar("Aceptar") );
 		
-		JPanel panelBntAñadir = new JPanel();
-		panelDerechaAbajoIzquierda.add(panelBntAñadir, BorderLayout.SOUTH);
-		panelBntAñadir.setPreferredSize(new Dimension(150, 70));
-		panelBntAñadir.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		pnlEditHab.setBackground( Color.GRAY );
 		
-		JButton btnAñadir = new JButton("Añadir");
-		panelBntAñadir.add(btnAñadir);
+		JPanel pnlLista = new JPanel();
+		pnlLista.setBackground( Color.WHITE );
+		pnlLista.setPreferredSize( new Dimension(getWidth()/4, pnlCreador.getHeight()) );
 		
-		JPanel panelBtnCrearPuesto = new JPanel();
-		panelDerechaAbajo.add(panelBtnCrearPuesto, BorderLayout.CENTER);
-		panelBtnCrearPuesto.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		pnlArbol = new JPanel();
+		pnlArbol.setBackground( Color.BLUE);
+		pnlArbol.setPreferredSize( new Dimension( getWidth()/4, pnlCreador.getHeight() ));
 		
-		JButton btnCrearPuesto = new JButton("Crear puesto de trabajo");
-		panelBtnCrearPuesto.add(btnCrearPuesto);
-		
-		JPanel panelDerechaCentro = new JPanel();
-		panelDerecha.add(panelDerechaCentro, BorderLayout.CENTER);
-		panelDerechaCentro.setLayout(new BorderLayout(0, 0));
-		panelArbol = new JPanel();
-		panelArbol.setPreferredSize(new Dimension(180, 0));
-		panelDerechaCentro.add(panelArbol, BorderLayout.WEST);
-		
-		JPanel panelListaHab = new JPanel();
-		panelDerechaCentro.add(panelListaHab, BorderLayout.EAST);
-		panelListaHab.setPreferredSize(new Dimension(170, 0));
-		panelListaHab.setLayout(new BorderLayout(0, 0));
-		
-		JList<?> listaHab = new JList<Object>();
+		JPanel pnlBotoneraIzq = new JPanel();
+	 	pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
+	 	pnlBotoneraIzq.setLayout( new FlowLayout() );
+	    pnlBotoneraIzq.setPreferredSize( new Dimension( getWidth()/4, 50));
+	    pnlBotoneraIzq.add( new botonAnEl("Añadir") );
+	    pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
+	    
+	    JList<?> listaHab = new JList<Object>();
 		modeloLista = new DefaultListModel<Object>();
 		listaHab.setModel(modeloLista);
 		
 		JScrollPane spLista = new JScrollPane(listaHab);
-		panelListaHab.add(spLista);
-		spLista.setBounds(10, 35, 180, 495);
+		spLista.setPreferredSize( new Dimension(187, 505));
+		pnlLista.add(spLista);
 		
-		JPanel panelDerechaIzq = new JPanel();
-		panelDerecha.add(panelDerechaIzq, BorderLayout.WEST);
-		
-		JPanel panelDerechaDer = new JPanel();
-		panelDerecha.add(panelDerechaDer, BorderLayout.EAST);
-		
-		JPanel panelIzq = new JPanel();
-		add(panelIzq, BorderLayout.WEST);
-		panelIzq.setLayout(new BorderLayout(0, 0));
-		panelIzq.setPreferredSize(new Dimension(385, getHeight()));
-		
-		JPanel panelIzqArriba = new JPanel();
-		panelIzq.add(panelIzqArriba, BorderLayout.NORTH);
-		panelIzqArriba.setPreferredSize(new Dimension(panelIzq.getWidth(), 150));
-		panelIzqArriba.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblPuestoDeTrabajo = new JLabel("PUESTO DE TRABAJO");
-		lblPuestoDeTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPuestoDeTrabajo.setFont(new Font("Tahoma", Font.BOLD, 19));
-		panelIzqArriba.add(lblPuestoDeTrabajo, BorderLayout.CENTER);
-		
-		JPanel panelIzqCentro = new JPanel();
-		panelIzqCentro.setBackground(new Color(202, 232, 232));
-		panelIzq.add(panelIzqCentro, BorderLayout.CENTER);
-		panelIzqCentro.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panelDescrPuesto = new JPanel();
-		panelDescrPuesto.setBackground(new Color(202, 232, 232));
-		panelIzqCentro.add(panelDescrPuesto);
-		panelDescrPuesto.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblDescrPuesto = new JLabel("   Descripción del puesto:");
-		panelDescrPuesto.add(lblDescrPuesto, BorderLayout.NORTH);
-		lblDescrPuesto.setPreferredSize(new Dimension(0, 60));
-		
-		JTextArea taDescPuesto = new JTextArea();
-		taDescPuesto.setLineWrap(true);
-		panelDescrPuesto.add(taDescPuesto);
-		
-		JPanel panelVacioDer = new JPanel();
-		panelVacioDer.setBackground(new Color(202, 232, 232));
-		panelDescrPuesto.add(panelVacioDer, BorderLayout.EAST);
-		
-		JPanel panelVacioAbajo = new JPanel();
-		panelVacioAbajo.setBackground(new Color(202, 232, 232));
-		panelDescrPuesto.add(panelVacioAbajo, BorderLayout.SOUTH);
-		panelVacioAbajo.setPreferredSize(new Dimension(panelDescrPuesto.getWidth(), 70));
-		
-		JPanel panelVacioIzq = new JPanel();
-		panelVacioIzq.setBackground(new Color(202, 232, 232));
-		panelDescrPuesto.add(panelVacioIzq, BorderLayout.WEST);
-		
-		JPanel panelIzqCentroArriba = new JPanel();
-		panelIzqCentroArriba.setBackground(new Color(202, 232, 232));
-		panelIzqCentro.add(panelIzqCentroArriba, BorderLayout.NORTH);
-		panelIzqCentroArriba.setLayout(new BorderLayout(0, 0));
-		panelIzqCentroArriba.setPreferredSize(new Dimension(panelIzq.getWidth(), 30));
-		
-		JLabel lblNombrePuesto = new JLabel("   Nombre del puesto:  ");
-		panelIzqCentroArriba.add(lblNombrePuesto, BorderLayout.WEST);
-		
-		tfNombrePuesto = new JTextField();
-		panelIzqCentroArriba.add(tfNombrePuesto, BorderLayout.CENTER);
-		tfNombrePuesto.setColumns(10);
-		
-		JPanel panelIzqCentroArribaVacio = new JPanel();
-		panelIzqCentroArribaVacio.setBackground(new Color(202, 232, 232));
-		panelIzqCentroArriba.add(panelIzqCentroArribaVacio, BorderLayout.NORTH);
-		
-		JPanel panelIzqCentroArribaVacio2 = new JPanel();
-		panelIzqCentroArribaVacio2.setBackground(new Color(202, 232, 232));
-		panelIzqCentroArriba.add(panelIzqCentroArribaVacio2, BorderLayout.EAST);
-		
-		JPanel panelIzqAbajo = new JPanel();
-		panelIzq.add(panelIzqAbajo, BorderLayout.SOUTH);
-		panelIzqAbajo.setPreferredSize(new Dimension(panelIzq.getWidth(), 150));
-		panelIzqAbajo.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblDescHab = new JLabel("    Descripcion de Habilidad:   ");
-		panelIzqAbajo.add(lblDescHab, BorderLayout.WEST);
-		
-		JTextArea taDescHab = new JTextArea();
-		taDescHab.setLineWrap(true);
-		panelIzqAbajo.add(taDescHab, BorderLayout.CENTER);
-		
-		JPanel panelAbajoAbajo = new JPanel();
-		panelIzqAbajo.add(panelAbajoAbajo, BorderLayout.SOUTH);
-		panelAbajoAbajo.setPreferredSize(new Dimension(panelIzqAbajo.getWidth(), 50));
-		
-		JPanel panelAbajoDer = new JPanel();
-		panelIzqAbajo.add(panelAbajoDer, BorderLayout.EAST);
-		
-		JPanel panelAbajoArriba = new JPanel();
-		panelIzqAbajo.add(panelAbajoArriba, BorderLayout.NORTH);
-		
-		JPanel panelIzqIzqVacio = new JPanel();
-		panelIzq.add(panelIzqIzqVacio, BorderLayout.WEST);
-		panelIzqIzqVacio.setPreferredSize(new Dimension(25,0));
-		
-		JPanel panelIzqDerVacio = new JPanel();
-		panelIzq.add(panelIzqDerVacio, BorderLayout.EAST);
+		add(pnlTitulo, BorderLayout.NORTH);
+		add(pnlCreador);
+		pnlCreador.add( pnlArbolyLista, BorderLayout.WEST );
+		pnlCreador.add( pnlEditHab, BorderLayout.EAST );
+		pnlArbolyLista.add(pnlLista, BorderLayout.EAST);
+		pnlArbolyLista.add( pnlArbol, BorderLayout.WEST );
+		pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
+		pnlEditHab.add(pnlEditCampos, BorderLayout.NORTH);
+		pnlEditCampos.add(pnlBotonAc, BorderLayout.SOUTH);
 		
 		
-		areasDeTrabajo = new TreeMap<>();
-		
-		modeloLista = new DefaultListModel<String>();
-		SpinnerNumberModel nMsp = new SpinnerNumberModel(0,0,5,1);
-		
-		btnCrearPuesto.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(tfNombrePuesto != null && taDescPuesto != null && taDescHab != null && listaHab != null) {
-					PuestoTrabajo pt = new PuestoTrabajo( tfNombrePuesto.getText(), taDescHab.getText(), new ArrayList<>() );
-					for(int i= 0; i<modeloLista.size();i++) {
-						pt.getHabilidadesReq().add((Habilidad) modeloLista.get(i));
-					}
-					modeloListaPt.addElement(pt);
-				}else {
-					JOptionPane.showOptionDialog(
-							null, 
-							"Rellena todos los campos.", 
-							"Error", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.INFORMATION_MESSAGE,
-							null,
-							new Object[] {"Aceptar"}, 
-							"Aceptar");
-				}
-				
-			}
-		});
-		
+        
 		this.crearMapaAreas();
 		this.crearArbol(areasDeTrabajo);
 		
-		btnAñadir.addActionListener( new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TreePath path = ArbolHabilidades.getSelectionPath();
-				if(path != null) {
-				DefaultMutableTreeNode selectedNode = ( DefaultMutableTreeNode )path.getLastPathComponent();
-				DefaultMutableTreeNode fieldNode = ( DefaultMutableTreeNode )selectedNode.getParent();
-				String campo = (String) fieldNode.getUserObject();
-				String nombre = (String) selectedNode.getUserObject();
-				int destreza = (int) spDestreza.getValue();
-				String descripcion = taDescHab.getText();
-				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
-				//Aqui el if da todo el rato false
-				if(!modeloLista.contains(hab)){
-					modeloLista.addElement(hab);
-					listaHab.updateUI();
-					spDestreza.setValue(0);
-					taDescHab.setText("");
-				}else {
-					JOptionPane.showOptionDialog(
-							null, 
-							"La habilidad seleccionada ya está añadida", 
-							"Error", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.INFORMATION_MESSAGE,
-							null,
-							new Object[] {"Aceptar"}, 
-							"Aceptar");	
-				}
-				}
-
-
-				
-			}
-			
-		} );
-		
 	}
+	
 	
 	public void crearArbol(TreeMap<String,ArrayList<String>> areasDeTrabajo) {
 		root = new DefaultMutableTreeNode( "Habilidades" );
-		panelArbol.setLayout(new BorderLayout(0, 0));
+		pnlArbol.setLayout(new BorderLayout(0, 0));
 		JScrollPane spTree = new JScrollPane( );
 		spTree.setBounds(10, 35, 180, 495);
-		panelArbol.add( spTree );
+		pnlArbol.add( spTree );
 		ArbolHabilidades = new JTree();
 		modeloArbol = new DefaultTreeModel(root);
 		ArbolHabilidades.setModel(modeloArbol);
 		this.anyadirHabilidades();
 		spTree.setViewportView(ArbolHabilidades);
+		
+		
 	}
 	
 	private void anyadirHabilidades() {
@@ -885,14 +732,13 @@ public class pnlPuestoDeTrabajo extends JPanel {
         areasDeTrabajo.get("Filosofía").add("Filosofía de la Ciencia");
         
         this.areasDeTrabajo=areasDeTrabajo;
-        
 	}
-	
 	
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
+		vent.add( new pnlPuestoDeTrabajo() );
 		vent.getContentPane().add(new pnlPuestoDeTrabajo());
-		vent.setSize(800,700);
+		vent.setSize(750,650);
 		vent.setVisible(true);
 	}
 }
