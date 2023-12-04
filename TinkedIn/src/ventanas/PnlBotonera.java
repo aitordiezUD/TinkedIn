@@ -115,8 +115,11 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
 		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
-		PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
-		pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
+		if (usuarioAutenticado instanceof Persona) {
+			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
+			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
+		}
+
 		
 		PnlEditarPerfil pnlEditarPerfil = new PnlEditarPerfil();
 		pnlFuncional.add(pnlEditarPerfil,"pnlEditarPerfil");

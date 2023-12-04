@@ -144,6 +144,8 @@ public class PnlMiPerfil  extends JPanel {
 			
 			JButton btnEditar = new JButton("Editar perfil");
 			p = new JPanel(new BorderLayout());
+			p.add(btnEditar);
+			
 			btnEditar.addActionListener(new ActionListener() {
 				
 				@Override
@@ -549,11 +551,9 @@ public class PnlMiPerfil  extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		PnlMiPerfil pnlPerfil = new PnlMiPerfil(DatosFicheros.getPersonas().get(0));
-		PnlMiPerfil pnlPerfil = new PnlMiPerfil(DatosFicheros.getEmpresas().get(0));
-//		pnlPerfil.personaAutenticada = DatosFicheros.getPersonas().get(0);
-//		pnlPerfil.usuarioAutenticado = 
-//		System.out.println(pnlPerfil.usuarioAutenticado);
+		PnlMiPerfil pnlPerfil = new PnlMiPerfil(DatosFicheros.getPersonas().get(0));
+//		PnlMiPerfil pnlPerfil = new PnlMiPerfil(DatosFicheros.getEmpresas().get(0));
+
 		
 		frame.setSize(750, 650);
 		frame.getContentPane().add(pnlPerfil);

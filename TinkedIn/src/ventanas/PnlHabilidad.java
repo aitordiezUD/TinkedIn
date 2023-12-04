@@ -190,7 +190,7 @@ public class PnlHabilidad extends JPanel{
 		add(pnlLista, BorderLayout.EAST);
 		
 		JList<Habilidad> listaHabilidades = new JList<Habilidad>();
-//		DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
+//		modeloLista = new DefaultListModel<Habilidad>();
 		pnlLista.setLayout(new BorderLayout(0, 0));
 		listaHabilidades.setModel(modeloLista);
 		
@@ -266,7 +266,7 @@ public class PnlHabilidad extends JPanel{
 				String descripcion = textArea.getText();
 				Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
 				//Aqui el if da todo el rato false, arreglatelas
-				if(!modeloLista.contains(hab)){
+				if(!(modeloLista.contains(hab))){
 					modeloLista.addElement(hab);
 //					listaHabilidades.updateUI();
 					spDestreza.setValue(0);

@@ -320,9 +320,12 @@ public class PnlEditarPerfil  extends JPanel {
 		        modeloListaUbicaciones = new DefaultListModel<String>();
 		        JList<String> listaUbi = new JList<String>();
 		        
-		        for(String p: e.getUbicaciones()) {
-		        	modeloListaUbicaciones.addElement(p);
+		        if (e.getUbicaciones()!=null) {
+		        	for(String p: e.getUbicaciones()) {
+			        	modeloListaUbicaciones.addElement(p);
+			        }
 		        }
+		        
 
 				listaUbi.setModel(modeloListaUbicaciones);
 				listaUbi.setBackground(new Color(208, 235, 242));
