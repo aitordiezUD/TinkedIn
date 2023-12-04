@@ -39,9 +39,9 @@ public class PnlHabilidad extends JPanel{
 	/**
 	 * 
 	 */
-	public PnlHabilidad(JPanel pnlContenido, CardLayout layoutVentana,DefaultListModel<Habilidad> modeloLista) {
+	public PnlHabilidad(JPanel pnlContenido, CardLayout layoutVentana,DefaultListModel<Habilidad> modeloLista, int cod) {
 //		setSize(750,650);
-		setPreferredSize(new Dimension(750, 650));
+//		setPreferredSize(new Dimension(750, 650));
 		setBackground(Color.WHITE);
 		
 		
@@ -75,7 +75,7 @@ public class PnlHabilidad extends JPanel{
 		PnlHabi.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlHabiSup = new JPanel();
-		pnlHabiSup.setPreferredSize(new Dimension(10, 150));
+		pnlHabiSup.setPreferredSize(new Dimension(10, 115));
 		PnlHabi.add(pnlHabiSup, BorderLayout.NORTH);
 		pnlHabiSup.setLayout(new BorderLayout(0, 0));
 		
@@ -85,14 +85,13 @@ public class PnlHabilidad extends JPanel{
 		pnlHabiSup.add(pnlHabiSupHab, BorderLayout.NORTH);
 		
 		JLabel lblArea = new JLabel("Habilidad");
-		lblArea.setPreferredSize(new Dimension(600, 100));
+		lblArea.setPreferredSize(new Dimension(600, 50));
 		lblArea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArea.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
 		pnlHabiSupHab.add(lblArea);
 		
 		JPanel pnlHabiSupLbl = new JPanel();
-		pnlHabiSupLbl.setBackground(new Color(255, 255, 255));
-		pnlHabiSupLbl.setPreferredSize(new Dimension(10, 70));
+		pnlHabiSupLbl.setPreferredSize(new Dimension(10, 35));
 		pnlHabiSup.add(pnlHabiSupLbl, BorderLayout.SOUTH);
 		
 		JLabel lblHabilidad = new JLabel("");
@@ -102,6 +101,7 @@ public class PnlHabilidad extends JPanel{
 		pnlHabiSupLbl.add(lblHabilidad);
 		
 		JPanel pnlDatosHabi = new JPanel();
+		pnlDatosHabi.setMaximumSize(new Dimension(32767, 100));
 		pnlDatosHabi.setBackground(Color.WHITE);
 		PnlHabi.add(pnlDatosHabi);
 		
@@ -161,10 +161,11 @@ public class PnlHabilidad extends JPanel{
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 12));
 		pnlDescIzq.add(lblDescripcion);
 		
-		JPanel pnlBotonera = new JPanel();
-		pnlBotonera.setBackground(new Color(255, 255, 255));
-		pnlBotonera.setPreferredSize(new Dimension(10, 40));
-		PnlHabi.add(pnlBotonera, BorderLayout.SOUTH);
+		JPanel pnlBotonera2 = new JPanel();
+		pnlBotonera2.setBackground(new Color(255, 255, 255));
+		pnlBotonera2.setPreferredSize(new Dimension(10, 90));
+//		pnlBotonera2.setBackground(Color.yellow);
+
 		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
@@ -172,10 +173,16 @@ public class PnlHabilidad extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				layoutVentana.show(pnlContenido, "pnlRegistroPersona");
+				if (cod==0) {
+					layoutVentana.show(pnlContenido, "pnlRegistroPersona");
+				}else {
+					layoutVentana.show(pnlContenido, "pnlMiPerfil");
+				}
+
 			}
 		});
-		pnlBotonera.add(btnAceptar);
+		pnlBotonera2.add(btnAceptar);
+		PnlHabi.add(pnlBotonera2, BorderLayout.SOUTH);
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground(Color.WHITE);
@@ -349,8 +356,8 @@ public class PnlHabilidad extends JPanel{
 	
 	public static void main(String[] args) {
 		JFrame vent = new JFrame();
-//		vent.getContentPane().add(new PnlHabilidad());
-		vent.setSize( 900,650 );
+		vent.getContentPane().add(new PnlHabilidad(null, null, null, 2));
+		vent.setSize( 750,650 );
 		vent.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		
 		vent.setVisible(true);

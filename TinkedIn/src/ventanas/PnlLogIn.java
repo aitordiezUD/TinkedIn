@@ -246,18 +246,21 @@ public class PnlLogIn extends JPanel {
 		
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword())));
 				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
-					
 					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-					//System.out.println(usuarioAutenticado);
+//					System.out.println(usuarioAutenticado);
+//					Persona p = (Persona) usuarioAutenticado;
+//					System.out.println("Ubicacion persona1: " + p.getUbicacion());
+//					p.setUbicacion("Bilbao");
+//					System.out.println("Ubicacion persona2: " + p.getUbicacion());
+					
 					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");
 				}else {
 					lblCredIncorrectas.setVisible(true);
 				}
-				
-				
 			}
 		});
 		

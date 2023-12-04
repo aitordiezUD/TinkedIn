@@ -79,6 +79,8 @@ public class PnlRegistroPersona extends JPanel {
         setBounds(0, 0, 900, 650);
         setLayout(new BorderLayout());
 
+        this.pnlContenido = pnlContenido;
+        
 //      PANEL IZQUIERDA
         JPanel pnlIzq = new JPanel(new BorderLayout());
         pnlIzq.setBackground(new Color(255, 255, 255));
@@ -455,7 +457,7 @@ public class PnlRegistroPersona extends JPanel {
     }
     
     public void asignarModeloParaPnlHabilidad() {
-    	PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlContenido,layoutVentana,(DefaultListModel<Habilidad>) listaHabilidades.getModel());
+    	PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlContenido,layoutVentana,(DefaultListModel<Habilidad>) listaHabilidades.getModel(),0);
         pnlContenido.add(pnlHabilidad,"pnlHabilidad");
     }
     

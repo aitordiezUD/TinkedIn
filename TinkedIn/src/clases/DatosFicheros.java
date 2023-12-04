@@ -122,7 +122,7 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(properties.getProperty("count")));
-		System.out.println("Set count usuarios a: " + Usuario.getCount());
+//		System.out.println("Set count usuarios a: " + Usuario.getCount());
 		Runnable r1 = new CargarPersonasDAT(DatosFicheros.this);
 		(new Thread(r1)).start();
 		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
@@ -134,8 +134,8 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void fin() {
 		// TODO Auto-generated method stub
-		System.out.println("Numero total de Usuarios: "  + Usuario.getCount()+ ""
-				+ " ; Guardando numero en properties");
+//		System.out.println("Numero total de Usuarios: "  + Usuario.getCount()+ ""
+//				+ " ; Guardando numero en properties");
 		properties.setProperty("count", Usuario.getCount()+"");
 		// Guardar los cambios en el archivo
         try (FileOutputStream fileOutput = new FileOutputStream("userCreation.properties")) {
@@ -214,6 +214,8 @@ public class DatosFicheros implements ManejoDatos{
 	
 	
 	public boolean autenticarUsuario(String correo, String contraseña) {
+		System.out.println("Contiene correo? " + mapaEmailUsuario.containsKey(correo));
+		System.out.println("Bien contraseña? " + mapaEmailUsuario.get(correo).getPassword().equals(contraseña) );
 		return mapaEmailUsuario.containsKey(correo) && mapaEmailUsuario.get(correo).getPassword().equals(contraseña);
 	}
 
