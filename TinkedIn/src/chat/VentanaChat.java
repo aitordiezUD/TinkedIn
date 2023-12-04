@@ -73,7 +73,20 @@ public class VentanaChat extends JFrame {
 	public JList<Usuario> getListaContactos() {
 		return listaContactos;
 	}
-
+	
+	public static void main(String[] args) {
+		DatosFicheros datos = new DatosFicheros();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		VentanaChat vc1 = new VentanaChat(DatosFicheros.getUsuarios().get(0));
+		VentanaChat vc2 = new VentanaChat(DatosFicheros.getUsuarios().get(1));
+	}
+	
 	public VentanaChat(Usuario usuario) {
 		setSize(800,600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -104,7 +117,7 @@ public class VentanaChat extends JFrame {
 		listaContactos.setPreferredSize(new Dimension(200,200));
 		anadirContactos();
 		
-		Datos.getMapaActListas().put(this, listaContactos);
+//		Datos.getMapaActListas().put(this, listaContactos);
 		getContentPane().add(new JScrollPane(listaContactos),BorderLayout.WEST);
 		
 		listaContactos.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
@@ -160,7 +173,7 @@ public class VentanaChat extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				finComunicacion = true;
-				Datos.getMapaActListas().remove(VentanaChat.this);
+//				Datos.getMapaActListas().remove(VentanaChat.this);
 			}
 		});
 		
@@ -186,9 +199,12 @@ public class VentanaChat extends JFrame {
 		try (Socket socket = new Socket( "localhost", 4000 )) {
     		socket.setSoTimeout( 1000 ); // Pone el timeout para que no se quede eternamente en la espera (1)
             flujoOut = new ObjectOutputStream(socket.getOutputStream());
-            flujoOut.writeObject(usuario.getId()); // Mensaje que envia el ID del sender
+            int idAenviar = (int) usuario.getId();
+            flujoOut.writeObject(idAenviar); // Mensaje que envia el ID del sender
+            System.out.println("Id enviado por cliente");
             ObjectInputStream echoes = new ObjectInputStream(socket.getInputStream());
             Object echo1 = echoes.readObject();
+            System.out.println(echo1);
             do {
             	try {
             		Mensaje mensaje = (Mensaje) echoes.readObject();  // Devuelve mensaje de servidor o null cuando se cierra la comunicación
@@ -197,6 +213,7 @@ public class VentanaChat extends JFrame {
             }while(!finComunicacion);
 			flujoOut.writeObject( "\\#FINDECOMUNICACION" );
         } catch (Exception e) {
+//        	e.printStackTrace();
         	JOptionPane.showMessageDialog(null, "Recuerda lanzar el servidor");
         	finComunicacion = true;
         	VentanaChat.this.dispose();
@@ -261,7 +278,12 @@ public class VentanaChat extends JFrame {
     	}
     	
     	public void setLblContacto(Usuario u) {
-    		lblContacto.setText(u.getCorreo());
+    		
+    		if (u instanceof Persona) {
+    			lblContacto.setText(((Persona)u).getCorreoElectronico());
+    		}else {
+    			lblContacto.setText(((Empresa)u).getCorreoElectronico());
+    		}
     	}
     	
 		private void locateMessage(tipoMensaje tipo, Mensaje mensaje) {
