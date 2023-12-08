@@ -23,6 +23,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -268,6 +270,48 @@ public class PnlLogIn extends JPanel {
 				}else {
 					lblCredIncorrectas.setVisible(true);
 				}
+			}
+		});
+		
+		pfContrasnya.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				System.out.println(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword())));
+				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
+
+					
+					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+
+					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+//					System.out.println(usuarioAutenticado);
+//					Persona p = (Persona) usuarioAutenticado;
+//					System.out.println("Ubicacion persona1: " + p.getUbicacion());
+//					p.setUbicacion("Bilbao");
+//					System.out.println("Ubicacion persona2: " + p.getUbicacion());
+					
+
+					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
+					pnlContenido.add(pnlBotones,"pnlBotones");
+					layoutVentana.show(pnlContenido, "pnlBotones");
+				}else {
+					lblCredIncorrectas.setVisible(true);
+				}
+				}
+				
 			}
 		});
 		
