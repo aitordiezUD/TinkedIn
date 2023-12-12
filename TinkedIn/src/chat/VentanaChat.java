@@ -130,8 +130,15 @@ public class VentanaChat extends JFrame {
 		        pnl.setBackground(new Color(202, 232, 232));
 		        pnl.setForeground(list.getForeground());
 		    }
-
-		    JLabel lbl = new JLabel(value.toString());
+		    
+		    JLabel lbl = null;
+//		    JLabel lbl = new JLabel(value.toString());
+		    if (value instanceof Persona) {
+		    	lbl = new JLabel(((Persona)value).getCorreoElectronico());
+		    }else {
+		    	lbl = new JLabel(((Empresa)value).getCorreoElectronico());
+		    }
+//		    JLabel lbl = new JLabel(value.getId()+"");
 		    pnl.add(lbl);
 
 		    return pnl;
