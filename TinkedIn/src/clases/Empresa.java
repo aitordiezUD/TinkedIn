@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Empresa extends Usuario implements Serializable{
 
@@ -125,6 +126,11 @@ public class Empresa extends Usuario implements Serializable{
 	public String toString() {
 		// TODO Auto-generated method stub
 		return getId() + ": " + nombre + "\t" + correoElectronico + "\t" + telefono;
+	}
+	
+	public void notificarMatch(Usuario u) {
+		Persona p = (Persona) u; 
+		JOptionPane.showMessageDialog(null, "¡Enhorabuena! Has hecho match con " + p.getNombre() + " " + p.getApellidos() + "." );
 	}
 		
 	

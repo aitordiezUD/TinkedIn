@@ -52,7 +52,7 @@ public class PnlBotonera extends JPanel {
 	//private PnlExplorar pExplorar = new PnlExplorar( usuarioAutenticado );
 	public static JPanel pnlFuncional;
 	protected static CardLayout CardLayout;
-	
+	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
 	
 	
 	public Usuario getUsuarioAutenticado() {
@@ -73,8 +73,6 @@ public class PnlBotonera extends JPanel {
 	public PnlBotonera( Usuario usuarioAutenticado ) {
 		setLayout(null);
 		
-		
-		
 		this.usuarioAutenticado = usuarioAutenticado;
 		System.out.println("Este es el usuario autenticado en el panel botonera " + PnlBotonera.usuarioAutenticado);
 
@@ -89,7 +87,7 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.setBackground(Color.PINK);
 		CardLayout = new CardLayout();
 		pnlFuncional.setLayout(CardLayout);
-		pnlFuncional.setBounds(150, 0, 750, 650);
+		pnlFuncional.setBounds(150, 0, 750, 610);
 		setSize(900, 650);
 		add(pnlFuncional);
 		
@@ -183,8 +181,6 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlPerfil.setBackground(new Color(208, 235, 242));
 				}
-					
-				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -265,7 +261,6 @@ public class PnlBotonera extends JPanel {
 					pnlExplorar.setBackground(new Color(208, 235, 242));
 				}
 					
-				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -285,9 +280,9 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
-		JPanel pMensajes = new JPanel();
-		pMensajes.setBackground(Color.GREEN);
-		pnlFuncional.add(pMensajes,"pMensajes");
+		PnlChat pnlChat= new PnlChat();
+		pnlChat.setBackground(Color.GREEN);
+		pnlFuncional.add(pnlChat,"pnlChat");
 		
 		JLabel lblMensajes = new JLabel("Mensajes");
 		lblMensajes.setHorizontalAlignment(SwingConstants.CENTER);
@@ -331,7 +326,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlMensajes;
-				CardLayout.show(pnlFuncional, "pMensajes");
+				CardLayout.show(pnlFuncional, "pnlChat");
 				pnlMensajes.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -516,4 +511,7 @@ public class PnlBotonera extends JPanel {
 		
 
 	}
+	
+	
+	
 }

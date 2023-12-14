@@ -28,8 +28,6 @@ import java.awt.FlowLayout;
 
 public class PnlHabilidad extends JPanel{
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
-	
-	
 	private JTree tree;
 	private DefaultTreeModel treeModel;
 	private JPanel pnlArbol;

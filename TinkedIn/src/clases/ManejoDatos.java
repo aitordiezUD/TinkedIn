@@ -50,5 +50,16 @@ public interface ManejoDatos {
 	 * @param email
 	 */
 	public boolean containsEmail(String email);
+	
+	/**Funcion que añade un like a la base de datos
+	 * @param from: Usuario que da like 
+	 * @param to: Usuario que recibe like
+	 */
+	public void crearLike(Usuario from, Usuario to);
+	
+	/**Funcion que dado un like, comprueba si hay match entre los dos usuarios 
+	 * @param like
+	 */
+	public void comprobarMatch(Like like);
 
 }

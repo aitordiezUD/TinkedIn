@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import clases.DatosFicheros;
+import clases.Mensaje;
 
 
 
@@ -32,7 +33,17 @@ import clases.DatosFicheros;
 
 public class Servidor {
 	private static final int PUERTO = 4000;
+	private static DatosFicheros datos;
+	private static Servidor instance;
 	
+	public static DatosFicheros getDatos() {
+		return datos;
+	}
+
+	public static void setDatos(DatosFicheros datos) {
+		Servidor.datos = datos;
+	}
+
 	//Atributos para comunicacion
 	private static Map<Integer, ObjectOutputStream> mapaDirecciones;
 	private static Vector<HiloComunicacion> listaHilos; // Lista de hilos de comunicación  
@@ -47,7 +58,7 @@ public class Servidor {
 	private static JTextArea taMensajes = new JTextArea( 10, 1 );
 	
 	public Servidor() {
-		DatosFicheros datos = new DatosFicheros();
+		datos = new DatosFicheros();
 		mapaDirecciones = new HashMap<>();
 		mapaDirecciones = Collections.synchronizedMap(mapaDirecciones);
 		mapaMensajasPorEnviar = new HashMap<>();
@@ -64,6 +75,13 @@ public class Servidor {
 //		}).start();
 		new Thread(() -> {vs.lanzaServidor();}).start();
 	}
+	
+    public static Servidor getInstance() {
+        if (instance == null) {
+            instance = new Servidor();
+        }
+        return instance;
+    }
 	
 	public static void main(String[] args) {
 		new Servidor();
@@ -114,14 +132,15 @@ public class Servidor {
 		@Override
 		public void run() {
 	    	try {
-	    		System.out.println("Conexion establecida en Servidor");
+//	    		System.out.println("Conexion establecida en Servidor");
 	    		socket.setSoTimeout( 1000 ); // Pone el timeout para que no se quede eternamente en la espera (1)
 	    		ObjectInputStream input = new ObjectInputStream(socket.getInputStream());  // Canal de entrada de socket (leer del cliente)
 //	    		System.out.println("Input en servidor " + input.readObject());
 	    		idSender = (int) input.readObject();
-	    		System.out.println("idSender: " + idSender);
+//	    		System.out.println("idSender: " + idSender);
 	    		ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());  // Canal de salida de socket (escribir al cliente)
 	    		output.writeObject("Recibido");
+	    		taMensajes.append("Usuario " + idSender+ " conectado." + "\n");
 	    		listaHilos.add( this );
 	    		listaSockets.add( socket );
 	    		mapaDirecciones.put( idSender, output );

@@ -78,7 +78,8 @@ public class PnlRegistroPersona extends JPanel {
 		setBackground(Color.WHITE);
         setBounds(0, 0, 900, 650);
         setLayout(new BorderLayout());
-
+        
+        this.layoutVentana = layoutVentana;
         this.pnlContenido = pnlContenido;
         
 //      PANEL IZQUIERDA

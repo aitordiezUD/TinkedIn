@@ -1,33 +1,27 @@
-package chat;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,28 +31,26 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
-import clases.DatosFicheros;
-import clases.Empresa;
-import clases.Persona;
-import clases.Usuario;
-//import es.deusto.prog3.utils.comunicacion.ConfigCS;
-
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import clases.DatosFicheros;
+import clases.Empresa;
+import clases.Mensaje;
+import clases.Persona;
+import clases.Usuario;
+
 enum tipoMensaje {ENVIO, RECEPCION};
 
-public class VentanaChat extends JFrame {
-	private Usuario usuario;
+public class PnlChat extends JPanel{
+	protected Usuario usuario;
 	private DefaultListModel<Usuario> modeloLista;
 	private JList<Usuario> listaContactos;
 	private Usuario contacto = null;
 	private JPanel pnlChatsContent;
 	private CardLayout layoutChats;
 	private HashMap<Integer, MiPanelChat> mapaPaneles;
-	
 	
 //	SOCKETS:
 	private boolean finComunicacion = false;
@@ -74,31 +66,18 @@ public class VentanaChat extends JFrame {
 		return listaContactos;
 	}
 	
-	public static void main(String[] args) {
-		DatosFicheros datos = new DatosFicheros();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		VentanaChat vc1 = new VentanaChat(DatosFicheros.getUsuarios().get(0));
-		VentanaChat vc2 = new VentanaChat(DatosFicheros.getUsuarios().get(1));
-	}
-	
-	public VentanaChat(Usuario usuario) {
+	public PnlChat() {
+		setLayout(new BorderLayout());
+		this.usuario = PnlBotonera.usuarioAutenticado;
 		setSize(800,600);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
 		if (usuario instanceof Persona) {
-			setTitle(((Persona)usuario).getCorreoElectronico());
+//			setTitle(((Persona)usuario).getCorreoElectronico());
 		}else {
-			setTitle(((Empresa)usuario).getCorreoElectronico());
+//			setTitle(((Empresa)usuario).getCorreoElectronico());
 		}
 		
 //		(new Thread() {@Override public void run() {VentanaChat.this.lanzaCliente();}}).start();
-		(new Thread(() -> {VentanaChat.this.lanzaCliente();})).start();
+		(new Thread(() -> {PnlChat.this.lanzaCliente();})).start();
 		
 		this.usuario = usuario;
 		mapaPaneles = new HashMap<>();
@@ -108,7 +87,7 @@ public class VentanaChat extends JFrame {
 		pnlChatsContent = new JPanel();
 		layoutChats = new CardLayout();
 		pnlChatsContent.setLayout(layoutChats);
-		getContentPane().add(pnlChatsContent);
+		add(pnlChatsContent);
 		
 		
 //		CREACION DE LA LISTA A LA PARTE IZQUIERDA DEL PANEL
@@ -118,7 +97,7 @@ public class VentanaChat extends JFrame {
 		anadirContactos();
 		
 //		Datos.getMapaActListas().put(this, listaContactos);
-		getContentPane().add(new JScrollPane(listaContactos),BorderLayout.WEST);
+		add(new JScrollPane(listaContactos),BorderLayout.WEST);
 		
 		listaContactos.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
 		    JPanel pnl = new JPanel();
@@ -155,7 +134,7 @@ public class VentanaChat extends JFrame {
 				// TODO Auto-generated method stub
 				int index = listaContactos.locationToIndex(e.getPoint());
 				if (index != -1) {
-					VentanaChat.this.contacto = modeloLista.get(index);
+					PnlChat.this.contacto = modeloLista.get(index);
 					layoutChats.show(pnlChatsContent,contacto.getId()+"");
 				}
 			}
@@ -174,27 +153,15 @@ public class VentanaChat extends JFrame {
 		if (modeloLista.getSize()>0) {
 			layoutChats.show(pnlChatsContent, modeloLista.get(0).getId()+"");
 		}
-		
-//		PREPARACION SOCKETS
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				finComunicacion = true;
-//				Datos.getMapaActListas().remove(VentanaChat.this);
-			}
-		});
-		
-
 		setVisible(true);
 	}
-	
 	
 	public void anadirContactos() {
 		for (Usuario u: DatosFicheros.getUsuarios()) {
 			if (!u.equals(this.usuario)) {
 				if (!modeloLista.contains(u)) {
 				modeloLista.add(modeloLista.getSize(),u);
-				MiPanelChat p = new MiPanelChat(usuario,u, VentanaChat.this);
+				MiPanelChat p = new MiPanelChat(usuario,u, PnlChat.this);
 				pnlChatsContent.add(p,u.getId()+"");
 				mapaPaneles.put((int) u.getId(), p);
 				}
@@ -223,11 +190,11 @@ public class VentanaChat extends JFrame {
 //        	e.printStackTrace();
         	JOptionPane.showMessageDialog(null, "Recuerda lanzar el servidor");
         	finComunicacion = true;
-        	VentanaChat.this.dispose();
+//        	VentanaPrincipal.dispose();
         }
 	}
-
-    
+	
+	
     private static class MiPanelChat extends JPanel{
     	JScrollPane spPnlChatMensajes;
     	JLabel lblContacto;
@@ -237,7 +204,7 @@ public class VentanaChat extends JFrame {
     	JTextField tfMensaje;
     	
     	
-    	public MiPanelChat(Usuario usuario ,Usuario contacto, VentanaChat vc) {
+    	public MiPanelChat(Usuario usuario ,Usuario contacto, PnlChat pc) {
     		
     		setBackground(Color.WHITE);
     		setLayout(new BorderLayout());
@@ -249,7 +216,7 @@ public class VentanaChat extends JFrame {
     		pnlContacto = new JPanel();
     		pnlContacto.setPreferredSize(new Dimension(50,40));
     		pnlContacto.setBackground(new Color(202, 232, 232));
-    		pnlContacto.setLayout(new BorderLayout(0, 0));
+    		pnlContacto.setLayout(new BorderLayout());
     		lblContacto = new JLabel();
     		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
     		pnlContacto.add(lblContacto, BorderLayout.CENTER);
@@ -260,6 +227,7 @@ public class VentanaChat extends JFrame {
     		tfMensaje = new JTextField();
     		pnlTextField.add(tfMensaje);
     		pnlTextField.setPreferredSize(new Dimension(200,40));
+    		pnlTextField.setMinimumSize(new Dimension(200,60));
     		add(pnlTextField, BorderLayout.SOUTH);
     		
     		add(spPnlChatMensajes, BorderLayout.CENTER);
@@ -275,7 +243,7 @@ public class VentanaChat extends JFrame {
     				locateMessage(tipoMensaje.ENVIO, mensaje);
     				tfMensaje.setText( "" );
     				try {
-    					vc.getFlujoOut().writeObject(mensaje);
+    					pc.getFlujoOut().writeObject(mensaje);
     					
     				} catch (IOException e1) {  // Error en writeObject
     					JOptionPane.showMessageDialog(null, "No se ha podido enviar el mensaje.");
@@ -367,7 +335,4 @@ public class VentanaChat extends JFrame {
 	    }
     	
     }
-	
-
 }
-

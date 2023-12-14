@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import chat.Servidor;
 import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Persona;
@@ -58,6 +59,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public static void main(String[] args) {
 		datos = new DatosFicheros();
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,16 +98,13 @@ public class VentanaPrincipal extends JFrame {
 		
 		
 		setContentPane(pnlContenido);
-		datos = new DatosFicheros();
 
 		addWindowListener(new WindowAdapter() {
-
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
 				getDatos().fin();
 			}
-
 		});
 			
 	}

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -79,6 +80,16 @@ public abstract class Usuario implements Serializable{
 		this.id = u.getId();
 		this.password = u.getPassword();
 		this.tipo = u.getTipo();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Usuario other = (Usuario) obj;
+		if (other.getId() == this.getId()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 

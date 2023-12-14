@@ -1,19 +1,51 @@
 package clases;
 
-public class Like {
+import java.io.Serializable;
+import java.util.Objects;
 
-	private Usuario daLike;
-	private Usuario recibeLike;
+public class Like implements Serializable{
+
+	private Usuario From;
+	private Usuario To;
 	
-	public Like(Usuario da, Usuario recibe) {
-		this.daLike = da;
-		this.recibeLike = recibe;
+	public Usuario getFrom() {
+		return From;
+	}
+
+	public void setFrom(Usuario from) {
+		From = from;
+	}
+
+	public Usuario getTo() {
+		return To;
+	}
+
+	public void setTo(Usuario to) {
+		To = to;
+	}
+
+	public Like(Usuario from, Usuario to) {
+		this.From = from;
+		this.To = to;
 	}
 
 	@Override
 	public String toString() {
-		return "Like de: " + daLike + ", recibe el like: " + recibeLike;
+		return "Like de: " + From + ", recibe el like: " + To;
 	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		Like other = (Like) obj;
+		if (other.getFrom().equals(this.getFrom()) & other.getTo().equals(this.getTo())) {
+			return true;
+		}else {
+			return false; 
+		}
+	}
+
+
 	
 	
 	

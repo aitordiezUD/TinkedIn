@@ -28,6 +28,9 @@ public class DatosFicheros implements ManejoDatos{
 	protected static HashMap<String, Usuario> mapaEmailUsuario;
 	protected static HashMap<String, Usuario> mapaTlfnoUsuario;
 	protected static HashMap<Usuario, String> mapaContraseñaUsuario;
+	protected static HashMap<Usuario, Vector<Like>> mapaLikesPorUsuario;
+	protected static HashMap<Usuario, Vector<Usuario>> mapaMatchesDeUsuarios;
+	protected static Vector<Match> matches; 
 	protected static Properties properties;
 	
 	protected static boolean test = false;
@@ -112,6 +115,9 @@ public class DatosFicheros implements ManejoDatos{
 		mapaEmailUsuario = new HashMap<String, Usuario>();
 		mapaTlfnoUsuario = new HashMap<String, Usuario>();
 		mapaContraseñaUsuario = new HashMap <Usuario, String>();
+		mapaLikesPorUsuario = new HashMap<>();
+		mapaMatchesDeUsuarios = new HashMap<>();
+		matches = new Vector<>();
 		properties = new Properties();
 		
 		try{
@@ -127,7 +133,6 @@ public class DatosFicheros implements ManejoDatos{
 		(new Thread(r1)).start();
 		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
 		(new Thread(r2)).start();
-//		
 	}
 
 
@@ -176,7 +181,8 @@ public class DatosFicheros implements ManejoDatos{
 			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
 			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
 			mapaContraseñaUsuario.put(persona, contraseña);
-			
+			System.out.println(mapaIdUsuario);
+			System.out.println(mapaContraseñaUsuario);
 		}
 		
 		
@@ -214,8 +220,8 @@ public class DatosFicheros implements ManejoDatos{
 	
 	
 	public boolean autenticarUsuario(String correo, String contraseña) {
-		System.out.println("Contiene correo? " + mapaEmailUsuario.containsKey(correo));
-		System.out.println("Bien contraseña? " + mapaEmailUsuario.get(correo).getPassword().equals(contraseña) );
+//		System.out.println("Contiene correo? " + mapaEmailUsuario.containsKey(correo));
+//		System.out.println("Bien contraseña? " + mapaEmailUsuario.get(correo).getPassword().equals(contraseña) );
 		return mapaEmailUsuario.containsKey(correo) && mapaEmailUsuario.get(correo).getPassword().equals(contraseña);
 	}
 
@@ -233,6 +239,43 @@ public class DatosFicheros implements ManejoDatos{
 		return mapaEmailUsuario.containsKey(email);
 	}
 
+
+	@Override
+	public void crearLike(Usuario from, Usuario to) {
+		// TODO Auto-generated method stub
+		Like l = new Like(from, to);
+		if (mapaLikesPorUsuario.get(from) == null) {
+			mapaLikesPorUsuario.put(from, new Vector<>());
+		}
+		mapaLikesPorUsuario.get(from).add(l);
+		
+	}
+
+
+	@Override
+	public void comprobarMatch(Like like) {
+		Usuario from = like.getFrom();
+		Usuario to = like.getTo();
+		
+		Like likeInverso = new Like(to,from);
+		
+		if (mapaLikesPorUsuario.get(to).contains(likeInverso)) {
+			if (mapaMatchesDeUsuarios.get(from) == null) {
+				mapaMatchesDeUsuarios.put(from, new Vector<>());
+			}
+			if (mapaMatchesDeUsuarios.get(to) == null) {
+				mapaMatchesDeUsuarios.put(to, new Vector<>());
+			}
+			
+			mapaMatchesDeUsuarios.get(from).add(to);
+			mapaMatchesDeUsuarios.get(to).add(from);
+			Match m = new Match(from, to);
+			matches.add(m);
+		}
+		
+	}
+	
+	
 
 	
 	

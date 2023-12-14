@@ -16,20 +16,18 @@ public class Main {
 //				"688680738",new ArrayList<Habilidad>(), null, "passWd");
 //		Empresa e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
 //				null, null, null, "psswd") ;
-		Persona pAdmin = new Persona("admin2", "admin2", "Alava",20,"admin2","admin2", null,new File("adminpng.png"),"admin");
-
-		
-//		datos.anadirUsuarioEmpresa(e1);
-//		datos.anadirUsuarioPersona(p1);
+		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", null,new File("adminpng.png"),"admin");
 		datos.anadirUsuarioPersona(pAdmin);
 		
-//		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, new File("TinkedinPNG.png"),"adminE");
-//		datos.anadirUsuarioEmpresa(adminE);
+		
+		
+		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, new File("TinkedinPNG.png"),"adminE");
+		datos.anadirUsuarioEmpresa(adminE);
 		
 //		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
 //		datos.anadirUsuarioEmpresa(adminE2);
 		
-//		datos.fin();
+		datos.fin();
 		
 	}
 	

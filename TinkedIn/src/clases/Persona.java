@@ -3,8 +3,10 @@ package clases;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Persona extends Usuario implements Serializable{
 	
@@ -21,6 +23,7 @@ public class Persona extends Usuario implements Serializable{
 	private String apellidos;
 	private ArrayList<Habilidad> curriculum;
 	private ArrayList<String> habilidadesTecnicas;
+	private Vector<Like> likes;
 
 
 	//Getters and setters:
@@ -82,7 +85,15 @@ public class Persona extends Usuario implements Serializable{
 		this.telefono = telefeno;
 	}
 
+	public Vector<Like> getLikes() {
+		return likes;
+	}
+	public void setLikes(Vector<Like> likes) {
+		this.likes = likes;
+	}
+	
 	//Constructores: 
+	
 	
 	public Persona(String nombre, String apellidos,String ubicacion, int edad,
 			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, @SuppressWarnings("exports") File fotoDePerfil, String password) {
@@ -94,6 +105,7 @@ public class Persona extends Usuario implements Serializable{
 		this.correoElectronico = correoElectronico;
 		this.telefono = telefeno;
 		this.curriculum = curriculum;
+		this.likes = new Vector<>();
 	}
 	
 	public Persona( Persona p ) {
@@ -105,11 +117,17 @@ public class Persona extends Usuario implements Serializable{
 		this.correoElectronico = p.getCorreoElectronico();
 		this.telefono = p.getTelefono();
 		this.curriculum = p.getCurriculum();
+		this.likes = p.getLikes();
 	}
 	
 	@Override
 	public String toString() {		
-	return getId() + ": " + nombre + " " + apellidos + "\t" + correoElectronico + "\t" + telefono;
+	return getId() + ": " + nombre + " " + apellidos + " ;" + correoElectronico + " ; " + telefono;
 	}
-
+	
+	public void notificarMatch(Usuario u) {
+		Empresa e = (Empresa) u; 
+		JOptionPane.showMessageDialog(null, "¡Enhorabuena! Has hecho match con " + e.getNombre() + "" );
+	}
+	
 }
