@@ -82,7 +82,7 @@ public class PnlBotonera extends JPanel {
 		System.out.println("Este es el usuario autenticado en el panel botonera " + PnlBotonera.usuarioAutenticado);
 		puestosCandidatos = CrearTreeSet();
 		System.out.println(puestosCandidatos);
-		System.out.println(puestosCandidatos);
+		
 
 		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
 		
