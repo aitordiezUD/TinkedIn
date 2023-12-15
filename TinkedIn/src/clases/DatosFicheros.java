@@ -30,7 +30,7 @@ public class DatosFicheros implements ManejoDatos{
 	protected static HashMap<Usuario, String> mapaContraseñaUsuario;
 	protected static HashMap<Usuario, Vector<Like>> mapaLikesPorUsuario;
 	protected static HashMap<Usuario, Vector<Usuario>> mapaMatchesDeUsuarios;
-	protected static Vector<Match> matches; 
+	protected static Vector<Match> matches;
 	protected static Properties properties;
 	
 	protected static boolean test = false;

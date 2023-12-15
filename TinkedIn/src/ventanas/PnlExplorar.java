@@ -25,6 +25,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.swing.Icon;
@@ -69,7 +73,8 @@ public class PnlExplorar extends JPanel {
 	private JLabel lblGrafExpX; 
 	private JPanel pnlLike;
 	private JPanel pnlPass;
-	
+	protected static HashMap<PuestoTrabajo, Vector<Persona>> mapaPersonasPorPuesto;
+	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	
 	public PnlExplorar( Usuario usuarioAutenticado ) {
 		setLayout(new BorderLayout());
@@ -77,8 +82,13 @@ public class PnlExplorar extends JPanel {
 		
 		setLayout(new BorderLayout(0,0));
 	     
-	    
-	  
+	    	if(usuarioAutenticado instanceof Persona) {
+	    		puestosCandidatos = PnlBotonera.puestosCandidatos;
+	    		System.out.println(puestosCandidatos);
+	    		
+	    	}
+    		
+	        //PuestoTrabajo primerPuesto = puestosCandidatos.first();
 	        
 	        
 	        JPanel pnlContenido = new JPanel();
@@ -96,6 +106,14 @@ public class PnlExplorar extends JPanel {
 //	        pnlDatos.setBackground(Color.GREEN);
 	        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
 	        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
+	        
+	        JPanel pnlfotoPerfil = new JPanel();
+	        pnlfotoPerfil.setPreferredSize( new Dimension( getWidth()/2, 100 ) );
+	        pnlfotoPerfil.setBackground( Color.CYAN );
+	        pnlInfo.add(pnlfotoPerfil, BorderLayout.WEST);
+	        JLabel lblGraficoFoto = new JLabel( "Aqui va la foto" );
+	        pnlfotoPerfil.add(lblGraficoFoto);
+	        
 	        
 	        
 	        JPanel pnlBotonera = new JPanel();
@@ -233,13 +251,9 @@ public class PnlExplorar extends JPanel {
 	        	JPanel pnlLista = new JPanel();
 		        pnlLista.setLayout( new BorderLayout() );
 		       
-		        
-		        
-	        	
-		        
 	        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 	        	for (int i = 0; i<5; i++) {
-	        		PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>());
+	        		PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>(), (Empresa) usuarioAutenticado);
 	        		puestos.add(pt);
 	        	}
 	        	
@@ -410,11 +424,15 @@ public class PnlExplorar extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
+		
 	}
+	
 	
 	public static void main(String[] args) {
 		DatosFicheros datos = new DatosFicheros();
 		JFrame frame = new JFrame();
+		frame.getContentPane().add( new PnlExplorar(DatosFicheros.getPersonas().get(0)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
 		//frame.getContentPane().add(new PnlExplorar(DatosFicheros.getEmpresas().get(0)));

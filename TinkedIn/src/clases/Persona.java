@@ -3,6 +3,9 @@ package clases;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -22,8 +25,8 @@ public class Persona extends Usuario implements Serializable{
 	private String nombre;
 	private String apellidos;
 	private ArrayList<Habilidad> curriculum;
-	private ArrayList<String> habilidadesTecnicas;
 	private Vector<Like> likes;
+	
 
 
 	//Getters and setters:
@@ -61,14 +64,7 @@ public class Persona extends Usuario implements Serializable{
 	public void setCurriculum(ArrayList<Habilidad> curriculum) {
 		this.curriculum = curriculum;
 	}
-
-	public ArrayList<String> getHabilidadesTecnicas() {
-		return habilidadesTecnicas;
-	}
-	public void setHabilidadesTecnicas(ArrayList<String> habilidadesTecnicas) {
-		this.habilidadesTecnicas = habilidadesTecnicas;
-	}
-
+	
 	public String getCorreoElectronico() {
 		return correoElectronico;
 	}
@@ -92,7 +88,10 @@ public class Persona extends Usuario implements Serializable{
 		this.likes = likes;
 	}
 	
+	
+	
 	//Constructores: 
+	
 	
 	
 	public Persona(String nombre, String apellidos,String ubicacion, int edad,
@@ -106,6 +105,7 @@ public class Persona extends Usuario implements Serializable{
 		this.telefono = telefeno;
 		this.curriculum = curriculum;
 		this.likes = new Vector<>();
+		
 	}
 	
 	public Persona( Persona p ) {

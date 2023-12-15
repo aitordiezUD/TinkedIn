@@ -21,8 +21,6 @@ public class Empresa extends Usuario implements Serializable{
 	private ArrayList<PuestoTrabajo> puestos;
 
 	
-	
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -121,17 +119,16 @@ public class Empresa extends Usuario implements Serializable{
 	}
 
 
-
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return getId() + ": " + nombre + "\t" + correoElectronico + "\t" + telefono;
 	}
 	
-	public void notificarMatch(Usuario u) {
-		Persona p = (Persona) u; 
-		JOptionPane.showMessageDialog(null, "¡Enhorabuena! Has hecho match con " + p.getNombre() + " " + p.getApellidos() + "." );
-	}
-		
+//	public void notificarMatch(Usuario u) {
+//		Persona p = (Persona) u; 
+//		JOptionPane.showMessageDialog(null, "¡Enhorabuena! Has hecho match con " + p.getNombre() + " " + p.getApellidos() + "." );
+//	}
+
 	
 }

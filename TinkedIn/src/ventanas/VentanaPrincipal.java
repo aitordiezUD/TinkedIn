@@ -66,6 +66,7 @@ public class VentanaPrincipal extends JFrame {
 					VentanaPrincipal frame = new VentanaPrincipal(datos);
 					frame.setVisible(true);
 					System.out.println(DatosFicheros.getPersonas());
+					System.out.println(DatosFicheros.getEmpresas());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -21,7 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -31,6 +34,7 @@ import clases.DatosFicheros;
 import clases.Empresa;
 import clases.Main;
 import clases.Persona;
+import clases.PuestoTrabajo;
 import clases.Usuario;
 
 import javax.imageio.ImageIO;
@@ -53,6 +57,7 @@ public class PnlBotonera extends JPanel {
 	public static JPanel pnlFuncional;
 	protected static CardLayout CardLayout;
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
+	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	
 	
 	public Usuario getUsuarioAutenticado() {
@@ -75,6 +80,9 @@ public class PnlBotonera extends JPanel {
 		
 		this.usuarioAutenticado = usuarioAutenticado;
 		System.out.println("Este es el usuario autenticado en el panel botonera " + PnlBotonera.usuarioAutenticado);
+		puestosCandidatos = CrearTreeSet();
+		System.out.println(puestosCandidatos);
+		System.out.println(puestosCandidatos);
 
 		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
 		
@@ -120,9 +128,14 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
 		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
+		puestosCandidatos = CrearTreeSet();
+		System.out.println("Aqui se llena el set");
+		System.out.println(puestosCandidatos);
+		
 		if (usuarioAutenticado instanceof Persona) {
 			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
 			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
+			
 		}
 
 		
@@ -193,12 +206,6 @@ public class PnlBotonera extends JPanel {
 				
 			}
 		});
-		
-		
-		
-		
-		
-		
 		
 		JPanel pnlExplorar = new JPanel();
 		pnlExplorar.setLayout(null);
@@ -511,7 +518,38 @@ public class PnlBotonera extends JPanel {
 		
 
 	}
-	
+	public TreeSet<PuestoTrabajo> CrearTreeSet() {
+		Persona usuarioP = (Persona) usuarioAutenticado;
+		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
+			
+			@Override
+			public int compare(PuestoTrabajo o1, PuestoTrabajo o2) {
+				int contador1 = 0;
+				int contador2 = 0;
+				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+					for( int j = 0; j<o1.getHabilidadesReq().size(); j++) {
+						if(usuarioP.getCurriculum().get(i).equals(o1.getHabilidadesReq().get(j))) {
+							contador1++;
+						} 
+					}
+				}
+				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+					for( int j = 0; j<o2.getHabilidadesReq().size(); j++) {
+						if(usuarioP.getCurriculum().get(i).equals(o2.getHabilidadesReq().get(j))) {
+							contador2++;
+						} 
+					}
+				}
+				return contador1 - contador2;
+			}
+		});
+		for(Empresa e: DatosFicheros.getEmpresas()) {
+			for(PuestoTrabajo p: e.getPuestos()) {
+				puestosCandidatos.add(p);
+			}
+		}
+		return puestosCandidatos;
+	}
 	
 	
 }
