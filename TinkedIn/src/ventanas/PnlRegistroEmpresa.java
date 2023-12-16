@@ -33,11 +33,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import clases.DatosFicheros;
-import clases.Empresa;
 import clases.Habilidad;
-import clases.Persona;
 import clases.PuestoTrabajo;
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -416,7 +416,9 @@ public class PnlRegistroEmpresa extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
-		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+//		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+		        }else if (VentanaPrincipal.servicio.contieneCorreo(tfCorreo.getText())) {
+	
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"El correo electrónico se encuentra asociado a otro usuario.", 
@@ -426,7 +428,8 @@ public class PnlRegistroEmpresa extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
-		        } else if (VentanaPrincipal.getDatos().containsEmail(tfTelefono.getText())) {
+//			        } else if (VentanaPrincipal.getDatos().containsTelefono(tfTelefono.getText())) {
+			        } else if (VentanaPrincipal.servicio.contieneCorreo(tfTelefono.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"El teléfono se encuentra asociado a otro usuario.", 
@@ -443,7 +446,8 @@ public class PnlRegistroEmpresa extends JPanel {
 		        	Empresa emp = new Empresa(tfNombre.getText(), tfTelefono.getText(),
 		        			tfCorreo.getText(), tADescripcion.getText(),
 		        			ubis, puestos, selectedFile, contrasena1);
-		        	VentanaPrincipal.getDatos().anadirUsuarioEmpresa(emp);
+//		        	VentanaPrincipal.getDatos().anadirUsuarioEmpresa(emp);
+		        	VentanaPrincipal.servicio.crearUsuario(emp);
 		        	layoutVentana.show(pnlContenido, "pnlLogIn");
 		        	
 		        }

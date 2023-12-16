@@ -1,4 +1,4 @@
-package clases;
+package usuarios;
 
 import java.io.File;
 import java.io.Serializable;
@@ -7,6 +7,9 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
+import clases.Habilidad;
+import sistemaExplorar.Like;
 
 public class Persona extends Usuario implements Serializable{
 	
@@ -22,7 +25,6 @@ public class Persona extends Usuario implements Serializable{
 	private String nombre;
 	private String apellidos;
 	private ArrayList<Habilidad> curriculum;
-	private ArrayList<String> habilidadesTecnicas;
 	private Vector<Like> likes;
 
 
@@ -60,13 +62,6 @@ public class Persona extends Usuario implements Serializable{
 	}
 	public void setCurriculum(ArrayList<Habilidad> curriculum) {
 		this.curriculum = curriculum;
-	}
-
-	public ArrayList<String> getHabilidadesTecnicas() {
-		return habilidadesTecnicas;
-	}
-	public void setHabilidadesTecnicas(ArrayList<String> habilidadesTecnicas) {
-		this.habilidadesTecnicas = habilidadesTecnicas;
 	}
 
 	public String getCorreoElectronico() {

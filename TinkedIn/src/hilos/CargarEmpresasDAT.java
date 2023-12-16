@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-import clases.DatosFicheros;
-import clases.Empresa;
-import clases.Persona;
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
 
 public class CargarEmpresasDAT implements Runnable {
 
@@ -45,7 +45,7 @@ public class CargarEmpresasDAT implements Runnable {
 //			System.err.println("Error la lectura del fichero empresasTest.dat");
 		}
 		
-		System.out.println(DatosFicheros.getEmpresas());
+//		System.out.println(DatosFicheros.getEmpresas());
 	}
 		
 	

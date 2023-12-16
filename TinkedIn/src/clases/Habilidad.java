@@ -53,10 +53,4 @@ public class Habilidad implements Serializable{
 		Habilidad otra = (Habilidad) obj;
 		return this.nombre.equals(otra.nombre);
 	}
-	
-	
-	
-	
-	
-	
 }

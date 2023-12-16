@@ -35,13 +35,13 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import clases.DatosFicheros;
-import clases.Empresa;
 import clases.Habilidad;
-import clases.Persona;
 import clases.PuestoTrabajo;
-import clases.Usuario;
 import componentes.botonAnEl;
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

@@ -1,4 +1,4 @@
-package chat;
+package servidor;
 
 
 import java.awt.BorderLayout;
@@ -23,16 +23,14 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import clases.DatosFicheros;
 import clases.Mensaje;
-
-
-
-
-
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 public class Servidor {
-	private static final int PUERTO = 4000;
+	private static final int PUERTO = ConfigServer.PUERTO;
 	private static DatosFicheros datos;
 	private static Servidor instance;
 	
@@ -67,12 +65,6 @@ public class Servidor {
 		listaSockets = new Vector<>();
 		vs = new VentanaServidor();
 		vs.setVisible( true );
-//		(new Thread() {
-//			@Override
-//			public void run() {
-//				vs.lanzaServidor();
-//			}
-//		}).start();
 		new Thread(() -> {vs.lanzaServidor();}).start();
 	}
 	
@@ -100,6 +92,7 @@ public class Servidor {
 				@Override
 				public void windowClosing(WindowEvent e) {
 					finComunicacion = true;
+					datos.fin();
 				}
 			});
 		}
@@ -125,7 +118,7 @@ public class Servidor {
 	
 	private static class HiloComunicacion extends Thread {
 		private Socket socket;  // socket de comunicación con cada cliente
-		private int idSender; // nombre de cada cliente
+		private int idSender = -1; // nombre de cada cliente
 		public HiloComunicacion(Socket socket) {
 			this.socket = socket;
 		}
@@ -136,14 +129,14 @@ public class Servidor {
 	    		socket.setSoTimeout( 1000 ); // Pone el timeout para que no se quede eternamente en la espera (1)
 	    		ObjectInputStream input = new ObjectInputStream(socket.getInputStream());  // Canal de entrada de socket (leer del cliente)
 //	    		System.out.println("Input en servidor " + input.readObject());
-	    		idSender = (int) input.readObject();
+//	    		idSender = (int) input.readObject();
 //	    		System.out.println("idSender: " + idSender);
 	    		ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());  // Canal de salida de socket (escribir al cliente)
-	    		output.writeObject("Recibido");
-	    		taMensajes.append("Usuario " + idSender+ " conectado." + "\n");
+//	    		output.writeObject("Recibido");
+//	    		taMensajes.append("Usuario " + idSender+ " conectado." + "\n");
+	    		taMensajes.append("Nueva conexión" + "\n");
 	    		listaHilos.add( this );
 	    		listaSockets.add( socket );
-	    		mapaDirecciones.put( idSender, output );
 	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
 	    			for (Mensaje m : mapaMensajasPorEnviar.get(idSender)) {
 	    				output.writeObject(m);
@@ -152,25 +145,100 @@ public class Servidor {
 	    		while(!finComunicacion) {  // Bucle de comunicación de tiempo real con el cliente
 	    			try {
 		    			Object objRecibido = input.readObject();  // Espera a recibir petición de cliente (1) - se acaba con timeout
-		    			if (objRecibido.equals("\\#FINDECOMUNICACION")) {
+		    			if (objRecibido.equals(ConfigServer.FIN)) {
 		    				break;
 		    			}
 		    			
-		    			Mensaje mensaje = (Mensaje) objRecibido;
-		    			taMensajes.append(mensaje.toString()+ "\n");
-		    			taMensajes.setSelectionStart( taMensajes.getText().length() );  // Pone el cursor al final del textarea
-		    			// Envía el mensaje al cliente destinatario si su OOS esta en el mapa de direcciones, sino se almacenara en el 
-		    			//mapa de mensajes por enviar hasta que el destinatario este conectado.
-		    			if (mapaDirecciones.get(mensaje.getTo()) != null) {
-		    				mapaDirecciones.get(mensaje.getTo()).writeObject(mensaje);
-		    			}else {
-		    				if (mapaMensajasPorEnviar.get(mensaje.getTo()) == null) {
-		    					mapaMensajasPorEnviar.put(mensaje.getTo(), new ArrayList<Mensaje>());
+		    			if (objRecibido.equals(ConfigServer.ENVIO_MENSAJE)) {
+		    				Mensaje mensaje = (Mensaje) objRecibido;
+			    			taMensajes.append(mensaje.toString()+ "\n");
+			    			taMensajes.setSelectionStart( taMensajes.getText().length() );  // Pone el cursor al final del textarea
+			    			// Envía el mensaje al cliente destinatario si su OOS esta en el mapa de direcciones, sino se almacenara en el 
+			    			//mapa de mensajes por enviar hasta que el destinatario este conectado.
+			    			if (mapaDirecciones.get(mensaje.getTo()) != null) {
+			    				mapaDirecciones.get(mensaje.getTo()).writeObject(mensaje);
+			    			}else {
+			    				if (mapaMensajasPorEnviar.get(mensaje.getTo()) == null) {
+			    					mapaMensajasPorEnviar.put(mensaje.getTo(), new ArrayList<Mensaje>());
+			    				}
+			    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
+			    			}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.LOGIN)) {
+		    				String email = (String) input.readObject();
+		    				String contrasena = (String) input.readObject();
+		    				if (datos.autenticarUsuario(email, contrasena)) {
+		    					output.writeObject(ConfigServer.OK);
+		    					idSender = (int) datos.getUsuarioFromCorreo(email).getId();
+		    		    		mapaDirecciones.put( idSender, output );
+		    		    		taMensajes.append("Usuario 17 conectado" + "\n");
+		    				}else {
+		    					output.writeObject(ConfigServer.NO_OK);
 		    				}
-		    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIO_FROM_CORREO)) {
+		    				String email = (String) input.readObject();
+		    				Usuario u = datos.getUsuarioFromCorreo(email);
+		    				output.writeObject(u);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.EDITAR_USUARIO)) {
+		    				Usuario u1 = (Usuario) input.readObject();
+		    				if (u1 instanceof Persona) {
+		    					Persona p1 = (Persona) u1;
+		    					Persona p2 = (Persona) datos.getUsuarioFromCorreo(p1.getCorreoElectronico());
+		    					p2.setNombre(p1.getNombre());
+		    					p2.setApellidos(p1.getApellidos());
+		    					p2.setEdad(p1.getEdad());
+		    					p2.setUbicacion(p1.getUbicacion());
+		    					p2.setPassword(p1.getPassword());
+		    				} else {
+		    					Empresa e1 = (Empresa) u1;
+		    					Empresa e2 = (Empresa) datos.getUsuarioFromCorreo(e1.getCorreoElectronico());
+		    					e2.setNombre(e1.getNombre());
+		    					e2.setDescripcion(e1.getDescripcion());
+		    					e2.setUbicaciones(e1.getUbicaciones());
+		    					e2.setPuestos(e1.getPuestos());
+		    					e2.setPassword(e1.getPassword());
+		    				}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.CREAR_USUARIO)) {
+	    					Usuario u1 = (Usuario) input.readObject();
+		    				if (u1 instanceof Persona) {
+		    					Persona p1 = (Persona) u1;
+		    					datos.anadirUsuarioPersona(p1);
+		    				}else {
+		    					Empresa e1 = (Empresa) u1;
+		    					datos.anadirUsuarioEmpresa(e1);
+		    				}
+	    				}
+		    			
+		    			if (objRecibido.equals(ConfigServer.COMPROBAR_CORREO)) {
+		    				String correo = (String) input.readObject();
+		    				if (datos.containsEmail(correo)){
+		    					output.writeObject(ConfigServer.NO_OK);
+		    				}else {
+		    					output.writeObject(ConfigServer.OK);
+		    				}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.COMPROBAR_TELEFONO)) {
+		    				String telefono = (String) input.readObject();
+		    				if (datos.containsEmail(telefono)){
+		    					output.writeObject(ConfigServer.NO_OK);
+		    				}else {
+		    					output.writeObject(ConfigServer.OK);
+		    				}
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
+	    		}
+	    		System.out.println("Servidor: fin comunicacion");
+	    		if (idSender != -1) {
+	    			taMensajes.append("Usuario " + idSender + " desconectado. \n");
 	    		}
 	    		socket.close();
 	    		// Quita el cliente de las listas para que no se use en lo sucesivo
@@ -179,9 +247,8 @@ public class Servidor {
 	    		listaSockets.removeElementAt( clienteACerrar );
 	    		mapaDirecciones.remove(idSender);
 	    	} catch(Exception e) {
+	    		System.out.println("Servidor: Error en la primera parte del run");
 	    	}
 		}
-		
 	}
-	
 }

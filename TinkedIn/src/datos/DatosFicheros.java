@@ -1,4 +1,4 @@
-package clases;
+package datos;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +17,11 @@ import hilos.CargarEmpresasDAT;
 import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
 import hilos.GuardarPersonasDAT;
+import sistemaExplorar.Like;
+import sistemaExplorar.Match;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 import ventanas.PnlRegistroPersona;
 
 public class DatosFicheros implements ManejoDatos{
@@ -181,8 +186,8 @@ public class DatosFicheros implements ManejoDatos{
 			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
 			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
 			mapaContraseñaUsuario.put(persona, contraseña);
-			System.out.println(mapaIdUsuario);
-			System.out.println(mapaContraseñaUsuario);
+//			System.out.println(mapaIdUsuario);
+//			System.out.println(mapaContraseñaUsuario);
 		}
 		
 		
@@ -273,6 +278,13 @@ public class DatosFicheros implements ManejoDatos{
 			matches.add(m);
 		}
 		
+	}
+
+
+	@Override
+	public Usuario getUsuarioFromCorreo(String correo) {
+		// TODO Auto-generated method stub
+		return mapaEmailUsuario.get(correo);
 	}
 	
 	

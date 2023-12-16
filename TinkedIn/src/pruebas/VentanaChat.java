@@ -38,12 +38,12 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import clases.DatosFicheros;
-import clases.Empresa;
 import clases.Mensaje;
-import clases.Persona;
-import clases.Usuario;
+import datos.DatosFicheros;
 //import es.deusto.prog3.utils.comunicacion.ConfigCS;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;

@@ -23,8 +23,8 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 
-import clases.DatosFicheros;
-import clases.Usuario;
+import datos.DatosFicheros;
+import usuarios.Usuario;
 
 public class ImagenesAzure {
 	public static void subirImagen(File f, String nombre) {

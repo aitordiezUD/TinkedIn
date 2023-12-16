@@ -35,11 +35,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import clases.DatosFicheros;
-import clases.Empresa;
 import clases.Mensaje;
-import clases.Persona;
-import clases.Usuario;
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 enum tipoMensaje {ENVIO, RECEPCION};
 

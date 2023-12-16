@@ -27,12 +27,12 @@ import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import clases.DatosFicheros;
-import clases.Empresa;
 import clases.Habilidad;
-import clases.Persona;
-import clases.Usuario;
+import datos.DatosFicheros;
 import nube.ImagenesAzure;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 import java.awt.Font;
 import java.awt.Graphics;

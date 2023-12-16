@@ -33,10 +33,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import clases.DatosFicheros;
 import clases.Habilidad;
-import clases.Persona;
-import clases.Usuario;
+import datos.DatosFicheros;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -390,6 +390,7 @@ public class PnlRegistroPersona extends JPanel {
 		        String contrasena1 = new String(passwordChars1);
 		        String contrasena2 = new String(passwordChars2);
 		        
+		        
 		        if (!contrasena1.equals(contrasena2)) {
 		        	JOptionPane.showOptionDialog(
 							null, 
@@ -400,7 +401,8 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
-		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+//		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
+		        }else if (VentanaPrincipal.servicio.contieneCorreo(tfCorreo.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"El correo electrónico se encuentra asociado a otro usuario.", 
@@ -410,7 +412,8 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
-		        } else if (VentanaPrincipal.getDatos().containsEmail(tfTelefono.getText())) {
+//		        } else if (VentanaPrincipal.getDatos().containsTelefono(tfTelefono.getText())) {
+		        } else if (VentanaPrincipal.servicio.contieneCorreo(tfTelefono.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"El teléfono se encuentra asociado a otro usuario.", 
@@ -425,7 +428,8 @@ public class PnlRegistroPersona extends JPanel {
 					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 20, tfCorreo.getText(), tfTelefono.getText(),
 							habilidades,selectedFile, contrasena1);
-					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
+//					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
+					VentanaPrincipal.servicio.crearUsuario(p);
 					layoutVentana.show(pnlContenido, "pnlLogIn");
 		        }		
 			}

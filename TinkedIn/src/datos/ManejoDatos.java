@@ -1,4 +1,9 @@
-package clases;
+package datos;
+
+import sistemaExplorar.Like;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 public interface ManejoDatos {
 	
@@ -30,6 +35,12 @@ public interface ManejoDatos {
 	 * @param persona que queremos añadir al sistema
 	 */
 	public void anadirUsuarioEmpresa(Empresa empresa);
+	
+	/**A través de un correo electronico, obtener el usuario registrado con ese correo
+	 * @param correo Correo perteneciente al usuario que queremos buscar
+	 * @return el usuario que consta con el correo suministrado
+	 */
+	public Usuario getUsuarioFromCorreo(String correo);
 	
 	/**
 	 *Devuelve true si el correo del usuario coincide con la contraseña del usuario

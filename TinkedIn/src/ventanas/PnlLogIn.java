@@ -9,10 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
-import clases.DatosFicheros;
-import clases.Empresa;
-import clases.Persona;
-import clases.Usuario;
+import datos.DatosFicheros;
+import servidor.ServicioPersistencia;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -43,11 +44,13 @@ public class PnlLogIn extends JPanel {
 	private PnlRegistroPersona pnlRegistroPersona;
 	private PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
-	
+	private ServicioPersistencia servicio;
 	
 	
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
+		this.servicio = VentanaPrincipal.servicio;
+		
 		setBackground(new Color(202, 232, 232));
 		setSize(900, 650);
 		setLayout(new BorderLayout(0, 0));
@@ -248,23 +251,25 @@ public class PnlLogIn extends JPanel {
 		});
 		
 		
+//		btnIniciarSesion.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				System.out.println(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword())));
+//				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
+//					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+//					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
+//					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
+//					pnlContenido.add(pnlBotones,"pnlBotones");
+//					layoutVentana.show(pnlContenido, "pnlBotones");
+//				}else {
+//					lblCredIncorrectas.setVisible(true);
+//				}
+//			}
+//		});
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword())));
-				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
-
-					
-					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-
-					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-//					System.out.println(usuarioAutenticado);
-//					Persona p = (Persona) usuarioAutenticado;
-//					System.out.println("Ubicacion persona1: " + p.getUbicacion());
-//					p.setUbicacion("Bilbao");
-//					System.out.println("Ubicacion persona2: " + p.getUbicacion());
-					
-
-					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
+				if(servicio.logIn(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
+					Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
+					PnlBotonera pnlBotones = new PnlBotonera( u );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");
 				}else {
@@ -290,26 +295,14 @@ public class PnlLogIn extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				System.out.println(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword())));
-				if(VentanaPrincipal.getDatos().autenticarUsuario(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
-
-					
-					Usuario usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-
-					usuarioAutenticado = DatosFicheros.getMapaEmailUsuario().get(tfCorreo.getText());
-//					System.out.println(usuarioAutenticado);
-//					Persona p = (Persona) usuarioAutenticado;
-//					System.out.println("Ubicacion persona1: " + p.getUbicacion());
-//					p.setUbicacion("Bilbao");
-//					System.out.println("Ubicacion persona2: " + p.getUbicacion());
-					
-
-					PnlBotonera pnlBotones = new PnlBotonera( usuarioAutenticado );
-					pnlContenido.add(pnlBotones,"pnlBotones");
-					layoutVentana.show(pnlContenido, "pnlBotones");
-				}else {
-					lblCredIncorrectas.setVisible(true);
-				}
+					if(servicio.logIn(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
+						Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
+						PnlBotonera pnlBotones = new PnlBotonera( u );
+						pnlContenido.add(pnlBotones,"pnlBotones");
+						layoutVentana.show(pnlContenido, "pnlBotones");
+					}else {
+						lblCredIncorrectas.setVisible(true);
+					}
 				}
 				
 			}

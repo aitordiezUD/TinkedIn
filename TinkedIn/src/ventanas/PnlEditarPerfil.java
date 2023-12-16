@@ -33,11 +33,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import clases.Empresa;
 import clases.Habilidad;
-import clases.Persona;
 import clases.PuestoTrabajo;
-import clases.Usuario;
+import usuarios.Empresa;
+import usuarios.Persona;
+import usuarios.Usuario;
 
 public class PnlEditarPerfil  extends JPanel {
 

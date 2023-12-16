@@ -11,11 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import chat.Servidor;
-import clases.DatosFicheros;
-import clases.Empresa;
-import clases.Persona;
+import datos.DatosFicheros;
 import nube.ImagenesAzure;
+import servidor.ServicioPersistencia;
+import servidor.ServicioPersistenciaFicheros;
+import servidor.Servidor;
+import usuarios.Empresa;
+import usuarios.Persona;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -26,7 +28,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JPanel pnlContenido;
 	private static DatosFicheros datos;
-	
+	protected static ServicioPersistencia servicio;
 	
 
 
@@ -58,14 +60,14 @@ public class VentanaPrincipal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		datos = new DatosFicheros();
+//		datos = new DatosFicheros();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipal frame = new VentanaPrincipal(datos);
+//					VentanaPrincipal frame = new VentanaPrincipal(datos);
+					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
-					System.out.println(DatosFicheros.getPersonas());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,7 +80,11 @@ public class VentanaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPrincipal( DatosFicheros datos ) {
+//	public VentanaPrincipal( DatosFicheros datos ) {
+	public VentanaPrincipal() {
+		servicio = new ServicioPersistenciaFicheros();
+		servicio.init();
+		
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 650);
@@ -97,16 +103,20 @@ public class VentanaPrincipal extends JFrame {
 		layoutVentana.show(pnlContenido, "pnlLogIn");
 		
 		
+		
 		setContentPane(pnlContenido);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-				getDatos().fin();
+//				getDatos().fin();
+				servicio.close();
+				System.out.println("Servicio cerrado");
 			}
 		});
 			
 	}
+
 	
 }

@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import clases.DatosFicheros;
-import clases.Empresa;
-import clases.Persona;
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
 
 public class GuardarEmpresasDAT implements Runnable {
 

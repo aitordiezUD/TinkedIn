@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import datos.DatosFicheros;
+import usuarios.Empresa;
+import usuarios.Persona;
 import ventanas.PnlRegistroPersona;
 
 public class DatosFicherosTest {

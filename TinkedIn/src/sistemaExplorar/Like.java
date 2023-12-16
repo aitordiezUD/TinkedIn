@@ -1,7 +1,9 @@
-package clases;
+package sistemaExplorar;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import usuarios.Usuario;
 
 public class Like implements Serializable{
 

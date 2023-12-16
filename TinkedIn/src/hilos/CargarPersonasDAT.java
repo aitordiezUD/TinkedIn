@@ -10,8 +10,8 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import clases.DatosFicheros;
-import clases.Persona;
+import datos.DatosFicheros;
+import usuarios.Persona;
 
 
 public class CargarPersonasDAT implements Runnable{

@@ -5,14 +5,10 @@ import java.util.ArrayList;
 
 public class PuestoTrabajo implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private String descripcion;
 	private ArrayList<Habilidad> habilidadesReq;
-	
 	
 	public String getNombre() {
 		return nombre;
@@ -42,9 +38,4 @@ public class PuestoTrabajo implements Serializable{
 	public String toString() {
 		return nombre;
 	}
-	
-	
-	
-	
-	
 }

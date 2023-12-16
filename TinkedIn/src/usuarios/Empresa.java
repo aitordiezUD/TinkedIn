@@ -1,4 +1,4 @@
-package clases;
+package usuarios;
 
 import java.io.File;
 import java.io.Serializable;
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
+import clases.PuestoTrabajo;
 
 public class Empresa extends Usuario implements Serializable{
 
@@ -125,7 +127,7 @@ public class Empresa extends Usuario implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getId() + ": " + nombre + "\t" + correoElectronico + "\t" + telefono;
+		return getId() + ": " + nombre + " ; " + correoElectronico + " ; " + telefono;
 	}
 	
 	public void notificarMatch(Usuario u) {
