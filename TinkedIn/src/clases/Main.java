@@ -2,10 +2,14 @@ package clases;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 
 import datos.DatosFicheros;
+import nube.ImagenesAzure;
+import servidor.ServicioPersistencia;
+import servidor.ServicioPersistenciaFicheros;
 import usuarios.Empresa;
 import usuarios.Persona;
 import ventanas.PnlExplorar;
@@ -14,11 +18,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		DatosFicheros datos = new DatosFicheros();
+		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
+		servicio.init();
+		servicio.delete();
+		ImagenesAzure.deleteBlobs();
+//		DatosFicheros datos = new DatosFicheros();
 //		Persona p1 = new Persona("Aitor", "Diez Mateo", "Alava", 19, "aitor.diez@opendeusto.es",
 //				"688680738",new ArrayList<Habilidad>(), null, "passWd");
 //		Empresa e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
 //				null, null, null, "psswd") ;
+		
+//		HABILIDADES
         Habilidad h1 = new Habilidad("Informática", "Desarrollo Web", 4, "Experiencia en desarrollo de sitios web");
         Habilidad h2 = new Habilidad("Arte y Diseño", "Diseño Gráfico", 5, "Diseño creativo y conceptualización");
         Habilidad h3 = new Habilidad("Deporte", "Entrenador Personal", 3, "Entrenamiento personalizado");
@@ -96,19 +106,269 @@ public class Main {
         Habilidad h75 = new Habilidad("Farmacia", "Farmacia Clínica", 4, "Asesoramiento farmacéutico en entornos clínicos");
 		
 		
+//      EMPRESAS
+        // Empresa 1
+        Empresa e1 = new Empresa("TechIbérica", "912-345-678", "info@techiberica.es",
+                "Desarrollo de soluciones tecnológicas avanzadas",
+                new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        
+        servicio.crearUsuario(e1);
+        // Empresa 2
+        Empresa e2 = new Empresa("EcoVida", "654-321-098", "contacto@ecovida.es",
+                "Comprometidos con la sostenibilidad y el medio ambiente",
+                new ArrayList<>(Arrays.asList("Sevilla", "Málaga", "Granada")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e2);
+
+        // Empresa 3
+        Empresa e3 = new Empresa("ModaEspañola", "789-012-345", "info@modaespanola.es",
+                "Diseños exclusivos con la elegancia española",
+                new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e3);
+
+        // Empresa 4
+        Empresa e4 = new Empresa("Gastronómica", "678-901-234", "info@gastronomica.es",
+                "Experiencias culinarias únicas y deliciosas",
+                new ArrayList<>(Arrays.asList("Alicante", "Murcia", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e4);
+
+        // Empresa 5
+        Empresa e5 = new Empresa("ViajesHispania", "567-890-123", "info@viajeshispania.es",
+                "Descubre España a través de experiencias de viaje inolvidables",
+                new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e5);
+
+        // Empresa 6
+        Empresa e6 = new Empresa("InmobiliariaPlus", "456-789-012", "info@inmobiliariaplus.es",
+                "Soluciones inmobiliarias personalizadas y confiables",
+                new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e6);
+
+        // Empresa 7
+        Empresa e7 = new Empresa("EducaciónExcel", "345-678-901", "info@educacionexcel.es",
+                "Formación de calidad para un futuro brillante",
+                new ArrayList<>(Arrays.asList("Sevilla", "Valencia", "Barcelona")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e7);
+
+        // Empresa 8
+        Empresa e8 = new Empresa("EstiloHogar", "234-567-890", "info@estilohogar.es",
+                "Productos y decoración para un hogar con estilo",
+                new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e8);
+
+        // Empresa 9
+        Empresa e9 = new Empresa("TurismoRural", "123-456-789", "info@turismorural.es",
+                "Descubre la belleza de la España rural",
+                new ArrayList<>(Arrays.asList("Salamanca", "Toledo", "Ávila")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e9);
+
+        // Empresa 10
+        Empresa e10 = new Empresa("ArteCreativo", "890-123-456", "info@artecreativo.es",
+                "Expresiones artísticas que inspiran y emocionan",
+                new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e10);
+        
+        Empresa e11 = new Empresa("ObservatorioEstelar", "111-222-333", "info@observatorioestelar.es",
+                "Exploración del cosmos y estudio astronómico",
+                new ArrayList<>(Arrays.asList("Granada", "Almería", "Jaén")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e11);
+
+        Empresa e12 = new Empresa("BioTechLab", "222-333-444", "info@biotechlab.es",
+                "Investigación biotecnológica y desarrollo de medicamentos",
+                new ArrayList<>(Arrays.asList("Valencia", "Alicante", "Castellón")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e12);
+
+        Empresa e13 = new Empresa("QuantumSolutions", "333-444-555", "info@quantumsolutions.es",
+                "Investigación en ciencias cuánticas y desarrollo tecnológico",
+                new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Zaragoza")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e13);
+
+        Empresa e14 = new Empresa("MatemáticasAvanzadas", "444-555-666", "info@matematicasavanzadas.es",
+                "Soluciones matemáticas innovadoras y análisis numérico",
+                new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e14);
+
+        Empresa e15 = new Empresa("FarmaciaInnovadora", "555-666-777", "info@farmaciainnovadora.es",
+                "Desarrollo de medicamentos y cuidado farmacéutico",
+                new ArrayList<>(Arrays.asList("Zaragoza", "Barcelona", "Valencia")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(e15);
+        
+        
+     // Puestos de Trabajo
+        
+        PuestoTrabajo astrónomo = new PuestoTrabajo("Astrónomo", "Investigación astronómica avanzada",
+                new ArrayList<>(Arrays.asList(h52, h54, h55)), e11);
+        servicio.anadirPuesto(astrónomo);
+        PuestoTrabajo biólogo = new PuestoTrabajo("Biólogo", "Investigación en biología molecular y botánica",
+                new ArrayList<>(Arrays.asList(h57, h59, h60)), e12);
+        servicio.anadirPuesto(biólogo);
+        PuestoTrabajo químico = new PuestoTrabajo("Químico", "Investigación en química analítica y farmacéutica",
+                new ArrayList<>(Arrays.asList(h61, h62, h64, h65)), e13);
+        servicio.anadirPuesto(químico);
+        PuestoTrabajo matemático = new PuestoTrabajo("Matemático", "Investigación en teoría de números y cálculo numérico",
+                new ArrayList<>(Arrays.asList(h67, h69, h70)), e14);
+        servicio.anadirPuesto(matemático);
+        PuestoTrabajo farmacéutico = new PuestoTrabajo("Farmacéutico", "Desarrollo de medicamentos y farmacovigilancia",
+                new ArrayList<>(Arrays.asList(h72, h73, h74, h75)), e15);
+        servicio.anadirPuesto(farmacéutico);
+        // Puesto de Desarrollador Web en TechIbérica
+        PuestoTrabajo puesto1 = new PuestoTrabajo("Desarrollador Web", "Desarrollo de aplicaciones web avanzadas",
+                new ArrayList<>(Arrays.asList(h1, h35)), e1);
+        servicio.anadirPuesto(puesto1);
+        // Puesto de Diseñador Gráfico en ModaEspañola
+        PuestoTrabajo puesto2 = new PuestoTrabajo("Diseñador Gráfico", "Creación de materiales visuales para la moda",
+                new ArrayList<>(Arrays.asList(h2, h28)), e3);
+        servicio.anadirPuesto(puesto2);
+        // Puesto de Consultor de Marketing Digital en EcoVida
+        PuestoTrabajo puesto3 = new PuestoTrabajo("Consultor de Marketing Digital", "Estrategias de marketing sostenible",
+                new ArrayList<>(Arrays.asList(h5, h33)), e2);
+        servicio.anadirPuesto(puesto3);
+        // Puesto de Entrenador Personal en Gastronómica
+        PuestoTrabajo puesto4 = new PuestoTrabajo("Entrenador Personal", "Asesoramiento en salud y bienestar",
+                new ArrayList<>(Arrays.asList(h3, h27)), e4);
+        servicio.anadirPuesto(puesto4);
+        // Puesto de Psicólogo Clínico en EducaciónExcel
+        PuestoTrabajo puesto5 = new PuestoTrabajo("Psicólogo Clínico", "Apoyo psicológico a estudiantes",
+                new ArrayList<>(Arrays.asList(h4, h41)), e7);
+        servicio.anadirPuesto(puesto5);
+        // Puesto de Ingeniero Civil en InmobiliariaPlus
+        PuestoTrabajo puesto6 = new PuestoTrabajo("Ingeniero Civil", "Diseño y gestión de proyectos de construcción",
+                new ArrayList<>(Arrays.asList(h10, h23)), e6);
+        servicio.anadirPuesto(puesto6);
+        // Puesto de Especialista en Ventas Directas en ViajesHispania
+        PuestoTrabajo puesto7 = new PuestoTrabajo("Especialista en Ventas Directas", "Venta de experiencias de viaje",
+                new ArrayList<>(Arrays.asList(h11, h45)), e5);
+        servicio.anadirPuesto(puesto7);
+        // Puesto de Atención al Cliente en EstiloHogar
+        PuestoTrabajo puesto8 = new PuestoTrabajo("Atención al Cliente", "Resolución de problemas y atención personalizada",
+                new ArrayList<>(Arrays.asList(h12, h46)), e8);
+        servicio.anadirPuesto(puesto8);
+        // Puesto de Trabajador Social en TurismoRural
+        PuestoTrabajo puesto9 = new PuestoTrabajo("Trabajador Social", "Apoyo comunitario en entornos rurales",
+                new ArrayList<>(Arrays.asList(h13, h30)), e9);
+        servicio.anadirPuesto(puesto9);
+        // Puesto de Gestión Ambiental en ArteCreativo
+        PuestoTrabajo puesto10 = new PuestoTrabajo("Gestión Ambiental", "Preservación del medio ambiente a través del arte",
+                new ArrayList<>(Arrays.asList(h14, h36)), e10);
+        servicio.anadirPuesto(puesto10);
+        // Puesto de Diseñador de Moda en InmobiliariaPlus
+        PuestoTrabajo puesto11 = new PuestoTrabajo("Diseñador de Moda", "Creación de diseños innovadores para espacios",
+                new ArrayList<>(Arrays.asList(h28, h49)), e6);
+        servicio.anadirPuesto(puesto11);
+        // Puesto de Administración Pública en EducaciónExcel
+        PuestoTrabajo puesto12 = new PuestoTrabajo("Administración Pública", "Gestión administrativa en el sector educativo",
+                new ArrayList<>(Arrays.asList(h29, h7)), e7);
+        servicio.anadirPuesto(puesto12);
+        // Puesto de Gestión de ONGs en TurismoRural
+        PuestoTrabajo puesto13 = new PuestoTrabajo("Gestión de ONGs", "Administración de organizaciones benéficas en entornos rurales",
+                new ArrayList<>(Arrays.asList(h30, h13)), e9);
+        servicio.anadirPuesto(puesto13);
+        // Puesto de Relaciones con los Medios en ViajesHispania
+        PuestoTrabajo puesto14 = new PuestoTrabajo("Relaciones con los Medios", "Gestión de relaciones públicas para viajes",
+                new ArrayList<>(Arrays.asList(h31, h5)), e5);
+        servicio.anadirPuesto(puesto14);
+        // Puesto de Seguridad Informática en TechIbérica
+        PuestoTrabajo puesto15 = new PuestoTrabajo("Seguridad Informática", "Protección de sistemas y datos",
+                new ArrayList<>(Arrays.asList(h32, h1)), e1);
+        servicio.anadirPuesto(puesto15);
+        // Puesto de Energía Renovable en EcoVida
+        PuestoTrabajo puesto16 = new PuestoTrabajo("Energía Renovable", "Desarrollo de fuentes de energía sostenible",
+                new ArrayList<>(Arrays.asList(h33, h15)), e2);
+        servicio.anadirPuesto(puesto16);
+        // Puesto de Análisis de Datos en TurismoRural
+        PuestoTrabajo puesto17 = new PuestoTrabajo("Análisis de Datos", "Análisis y visualización de datos para el turismo rural",
+                new ArrayList<>(Arrays.asList(h34, h9)), e9);
+        servicio.anadirPuesto(puesto17);
+        // Puesto de Machine Learning en TechIbérica
+        PuestoTrabajo puesto18 = new PuestoTrabajo("Machine Learning", "Implementación de algoritmos de aprendizaje automático",
+                new ArrayList<>(Arrays.asList(h35, h17)), e1);
+        servicio.anadirPuesto(puesto18);
+        // Puesto de Diseño de Interiores en EstiloHogar
+        PuestoTrabajo puesto19 = new PuestoTrabajo("Diseño de Interiores", "Diseño creativo de espacios para el hogar",
+                new ArrayList<>(Arrays.asList(h36, h8)), e8);
+        servicio.anadirPuesto(puesto19);
+        // Puesto de Restauración en Gastronómica
+        PuestoTrabajo puesto20 = new PuestoTrabajo("Restauración", "Gestión de restaurantes y cocina",
+                new ArrayList<>(Arrays.asList(h27, h47)), e4);
+        servicio.anadirPuesto(puesto20);
+        
+        
+        
+        Persona p1 = new Persona("Juan", "Gómez", "Madrid", 28, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p1);
+        Persona p2 = new Persona("María", "López", "Barcelona", 35, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p2);
+        Persona p3 = new Persona("Carlos", "Martínez", "Valencia", 22, "carlos@gmail.com", "567890123", crearCurriculum(h15, h18, h33, h48, h63), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p3);
+        Persona p4 = new Persona("Ana", "García", "Sevilla", 30, "ana@gmail.com", "456789012", crearCurriculum(h3, h19, h34, h49, h64), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p4);
+        Persona p5 = new Persona("Javier", "Fernández", "Zaragoza", 25, "javier@gmail.com", "234567890", crearCurriculum(h4, h20, h35, h50, h65), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p5);
+        Persona p6 = new Persona("Sara", "Ruiz", "Málaga", 28, "sara@gmail.com", "890123456", crearCurriculum(h5, h21, h36, h51, h66), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p6);
+        Persona p7 = new Persona("Pedro", "Sánchez", "Murcia", 32, "pedro@gmail.com", "345678901", crearCurriculum(h6, h22, h37, h52, h67), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p7);
+        Persona p8 = new Persona("Elena", "Jiménez", "Palma de Mallorca", 26, "elena@gmail.com", "012345678", crearCurriculum(h7, h23, h38, h53, h68), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p8);
+        Persona p9 = new Persona("Francisco", "Rodríguez", "Las Palmas de Gran Canaria", 40, "francisco@gmail.com", "678901234", crearCurriculum(h8, h24, h39, h54, h69), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p9);
+        Persona p10 = new Persona("Laura", "Gutiérrez", "Valladolid", 27, "laura@gmail.com", "567827123", crearCurriculum(h9, h25, h40, h55, h70), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p10);
+        Persona p11 = new Persona("Alejandro", "Hernández", "Pamplona", 29, "alejandro@gmail.com", "123456119", crearCurriculum(h10, h26, h41, h56, h71), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p11);
+        Persona p12 = new Persona("Isabel", "Díaz", "Toledo", 33, "isabel@gmail.com", "987604321", crearCurriculum(h11, h27, h42, h57, h72), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p12);
+        Persona p13 = new Persona("Víctor", "Moreno", "Santander", 31, "victor@gmail.com", "234529890", crearCurriculum(h12, h28, h43, h58, h73), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p13);
+        Persona p14 = new Persona("Carmen", "Álvarez", "Logroño", 24, "carmen@gmail.com", "890121056", crearCurriculum(h13, h29, h44, h59, h74), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p14);
+        Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", 35, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        servicio.crearUsuario(p15);
+        
 		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", null,new File("adminpng.png"),"admin");
-		datos.anadirUsuarioPersona(pAdmin);
+		servicio.crearUsuario(pAdmin);
 		
 		
+//		ArrayList<PuestoTrabajo> puestosEjemplo = new ArrayList<>();
+//		
+//		for(int i = 0; i<5;i++) {
+//			PuestoTrabajo pt = new PuestoTrabajo(String.valueOf(i), String.valueOf(i), null, null);
+//			puestosEjemplo.add(pt);
+//		}
 		
-		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",null,null, new File("TinkedinPNG.png"),"adminE");
-		datos.anadirUsuarioEmpresa(adminE);
+		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE");
 		
+//		Empresa pruebaPuestos = new Empresa("prueba","prueba", "prueba","prueba", null, puestosEjemplo, new File("TinkedinPNG.png") , "prueba");
+		
+		servicio.crearUsuario(adminE);
+//		servicio.crearUsuario(pruebaPuestos);
 //		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
 //		datos.anadirUsuarioEmpresa(adminE2);
 		
-		datos.fin();
+		servicio.close();
 		
 	}
+	
+    private static ArrayList<Habilidad> crearCurriculum(Habilidad... habilidades) {
+        ArrayList<Habilidad> curriculum = new ArrayList<>();
+        for (Habilidad habilidad : habilidades) {
+            curriculum.add(habilidad);
+        }
+        return curriculum;
+    }
 	
 }

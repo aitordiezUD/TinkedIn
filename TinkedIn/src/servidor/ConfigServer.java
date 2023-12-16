@@ -39,4 +39,10 @@ public class ConfigServer {
 		
 //		Comprueba si ya existe algún usuario con el telefono dado al registrarse - va seguido de un telefono
 		static String COMPROBAR_TELEFONO = "comprobar_telefono";
+		
+//		Añade un puesto de trabajo a una empresa - va seguido de un puesto de trabajo
+		static String ANADIR_PUESTO = "anadir_puesto";
+		
+//		Eliminar todas los datos de la aplicación
+		static String DELETE = "delete";
 }

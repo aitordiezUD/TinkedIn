@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import clases.PuestoTrabajo;
 import hilos.CargarEmpresasDAT;
 import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
@@ -285,6 +286,39 @@ public class DatosFicheros implements ManejoDatos{
 	public Usuario getUsuarioFromCorreo(String correo) {
 		// TODO Auto-generated method stub
 		return mapaEmailUsuario.get(correo);
+	}
+
+
+	@Override
+	public void anadirPuesto(PuestoTrabajo puesto) {
+		puesto.getEmpresaPertenece().getPuestos().add(puesto);
+		
+	}
+
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		usuarios = new Vector<Usuario>();
+		personas = new Vector<Persona>();
+		empresas = new Vector<Empresa>();
+		mapaIdUsuario = new HashMap<Integer, Usuario>();
+		mapaEmailUsuario = new HashMap<String, Usuario>();
+		mapaTlfnoUsuario = new HashMap<String, Usuario>();
+		mapaContraseñaUsuario = new HashMap <Usuario, String>();
+		mapaLikesPorUsuario = new HashMap<>();
+		mapaMatchesDeUsuarios = new HashMap<>();
+		matches = new Vector<>();
+		properties = new Properties();
+		
+		try{
+			InputStream input = new FileInputStream(new File("userCreation.properties"));
+            properties.load(input);
+        } catch (IOException e) {
+        	System.err.println("Problema al leer properties");
+            e.printStackTrace();
+        }
+		Usuario.setCount(Integer.parseInt(0+""));
 	}
 	
 	

@@ -1,10 +1,13 @@
 package servidor;
 
+import clases.PuestoTrabajo;
 import usuarios.Usuario;
 
 public interface ServicioPersistencia {
 	
 	public void init();
+	
+	public void delete();
 	
 	public void close();
 	
@@ -19,5 +22,7 @@ public interface ServicioPersistencia {
 	public Boolean contieneCorreo(String correo);
 	
 	public Boolean contieneTelefono(String telefono);
+	
+	public void anadirPuesto(PuestoTrabajo puesto);
 	
 }

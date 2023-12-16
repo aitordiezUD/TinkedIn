@@ -1,5 +1,6 @@
 package datos;
 
+import clases.PuestoTrabajo;
 import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
@@ -72,5 +73,15 @@ public interface ManejoDatos {
 	 * @param like
 	 */
 	public void comprobarMatch(Like like);
+	
+	/**Funcion para añadir un puesto a una empresa (la empresa va como atributo del puesto)
+	 * @param puesto PuestoDeTrabajo que queremos anadir
+	 */
+	public void anadirPuesto(PuestoTrabajo puesto);
+	
+	/**
+	 * Función para eliminar todos los datos de la app. Pensado para introducir datos de prueba
+	 */
+	public void delete();
 
 }

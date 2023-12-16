@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import clases.Mensaje;
+import clases.PuestoTrabajo;
 import datos.DatosFicheros;
 import usuarios.Empresa;
 import usuarios.Persona;
@@ -232,6 +233,15 @@ public class Servidor {
 		    				}else {
 		    					output.writeObject(ConfigServer.OK);
 		    				}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.ANADIR_PUESTO)) {
+		    				PuestoTrabajo p = (PuestoTrabajo) input.readObject();
+		    				datos.anadirPuesto(p);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.DELETE)) {
+		    				datos.delete();
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema

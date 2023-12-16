@@ -99,14 +99,14 @@ public class Empresa extends Usuario implements Serializable{
 
 	//Constructores:
 	public Empresa(String nombre, String telefono, String correo, String descripcion,
-			ArrayList<String> ubicaciones, ArrayList<PuestoTrabajo> puestos, @SuppressWarnings("exports") File fotoDePerfil, String password) {
+			ArrayList<String> ubicaciones, File fotoDePerfil, String password) {
 		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.correoElectronico = correo;
 		this.descripcion = descripcion;
 		this.ubicaciones = ubicaciones;
-		this.puestos = puestos;
+		this.puestos = new ArrayList<>();
 	}
 	
 	
@@ -119,6 +119,7 @@ public class Empresa extends Usuario implements Serializable{
 		this.puestos = e.getPuestos();
 		this.ubicaciones = e.getUbicaciones();
 		this.correoElectronico = e.getCorreoElectronico();
+		
 		
 	}
 

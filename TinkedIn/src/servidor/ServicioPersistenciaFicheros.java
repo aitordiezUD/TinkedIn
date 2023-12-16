@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
+import clases.PuestoTrabajo;
 import usuarios.Usuario;
 
 
@@ -222,6 +223,31 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			System.err.println("No se ha podido comprobar la validez del correo electrónico");
 			e.printStackTrace();
 			return true;
+		}
+	}
+
+	@Override
+	public void anadirPuesto(PuestoTrabajo puesto) {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.ANADIR_PUESTO);
+			flujoOut.writeObject(puesto);
+			puesto.getEmpresaPertenece().getPuestos().add(puesto);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("No se ha podido añadir el puesto de trabajo");
+		}
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.DELETE);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("No se ha podido eliminar los datos");
+			e.printStackTrace();
 		}
 	}
 

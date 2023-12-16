@@ -68,6 +68,7 @@ public class VentanaPrincipal extends JFrame {
 //					VentanaPrincipal frame = new VentanaPrincipal(datos);
 					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -84,7 +85,7 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal() {
 		servicio = new ServicioPersistenciaFicheros();
 		servicio.init();
-		
+		datos = new DatosFicheros();
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 650);
@@ -110,7 +111,7 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-//				getDatos().fin();
+				getDatos().fin();
 				servicio.close();
 				System.out.println("Servicio cerrado");
 			}

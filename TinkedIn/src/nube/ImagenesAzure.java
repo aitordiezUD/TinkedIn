@@ -22,23 +22,21 @@ import javax.swing.JPanel;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobItem;
 
 import datos.DatosFicheros;
 import usuarios.Usuario;
 
 public class ImagenesAzure {
-	public static void subirImagen(File f, String nombre) {
-		String connectionString = "DefaultEndpointsProtocol=https;AccountName=tinkedin;AccountKey=q+hm0wS5nTIbBPsFRwQSpM7C2BTf67fMsVEY1o013ATlrUlBXXNJft+ZbdpfYvA8zn8WyvPLjMkX+AStV+gkVA==;EndpointSuffix=core.windows.net";
-        String containerName = "tinkedinv1";
-        
-     // Ruta local del archivo a subir
-//        String filePath = "foto.jpg";
-        
+	private final static String connectionString = "DefaultEndpointsProtocol=https;AccountName=tinkedin;AccountKey=q+hm0wS5nTIbBPsFRwQSpM7C2BTf67fMsVEY1o013ATlrUlBXXNJft+ZbdpfYvA8zn8WyvPLjMkX+AStV+gkVA==;EndpointSuffix=core.windows.net";
+	private final static String containerName = "tinkedinv1";
+	
+	public static void subirImagen(File f, String nombre) {        
      // Crea el cliente del servicio de blobs
         BlobContainerClient blobContainerClient = new BlobServiceClientBuilder().connectionString(connectionString)
         		.buildClient().getBlobContainerClient(containerName);
         
-//        Crear cliente de blob
+//      Crear cliente de blob
         BlobClient blobClient = blobContainerClient.getBlobClient(nombre);
         
      // Sube el archivo al contenedor
@@ -72,6 +70,26 @@ public class ImagenesAzure {
             e.printStackTrace();
         }
         return label;	
+	}
+	
+	public static void deleteBlobs() {
+        // Crear el cliente del servicio Blob
+        BlobContainerClient containerClient = new BlobServiceClientBuilder()
+        		.connectionString(connectionString)
+        		.buildClient().
+        		getBlobContainerClient(containerName);
+
+        // Listar todos los blobs en el contenedor
+        for (BlobItem blobItem : containerClient.listBlobs()) {
+            // Obtener el nombre del blob
+            String blobName = blobItem.getName();
+
+            // Eliminar el blob
+            containerClient.getBlobClient(blobName).delete();
+            System.out.println("Blob eliminado: " + blobName);
+        }
+
+        System.out.println("Todos los blobs han sido eliminados.");
 	}
 	
 	public static void main(String[] args) {

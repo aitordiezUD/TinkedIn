@@ -9,6 +9,7 @@ import javax.swing.tree.TreePath;
 
 import clases.Habilidad;
 import clases.PuestoTrabajo;
+import componentes.SquareLabel;
 import componentes.botonAceptar;
 import componentes.botonAnEl;
 
@@ -60,27 +61,79 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlEditHab.setPreferredSize( new Dimension( getWidth()/2, pnlCreador.getHeight()));
 		
 		JPanel pnlEditCampos = new JPanel();
-		pnlEditCampos.setLayout(  new BorderLayout());
+		pnlEditCampos.setLayout(  new BoxLayout(  pnlEditCampos ,BoxLayout.Y_AXIS) );
 		pnlEditCampos.setBackground( Color.WHITE );
 		pnlEditCampos.setPreferredSize( new Dimension( getWidth()/2, getHeight()/3-pnlTitulo.getHeight()));
 		
-//		SpinnerNumberModel modelSp = new SpinnerNumberModel(0, 0, 5, 1);
-//		JSpinner spDestreza = new JSpinner( modelSp );
-//		
-//		
-//		pnlEditCampos.add(spDestreza, BorderLayout.WEST);
+		JPanel pnlPreviewHab = new JPanel();
+		pnlPreviewHab.setLayout( new BoxLayout(pnlPreviewHab, BoxLayout.Y_AXIS) );
+		pnlPreviewHab.setPreferredSize( new Dimension(  getWidth()/2, getHeight()/3-pnlTitulo.getHeight() ) );
+		pnlPreviewHab.setBackground( Color.GREEN );
+		
+		JPanel pnlTituloPreview = new JPanel();
+		pnlTituloPreview.setPreferredSize( new Dimension(getWidth()/2, 30));
+		pnlTituloPreview.setBorder( BorderFactory.createLineBorder(Color.BLACK) );
+		JLabel lblTituloPreview = new JLabel( "VISTA PREVIA DE LA HABILIDAD" );
+		lblTituloPreview.setFont(new Font("Segoe UI Black", Font.BOLD, 14));
+		pnlTituloPreview.add(lblTituloPreview);
+		
+		JPanel pnlNombrePrev = new JPanel();
+		pnlNombrePrev.setBorder( BorderFactory.createLineBorder( Color.BLACK));
+		JLabel lblNombrePrev = new JLabel("Nombre de la habilidad: ");
+		pnlNombrePrev.add(lblNombrePrev);
+		
+		JPanel pnlPrevDestreza = new JPanel();
+		pnlPrevDestreza.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
+		JLabel lblPrevDestreza = new JLabel( "Destreza: " );
+		
+		JPanel pnlPrevDescrHab = new JPanel();
+		pnlPrevDescrHab.setBorder( BorderFactory.createLineBorder( Color.BLACK ) ); 
+		JLabel lblPreviewDescr = new JLabel("Descripcion: ");
+		pnlPrevDescrHab.add(lblPreviewDescr);
+		
+		JPanel pnlBtnConfirm = new JPanel();
+		pnlBtnConfirm.add( new botonAceptar("Confirmar habilidad"));
+		
+		pnlPrevDestreza.add(lblPrevDestreza);
+		
+		pnlPreviewHab.add(pnlTituloPreview);
+		pnlPreviewHab.add(pnlNombrePrev);
+		pnlPreviewHab.add(pnlPrevDestreza);
+		pnlPreviewHab.add(pnlPrevDescrHab);
+		pnlPrevDestreza.add( new SquareLabel(0) );
+		pnlPreviewHab.add(pnlBtnConfirm);
 		
 		
+		JPanel pnlSpinner = new JPanel();
+		pnlSpinner.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
+		pnlSpinner.setLayout( new FlowLayout() );
+		JPanel pnlDescrHab = new JPanel();
+		pnlDescrHab.setLayout( new FlowLayout() );
+		pnlDescrHab.setBorder( BorderFactory.createLineBorder( Color.BLACK) );
 		
+		JLabel lblDestreza = new JLabel("Destreza: ");
+		SpinnerNumberModel modelSp = new SpinnerNumberModel(0, 0, 5, 1);
+		JSpinner spDestreza = new JSpinner( modelSp );
+		
+		JLabel lblDescrHab = new JLabel("Descripcion: ");
+		JTextArea taDescrHab = new JTextArea();
+		JScrollPane spDescrHab = new JScrollPane(taDescrHab);
+		spDescrHab.setPreferredSize( new Dimension(100,40) );
+		pnlDescrHab.add(lblDescrHab);
+		pnlDescrHab.add(spDescrHab);
+		pnlSpinner.add(lblDestreza);
+		pnlSpinner.add( spDestreza );
+		
+		pnlEditCampos.add( pnlSpinner );
+		pnlEditCampos.add( pnlDescrHab );
 		JPanel pnlBotonAc = new JPanel();
 		pnlBotonAc.setPreferredSize( new Dimension(getWidth()/2, 35));
 		pnlBotonAc.setBackground( Color.WHITE );
-//		pnlBotonAc.setBackground( Color.PINK );
 		pnlBotonAc.setLayout( new FlowLayout() );
 		
 		pnlBotonAc.add( new botonAceptar("Aceptar") );
 		
-		pnlEditHab.setBackground( Color.GRAY );
+		pnlEditHab.setBackground( Color.BLUE );
 		
 		JPanel pnlLista = new JPanel();
 		pnlLista.setBackground( Color.WHITE );
@@ -113,6 +166,7 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlArbolyLista.add( pnlArbol, BorderLayout.WEST );
 		pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
 		pnlEditHab.add(pnlEditCampos, BorderLayout.NORTH);
+		pnlEditHab.add( pnlPreviewHab);
 		pnlEditCampos.add(pnlBotonAc, BorderLayout.SOUTH);
 		
 		
