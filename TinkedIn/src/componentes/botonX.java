@@ -43,17 +43,17 @@ public class botonX extends JButton {
         g.drawLine(60, 100, 110, 50);
     }
 
-//    public static void main(String[] args) {
-//        
-//        JFrame frame = new JFrame("Botón X");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        
-//        botonX botonX = new botonX();
-//        frame.getContentPane().add(botonX);
-//
-//        frame.setSize(200, 200);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//    }
+    public static void main(String[] args) {
+        
+        JFrame frame = new JFrame("Botón X");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        
+        botonX botonX = new botonX();
+        frame.getContentPane().add(botonX);
+
+        frame.setSize(200, 200);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }

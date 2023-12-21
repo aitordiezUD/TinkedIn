@@ -107,6 +107,10 @@ public class Main {
 		
 		
 //      EMPRESAS
+        
+        // Empresa admin
+        Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE");
+        
         // Empresa 1
         Empresa e1 = new Empresa("TechIbérica", "912-345-678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",
@@ -305,8 +309,10 @@ public class Main {
         PuestoTrabajo puesto20 = new PuestoTrabajo("Restauración", "Gestión de restaurantes y cocina",
                 new ArrayList<>(Arrays.asList(h27, h47)), e4);
         servicio.anadirPuesto(puesto20);
-        
-        
+        //Puesto para el admin
+        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs", "Administración de organizaciones benéficas en entornos rurales",
+                new ArrayList<>(Arrays.asList(h30, h13)), adminE);
+        servicio.anadirPuesto(puestoAdmin);
         
         Persona p1 = new Persona("Juan", "Gómez", "Madrid", 28, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p1);
@@ -339,7 +345,7 @@ public class Main {
         Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", 35, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p15);
         
-		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", null,new File("adminpng.png"),"admin");
+		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", crearCurriculum( h32, h11, h3, h47, h23 ),new File("adminpng.png"),"admin");
 		servicio.crearUsuario(pAdmin);
 		
 		
@@ -350,7 +356,7 @@ public class Main {
 //			puestosEjemplo.add(pt);
 //		}
 		
-		Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE");
+		
 		
 //		Empresa pruebaPuestos = new Empresa("prueba","prueba", "prueba","prueba", null, puestosEjemplo, new File("TinkedinPNG.png") , "prueba");
 		
