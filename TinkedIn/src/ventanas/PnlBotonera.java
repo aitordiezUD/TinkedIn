@@ -79,9 +79,7 @@ public class PnlBotonera extends JPanel {
 		setLayout(null);
 		
 		this.usuarioAutenticado = usuarioAutenticado;
-		System.out.println("Este es el usuario autenticado en el panel botonera " + PnlBotonera.usuarioAutenticado);
-		puestosCandidatos = CrearTreeSet();
-		System.out.println(puestosCandidatos);
+		
 		
 
 		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
@@ -128,13 +126,13 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
 		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
-		puestosCandidatos = CrearTreeSet();
-		System.out.println("Aqui se llena el set");
-		System.out.println(puestosCandidatos);
+//		puestosCandidatos = CrearTreeSet();
 		
 		if (usuarioAutenticado instanceof Persona) {
 			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
 			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
+			
+
 			
 		}
 
@@ -518,38 +516,38 @@ public class PnlBotonera extends JPanel {
 		
 
 	}
-	public TreeSet<PuestoTrabajo> CrearTreeSet() {
-		Persona usuarioP = (Persona) usuarioAutenticado;
-		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
-			
-			@Override
-			public int compare(PuestoTrabajo o1, PuestoTrabajo o2) {
-				int contador1 = 0;
-				int contador2 = 0;
-				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
-					for( int j = 0; j<o1.getHabilidadesReq().size(); j++) {
-						if(usuarioP.getCurriculum().get(i).equals(o1.getHabilidadesReq().get(j))) {
-							contador1++;
-						} 
-					}
-				}
-				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
-					for( int j = 0; j<o2.getHabilidadesReq().size(); j++) {
-						if(usuarioP.getCurriculum().get(i).equals(o2.getHabilidadesReq().get(j))) {
-							contador2++;
-						} 
-					}
-				}
-				return contador1 - contador2;
-			}
-		});
-		for(Empresa e: DatosFicheros.getEmpresas()) {
-			for(PuestoTrabajo p: e.getPuestos()) {
-				puestosCandidatos.add(p);
-			}
-		}
-		return puestosCandidatos;
-	}
+//	public TreeSet<PuestoTrabajo> CrearTreeSet() {
+//		Persona usuarioP = (Persona) usuarioAutenticado;
+//		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
+//			
+//			@Override
+//			public int compare(PuestoTrabajo o1, PuestoTrabajo o2) {
+//				int contador1 = 0;
+//				int contador2 = 0;
+//				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+//					for( int j = 0; j<o1.getHabilidadesReq().size(); j++) {
+//						if(usuarioP.getCurriculum().get(i).equals(o1.getHabilidadesReq().get(j))) {
+//							contador1++;
+//						} 
+//					}
+//				}
+//				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+//					for( int j = 0; j<o2.getHabilidadesReq().size(); j++) {
+//						if(usuarioP.getCurriculum().get(i).equals(o2.getHabilidadesReq().get(j))) {
+//							contador2++;
+//						} 
+//					}
+//				}
+//				return contador1 - contador2;
+//			}
+//		});
+//		for(Empresa e: DatosFicheros.getEmpresas()) {
+//			for(PuestoTrabajo p: e.getPuestos()) {
+//				puestosCandidatos.add(p);
+//			}
+//		}
+//		return puestosCandidatos;
+//	}
 	
 	
 }

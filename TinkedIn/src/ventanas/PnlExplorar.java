@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -25,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -75,20 +78,20 @@ public class PnlExplorar extends JPanel {
 	private JLabel lblGrafExpX; 
 	private JPanel pnlLike;
 	private JPanel pnlPass;
+	protected  JLabel lblNombreUsu;
+	protected static Usuario usuarioAutenticado;
 	protected static HashMap<PuestoTrabajo, Vector<Persona>> mapaPersonasPorPuesto;
 	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
+	protected static Iterator<PuestoTrabajo> iteradorPuestos;
 	
 	public PnlExplorar( Usuario usuarioAutenticado ) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 		
-		setLayout(new BorderLayout(0,0));
-	     
-	    	if(usuarioAutenticado instanceof Persona) {
-	    		puestosCandidatos = PnlBotonera.puestosCandidatos;
-	    		System.out.println(puestosCandidatos);
-	    		
-	    	}
+		setLayout( new BorderLayout( 0,0 ) );
+		
+	    	
+    		this.usuarioAutenticado = usuarioAutenticado;
     		
 	        //PuestoTrabajo primerPuesto = puestosCandidatos.first();
 	        
@@ -128,7 +131,7 @@ public class PnlExplorar extends JPanel {
 	        pnlLike = new JPanel();
 	        pnlLike.setLayout(new BorderLayout());
 	        botonCorazon btnCorazon = new botonCorazon();
-	        pnlLike.add(btnCorazon, BorderLayout.EAST);
+	        pnlLike.add(btnCorazon, BorderLayout.CENTER);
 	        pnlBotonera.add(pnlLike);
 	        
 	        
@@ -141,7 +144,13 @@ public class PnlExplorar extends JPanel {
 	        pnlPass = new JPanel();
 	        pnlPass.setLayout(new BorderLayout());
 	        botonX btnX = new botonX();
-	        pnlPass.add(btnX, BorderLayout.WEST);
+	        btnX.addActionListener( (ActionListener) new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mostrarSiguientePuesto();
+				}});
+	        pnlPass.add(btnX, BorderLayout.CENTER);
 	        pnlBotonera.add(pnlPass);
 	        
 	        
@@ -168,9 +177,7 @@ public class PnlExplorar extends JPanel {
 	            
 	            
 	            
-	            JLabel lblNombreUsu = new JLabel( "      Nombre de Usuario" );
-	            lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-	            pnlDatos.add(lblNombreUsu);
+	           
 	            
 	            // Crea un JLabel y asigna la imagen escalada como ícono
 	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
@@ -184,33 +191,25 @@ public class PnlExplorar extends JPanel {
 	        
 	        //botonCorazon btnCorazon = new botonCorazon();
 	        //pnlLike.add(btnCorazon, BorderLayout.EAST);
-	       
+	        lblNombreUsu = new JLabel( "      Nombre de Usuario" );
+            lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+            pnlDatos.add(lblNombreUsu);
 	        
 	        if( usuarioAutenticado instanceof Empresa ) {
 	        	
+	        	Empresa e = (Empresa) usuarioAutenticado;
 	        	JPanel pnlLista = new JPanel();
 		        pnlLista.setLayout( new BorderLayout() );
-		       
-	        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
-	        	for (int i = 0; i<5; i++) {
-	        		PuestoTrabajo pt = new PuestoTrabajo("Puesto "+ i,"Este es el puesto " + i, new ArrayList<>(), (Empresa) usuarioAutenticado);
-	        		puestos.add(pt);
-	        	}
-	        	
-	        	Empresa e = (Empresa) usuarioAutenticado;	
-	        	e.setPuestos(puestos);
-	        	
-	        	pnlLista.setBackground( new Color( 129, 186, 207 ) );
-	 	    
-	        	pnlLista.setLayout(new BorderLayout());
-	 	        
-	        	modeloListaPt = new DefaultListModel<PuestoTrabajo>();
-	        	
-	        	for ( PuestoTrabajo p : e.getPuestos()) {
-	        		modeloListaPt.addElement(p);
-	        	}
+		        pnlLista.setBackground( new Color( 129, 186, 207 ) );
+		 	    
+		        
 	        	JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
-			
+				modeloListaPt = new DefaultListModel<PuestoTrabajo>();
+				
+				for (PuestoTrabajo pt: e.getPuestos()) {
+					modeloListaPt.addElement(pt);
+				}
+				
 				listaPuestos.setModel(modeloListaPt);
 				listaPuestos.setBackground(new Color(202, 232, 232));
 				JScrollPane spLista = new JScrollPane(listaPuestos);
@@ -228,9 +227,6 @@ public class PnlExplorar extends JPanel {
 		       pnlBotoneraIzq.add( new botonAnEl("Añadir") );
 		       pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
 		       
-	
-				
-				
 				
 				listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
 					private static final long serialVersionUID = 1L;
@@ -261,16 +257,14 @@ public class PnlExplorar extends JPanel {
 						pnl.add(lbl2);
 						return pnl;
 					}
-					
-					
+
 				});
 				
 				listaPuestos.addMouseListener(new MouseAdapter() {
 		            @Override
 		            public void mouseExited(MouseEvent e) {
 		                listaPuestos.clearSelection();
-		            }
-		            
+		            }		            
 		        });
 	
 				listaPuestos.addMouseMotionListener(new MouseMotionAdapter() {
@@ -282,36 +276,26 @@ public class PnlExplorar extends JPanel {
 	                }
 	            }
 	        });
-				
-//				INTENTO DE PONER DATOS EN EL PANEL INFO
-				
-//				listaPuestos.addListSelectionListener(new ListSelectionListener() {
-//					
-//					@Override
-//					public void valueChanged(ListSelectionEvent e) {
-//						Vector<Persona> candidatos = new Vector<>();
-//				 	    for(Persona p : DatosFicheros.getPersonas()) {
-//				 	    	PuestoTrabajo puesto = listaPuestos.getSelectedValue();
-//				 	    	if(p.getHabilidadesTecnicas().contains(puesto.getHabilidadesReq())) {
-//				 	    		candidatos.add(p);
-//				 	    		}
-//				 	    	}
-//				 	    pnlInfo.add(new JLabel(candidatos.get(0).getNombre()), BorderLayout.CENTER);
-//				 	    
-//				 	    
-//						
-//					}
-//				});
-			
-			
-	       }
-	       
-	     
-	       
-		
+	    		}
+	        	puestosCandidatos = PnlBotonera.puestosCandidatos;
+	        	
+	        	
+	        	if(usuarioAutenticado instanceof Persona) {
+	        		puestosCandidatos = CrearTreeSet();
+	        		iteradorPuestos = puestosCandidatos.iterator();
+	        		System.out.println(puestosCandidatos);
+	        		for( PuestoTrabajo pt : puestosCandidatos ) {
+    					lblNombreUsu.setText( pt.getEmpresaPertenece().getNombre() );
+		    		}
+	    		
+	        			
+	        			
+	    		
+	    	}
+	        
+		        
 	}
-	
-	
+	        	
 
 	public void xArojo () {
 		try {
@@ -343,6 +327,47 @@ public class PnlExplorar extends JPanel {
 		
 	}
 
+	public TreeSet<PuestoTrabajo> CrearTreeSet() {
+		Persona usuarioP = (Persona) usuarioAutenticado;
+		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
+			
+			@Override
+			public int compare(PuestoTrabajo o1, PuestoTrabajo o2) {
+				int contador1 = 0;
+				int contador2 = 0;
+				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+					for( int j = 0; j<o1.getHabilidadesReq().size(); j++) {
+						if(usuarioP.getCurriculum().get(i).equals(o1.getHabilidadesReq().get(j))) {
+							contador1++;
+						} 
+					}
+				}
+				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
+					for( int j = 0; j<o2.getHabilidadesReq().size(); j++) {
+						if(usuarioP.getCurriculum().get(i).equals(o2.getHabilidadesReq().get(j))) {
+							contador2++;
+						} 
+					}
+				}
+				return contador1 - contador2;
+			}
+		});
+		for(Empresa e: DatosFicheros.getEmpresas()) {
+			for(PuestoTrabajo p: e.getPuestos()) {
+				puestosCandidatos.add(p);
+			}
+		}
+		return puestosCandidatos;
+	}
+	
+	private void mostrarSiguientePuesto() {
+		if (iteradorPuestos.hasNext()) {
+			PuestoTrabajo puestoActual = iteradorPuestos.next();
+			lblNombreUsu.setText( puestoActual.getNombre() );
+		}else{
+			System.out.println("No quedan puestos. ");;
+		}
+	}
 	
 	public static void main(String[] args) {
 		DatosFicheros datos = new DatosFicheros();
