@@ -1,5 +1,8 @@
 package servidor;
 
+import java.util.ArrayList;
+
+import clases.Mensaje;
 import clases.PuestoTrabajo;
 import usuarios.Usuario;
 
@@ -24,5 +27,11 @@ public interface ServicioPersistencia {
 	public Boolean contieneTelefono(String telefono);
 	
 	public void anadirPuesto(PuestoTrabajo puesto);
+	
+	public void enviarMensaje(Mensaje mensaje);
+	
+	public ArrayList<Mensaje> mensajesPendientes();
+	
+	public void escuchadorMensajes();
 	
 }

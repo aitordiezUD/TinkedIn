@@ -45,4 +45,7 @@ public class ConfigServer {
 		
 //		Eliminar todas los datos de la aplicación
 		static String DELETE = "delete";
+		
+//		Coloca todos los mensajes enviados al usuario mientras este estaba offline
+		static String MENSAJES_PENDIENTES = "mensajes_pendientes";
 }

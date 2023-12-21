@@ -287,9 +287,9 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
-//		PnlChat pnlChat= new PnlChat();
-//		pnlChat.setBackground(Color.GREEN);
-//		pnlFuncional.add(pnlChat,"pnlChat");
+		PnlChat pnlChat= new PnlChat();
+		pnlChat.setBackground(Color.GREEN);
+		pnlFuncional.add(pnlChat,"pnlChat");
 		
 		JLabel lblMensajes = new JLabel("Mensajes");
 		lblMensajes.setHorizontalAlignment(SwingConstants.CENTER);
@@ -333,7 +333,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlMensajes;
-//				CardLayout.show(pnlFuncional, "pnlChat");
+				CardLayout.show(pnlFuncional, "pnlChat");
 				pnlMensajes.setBackground(new Color(122, 199, 218));
 			}
 			@Override

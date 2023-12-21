@@ -429,7 +429,7 @@ public class PnlRegistroEmpresa extends JPanel {
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
 //			        } else if (VentanaPrincipal.getDatos().containsTelefono(tfTelefono.getText())) {
-			        } else if (VentanaPrincipal.servicio.contieneCorreo(tfTelefono.getText())) {
+			        } else if (VentanaPrincipal.servicio.contieneTelefono(tfTelefono.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"El teléfono se encuentra asociado a otro usuario.", 

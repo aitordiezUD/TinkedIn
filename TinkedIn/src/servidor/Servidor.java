@@ -138,11 +138,6 @@ public class Servidor {
 	    		taMensajes.append("Nueva conexión" + "\n");
 	    		listaHilos.add( this );
 	    		listaSockets.add( socket );
-	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
-	    			for (Mensaje m : mapaMensajasPorEnviar.get(idSender)) {
-	    				output.writeObject(m);
-	    			}
-	    		}
 	    		while(!finComunicacion) {  // Bucle de comunicación de tiempo real con el cliente
 	    			try {
 		    			Object objRecibido = input.readObject();  // Espera a recibir petición de cliente (1) - se acaba con timeout
@@ -151,7 +146,7 @@ public class Servidor {
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.ENVIO_MENSAJE)) {
-		    				Mensaje mensaje = (Mensaje) objRecibido;
+		    				Mensaje mensaje = (Mensaje) input.readObject();
 			    			taMensajes.append(mensaje.toString()+ "\n");
 			    			taMensajes.setSelectionStart( taMensajes.getText().length() );  // Pone el cursor al final del textarea
 			    			// Envía el mensaje al cliente destinatario si su OOS esta en el mapa de direcciones, sino se almacenara en el 
@@ -173,7 +168,7 @@ public class Servidor {
 		    					output.writeObject(ConfigServer.OK);
 		    					idSender = (int) datos.getUsuarioFromCorreo(email).getId();
 		    		    		mapaDirecciones.put( idSender, output );
-		    		    		taMensajes.append("Usuario 17 conectado" + "\n");
+		    		    		taMensajes.append("Usuario " + idSender + " conectado" + "\n");
 		    				}else {
 		    					output.writeObject(ConfigServer.NO_OK);
 		    				}
@@ -244,6 +239,18 @@ public class Servidor {
 		    				datos.delete();
 		    			}
 		    			
+		    			if (objRecibido.equals(ConfigServer.MENSAJES_PENDIENTES)) {
+		    	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
+		    	    			if(mapaMensajasPorEnviar.get(idSender) != null && mapaMensajasPorEnviar.get(idSender).size()>0) {
+		    	    				output.writeObject(ConfigServer.OK);
+		    	    				output.writeObject(mapaMensajasPorEnviar.get(idSender));
+		    	    			}else {
+		    	    				output.writeObject(ConfigServer.NO_OK);
+		    	    			}
+		    	    		}
+		    	    		output.writeObject(ConfigServer.NO_OK);
+		    			}
+		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	    		}
 	    		System.out.println("Servidor: fin comunicacion");
@@ -258,6 +265,7 @@ public class Servidor {
 	    		mapaDirecciones.remove(idSender);
 	    	} catch(Exception e) {
 	    		System.out.println("Servidor: Error en la primera parte del run");
+	    		e.printStackTrace();
 	    	}
 		}
 	}
