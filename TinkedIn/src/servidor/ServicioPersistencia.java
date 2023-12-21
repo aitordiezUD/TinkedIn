@@ -6,6 +6,7 @@ import java.util.Vector;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import usuarios.Empresa;
+import usuarios.Persona;
 import usuarios.Usuario;
 
 public interface ServicioPersistencia {
@@ -37,5 +38,7 @@ public interface ServicioPersistencia {
 	public void escuchadorMensajes();
 	
 	public Vector<Empresa> getEmpresas();
+	
+	public Vector<Persona> getPersonas();
 	
 }

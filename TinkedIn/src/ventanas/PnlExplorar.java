@@ -79,8 +79,10 @@ public class PnlExplorar extends JPanel {
 	private JPanel pnlLike;
 	private JPanel pnlPass;
 	protected  JLabel lblNombreUsu;
+	protected JLabel lblNomEInfo;
+	protected JLabel lblDescrPInfo;
 	protected static Usuario usuarioAutenticado;
-	protected static HashMap<PuestoTrabajo, Vector<Persona>> mapaPersonasPorPuesto;
+	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	protected static Iterator<PuestoTrabajo> iteradorPuestos;
 	
@@ -90,7 +92,6 @@ public class PnlExplorar extends JPanel {
 		
 		setLayout( new BorderLayout( 0,0 ) );
 		
-	    	
     		this.usuarioAutenticado = usuarioAutenticado;
     		
 	        //PuestoTrabajo primerPuesto = puestosCandidatos.first();
@@ -104,22 +105,32 @@ public class PnlExplorar extends JPanel {
       
 	        JPanel pnlInfo = new JPanel();
 	        pnlInfo.setLayout( new BorderLayout() );
+//	        pnlInfo.setBackground( Color.GREEN );
 	        //pnlInfo.setBackground( Color.GREEN);
 	        pnlContenido.add(pnlInfo, BorderLayout.CENTER);
 	       
+	        JPanel pnlInfoPuesto = new JPanel();
+	        pnlInfoPuesto.setLayout( new GridLayout(2,2));
+	        pnlInfoPuesto.setBackground( Color.WHITE );
+	        pnlInfoPuesto.setPreferredSize( new Dimension(400,200));
+	        
+	        JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
+	        JLabel lblDescripcionPuesto = new JLabel("Descripcion del puesto: ");
+	        
+	        lblNomEInfo = new JLabel("");
+	        lblDescrPInfo = new JLabel("");
+	        
+	        pnlInfoPuesto.add(nomEmpresa);
+	        pnlInfoPuesto.add(lblDescripcionPuesto);
+	        pnlInfoPuesto.add(lblNomEInfo);
+	        pnlInfoPuesto.add(lblDescrPInfo);
+	        
+	        pnlInfo.add(pnlInfoPuesto, BorderLayout.WEST);
+	        
 	        JPanel pnlDatos = new JPanel();
 //	        pnlDatos.setBackground(Color.GREEN);
 	        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
 	        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
-	        
-	        JPanel pnlfotoPerfil = new JPanel();
-	        pnlfotoPerfil.setPreferredSize( new Dimension( getWidth()/2, 100 ) );
-	        pnlfotoPerfil.setBackground( Color.CYAN );
-	        pnlInfo.add(pnlfotoPerfil, BorderLayout.WEST);
-	        JLabel lblGraficoFoto = new JLabel( "Aqui va la foto" );
-	        pnlfotoPerfil.add(lblGraficoFoto);
-	        
-	        
 	        
 	        JPanel pnlBotonera = new JPanel();
 	        pnlBotonera.setLayout( new GridLayout(0,3) );
@@ -131,6 +142,7 @@ public class PnlExplorar extends JPanel {
 	        pnlLike = new JPanel();
 	        pnlLike.setLayout(new BorderLayout());
 	        botonCorazon btnCorazon = new botonCorazon();
+	        btnCorazon.repaint();
 	        pnlLike.add(btnCorazon, BorderLayout.CENTER);
 	        pnlBotonera.add(pnlLike);
 	        
@@ -281,7 +293,7 @@ public class PnlExplorar extends JPanel {
 	        	
 	        	
 	        	if(usuarioAutenticado instanceof Persona) {
-	        		puestosCandidatos = CrearTreeSet();
+	        		puestosCandidatos = CrearTreeSetPuestos();
 	        		iteradorPuestos = puestosCandidatos.iterator();
 	        		System.out.println(puestosCandidatos);
 	        		for( PuestoTrabajo pt : puestosCandidatos ) {
@@ -327,8 +339,9 @@ public class PnlExplorar extends JPanel {
 		
 	}
 
-	public TreeSet<PuestoTrabajo> CrearTreeSet() {
+	public TreeSet<PuestoTrabajo> CrearTreeSetPuestos() {
 		Persona usuarioP = (Persona) usuarioAutenticado;
+		puestosCandidatos = new TreeSet<PuestoTrabajo>();
 		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
 			
 			@Override
@@ -349,21 +362,69 @@ public class PnlExplorar extends JPanel {
 						} 
 					}
 				}
-				return contador1 - contador2;
+				return contador2 - contador1 + 1;
 			}
 		});
 		for(Empresa e: VentanaPrincipal.servicio.getEmpresas()) {
 			for(PuestoTrabajo p: e.getPuestos()) {
+//				System.out.println(p);
+				
 				puestosCandidatos.add(p);
 			}
 		}
 		return puestosCandidatos;
 	}
 	
+	public TreeSet<Persona> crearTreeSetPersonas( PuestoTrabajo pt ){
+		Empresa usuarioE = (Empresa) usuarioAutenticado;
+		TreeSet<Persona> personasCandidatas = new TreeSet<Persona>( new Comparator<Persona>() {
+
+			@Override
+			public int compare(Persona o1, Persona o2) {
+				int contador1 = 0;
+				int contador2 = 0;
+				
+				for(Habilidad h: pt.getHabilidadesReq()) {
+					for(Habilidad h1: o1.getCurriculum()) {
+						if(h.equals(h1)) {
+							contador1++;
+						}
+					}
+				}
+				
+				for (PuestoTrabajo pt : usuarioE.getPuestos() ) {
+					for(Habilidad h: pt.getHabilidadesReq()) {
+						for(Habilidad h2: o2.getCurriculum()) {
+							if(h.equals(h2)) {
+								contador2++;
+							}
+						}
+					}
+				} 
+				
+				return contador2 - contador1 + 1;
+			}
+			
+		});
+		for(Persona p : VentanaPrincipal.servicio.getPersonas()) {
+			personasCandidatas.add(p);
+		}
+		return personasCandidatas;
+	}
+	
+	public HashMap<PuestoTrabajo, TreeSet<Persona>> crearMapaPersonasPorPuesto(){
+		HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto = new HashMap<PuestoTrabajo, TreeSet<Persona>>();
+		//Terminar metodo para crear el mapa.
+		
+		return mapaPersonasPorPuesto;
+	}
+	
 	private void mostrarSiguientePuesto() {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
 			lblNombreUsu.setText( puestoActual.getNombre() );
+			lblNomEInfo.setText( puestoActual.getEmpresaPertenece().getNombre() );
+			lblDescrPInfo.setText( puestoActual.getDescripcion() );
 			//Cambiar
 		}else{
 			System.out.println("No quedan puestos. ");;
@@ -371,9 +432,9 @@ public class PnlExplorar extends JPanel {
 	}
 	
 	public static void main(String[] args) {
-		DatosFicheros datos = new DatosFicheros();
+		
 		JFrame frame = new JFrame();
-		frame.getContentPane().add( new PnlExplorar(DatosFicheros.getPersonas().get(0)));
+		frame.getContentPane().add( new PnlExplorar(VentanaPrincipal.servicio.getPersonas().get(0)));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
 		//frame.getContentPane().add(new PnlExplorar(DatosFicheros.getEmpresas().get(0)));

@@ -255,6 +255,10 @@ public class Servidor {
 		    				output.writeObject(DatosFicheros.getEmpresas());
 		    			}
 		    			
+		    			if (objRecibido.equals(ConfigServer.GET_PERSONAS)) {
+		    				output.writeObject(DatosFicheros.getPersonas());
+		    			}
+		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	    		}
 	    		System.out.println("Servidor: fin comunicacion");

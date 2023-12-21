@@ -50,4 +50,6 @@ public class ConfigServer {
 		static String MENSAJES_PENDIENTES = "mensajes_pendientes";
 		
 		static String GET_EMPRESAS = "get_empresas";
+		
+		static String GET_PERSONAS = "get_personas";
 }

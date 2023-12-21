@@ -346,7 +346,7 @@ public class Main {
         servicio.crearUsuario(p15);
         
 //		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
-		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", crearCurriculum( h32, h11, h3, h47, h23 ),new File("adminpng.png"),"admin");
+		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin");
 		servicio.crearUsuario(pAdmin);
 		
 		
