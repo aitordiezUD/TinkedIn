@@ -352,7 +352,7 @@ public class PnlExplorar extends JPanel {
 				return contador1 - contador2;
 			}
 		});
-		for(Empresa e: DatosFicheros.getEmpresas()) {
+		for(Empresa e: VentanaPrincipal.servicio.getEmpresas()) {
 			for(PuestoTrabajo p: e.getPuestos()) {
 				puestosCandidatos.add(p);
 			}

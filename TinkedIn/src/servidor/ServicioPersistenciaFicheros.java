@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import clases.Mensaje;
 import clases.PuestoTrabajo;
+import usuarios.Empresa;
 import usuarios.Usuario;
 import ventanas.PnlChat;
 
@@ -308,6 +309,31 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
+		}
+		
+	}
+
+	@Override
+	public Vector<Empresa> getEmpresas() {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.GET_EMPRESAS);
+			
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el listado de empresas, timeout servidor");
+				return new Vector<>();
+			}
+			
+			Vector<Empresa> resp = (Vector<Empresa>) respuestasServidor.remove(0);
+			return resp;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Vector<>();
 		}
 		
 	}
