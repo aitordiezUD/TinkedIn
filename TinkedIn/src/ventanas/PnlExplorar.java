@@ -277,7 +277,7 @@ public class PnlExplorar extends JPanel {
 	            }
 	        });
 	    		}
-	        	puestosCandidatos = PnlBotonera.puestosCandidatos;
+	        	
 	        	
 	        	
 	        	if(usuarioAutenticado instanceof Persona) {
@@ -364,6 +364,7 @@ public class PnlExplorar extends JPanel {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
 			lblNombreUsu.setText( puestoActual.getNombre() );
+			//Cambiar
 		}else{
 			System.out.println("No quedan puestos. ");;
 		}

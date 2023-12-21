@@ -57,7 +57,7 @@ public class PnlBotonera extends JPanel {
 	public static JPanel pnlFuncional;
 	protected static CardLayout CardLayout;
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
-	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
+	//protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	
 	
 	public Usuario getUsuarioAutenticado() {
