@@ -5,13 +5,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
+import clases.Mensaje;
 import clases.PuestoTrabajo;
+import usuarios.Empresa;
 import usuarios.Usuario;
+import ventanas.PnlChat;
 
 
 
@@ -24,7 +28,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	private long TIMEOUT_ESPERA_SERVIDOR = 5000;  // Máximo tiempo a esperar respuesta del servidor
 	
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
-	
+	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
 	
 	public ServicioPersistenciaFicheros() {
 
@@ -47,7 +51,11 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	            do { // Bucle de espera a mensajes del servidor
 	            	try {
 	            		Object respuesta = flujoIn.readObject();  // Devuelve mensaje de servidor o null cuando se cierra la comunicación
-	            		respuestasServidor.add( respuesta );
+	            		if (respuesta instanceof Mensaje) {
+	            			mensajesRecibidos.add( (Mensaje) respuesta );
+	            		}else {
+	            			respuestasServidor.add( respuesta );
+						}
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	            } while(!finComunicacion);
 	            System.out.println("Socket cerrado");
@@ -77,7 +85,18 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			// TODO: handle exception
 		}
 	}
-
+	
+	@Override
+	public void escuchadorMensajes() {
+		while (!finComunicacion) {
+			while(mensajesRecibidos.size() != 0) {
+				Mensaje m = mensajesRecibidos.remove(0);
+				
+			}
+			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+		}
+	}
+	
 	@Override
 	public void close() {
 		try {
@@ -249,6 +268,74 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			System.err.println("No se ha podido eliminar los datos");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void enviarMensaje(Mensaje mensaje) {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.ENVIO_MENSAJE);
+			flujoOut.writeObject(mensaje);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("No se ha podido enviar el mensaje desde el cliente al servidor");
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public ArrayList<Mensaje> mensajesPendientes() {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.MENSAJES_PENDIENTES);
+			
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido comprobar el correo deseado, timeout servidor");
+			}
+			
+			String resp = (String) respuestasServidor.remove(0);
+			if (resp.equals(ConfigServer.OK)) {
+				ArrayList<Mensaje> mensajes = (ArrayList<Mensaje>) respuestasServidor.remove(0);
+				return mensajes;
+			} else {
+				return null;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}
+
+	@Override
+	public Vector<Empresa> getEmpresas() {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.GET_EMPRESAS);
+			
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el listado de empresas, timeout servidor");
+				return new Vector<>();
+			}
+			
+			Vector<Empresa> resp = (Vector<Empresa>) respuestasServidor.remove(0);
+			return resp;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Vector<>();
+		}
+		
 	}
 
 

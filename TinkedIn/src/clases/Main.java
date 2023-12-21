@@ -345,6 +345,7 @@ public class Main {
         Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", 35, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p15);
         
+//		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
 		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", crearCurriculum( h32, h11, h3, h47, h23 ),new File("adminpng.png"),"admin");
 		servicio.crearUsuario(pAdmin);
 		

@@ -18,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -37,6 +38,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Mensaje;
 import datos.DatosFicheros;
+import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -45,6 +47,7 @@ enum tipoMensaje {ENVIO, RECEPCION};
 
 public class PnlChat extends JPanel{
 	protected Usuario usuario;
+	private ServicioPersistencia servicio;
 	private DefaultListModel<Usuario> modeloLista;
 	private JList<Usuario> listaContactos;
 	private Usuario contacto = null;
@@ -53,20 +56,12 @@ public class PnlChat extends JPanel{
 	private HashMap<Integer, MiPanelChat> mapaPaneles;
 	
 //	SOCKETS:
-	private boolean finComunicacion = false;
-	private ObjectOutputStream flujoOut;
-	
-	
-	
-	public ObjectOutputStream getFlujoOut() {
-		return flujoOut;
-	}
-
 	public JList<Usuario> getListaContactos() {
 		return listaContactos;
 	}
 	
 	public PnlChat() {
+		this.servicio = VentanaPrincipal.servicio;
 		setLayout(new BorderLayout());
 		this.usuario = PnlBotonera.usuarioAutenticado;
 		setSize(800,600);
@@ -77,7 +72,7 @@ public class PnlChat extends JPanel{
 		}
 		
 //		(new Thread() {@Override public void run() {VentanaChat.this.lanzaCliente();}}).start();
-		(new Thread(() -> {PnlChat.this.lanzaCliente();})).start();
+//		(new Thread(() -> {PnlChat.this.lanzaCliente();})).start();
 		
 		this.usuario = usuario;
 		mapaPaneles = new HashMap<>();
@@ -93,11 +88,13 @@ public class PnlChat extends JPanel{
 //		CREACION DE LA LISTA A LA PARTE IZQUIERDA DEL PANEL
 		modeloLista = new DefaultListModel<Usuario>();
 		listaContactos = new JList<Usuario>(modeloLista);
-		listaContactos.setPreferredSize(new Dimension(200,200));
+//		listaContactos.setPreferredSize(new Dimension(200,200));
+		JScrollPane spLista = new JScrollPane(listaContactos);
+		spLista.setPreferredSize(new Dimension(200,200));
 		anadirContactos();
 		
 //		Datos.getMapaActListas().put(this, listaContactos);
-		add(new JScrollPane(listaContactos),BorderLayout.WEST);
+		add(spLista,BorderLayout.WEST);
 		
 		listaContactos.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
 		    JPanel pnl = new JPanel();
@@ -153,6 +150,17 @@ public class PnlChat extends JPanel{
 		if (modeloLista.getSize()>0) {
 			layoutChats.show(pnlChatsContent, modeloLista.get(0).getId()+"");
 		}
+		
+		
+		ArrayList<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
+		if (mensajesPendientes != null) {
+			for (Mensaje m : mensajesPendientes) {
+				mapaPaneles.get(m.getFrom()).locateMessage(tipoMensaje.RECEPCION, m);
+			}
+		}
+		
+		
+		
 		setVisible(true);
 	}
 	
@@ -167,31 +175,6 @@ public class PnlChat extends JPanel{
 				}
 			}
 		}
-	}
-	
-	public void lanzaCliente() {
-		try (Socket socket = new Socket( "localhost", 4000 )) {
-    		socket.setSoTimeout( 1000 ); // Pone el timeout para que no se quede eternamente en la espera (1)
-            flujoOut = new ObjectOutputStream(socket.getOutputStream());
-            int idAenviar = (int) usuario.getId();
-            flujoOut.writeObject(idAenviar); // Mensaje que envia el ID del sender
-            System.out.println("Id enviado por cliente");
-            ObjectInputStream echoes = new ObjectInputStream(socket.getInputStream());
-            Object echo1 = echoes.readObject();
-            System.out.println(echo1);
-            do {
-            	try {
-            		Mensaje mensaje = (Mensaje) echoes.readObject();  // Devuelve mensaje de servidor o null cuando se cierra la comunicación
-            		mapaPaneles.get(mensaje.getFrom()).locateMessage(tipoMensaje.RECEPCION, mensaje);
-    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
-            }while(!finComunicacion);
-			flujoOut.writeObject( "\\#FINDECOMUNICACION" );
-        } catch (Exception e) {
-//        	e.printStackTrace();
-        	JOptionPane.showMessageDialog(null, "Recuerda lanzar el servidor");
-        	finComunicacion = true;
-//        	VentanaPrincipal.dispose();
-        }
 	}
 	
 	
@@ -243,9 +226,10 @@ public class PnlChat extends JPanel{
     				locateMessage(tipoMensaje.ENVIO, mensaje);
     				tfMensaje.setText( "" );
     				try {
-    					pc.getFlujoOut().writeObject(mensaje);
+    					VentanaPrincipal.servicio.enviarMensaje(mensaje);
+//    					pc.getFlujoOut().writeObject(mensaje);
     					
-    				} catch (IOException e1) {  // Error en writeObject
+    				} catch (Exception e1) {  // Error en writeObject
     					JOptionPane.showMessageDialog(null, "No se ha podido enviar el mensaje.");
     				}
     			}

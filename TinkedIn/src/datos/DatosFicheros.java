@@ -292,7 +292,6 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void anadirPuesto(PuestoTrabajo puesto) {
 		puesto.getEmpresaPertenece().getPuestos().add(puesto);
-		
 	}
 
 
