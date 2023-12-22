@@ -66,7 +66,7 @@ public class PnlMiPerfil  extends JPanel {
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
 			pnlSup.setBackground(new Color(202, 232, 232));
-			pnlSup.add(ImagenesAzure.crearImagen(usuarioAutenticado));
+			pnlSup.add(ImagenesAzure.crearImagen(usuarioAutenticado,100,100));
 			pnlSup.setPreferredSize(new Dimension(150,150));
 			JPanel pnlNombre = new JPanel();
 			pnlNombre.setBackground(new Color(202, 232, 232));
@@ -236,7 +236,7 @@ public class PnlMiPerfil  extends JPanel {
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
 			pnlSup.setBackground(new Color(202, 232, 232));
-			pnlSup.add(ImagenesAzure.crearImagen(empresaAutenticada));
+			pnlSup.add(ImagenesAzure.crearImagen(empresaAutenticada,100,100));
 			pnlSup.setPreferredSize(new Dimension(150,150));
 			JPanel pnlNombre = new JPanel();
 			pnlNombre.setBackground(new Color(202, 232, 232));

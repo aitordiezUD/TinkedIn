@@ -32,6 +32,7 @@ import javax.swing.SwingUtilities;
 
 import clases.Main;
 import datos.DatosFicheros;
+import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -287,6 +288,7 @@ public class PnlBotonera extends JPanel {
 		
 		PnlChat pnlChat= new PnlChat();
 		pnlChat.setBackground(Color.GREEN);
+		VentanaPrincipal.servicio.setPnlChat(pnlChat);
 		pnlFuncional.add(pnlChat,"pnlChat");
 		
 		JLabel lblMensajes = new JLabel("Mensajes");

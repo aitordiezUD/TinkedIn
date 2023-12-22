@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -48,7 +49,6 @@ public class Servidor {
 	private static Vector<HiloComunicacion> listaHilos; // Lista de hilos de comunicación  
 	private static Vector<Socket> listaSockets;
 	private static boolean finComunicacion = false;
-    private static int numTotalClientes = 0;
     private static Map<Integer, List<Mensaje>> mapaMensajasPorEnviar;
 	
 	// Atributos visuales
@@ -154,10 +154,11 @@ public class Servidor {
 			    			if (mapaDirecciones.get(mensaje.getTo()) != null) {
 			    				mapaDirecciones.get(mensaje.getTo()).writeObject(mensaje);
 			    			}else {
-			    				if (mapaMensajasPorEnviar.get(mensaje.getTo()) == null) {
-			    					mapaMensajasPorEnviar.put(mensaje.getTo(), new ArrayList<Mensaje>());
-			    				}
-			    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
+//			    				if (mapaMensajasPorEnviar.get(mensaje.getTo()) == null) {
+//			    					mapaMensajasPorEnviar.put(mensaje.getTo(), new ArrayList<Mensaje>());
+//			    				}
+//			    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
+			    				datos.anadirMensaje(mensaje);
 			    			}
 		    			}
 		    			
@@ -240,19 +241,32 @@ public class Servidor {
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.MENSAJES_PENDIENTES)) {
-		    	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
-		    	    			if(mapaMensajasPorEnviar.get(idSender) != null && mapaMensajasPorEnviar.get(idSender).size()>0) {
-		    	    				output.writeObject(ConfigServer.OK);
-		    	    				output.writeObject(mapaMensajasPorEnviar.get(idSender));
-		    	    			}else {
-		    	    				output.writeObject(ConfigServer.NO_OK);
-		    	    			}
-		    	    		}
-		    	    		output.writeObject(ConfigServer.NO_OK);
+//		    	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
+//		    	    			if(mapaMensajasPorEnviar.get(idSender) != null && mapaMensajasPorEnviar.get(idSender).size()>0) {
+//		    	    				output.writeObject(ConfigServer.OK);
+//		    	    				output.writeObject(mapaMensajasPorEnviar.get(idSender));
+//		    	    			}else {
+//		    	    				output.writeObject(ConfigServer.NO_OK);
+//		    	    			}
+//		    	    		}
+//		    	    		output.writeObject(ConfigServer.NO_OK);
+		    				TreeSet<Mensaje> set = datos.filtrarMensajes(DatosFicheros.getMapaIdUsuario().get(idSender));
+		    				output.writeObject(set);
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.GET_EMPRESAS)) {
 		    				output.writeObject(DatosFicheros.getEmpresas());
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS)) {
+		    				output.writeObject(DatosFicheros.getUsuarios());
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.ANADIR_MENSAJE)) {
+		    				Mensaje m = (Mensaje) input.readObject();
+		    				System.out.println("Servidor va a añadir: " + m);
+		    				datos.anadirMensaje(m);
+		    				System.out.println(DatosFicheros.getMensajes());
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema

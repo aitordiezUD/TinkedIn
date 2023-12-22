@@ -43,14 +43,14 @@ public class ImagenesAzure {
         blobClient.uploadFromFile(f.getAbsolutePath());
 	}
 	
-	public static JLabel crearImagen(Usuario u) {
+	public static JLabel crearImagen(Usuario u, int width, int height) {
 		InputStream is = null;
 		JLabel label = null;
         try {
             URL url = new URL(u.getFotoDePerfil());
             is = url.openStream();
-            int width = 100;
-	        int height = 100;
+//            int width = 100;
+//	        int height = 100;
             BufferedImage originalImage = ImageIO.read(is);
             
             Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -104,7 +104,7 @@ public class ImagenesAzure {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		p.add(crearImagen(DatosFicheros.getPersonas().get(0)));
+		p.add(crearImagen(DatosFicheros.getPersonas().get(0),100,100));
 		f.add(p);
 		
 		f.setVisible(true);

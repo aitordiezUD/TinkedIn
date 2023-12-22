@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Mensaje implements Serializable{
+public class Mensaje implements Serializable, Comparable{
 	private int from;
 	private int to;
 	private String mensaje;
@@ -44,6 +44,12 @@ public class Mensaje implements Serializable{
 	@Override
 	public String toString() {
 		return "[From: " + from + " To: " + to + "] " + mensaje + " (" + date + ")";
+	}
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Mensaje otro = (Mensaje) o;
+		return this.date.compareTo(otro.getDate());
 	}
 	
 	

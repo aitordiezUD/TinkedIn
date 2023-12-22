@@ -3,6 +3,7 @@ package clases;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 
@@ -365,6 +366,11 @@ public class Main {
 //		servicio.crearUsuario(pruebaPuestos);
 //		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
 //		datos.anadirUsuarioEmpresa(adminE2);
+		
+		Mensaje m1 = new Mensaje(31, 0, "Hola!", new Date());
+		servicio.anadirMensaje(m1);
+		Mensaje m2 = new Mensaje(0, 31, "Buenas!", new Date());
+		servicio.anadirMensaje(m2);
 		
 		servicio.close();
 		

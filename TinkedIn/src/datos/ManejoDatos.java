@@ -1,11 +1,22 @@
 package datos;
 
+import java.util.TreeSet;
+
+import clases.Mensaje;
 import clases.PuestoTrabajo;
 import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 
+/**
+ * @author aitor
+ *
+ */
+/**
+ * @author aitor
+ *
+ */
 public interface ManejoDatos {
 	
 
@@ -84,4 +95,14 @@ public interface ManejoDatos {
 	 */
 	public void delete();
 
+	/** Funcion para añadir un mensaje a los datos
+	 * @param mensaje
+	 */
+	public void anadirMensaje(Mensaje mensaje);
+	
+	
+	/**Función para que cuando se crean los paneles de los chats, poder obtener los mensajes donde ha interferido un Usuario (para posteriormente colocarlo en el chat)
+	 * @param usuario Usuario del cual queremos obtener sus mensajes
+	 */
+	public TreeSet<Mensaje> filtrarMensajes(Usuario usuario);
 }

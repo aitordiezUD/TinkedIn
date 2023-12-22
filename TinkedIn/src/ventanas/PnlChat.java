@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -37,13 +38,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import clases.Mensaje;
+import clases.TipoMensaje;
 import datos.DatosFicheros;
+import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 
-enum tipoMensaje {ENVIO, RECEPCION};
+
 
 public class PnlChat extends JPanel{
 	protected Usuario usuario;
@@ -53,13 +56,25 @@ public class PnlChat extends JPanel{
 	private Usuario contacto = null;
 	private JPanel pnlChatsContent;
 	private CardLayout layoutChats;
-	private HashMap<Integer, MiPanelChat> mapaPaneles;
+	protected HashMap<Integer, MiPanelChat> mapaPaneles;
 	
 //	SOCKETS:
 	public JList<Usuario> getListaContactos() {
 		return listaContactos;
 	}
 	
+	
+	
+	public HashMap<Integer, MiPanelChat> getMapaPaneles() {
+		return mapaPaneles;
+	}
+
+	public void setMapaPaneles(HashMap<Integer, MiPanelChat> mapaPaneles) {
+		this.mapaPaneles = mapaPaneles;
+	}
+
+
+
 	public PnlChat() {
 		this.servicio = VentanaPrincipal.servicio;
 		setLayout(new BorderLayout());
@@ -152,10 +167,16 @@ public class PnlChat extends JPanel{
 		}
 		
 		
-		ArrayList<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
+		TreeSet<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
 		if (mensajesPendientes != null) {
 			for (Mensaje m : mensajesPendientes) {
-				mapaPaneles.get(m.getFrom()).locateMessage(tipoMensaje.RECEPCION, m);
+				if (m.getFrom() == usuario.getId()) {
+					mapaPaneles.get(m.getTo()).locateMessage(TipoMensaje.ENVIO, m);
+				}else {
+					mapaPaneles.get(m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
+				}
+				
+				
 			}
 		}
 		
@@ -165,7 +186,8 @@ public class PnlChat extends JPanel{
 	}
 	
 	public void anadirContactos() {
-		for (Usuario u: DatosFicheros.getUsuarios()) {
+//		for (Usuario u: DatosFicheros.getUsuarios()) {
+		for (Usuario u: servicio.getUsuarios()) {
 			if (!u.equals(this.usuario)) {
 				if (!modeloLista.contains(u)) {
 				modeloLista.add(modeloLista.getSize(),u);
@@ -178,7 +200,7 @@ public class PnlChat extends JPanel{
 	}
 	
 	
-    private static class MiPanelChat extends JPanel{
+    public static class MiPanelChat extends JPanel{
     	JScrollPane spPnlChatMensajes;
     	JLabel lblContacto;
     	JPanel pnlChatMensajes;
@@ -200,9 +222,15 @@ public class PnlChat extends JPanel{
     		pnlContacto.setPreferredSize(new Dimension(50,40));
     		pnlContacto.setBackground(new Color(202, 232, 232));
     		pnlContacto.setLayout(new BorderLayout());
+//    		pnlContacto.add(ImagenesAzure.crearImagen(contacto, 20, 20),BorderLayout.WEST);
     		lblContacto = new JLabel();
-    		lblContacto.setHorizontalAlignment(SwingConstants.CENTER);
-    		pnlContacto.add(lblContacto, BorderLayout.CENTER);
+    		lblContacto.setHorizontalAlignment(SwingConstants.LEADING);
+    		JPanel p = new JPanel();
+    		p.add(ImagenesAzure.crearImagen(contacto, 30, 30));
+    		p.add(lblContacto);
+    		p.setBackground(new Color(202, 232, 232));
+//    		pnlContacto.add(lblContacto, BorderLayout.CENTER);
+    		pnlContacto.add(p, BorderLayout.CENTER);
     		add(pnlContacto, BorderLayout.NORTH);
     		
     		pnlTextField = new JPanel();
@@ -223,7 +251,7 @@ public class PnlChat extends JPanel{
     			@Override
     			public void actionPerformed(ActionEvent e) {
     				Mensaje mensaje = new Mensaje((int) usuario.getId(), (int) contacto.getId(), tfMensaje.getText(), new Date());
-    				locateMessage(tipoMensaje.ENVIO, mensaje);
+    				locateMessage(TipoMensaje.ENVIO, mensaje);
     				tfMensaje.setText( "" );
     				try {
     					VentanaPrincipal.servicio.enviarMensaje(mensaje);
@@ -245,13 +273,13 @@ public class PnlChat extends JPanel{
     		}
     	}
     	
-		private void locateMessage(tipoMensaje tipo, Mensaje mensaje) {
+		public void locateMessage(TipoMensaje tipo, Mensaje mensaje) {
 		    	
 				pnlChatMensajes.revalidate();
 				pnlChatMensajes.repaint();
 		        
 		        JPanel messagePanel = null;
-		        if (tipo.equals(tipoMensaje.ENVIO)) {
+		        if (tipo.equals(TipoMensaje.ENVIO)) {
 		        	messagePanel = sendedMessage(mensaje);
 		        }else {
 		        	messagePanel = receivedMessage(mensaje);

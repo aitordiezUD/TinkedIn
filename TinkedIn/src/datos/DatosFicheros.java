@@ -9,14 +9,18 @@ import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import clases.Mensaje;
 import clases.PuestoTrabajo;
 import hilos.CargarEmpresasDAT;
+import hilos.CargarMensajesDAT;
 import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
+import hilos.GuardarMensajesDAT;
 import hilos.GuardarPersonasDAT;
 import sistemaExplorar.Like;
 import sistemaExplorar.Match;
@@ -27,6 +31,7 @@ import ventanas.PnlRegistroPersona;
 
 public class DatosFicheros implements ManejoDatos{
 	
+	protected static Vector<Mensaje> mensajes;
 	protected static Vector<Usuario> usuarios;
 	protected static Vector<Persona> personas;
 	protected static Vector<Empresa> empresas;
@@ -58,6 +63,16 @@ public class DatosFicheros implements ManejoDatos{
 
 	public static void setPersonas(Vector<Persona> personas) {
 		DatosFicheros.personas = personas;
+	}
+
+
+	public static Vector<Mensaje> getMensajes() {
+		return mensajes;
+	}
+
+
+	public static void setMensajes(Vector<Mensaje> mensajes) {
+		DatosFicheros.mensajes = mensajes;
 	}
 
 
@@ -114,6 +129,7 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		mensajes = new Vector<>();
 		usuarios = new Vector<Usuario>();
 		personas = new Vector<Persona>();
 		empresas = new Vector<Empresa>();
@@ -139,6 +155,8 @@ public class DatosFicheros implements ManejoDatos{
 		(new Thread(r1)).start();
 		Runnable r2 = new CargarEmpresasDAT(DatosFicheros.this);
 		(new Thread(r2)).start();
+		Runnable r3 = new CargarMensajesDAT(DatosFicheros.this);
+		(new Thread(r3)).start();
 	}
 
 
@@ -160,7 +178,8 @@ public class DatosFicheros implements ManejoDatos{
 		(new Thread(r1)).start();
 		Runnable r2 = new GuardarEmpresasDAT();
 		(new Thread(r2)).start();
-		
+		Runnable r3 = new GuardarMensajesDAT();
+		(new Thread(r3)).start();
 	}
 
 
@@ -298,6 +317,7 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
+		mensajes = new Vector<>();
 		usuarios = new Vector<Usuario>();
 		personas = new Vector<Persona>();
 		empresas = new Vector<Empresa>();
@@ -318,6 +338,26 @@ public class DatosFicheros implements ManejoDatos{
             e.printStackTrace();
         }
 		Usuario.setCount(Integer.parseInt(0+""));
+	}
+
+
+	@Override
+	public void anadirMensaje(Mensaje mensaje) {
+		// TODO Auto-generated method stub
+		mensajes.add(mensaje);
+	}
+
+
+	@Override
+	public TreeSet<Mensaje> filtrarMensajes(Usuario usuario) {
+		// TODO Auto-generated method stub
+		TreeSet<Mensaje> set = new TreeSet<>();
+		for (Mensaje m : mensajes) {
+			if (m.getFrom() == usuario.getId() || m.getTo() == usuario.getId()) {
+				set.add(m);
+			}
+		}
+		return set;
 	}
 	
 	
