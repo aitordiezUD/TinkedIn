@@ -104,7 +104,6 @@ public class VentanaPrincipal extends JFrame {
 		layoutVentana.show(pnlContenido, "pnlLogIn");
 		
 		
-		
 		setContentPane(pnlContenido);
 
 		addWindowListener(new WindowAdapter() {

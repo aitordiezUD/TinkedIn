@@ -7,6 +7,7 @@ import java.util.Vector;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import usuarios.Empresa;
+import usuarios.Persona;
 import usuarios.Usuario;
 import ventanas.PnlChat;
 
@@ -43,9 +44,10 @@ public interface ServicioPersistencia {
 	
 	public Vector<Empresa> getEmpresas();
 	
+	public Vector<Persona> getPersonas();
+	
 	public Vector<Usuario> getUsuarios();
 	
 	public void anadirMensaje(Mensaje m);
-	
 	
 }

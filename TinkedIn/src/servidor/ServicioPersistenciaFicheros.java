@@ -16,6 +16,7 @@ import clases.Mensaje;
 import clases.PuestoTrabajo;
 import clases.TipoMensaje;
 import usuarios.Empresa;
+import usuarios.Persona;
 import usuarios.Usuario;
 import ventanas.PnlChat;
 
@@ -402,6 +403,31 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	@Override
+	public Vector<Persona> getPersonas() {
+		try {
+			flujoOut.writeObject( ConfigServer.GET_PERSONAS );
+			
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el listado de empresas, timeout servidor");
+				return new Vector<>();
+			}
+			
+			Vector<Persona> resp = (Vector<Persona>) respuestasServidor.remove(0);
+			return resp;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new Vector<>();
+		}
+		
 	}
 
 

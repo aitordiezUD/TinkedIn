@@ -268,6 +268,10 @@ public class Servidor {
 		    				datos.anadirMensaje(m);
 		    				System.out.println(DatosFicheros.getMensajes());
 		    			}
+		    				
+		    			if (objRecibido.equals(ConfigServer.GET_PERSONAS)) {
+		    				output.writeObject(DatosFicheros.getPersonas());
+		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	    		}
