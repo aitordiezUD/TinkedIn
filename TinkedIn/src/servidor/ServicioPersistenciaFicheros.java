@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import clases.Mensaje;
 import clases.PuestoTrabajo;
+import clases.TipoMensaje;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -31,8 +33,21 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
 	
-	public ServicioPersistenciaFicheros() {
+	private PnlChat pnlChat = null;
+	
+	
+	
+	public PnlChat getPnlChat() {
+		return pnlChat;
+	}
+	
+	@Override
+	public void setPnlChat(PnlChat pnlChat) {
+		this.pnlChat = pnlChat;
+	}
 
+	public ServicioPersistenciaFicheros() {
+		
 	}
 	
 	private class HiloComunicacionServidor extends Thread{
@@ -67,6 +82,16 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		}
 	}
 	
+//	private class HiloEscuchadorMensajes extends Thread{
+//		@Override
+//		public void run() {
+//			// TODO Auto-generated method stub
+//			while (!finComunicacion) {
+//				
+//			}
+//		}
+//	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -74,6 +99,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			hilo = new HiloComunicacionServidor( ConfigServer.HOST, ConfigServer.PUERTO );
 //			hilo.setDaemon( true );
 			hilo.start();
+			(new Thread( () ->  escuchadorMensajes())).start();
 			long time = System.currentTimeMillis();
 			while (flujoOut==null && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
 				Thread.sleep( 100 );
@@ -89,13 +115,15 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	
 	@Override
 	public void escuchadorMensajes() {
+		System.out.println("Escuchador de mensajes corriendo");
 		while (!finComunicacion) {
 			while(mensajesRecibidos.size() != 0) {
 				Mensaje m = mensajesRecibidos.remove(0);
-				
+				this.pnlChat.getMapaPaneles().get(m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 		}
+		System.out.println("Escuchador de mensajes dead");
 	}
 	
 	@Override
@@ -286,7 +314,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	}
 
 	@Override
-	public ArrayList<Mensaje> mensajesPendientes() {
+	public TreeSet<Mensaje> mensajesPendientes() {
 		// TODO Auto-generated method stub
 		try {
 			flujoOut.writeObject(ConfigServer.MENSAJES_PENDIENTES);
@@ -299,13 +327,16 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 				System.err.println("No se ha podido comprobar el correo deseado, timeout servidor");
 			}
 			
-			String resp = (String) respuestasServidor.remove(0);
-			if (resp.equals(ConfigServer.OK)) {
-				ArrayList<Mensaje> mensajes = (ArrayList<Mensaje>) respuestasServidor.remove(0);
-				return mensajes;
-			} else {
-				return null;
-			}
+			TreeSet<Mensaje> set = (TreeSet<Mensaje>) respuestasServidor.remove(0);
+			return set;
+			
+//			String resp = (String) respuestasServidor.remove(0);
+//			if (resp.equals(ConfigServer.OK)) {
+//				TreeSet<Mensaje> mensajes = (TreeSet<Mensaje>) respuestasServidor.remove(0);
+//				return mensajes;
+//			} else {
+//				return null;
+//			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -339,6 +370,41 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		
 	}
 
+	@Override
+	public Vector<Usuario> getUsuarios() {
+		// TODO Auto-generated method stub
+				try {
+					flujoOut.writeObject(ConfigServer.GET_USUARIOS);
+					
+					long time = System.currentTimeMillis();
+					while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+						Thread.sleep( 100 );
+					}
+					if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+						System.err.println("No se ha podido obtener el listado de usuarios, timeout servidor");
+						return new Vector<>();
+					}
+					
+					Vector<Usuario> resp = (Vector<Usuario>) respuestasServidor.remove(0);
+					return resp;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return new Vector<>();
+				}
+	}
+
+	@Override
+	public void anadirMensaje(Mensaje m) {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.ANADIR_MENSAJE);
+			flujoOut.writeObject(m);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 	@Override
 	public Vector<Persona> getPersonas() {
 		try {

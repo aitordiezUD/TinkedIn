@@ -49,7 +49,17 @@ public class ConfigServer {
 //		Coloca todos los mensajes enviados al usuario mientras este estaba offline
 		static String MENSAJES_PENDIENTES = "mensajes_pendientes";
 		
+//		Obtiene todas las empresas
 		static String GET_EMPRESAS = "get_empresas";
 		
+//		Obteiene todas las personas
 		static String GET_PERSONAS = "get_personas";
+		
+//		Obtiene todos los usuarios
+		static String GET_USUARIOS = "get_usuarios";
+		
+//		Añade un mensaje a los datos - va seguido de un mensaje
+		static String ANADIR_MENSAJE = "anadir_mensaje";
+		
+
 }

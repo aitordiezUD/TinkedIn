@@ -18,7 +18,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -424,9 +428,18 @@ public class PnlRegistroPersona extends JPanel {
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
 		        }else {
+		        	Date fecha;
+					try {
+						fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						fecha = null;
+						e1.printStackTrace();
+					}
+		        	
 		        	ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
 					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
-							 20, tfCorreo.getText(), tfTelefono.getText(),
+							 fecha, tfCorreo.getText(), tfTelefono.getText(),
 							habilidades,selectedFile, contrasena1);
 //					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
 					VentanaPrincipal.servicio.crearUsuario(p);

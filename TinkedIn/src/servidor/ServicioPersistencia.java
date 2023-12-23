@@ -1,6 +1,7 @@
 package servidor;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import clases.Mensaje;
@@ -8,10 +9,14 @@ import clases.PuestoTrabajo;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
+import ventanas.PnlChat;
 
 public interface ServicioPersistencia {
 	
 	public void init();
+	
+	
+	public void setPnlChat(PnlChat pnlChat);
 	
 	public void delete();
 	
@@ -33,12 +38,16 @@ public interface ServicioPersistencia {
 	
 	public void enviarMensaje(Mensaje mensaje);
 	
-	public ArrayList<Mensaje> mensajesPendientes();
+	public TreeSet<Mensaje> mensajesPendientes();
 	
 	public void escuchadorMensajes();
 	
 	public Vector<Empresa> getEmpresas();
 	
 	public Vector<Persona> getPersonas();
+	
+	public Vector<Usuario> getUsuarios();
+	
+	public void anadirMensaje(Mensaje m);
 	
 }
