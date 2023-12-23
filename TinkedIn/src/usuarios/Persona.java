@@ -3,6 +3,7 @@ package usuarios;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -18,7 +19,7 @@ public class Persona extends Usuario implements Serializable{
 	/**
 	 * 
 	 */
-	private int edad;
+	private Date nacimiento;
 	private String correoElectronico;
 	private String telefono;
 	private String ubicacion;
@@ -31,11 +32,11 @@ public class Persona extends Usuario implements Serializable{
 	//Getters and setters:
 	
 	
-	public int getEdad() {
-		return edad;
+	public Date getEdad() {
+		return nacimiento;
 	}
-	public void setEdad(int edad) {
-		this.edad = edad;
+	public void setEdad(Date edad) {
+		this.nacimiento = edad;
 	}
 
 	public ArrayList<Habilidad> getCurriculum() {
@@ -90,12 +91,12 @@ public class Persona extends Usuario implements Serializable{
 	//Constructores: 
 	
 	
-	public Persona(String nombre, String apellidos,String ubicacion, int edad,
-			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum, @SuppressWarnings("exports") File fotoDePerfil, String password) {
+	public Persona(String nombre, String apellidos,String ubicacion, Date nacimiento,
+			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum,File fotoDePerfil, String password) {
 		super(fotoDePerfil,password);
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.edad = edad;
+		this.nacimiento = nacimiento;
 		this.ubicacion = ubicacion;
 		this.correoElectronico = correoElectronico;
 		this.telefono = telefeno;
@@ -108,7 +109,7 @@ public class Persona extends Usuario implements Serializable{
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellidos();
 		this.ubicacion = p.getUbicacion();
-		this.edad = p.getEdad();
+		this.nacimiento = p.getEdad();
 		this.correoElectronico = p.getCorreoElectronico();
 		this.telefono = p.getTelefono();
 		this.curriculum = p.getCurriculum();

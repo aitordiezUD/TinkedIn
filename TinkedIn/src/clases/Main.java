@@ -1,6 +1,8 @@
 package clases;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -315,39 +317,50 @@ public class Main {
                 new ArrayList<>(Arrays.asList(h30, h13)), adminE);
         servicio.anadirPuesto(puestoAdmin);
         
-        Persona p1 = new Persona("Juan", "Gómez", "Madrid", 28, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        
+    	Date fecha;
+		try {
+			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+		} catch (ParseException exc) {
+			// TODO Auto-generated catch block
+			fecha = null;
+			exc.printStackTrace();
+		}
+        
+        
+        Persona p1 = new Persona("Juan", "Gómez", "Madrid", fecha, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p1);
-        Persona p2 = new Persona("María", "López", "Barcelona", 35, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p2 = new Persona("María", "López", "Barcelona", fecha, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p2);
-        Persona p3 = new Persona("Carlos", "Martínez", "Valencia", 22, "carlos@gmail.com", "567890123", crearCurriculum(h15, h18, h33, h48, h63), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p3 = new Persona("Carlos", "Martínez", "Valencia", fecha, "carlos@gmail.com", "567890123", crearCurriculum(h15, h18, h33, h48, h63), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p3);
-        Persona p4 = new Persona("Ana", "García", "Sevilla", 30, "ana@gmail.com", "456789012", crearCurriculum(h3, h19, h34, h49, h64), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p4 = new Persona("Ana", "García", "Sevilla", fecha, "ana@gmail.com", "456789012", crearCurriculum(h3, h19, h34, h49, h64), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p4);
-        Persona p5 = new Persona("Javier", "Fernández", "Zaragoza", 25, "javier@gmail.com", "234567890", crearCurriculum(h4, h20, h35, h50, h65), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p5 = new Persona("Javier", "Fernández", "Zaragoza", fecha, "javier@gmail.com", "234567890", crearCurriculum(h4, h20, h35, h50, h65), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p5);
-        Persona p6 = new Persona("Sara", "Ruiz", "Málaga", 28, "sara@gmail.com", "890123456", crearCurriculum(h5, h21, h36, h51, h66), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p6 = new Persona("Sara", "Ruiz", "Málaga", fecha, "sara@gmail.com", "890123456", crearCurriculum(h5, h21, h36, h51, h66), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p6);
-        Persona p7 = new Persona("Pedro", "Sánchez", "Murcia", 32, "pedro@gmail.com", "345678901", crearCurriculum(h6, h22, h37, h52, h67), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p7 = new Persona("Pedro", "Sánchez", "Murcia", fecha, "pedro@gmail.com", "345678901", crearCurriculum(h6, h22, h37, h52, h67), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p7);
-        Persona p8 = new Persona("Elena", "Jiménez", "Palma de Mallorca", 26, "elena@gmail.com", "012345678", crearCurriculum(h7, h23, h38, h53, h68), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p8 = new Persona("Elena", "Jiménez", "Palma de Mallorca", fecha, "elena@gmail.com", "012345678", crearCurriculum(h7, h23, h38, h53, h68), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p8);
-        Persona p9 = new Persona("Francisco", "Rodríguez", "Las Palmas de Gran Canaria", 40, "francisco@gmail.com", "678901234", crearCurriculum(h8, h24, h39, h54, h69), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p9 = new Persona("Francisco", "Rodríguez", "Las Palmas de Gran Canaria", fecha, "francisco@gmail.com", "678901234", crearCurriculum(h8, h24, h39, h54, h69), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p9);
-        Persona p10 = new Persona("Laura", "Gutiérrez", "Valladolid", 27, "laura@gmail.com", "567827123", crearCurriculum(h9, h25, h40, h55, h70), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p10 = new Persona("Laura", "Gutiérrez", "Valladolid", fecha, "laura@gmail.com", "567827123", crearCurriculum(h9, h25, h40, h55, h70), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p10);
-        Persona p11 = new Persona("Alejandro", "Hernández", "Pamplona", 29, "alejandro@gmail.com", "123456119", crearCurriculum(h10, h26, h41, h56, h71), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p11 = new Persona("Alejandro", "Hernández", "Pamplona", fecha, "alejandro@gmail.com", "123456119", crearCurriculum(h10, h26, h41, h56, h71), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p11);
-        Persona p12 = new Persona("Isabel", "Díaz", "Toledo", 33, "isabel@gmail.com", "987604321", crearCurriculum(h11, h27, h42, h57, h72), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p12 = new Persona("Isabel", "Díaz", "Toledo", fecha, "isabel@gmail.com", "987604321", crearCurriculum(h11, h27, h42, h57, h72), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p12);
-        Persona p13 = new Persona("Víctor", "Moreno", "Santander", 31, "victor@gmail.com", "234529890", crearCurriculum(h12, h28, h43, h58, h73), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p13 = new Persona("Víctor", "Moreno", "Santander", fecha, "victor@gmail.com", "234529890", crearCurriculum(h12, h28, h43, h58, h73), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p13);
-        Persona p14 = new Persona("Carmen", "Álvarez", "Logroño", 24, "carmen@gmail.com", "890121056", crearCurriculum(h13, h29, h44, h59, h74), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p14 = new Persona("Carmen", "Álvarez", "Logroño", fecha, "carmen@gmail.com", "890121056", crearCurriculum(h13, h29, h44, h59, h74), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p14);
-        Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", 35, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+        Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", fecha, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
         servicio.crearUsuario(p15);
         
 //		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
-		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin");
+		Persona pAdmin = new Persona("admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin");
 		servicio.crearUsuario(pAdmin);
 		
 		
