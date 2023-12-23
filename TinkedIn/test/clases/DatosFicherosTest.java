@@ -54,8 +54,8 @@ public class DatosFicherosTest {
 		ubicaciones.add("Madrid");
 		ArrayList<PuestoTrabajo> puestos = null;
 		
-		e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
-				ubicaciones, puestos, null, "psswd") ;
+//		e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
+//				ubicaciones, puestos, null, "psswd") ;
 		
 		datos = new DatosFicheros();
 		DatosFicheros.setTest(true);

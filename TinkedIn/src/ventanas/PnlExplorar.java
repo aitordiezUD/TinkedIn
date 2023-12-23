@@ -78,6 +78,7 @@ public class PnlExplorar extends JPanel {
 	private JLabel lblGrafExpX; 
 	private JPanel pnlLike;
 	private JPanel pnlPass;
+	private PuestoTrabajo puestoElegido;
 	protected  JLabel lblNombreUsu;
 	protected JLabel lblNomEInfo;
 	protected JLabel lblDescrPInfo;
@@ -85,6 +86,7 @@ public class PnlExplorar extends JPanel {
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	protected static Iterator<PuestoTrabajo> iteradorPuestos;
+	protected static Iterator<Persona> iteradorPersonas;
 	
 	public PnlExplorar( Usuario usuarioAutenticado ) {
 		setLayout(new BorderLayout());
@@ -156,12 +158,7 @@ public class PnlExplorar extends JPanel {
 	        pnlPass = new JPanel();
 	        pnlPass.setLayout(new BorderLayout());
 	        botonX btnX = new botonX();
-	        btnX.addActionListener( (ActionListener) new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mostrarSiguientePuesto();
-				}});
+	        
 	        pnlPass.add(btnX, BorderLayout.CENTER);
 	        pnlBotonera.add(pnlPass);
 	        
@@ -210,6 +207,9 @@ public class PnlExplorar extends JPanel {
 	        if( usuarioAutenticado instanceof Empresa ) {
 	        	
 	        	Empresa e = (Empresa) usuarioAutenticado;
+	        	mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
+	      
+	        	System.out.println(mapaPersonasPorPuesto.get(1));
 	        	JPanel pnlLista = new JPanel();
 		        pnlLista.setLayout( new BorderLayout() );
 		        pnlLista.setBackground( new Color( 129, 186, 207 ) );
@@ -224,6 +224,24 @@ public class PnlExplorar extends JPanel {
 				
 				listaPuestos.setModel(modeloListaPt);
 				listaPuestos.setBackground(new Color(202, 232, 232));
+				
+				
+				listaPuestos.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+					
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						puestoElegido = listaPuestos.getSelectedValue();
+						
+					}
+				});
+				
+				btnX.addActionListener( (ActionListener) new ActionListener() {
+
+    				@Override
+    				public void actionPerformed(ActionEvent e) {
+    					mostrarSiguientePersona(puestoElegido);
+    				}});
+				
 				JScrollPane spLista = new JScrollPane(listaPuestos);
 		 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
 		 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
@@ -275,7 +293,7 @@ public class PnlExplorar extends JPanel {
 				listaPuestos.addMouseListener(new MouseAdapter() {
 		            @Override
 		            public void mouseExited(MouseEvent e) {
-		                listaPuestos.clearSelection();
+		            	listaPuestos.clearSelection();
 		            }		            
 		        });
 	
@@ -293,6 +311,14 @@ public class PnlExplorar extends JPanel {
 	        	
 	        	
 	        	if(usuarioAutenticado instanceof Persona) {
+	        		
+	        		btnX.addActionListener( (ActionListener) new ActionListener() {
+
+	    				@Override
+	    				public void actionPerformed(ActionEvent e) {
+	    					mostrarSiguientePuesto();
+	    				}});
+	        		
 	        		puestosCandidatos = CrearTreeSetPuestos();
 	        		iteradorPuestos = puestosCandidatos.iterator();
 	        		System.out.println(puestosCandidatos);
@@ -414,8 +440,10 @@ public class PnlExplorar extends JPanel {
 	
 	public HashMap<PuestoTrabajo, TreeSet<Persona>> crearMapaPersonasPorPuesto(){
 		HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto = new HashMap<PuestoTrabajo, TreeSet<Persona>>();
-		//Terminar metodo para crear el mapa.
-		
+		Empresa usuarioE = (Empresa) usuarioAutenticado;
+		for(PuestoTrabajo pt : usuarioE.getPuestos()) {
+			mapaPersonasPorPuesto.put(pt, crearTreeSetPersonas(pt));
+		}
 		return mapaPersonasPorPuesto;
 	}
 	
@@ -428,6 +456,24 @@ public class PnlExplorar extends JPanel {
 			//Cambiar
 		}else{
 			System.out.println("No quedan puestos. ");;
+		}
+	}
+	
+	private void mostrarSiguientePersona( PuestoTrabajo puestoElegido ) {
+		if(modeloListaPt.getSize() > 0) {
+			PuestoTrabajo puestoActual = puestoElegido;
+			TreeSet<Persona> personasCandidatas = mapaPersonasPorPuesto.get(puestoActual);
+			iteradorPersonas = personasCandidatas.iterator();
+			
+			
+			if (iteradorPuestos.hasNext()) {
+				Persona personaActual = iteradorPersonas.next();
+				lblNombreUsu.setText( personaActual.getNombre() );
+				//Añadir contenido a visualizar en el panel para explorar
+			}else{
+				System.out.println("No quedan puestos. ");;
+			}
+			
 		}
 	}
 	
