@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
@@ -62,12 +64,17 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public Usuario getUsuarioFromCorreo(String correo) {
 		// TODO Auto-generated method stub
-		final String buscarUsuarios = "SELECT * FROM USUARIO WHERE 'CORREO' = ?";
-		final String buscarPersona = "SELECT * FROM PERSONA WHERE 'ID' = ?";
+		final String buscarUsuarios = "SELECT * FROM USUARIO WHERE CORREO = ?";
+		final String buscarPersona = "SELECT * FROM PERSONA WHERE ID = ?";
+		final String buscarHabilidadesPersona = "SELECT * FROM HABILIDAD WHERE ID_PERSONA = ?";
+		final String buscarEmpresa = "SELECT * FROM EMPRESA WHERE ID = ?";
+		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
+		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
 		int id;
 		String fotoDePerfil;
 		String password;
 		String tipo;
+		String telefono;
 		
 		try {
 			prepStatement = connection.prepareStatement(buscarUsuarios);
@@ -78,7 +85,7 @@ public class DatosBD implements ManejoDatos {
 				fotoDePerfil = rs.getString(2);
 				password = rs.getString(3);
 				tipo = rs.getString(4);
-				
+				telefono = rs.getString(6);
 			}else {
 				rs.close();
 				prepStatement.close();
@@ -87,8 +94,75 @@ public class DatosBD implements ManejoDatos {
 			rs.close();
 			prepStatement.close();
 			if (tipo.equals("PERSONA")) {
+				String nombre = null;
+				String apellidos = null;
+				String ubicacion = null;
+				Date nacimiento = null;
+				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
 				prepStatement = connection.prepareStatement(buscarPersona);
-				prepStatement.setId();
+				prepStatement.setInt(1,id);
+				ResultSet rsPersona = prepStatement.executeQuery();
+				if (rsPersona.next()) {
+					nombre = rsPersona.getString(2);
+					apellidos = rsPersona.getString(3);
+					nacimiento =  rsPersona.getDate(4);
+					ubicacion = rsPersona.getString(5);
+				}
+				rsPersona.close();
+				prepStatement.close();
+//				OBTENCION DEL ARRAYLIST DE HABILIDADES
+				prepStatement = connection.prepareStatement(buscarHabilidadesPersona);
+				prepStatement.setInt(1, id);
+				ResultSet rsHabilidadesPersona = prepStatement.executeQuery();
+				while (rsHabilidadesPersona.next()) {
+					Habilidad h = new Habilidad(rsHabilidadesPersona.getString(2),rsHabilidadesPersona.getString(3),rsHabilidadesPersona.getInt(4),
+							rsHabilidadesPersona.getString(5));
+					habilidades.add(h);
+				}
+				rsHabilidadesPersona.close();
+				prepStatement.close();
+				return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
+			}else {
+//				OBTENER EMPRESA
+				String nombre = null;
+				String descripcion = null;
+				ArrayList<String> ubicaciones = new ArrayList<String>();
+				ArrayList<PuestoTrabajo> puestos = new ArrayList<PuestoTrabajo>();
+				prepStatement = connection.prepareStatement(buscarEmpresa);
+				prepStatement.setInt(1, id);
+				ResultSet rsEmpresa = prepStatement.executeQuery();
+				if (rsEmpresa.next()) {
+					nombre = rsEmpresa.getString(2);
+					descripcion = rsEmpresa.getString(3);
+				}
+				rsEmpresa.close();
+				prepStatement.close();
+//				OBTENER PUESTOS
+				int idPuesto = -1;
+				int idEmpresa = id;
+				String nombrePuesto = null;
+				String descripcionPuesto = null;
+				
+				prepStatement = connection.prepareStatement(buscarPuesto);
+				prepStatement.setInt(1, idEmpresa);
+				ResultSet rsPuestos = prepStatement.executeQuery();
+				while (rsPuestos.next()) {
+					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
+					idPuesto = rsPuestos.getInt(1);
+					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
+					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
+					busquedaHabilidad.setInt(1, idPuesto);
+					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
+					while (rsHabilidadesPuestos.next()) {
+						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
+								rsHabilidadesPuestos.getString(5));
+						habilidadesPuesto.add(h);
+					}
+					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
+					puestos.add(p);
+				}
+				return new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos, fotoDePerfil, password);
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -253,8 +327,11 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub
 		final String anadirUsuario = "INSERT INTO USUARIO(TIPO) VALUES (?)";
 		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ?, CORREO = ?, TELEFONO = ? WHERE ID = ?";
-		final String anadirPersona = "INSERT INTO PERSONA VALUES(?, ?, ?, ?, ?, ?, ?)";
+		final String anadirPersona = "INSERT INTO PERSONA VALUES(?, ?, ?, ?, ?)";
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO, NOMBRE, DESTREZA, DESCRIPCION, ID_PERSONA) VALUES(?,?,?,?,?)";
+		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE 'NOMBRE' = ?";
+		final String anadirUbicacion = "INSERT INTO UBICACION_EMPRESA VALUES(?,?)";
+		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
 		try {
 			connection.setAutoCommit(false);
@@ -276,6 +353,9 @@ public class DatosBD implements ManejoDatos {
 			String rutaImagen = ImagenesAzure.subirImagenBD(fotoDePerfil, id+".jpg");
 			prepStatement.setString(1, rutaImagen);
 			prepStatement.setString(2, password);
+			prepStatement.setString(3, correoElectronico);
+			prepStatement.setString(4, telefeno);
+			prepStatement.setInt(5, id);
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE USUARIO EN LA TABLA PERSONA
@@ -283,10 +363,31 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(1, id); //ID
 			prepStatement.setString(2, nombre); //NOMBRE
 			prepStatement.setString(3, apellidos); //APELLIDOS
-			prepStatement.setDate(4, (java.sql.Date) nacimiento); //NACIMIENTO
-			prepStatement.setString(5, correoElectronico); //CORREO
-			prepStatement.setString(6, telefeno); //TELEFONO
-			prepStatement.setString(7, ubicacion); //UBICACION
+			prepStatement.setString(4, nacimiento.toString()); //NACIMIENTO
+
+			
+			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
+			int idUbi;
+			psUbicacion.setString(1, ubicacion);
+			ResultSet rs = psUbicacion.executeQuery();
+			if(rs.next()) {
+				idUbi = rs.getInt(1);
+				rs.close();
+			}else {
+				rs.close();
+				psUbicacion = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
+				psUbicacion.setString(1, ubicacion);
+				psUbicacion.executeUpdate();
+				ResultSet generatedKeysUbis = psUbicacion.getGeneratedKeys();
+				if (generatedKeysUbis.next()) {
+					idUbi = generatedKeysUbis.getInt(1);
+					generatedKeysUbis.close();
+				}else {
+					generatedKeysUbis.close();
+					return null;
+				}
+			}
+			prepStatement.setInt(5, idUbi); //UBICACION
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE HABILIDADES EN LA TABLA HABILIDAD
@@ -304,8 +405,9 @@ public class DatosBD implements ManejoDatos {
 			return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correoElectronico, telefeno, habilidades, rutaImagen, password);
 		} catch (Exception e) {
 			try {
-				connection.setAutoCommit(true);
 				connection.rollback();
+				connection.setAutoCommit(true);
+				
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -319,8 +421,8 @@ public class DatosBD implements ManejoDatos {
 			ArrayList<String> ubicaciones, File fotoDePerfil, String password) {
 		// TODO Auto-generated method stub
 		final String anadirUsuario = "INSERT INTO USUARIO(TIPO) VALUES (?)";
-		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ? WHERE ID = ?";
-		final String anadirEmpresa = "INSERT INTO EMPRESA VALUES(?, ?, ?, ?, ?)";
+		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ?, CORREO = ?, TELEFONO = ? WHERE ID = ?";
+		final String anadirEmpresa = "INSERT INTO EMPRESA VALUES(?, ?, ?)";
 		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE 'NOMBRE' = ?";
 		final String anadirUbicacion = "INSERT INTO UBICACION_EMPRESA VALUES(?,?)";
 		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
@@ -346,15 +448,15 @@ public class DatosBD implements ManejoDatos {
 			String rutaImagen = ImagenesAzure.subirImagenBD(fotoDePerfil, id+".jpg");
 			prepStatement.setString(1, rutaImagen);
 			prepStatement.setString(2, password);
+			prepStatement.setString(3, correo);
+			prepStatement.setString(4, telefono);
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE USUARIO EN LA TABLA EMPRESA
 			prepStatement = connection.prepareStatement(anadirEmpresa);
 			prepStatement.setInt(1, id); //Id
 			prepStatement.setString(2, nombre); //NOMBRE
-			prepStatement.setString(3, telefono); //TELEFONO
-			prepStatement.setString(4, correo); //CORREO
-			prepStatement.setString(5, descripcion); //DESCRIPCION
+			prepStatement.setString(3, descripcion); //DESCRIPCION
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE UBICACIONES EN LA TABLA UBICACION_EMPRESA
@@ -366,6 +468,7 @@ public class DatosBD implements ManejoDatos {
 					idUbi = rs.getInt(1);
 					rs.close();
 				}else {
+					rs.close();
 					prepStatement = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
 					prepStatement.setString(1, u);
 					prepStatement.executeUpdate();
@@ -374,6 +477,7 @@ public class DatosBD implements ManejoDatos {
 						idUbi = generatedKeysUbis.getInt(1);
 						generatedKeysUbis.close();
 					}else {
+						generatedKeysUbis.close();
 						return null;
 					}
 				}
@@ -396,6 +500,22 @@ public class DatosBD implements ManejoDatos {
 		    e.printStackTrace();
 		    return null;
 		}
+	}
+	
+	public static void main(String[] args) {
+		DatosBD datos = new DatosBD();
+		datos.init();
+		Date fecha;
+		try {
+			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+		} catch (ParseException exc) {
+			// TODO Auto-generated catch block
+			fecha = null;
+			exc.printStackTrace();
+		}
+		Persona p = datos.crearUsuarioPersona("admin", "admin", "Alava",fecha ,"admin","admin", new ArrayList<Habilidad>(),new File("adminpng.png"),"admin");
+		System.out.println(p);
+		datos.fin();
 	}
 
 }

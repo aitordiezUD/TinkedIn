@@ -362,7 +362,7 @@ public class Main {
         
 //		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
 		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
-		Persona pAdmin = (Persona) servicio.crearUsuario(atribsAdmin);
+		Persona pAdmin = (Persona) servicio.crearUsuario(atribsPAdmin);
 		
 		
 //		ArrayList<PuestoTrabajo> puestosEjemplo = new ArrayList<>();
