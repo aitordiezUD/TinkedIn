@@ -443,11 +443,15 @@ public class PnlRegistroEmpresa extends JPanel {
 		        	ArrayList<String> ubis = crearArrayListUbicaciones();
 //		        	ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 		        	
-		        	Empresa emp = new Empresa(tfNombre.getText(), tfTelefono.getText(),
+//		        	Empresa emp = new Empresa(tfNombre.getText(), tfTelefono.getText(),
+//		        			tfCorreo.getText(), tADescripcion.getText(),
+//		        			ubis, selectedFile, contrasena1);
+		        	
+		        	Object[] atribsEmp = {tfNombre.getText(), tfTelefono.getText(),
 		        			tfCorreo.getText(), tADescripcion.getText(),
-		        			ubis, selectedFile, contrasena1);
+		        			ubis, selectedFile, contrasena1};
 //		        	VentanaPrincipal.getDatos().anadirUsuarioEmpresa(emp);
-		        	VentanaPrincipal.servicio.crearUsuario(emp);
+		        	VentanaPrincipal.servicio.crearUsuario(atribsEmp);
 		        	layoutVentana.show(pnlContenido, "pnlLogIn");
 		        	
 		        }

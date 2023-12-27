@@ -121,7 +121,7 @@ public class PnlMiPerfil  extends JPanel {
 			p.setPreferredSize(new Dimension(20,50));
 			pnlDatosContacto.add(p,BorderLayout.EAST);
 			
-			JLabel lblCorreoE = new JLabel("Correo Electrónico: " + personaAutenticada.getCorreoElectronico());
+			JLabel lblCorreoE = new JLabel("Correo Electrónico: " + personaAutenticada.getCorreo());
 			p = new JPanel(new BorderLayout());
 			p.setPreferredSize(new Dimension(1000,40));
 			p.setMaximumSize(new Dimension(1000,40));
@@ -291,7 +291,7 @@ public class PnlMiPerfil  extends JPanel {
 			p.setPreferredSize(new Dimension(20,50));
 			pnlDatosContacto.add(p,BorderLayout.EAST);
 			
-			JLabel lblCorreoE = new JLabel("Correo Electrónico: " + empresaAutenticada.getCorreoElectronico());
+			JLabel lblCorreoE = new JLabel("Correo Electrónico: " + empresaAutenticada.getCorreo());
 			p = new JPanel(new BorderLayout());
 			p.setPreferredSize(new Dimension(1000,40));
 			p.setMaximumSize(new Dimension(1000,40));

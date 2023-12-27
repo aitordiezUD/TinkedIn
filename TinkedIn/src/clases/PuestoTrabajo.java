@@ -8,7 +8,7 @@ import usuarios.Empresa;
 public class PuestoTrabajo implements Serializable, Comparable{
 
 	private static final long serialVersionUID = 1L;
-	private Empresa empresa;
+	private long idEmpresa;
 	private String nombre;
 	private String descripcion;
 	private ArrayList<Habilidad> habilidadesReq;
@@ -31,19 +31,29 @@ public class PuestoTrabajo implements Serializable, Comparable{
 	public void setHabilidadesReq(ArrayList<Habilidad> habilidadesReq) {
 		this.habilidadesReq = habilidadesReq;
 	}
-	public Empresa getEmpresaPertenece() {
-		return empresa;
+	
+	public long getIdEmpresa() {
+		return idEmpresa;
 	}
-	public void setEmpresaPertenece(Empresa empresaPertenece) {
-		this.empresa = empresaPertenece;
+	public void setIdEmpresa(long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
-	public PuestoTrabajo(String nombre, String descripcion, ArrayList<Habilidad> habilidadesReq, Empresa empresaPertence) {
+	public PuestoTrabajo(String nombre, String descripcion, ArrayList<Habilidad> habilidadesReq, Empresa empresa) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.habilidadesReq = habilidadesReq;
-		this.empresa = empresaPertence;
+		this.idEmpresa = empresa.getId();
 	}
+	
+	public PuestoTrabajo(String nombre, String descripcion, ArrayList<Habilidad> habilidadesReq, Long idEmpresa) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.habilidadesReq = habilidadesReq;
+		this.idEmpresa = idEmpresa;
+	}
+	
 	@Override
 	public String toString() {
 		return nombre;

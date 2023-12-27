@@ -28,7 +28,7 @@ public interface ServicioPersistencia {
 	
 	public void editarUsuario(Usuario usuario);
 	
-	public void crearUsuario(Usuario u);
+	public Usuario crearUsuario(Object[] atribs);
 	
 	public Boolean contieneCorreo(String correo);
 	

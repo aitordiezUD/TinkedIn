@@ -6,20 +6,20 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Mensaje implements Serializable, Comparable{
-	private int from;
-	private int to;
+	private long from;
+	private long to;
 	private String mensaje;
 	private Date date;
-	public int getFrom() {
+	public long getFrom() {
 		return from;
 	}
-	public void setFrom(int from) {
+	public void setFrom(long from) {
 		this.from = from;
 	}
-	public int getTo() {
+	public long getTo() {
 		return to;
 	}
-	public void setTo(int to) {
+	public void setTo(long to) {
 		this.to = to;
 	}
 	public String getMensaje() {
@@ -40,7 +40,12 @@ public class Mensaje implements Serializable, Comparable{
 		this.mensaje = mensaje;
 		this.date = date;
 	}
-	
+	public Mensaje(long from, long to, String mensaje, Date date) {
+		this.from = from;
+		this.to = to;
+		this.mensaje = mensaje;
+		this.date = date;
+	}
 	@Override
 	public String toString() {
 		return "[From: " + from + " To: " + to + "] " + mensaje + " (" + date + ")";

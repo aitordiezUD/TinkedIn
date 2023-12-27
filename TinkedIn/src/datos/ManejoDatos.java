@@ -1,7 +1,11 @@
 package datos;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeSet;
 
+import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import sistemaExplorar.Like;
@@ -32,6 +36,35 @@ public interface ManejoDatos {
 	 */
 	public void fin();
 	
+	
+	
+	/**Funcion para crear un usuario Persona
+	 * @param nombre
+	 * @param apellidos
+	 * @param ubicacion
+	 * @param nacimiento
+	 * @param correoElectronico
+	 * @param telefeno
+	 * @param curriculum
+	 * @param fotoDePerfil
+	 * @param password
+	 */
+	public Persona crearUsuarioPersona(String nombre, String apellidos,String ubicacion, Date nacimiento,
+			String correoElectronico, String telefeno, ArrayList<Habilidad> habilidades,File fotoDePerfil, String password);
+	
+//	
+//
+	/**Funcion para crear un usuario Empresa
+	 * @param nombre
+	 * @param telefono
+	 * @param correo
+	 * @param descripcion
+	 * @param ubicaciones
+	 * @param fotoDePerfil
+	 * @param password
+	 */
+	public Empresa crearUsuarioEmpresa(String nombre, String telefono, String correo, String descripcion,
+			ArrayList<String> ubicaciones, File fotoDePerfil, String password);
 	
 	/**
 	 * Añadir un nuevo Usuario de tipo Persona a la base de datos. Comprobaremos que los datos de usuario como 

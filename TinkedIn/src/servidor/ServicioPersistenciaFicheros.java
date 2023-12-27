@@ -204,15 +204,25 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	}
 
 	@Override
-	public void crearUsuario(Usuario u) {
+	public Usuario crearUsuario(Object[] atribs) {
 		// TODO Auto-generated method stub
 		try {
 			flujoOut.writeObject(ConfigServer.CREAR_USUARIO);
-			flujoOut.writeObject(u);
-			
+			flujoOut.writeObject(atribs);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido devolver el usuario deseado, timeout servidor");
+				return null;
+			}
+			Usuario u = (Usuario) respuestasServidor.remove(0);
+			return u;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("No se ha podido crear el usuario");
+			return null;
 		}
 	}
 
@@ -280,7 +290,9 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		try {
 			flujoOut.writeObject(ConfigServer.ANADIR_PUESTO);
 			flujoOut.writeObject(puesto);
-			puesto.getEmpresaPertenece().getPuestos().add(puesto);
+//			puesto.getEmpresaPertenece().getPuestos().add(puesto);
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("No se ha podido añadir el puesto de trabajo");
