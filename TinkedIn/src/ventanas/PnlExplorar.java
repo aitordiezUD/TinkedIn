@@ -1,4 +1,4 @@
-package ventanas;
+ package ventanas;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
@@ -36,6 +36,9 @@ import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.StrokeBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -46,6 +49,7 @@ import clases.Habilidad;
 import clases.PuestoTrabajo;
 import componentes.botonAnEl;
 import datos.DatosFicheros;
+import nube.ImagenesAzure;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -53,8 +57,10 @@ import componentes.botonCorazon;
 import componentes.botonX;
 
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -78,10 +84,16 @@ public class PnlExplorar extends JPanel {
 	private JLabel lblGrafExpX; 
 	private JPanel pnlLike;
 	private JPanel pnlPass;
+	private JPanel pnlInfoUsu;
+	private JPanel pnlAbajo;
+	private JPanel pnlDatos;
+	private JPanel pnlHabilidades;
 	private PuestoTrabajo puestoElegido;
 	protected  JLabel lblNombreUsu;
 	protected JLabel lblNomEInfo;
 	protected JLabel lblDescrPInfo;
+	protected JLabel lblPuesto;
+	protected JTextPane DescripcionPuesto;
 	protected static Usuario usuarioAutenticado;
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
@@ -107,32 +119,43 @@ public class PnlExplorar extends JPanel {
       
 	        JPanel pnlInfo = new JPanel();
 	        pnlInfo.setLayout( new BorderLayout() );
+	        pnlInfo.setBackground(new Color(129, 186, 207));
 //	        pnlInfo.setBackground( Color.GREEN );
 	        //pnlInfo.setBackground( Color.GREEN);
 	        pnlContenido.add(pnlInfo, BorderLayout.CENTER);
+	        
+	        pnlInfoUsu = new JPanel();
+	        pnlInfoUsu.setBackground(new Color(129, 186, 207));
+	        pnlInfoUsu.setLayout(new BorderLayout());
+	        pnlAbajo = new JPanel();
+	        pnlAbajo.setBackground(pnlInfoUsu.getBackground());
+	        pnlAbajo.setPreferredSize(new Dimension(pnlInfoUsu.getWidth(), 100));
+	        pnlInfoUsu.add(pnlAbajo, BorderLayout.SOUTH);
+	        
+
+	        
+	        //lblNombreUsu2 = new JLabel(lblNombreUsu.getText());
+	       // pnlInfoUsu.add(lblNombreUsu2, BorderLayout.SOUTH);
 	       
-	        JPanel pnlInfoPuesto = new JPanel();
-	        pnlInfoPuesto.setLayout( new GridLayout(2,2));
-	        pnlInfoPuesto.setBackground( Color.WHITE );
-	        pnlInfoPuesto.setPreferredSize( new Dimension(400,200));
+	     
+	        //pnlInfoPuesto.add(lblNomEInfo);
+	        //pnlInfoPuesto.add(lblDescrPInfo, BorderLayout.CENTER);
 	        
-	        JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
-	        JLabel lblDescripcionPuesto = new JLabel("Descripcion del puesto: ");
+	       
+	        pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
 	        
-	        lblNomEInfo = new JLabel("");
-	        lblDescrPInfo = new JLabel("");
-	        
-	        pnlInfoPuesto.add(nomEmpresa);
-	        pnlInfoPuesto.add(lblDescripcionPuesto);
-	        pnlInfoPuesto.add(lblNomEInfo);
-	        pnlInfoPuesto.add(lblDescrPInfo);
-	        
-	        pnlInfo.add(pnlInfoPuesto, BorderLayout.WEST);
-	        
-	        JPanel pnlDatos = new JPanel();
+	        pnlDatos = new JPanel();
+	        pnlDatos.setBackground(new Color(208, 235, 242));
+	        pnlDatos.setLayout(new BorderLayout());
 //	        pnlDatos.setBackground(Color.GREEN);
 	        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
 	        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
+	        
+	        lblPuesto = new JLabel("");
+			lblPuesto.setForeground(new Color(192, 192, 192));
+			lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20 ));
+			lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
+			pnlDatos.add(lblPuesto, BorderLayout.CENTER);
 	        
 	        JPanel pnlBotonera = new JPanel();
 	        pnlBotonera.setLayout( new GridLayout(0,3) );
@@ -192,7 +215,7 @@ public class PnlExplorar extends JPanel {
 	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
 	            lblGrafExp.setBackground(new Color(240, 240, 240));
 	    		lblGrafExp.setBounds(20, 0, 38, 38);
-	    		pnlDatos.add(lblGrafExp);
+	    		//pnlDatos.add(lblGrafExp);
 	      
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -202,9 +225,22 @@ public class PnlExplorar extends JPanel {
 	        //pnlLike.add(btnCorazon, BorderLayout.EAST);
 	        lblNombreUsu = new JLabel( "      Nombre de Usuario" );
             lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-            pnlDatos.add(lblNombreUsu);
+            //pnlDatos.add(lblNombreUsu);
 	        
 	        if( usuarioAutenticado instanceof Empresa ) {
+	        	
+	        	JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
+        		lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
+        		lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
+        		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
+	        	
+	        	pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
+//	        	pnlInfo.remove(pnlInfoPuesto);
+	        	JPanel pnlCurriculum = new JPanel();
+	        	pnlCurriculum.setPreferredSize(new Dimension(pnlInfo.getWidth()-100, pnlInfo.getHeight()));
+	        	pnlInfo.add(pnlCurriculum, BorderLayout.WEST);
+	        	pnlInfo.repaint();
+	        	
 	        	
 	        	Empresa e = (Empresa) usuarioAutenticado;
 	        	mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
@@ -311,6 +347,47 @@ public class PnlExplorar extends JPanel {
 	        	
 	        	
 	        	if(usuarioAutenticado instanceof Persona) {
+	        		
+	        		
+	        		JPanel pnlInfoPuesto = new JPanel();
+	       	        pnlInfoPuesto.setLayout(new BorderLayout());
+	       	        pnlInfoPuesto.setBackground( Color.WHITE );
+	       	        pnlInfoPuesto.setForeground(Color.BLUE);
+	       	        pnlInfoPuesto.setPreferredSize( new Dimension(400,200));
+	       	        
+	       	        JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
+	       	        JLabel lblDescripcionPuesto = new JLabel("   Descripcion del puesto: ");
+	       	        lblDescripcionPuesto.setPreferredSize(new Dimension(pnlInfoPuesto.getWidth(), 60));
+	       	        lblDescripcionPuesto.setFont(new Font("Tahoma", Font.BOLD, 16));
+	       	        
+	       	        DescripcionPuesto = new JTextPane();
+	       	        DescripcionPuesto.setBorder(new LineBorder(new Color(129, 186, 207), 3));
+	       	        DescripcionPuesto.setEditable(false);
+	       	        pnlInfoPuesto.add(DescripcionPuesto, BorderLayout.CENTER);
+	       	        
+	       	        pnlHabilidades = new JPanel();
+	       	        pnlHabilidades.setBackground(Color.WHITE);
+	       	        pnlInfoPuesto.add(pnlHabilidades, BorderLayout.SOUTH);
+	       	        
+	       	        JPanel panelIzqv = new JPanel();
+	       	        panelIzqv.setPreferredSize(new Dimension(60, 0));
+	       	        panelIzqv.setBackground(Color.WHITE);
+	       	        pnlInfoPuesto.add(panelIzqv, BorderLayout.WEST);
+	       	        
+	       	        JPanel panelDerv = new JPanel();
+	       	        panelDerv.setPreferredSize(new Dimension(60, 0));
+	       	        panelDerv.setBackground(Color.WHITE);
+	       	        pnlInfoPuesto.add(panelDerv, BorderLayout.EAST);
+	       	        pnlInfo.add(pnlInfoPuesto, BorderLayout.WEST);
+	       	        lblNomEInfo = new JLabel("");
+	       	        lblDescrPInfo = new JLabel("");
+	       	        
+	       	        //pnlInfoPuesto.add(nomEmpresa);
+	       	        pnlInfoPuesto.add(lblDescripcionPuesto, BorderLayout.NORTH);
+	        		JLabel lblExplorarPuestos = new JLabel("Explora Puestos De Trabajo");
+	        		lblExplorarPuestos.setFont(new Font("Tahoma", Font.BOLD, 30));
+	        		lblExplorarPuestos.setHorizontalAlignment(SwingConstants.CENTER);
+	        		pnlDatos.add(lblExplorarPuestos, BorderLayout.NORTH);
 	        		
 	        		btnX.addActionListener( (ActionListener) new ActionListener() {
 
@@ -450,10 +527,36 @@ public class PnlExplorar extends JPanel {
 	private void mostrarSiguientePuesto() {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
-			lblNombreUsu.setText( puestoActual.getNombre() );
+			lblNombreUsu.setText( puestoActual.getEmpresaPertenece().getNombre() );
 			lblNomEInfo.setText( puestoActual.getEmpresaPertenece().getNombre() );
-			lblDescrPInfo.setText( puestoActual.getDescripcion() );
+			DescripcionPuesto.setText( puestoActual.getDescripcion() );
 			//Cambiar
+			JLabel Imagen = ImagenesAzure.crearImagen(puestoActual.getEmpresaPertenece(), 150, 150);
+			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
+			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
+			lblNombreUsu.setForeground(new Color(4, 32, 63));
+			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
+			
+			lblPuesto.removeAll();
+			lblPuesto.setText(puestoActual.getNombre());
+			
+			pnlHabilidades.removeAll();
+			
+			for(Habilidad hab: puestoActual.getHabilidadesReq()) {
+				JButton btnHab = new JButton(hab.getNombre());
+				pnlHabilidades.add(btnHab);
+				btnHab.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, "Nivel requerido: " + hab.getDestreza(), "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
+						
+					}
+				});
+			}
+			
+			pnlHabilidades.repaint();
+			
 		}else{
 			System.out.println("No quedan puestos. ");;
 		}
@@ -466,7 +569,7 @@ public class PnlExplorar extends JPanel {
 			iteradorPersonas = personasCandidatas.iterator();
 			
 			
-			if (iteradorPuestos.hasNext()) {
+			if (iteradorPersonas.hasNext()) {
 				Persona personaActual = iteradorPersonas.next();
 				lblNombreUsu.setText( personaActual.getNombre() );
 				//Añadir contenido a visualizar en el panel para explorar
