@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.TreeSet;
@@ -14,6 +15,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import hilos.CargarEmpresasDAT;
@@ -22,6 +24,7 @@ import hilos.CargarPersonasDAT;
 import hilos.GuardarEmpresasDAT;
 import hilos.GuardarMensajesDAT;
 import hilos.GuardarPersonasDAT;
+import nube.ImagenesAzure;
 import sistemaExplorar.Like;
 import sistemaExplorar.Match;
 import usuarios.Empresa;
@@ -182,7 +185,6 @@ public class DatosFicheros implements ManejoDatos{
 		(new Thread(r3)).start();
 	}
 
-
 	@Override
 	public void anadirUsuarioPersona(Persona persona) {
 		// TODO Auto-generated method stub
@@ -213,12 +215,12 @@ public class DatosFicheros implements ManejoDatos{
 		
 	}
 	
+	@Override
 	public void anadirUsuarioEmpresa( Empresa empresa ) {
 		//TODO Auto-generated method stub
 		String correo = empresa.getCorreoElectronico();
 		String telefono = empresa.getTelefono();
 		String contrasñea = empresa.getPassword();
-		
 		if(mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)){
 			if (!test) {
 				JOptionPane.showOptionDialog(null, 
@@ -230,7 +232,6 @@ public class DatosFicheros implements ManejoDatos{
 						new Object[] {"Aceptar"}, 
 						"Aceptar");
 			}
-
 		}else {
 			usuarios.add(empresa);
 			empresas.add(empresa);
@@ -239,11 +240,9 @@ public class DatosFicheros implements ManejoDatos{
 			mapaTlfnoUsuario.put(empresa.getTelefono(), empresa);
 			mapaContraseñaUsuario.put(empresa, contrasñea);
 		}
-		
-		
 	}
 	
-	
+	@Override
 	public boolean autenticarUsuario(String correo, String contraseña) {
 //		System.out.println("Contiene correo? " + mapaEmailUsuario.containsKey(correo));
 //		System.out.println("Bien contraseña? " + mapaEmailUsuario.get(correo).getPassword().equals(contraseña) );
@@ -310,7 +309,7 @@ public class DatosFicheros implements ManejoDatos{
 
 	@Override
 	public void anadirPuesto(PuestoTrabajo puesto) {
-		puesto.getEmpresaPertenece().getPuestos().add(puesto);
+		( (Empresa) mapaIdUsuario.get(puesto.getIdEmpresa())).getPuestos().add(puesto);
 	}
 
 
@@ -358,6 +357,31 @@ public class DatosFicheros implements ManejoDatos{
 			}
 		}
 		return set;
+	}
+
+	
+	@Override
+	public Persona crearUsuarioPersona(String nombre, String apellidos, String ubicacion, Date nacimiento,
+			String correoElectronico, String telefeno, ArrayList<Habilidad> habilidades, File fotoDePerfil,
+			String password) {
+		// TODO Auto-generated method stub
+		Persona p = new Persona(nombre, apellidos, ubicacion, nacimiento, correoElectronico, telefeno, habilidades, fotoDePerfil, password);
+		new ImagenesAzure();
+		ImagenesAzure.subirImagenFicheros(fotoDePerfil,p.getId() + ".jpg");
+		anadirUsuarioPersona(p);
+		return p;
+	}
+
+
+	@Override
+	public Empresa crearUsuarioEmpresa(String nombre, String telefono, String correo, String descripcion,
+			ArrayList<String> ubicaciones, File fotoDePerfil, String password) {
+		// TODO Auto-generated method stub
+		Empresa e = new Empresa(nombre, telefono, correo, descripcion, ubicaciones, fotoDePerfil, password);
+		new ImagenesAzure();
+		ImagenesAzure.subirImagenFicheros(fotoDePerfil,e.getId() + ".jpg");
+		anadirUsuarioEmpresa(e);
+		return e;
 	}
 	
 	

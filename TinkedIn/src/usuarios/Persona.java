@@ -20,12 +20,12 @@ public class Persona extends Usuario implements Serializable{
 	 * 
 	 */
 	private Date nacimiento;
-	private String correoElectronico;
-	private String telefono;
+//	private String correoElectronico;
+//	private String telefono;
 	private String ubicacion;
 	private String nombre;
 	private String apellidos;
-	private ArrayList<Habilidad> curriculum;
+	private ArrayList<Habilidad> Habilidades;
 	private Vector<Like> likes;
 
 
@@ -40,7 +40,7 @@ public class Persona extends Usuario implements Serializable{
 	}
 
 	public ArrayList<Habilidad> getCurriculum() {
-		return curriculum;
+		return Habilidades;
 	}
 	
 	public String getUbicacion() {
@@ -62,24 +62,24 @@ public class Persona extends Usuario implements Serializable{
 		this.apellidos = apellidos;
 	}
 	public void setCurriculum(ArrayList<Habilidad> curriculum) {
-		this.curriculum = curriculum;
+		this.Habilidades = curriculum;
 	}
 
-	public String getCorreoElectronico() {
-		return correoElectronico;
-	}
-
-	public void setCorreoElectronico(String correoElectronico) {
-		this.correoElectronico = correoElectronico;
-	}
-	
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefeno) {
-		this.telefono = telefeno;
-	}
+//	public String getCorreoElectronico() {
+//		return correoElectronico;
+//	}
+//
+//	public void setCorreoElectronico(String correoElectronico) {
+//		this.correoElectronico = correoElectronico;
+//	}
+//	
+//	public String getTelefono() {
+//		return telefono;
+//	}
+//
+//	public void setTelefono(String telefeno) {
+//		this.telefono = telefeno;
+//	}
 
 	public Vector<Like> getLikes() {
 		return likes;
@@ -92,33 +92,48 @@ public class Persona extends Usuario implements Serializable{
 	
 	
 	public Persona(String nombre, String apellidos,String ubicacion, Date nacimiento,
-			String correoElectronico, String telefeno, ArrayList<Habilidad> curriculum,File fotoDePerfil, String password) {
-		super(fotoDePerfil,password);
+			String correo, String telefono, ArrayList<Habilidad> habilidades,File fotoDePerfil, String password) {
+		super(fotoDePerfil,password,correo,telefono);
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.nacimiento = nacimiento;
 		this.ubicacion = ubicacion;
-		this.correoElectronico = correoElectronico;
-		this.telefono = telefeno;
-		this.curriculum = curriculum;
+//		this.correoElectronico = correoElectronico;
+//		this.telefono = telefeno;
+		this.Habilidades = habilidades;
 		this.likes = new Vector<>();
 	}
 	
+//	Para cargar de la Base de Datos Remota:
+	public Persona(int id, String nombre, String apellidos,String ubicacion, Date nacimiento,
+			String correo, String telefono, ArrayList<Habilidad> habilidades,String fotoDePerfil, String password) {
+		super(id,fotoDePerfil,password,correo,telefono);
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.nacimiento = nacimiento;
+		this.ubicacion = ubicacion;
+//		this.correoElectronico = correoElectronico;
+//		this.telefono = telefeno;
+		this.Habilidades = habilidades;
+		this.likes = new Vector<>();
+	}
+	
+//	Para cargar de Ficheros:
 	public Persona( Persona p ) {
 		super(p);
 		this.nombre = p.getNombre();
 		this.apellidos = p.getApellidos();
 		this.ubicacion = p.getUbicacion();
 		this.nacimiento = p.getEdad();
-		this.correoElectronico = p.getCorreoElectronico();
-		this.telefono = p.getTelefono();
-		this.curriculum = p.getCurriculum();
+//		this.correoElectronico = p.getCorreoElectronico();
+//		this.telefono = p.getTelefono();
+		this.Habilidades = p.getCurriculum();
 		this.likes = p.getLikes();
 	}
 	
 	@Override
 	public String toString() {		
-	return getId() + ": " + nombre + " " + apellidos + " ;" + correoElectronico + " ; " + telefono;
+	return getId() + ": " + nombre + " " + apellidos + " ;" + getCorreo() + " ; " + getTelefono();
 	}
 	
 	public void notificarMatch(Usuario u) {

@@ -112,107 +112,108 @@ public class Main {
 //      EMPRESAS
         
         // Empresa admin
-        Empresa adminE = new Empresa("adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE");
+        Object[] atribsAdmin = {"adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE"};
+        Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
         
         // Empresa 1
-        Empresa e1 = new Empresa("TechIbérica", "912-345-678", "info@techiberica.es",
+        Object[] atribsE1 = {"TechIbérica", "912-345-678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e1 = (Empresa) servicio.crearUsuario(atribsE1);
         
-        servicio.crearUsuario(e1);
         // Empresa 2
-        Empresa e2 = new Empresa("EcoVida", "654-321-098", "contacto@ecovida.es",
+        Object[] atribsE2 = {"EcoVida", "654-321-098", "contacto@ecovida.es",
                 "Comprometidos con la sostenibilidad y el medio ambiente",
                 new ArrayList<>(Arrays.asList("Sevilla", "Málaga", "Granada")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e2);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+         Empresa e2 = (Empresa) servicio.crearUsuario(atribsE2);
 
         // Empresa 3
-        Empresa e3 = new Empresa("ModaEspañola", "789-012-345", "info@modaespanola.es",
+         Object[] atribsE3 = {"ModaEspañola", "789-012-345", "info@modaespanola.es",
                 "Diseños exclusivos con la elegancia española",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e3);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+         Empresa e3 = (Empresa) servicio.crearUsuario(atribsE3);
 
         // Empresa 4
-        Empresa e4 = new Empresa("Gastronómica", "678-901-234", "info@gastronomica.es",
+        Object[] atribsE4 = {"Gastronómica", "678-901-234", "info@gastronomica.es",
                 "Experiencias culinarias únicas y deliciosas",
                 new ArrayList<>(Arrays.asList("Alicante", "Murcia", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e4);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e4 = (Empresa) servicio.crearUsuario(atribsE4);
 
         // Empresa 5
-        Empresa e5 = new Empresa("ViajesHispania", "567-890-123", "info@viajeshispania.es",
+        Object[] atribsE5 = {"ViajesHispania", "567-890-123", "info@viajeshispania.es",
                 "Descubre España a través de experiencias de viaje inolvidables",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e5);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e5 = (Empresa) servicio.crearUsuario(atribsE5);
 
         // Empresa 6
-        Empresa e6 = new Empresa("InmobiliariaPlus", "456-789-012", "info@inmobiliariaplus.es",
+        Object[] atribsE6 = {"InmobiliariaPlus", "456-789-012", "info@inmobiliariaplus.es",
                 "Soluciones inmobiliarias personalizadas y confiables",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e6);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e6 = (Empresa) servicio.crearUsuario(atribsE6);
 
         // Empresa 7
-        Empresa e7 = new Empresa("EducaciónExcel", "345-678-901", "info@educacionexcel.es",
+        Object[] atribsE7 = {"EducaciónExcel", "345-678-901", "info@educacionexcel.es",
                 "Formación de calidad para un futuro brillante",
                 new ArrayList<>(Arrays.asList("Sevilla", "Valencia", "Barcelona")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e7);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e7 = (Empresa) servicio.crearUsuario(atribsE7);
 
         // Empresa 8
-        Empresa e8 = new Empresa("EstiloHogar", "234-567-890", "info@estilohogar.es",
+        Object[] atribsE8 = {"EstiloHogar", "234-567-890", "info@estilohogar.es",
                 "Productos y decoración para un hogar con estilo",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e8);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e8 = (Empresa) servicio.crearUsuario(atribsE8);
 
         // Empresa 9
-        Empresa e9 = new Empresa("TurismoRural", "123-456-789", "info@turismorural.es",
+        Object[] atribsE9 = {"TurismoRural", "123-456-789", "info@turismorural.es",
                 "Descubre la belleza de la España rural",
                 new ArrayList<>(Arrays.asList("Salamanca", "Toledo", "Ávila")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e9);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e9 = (Empresa) servicio.crearUsuario(atribsE9);
 
         // Empresa 10
-        Empresa e10 = new Empresa("ArteCreativo", "890-123-456", "info@artecreativo.es",
+        Object[] atribsE10 = {"ArteCreativo", "890-123-456", "info@artecreativo.es",
                 "Expresiones artísticas que inspiran y emocionan",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e10);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e10 = (Empresa) servicio.crearUsuario(atribsE10);
         
-        Empresa e11 = new Empresa("ObservatorioEstelar", "111-222-333", "info@observatorioestelar.es",
+        Object[] atribsE11 = {"ObservatorioEstelar", "111-222-333", "info@observatorioestelar.es",
                 "Exploración del cosmos y estudio astronómico",
                 new ArrayList<>(Arrays.asList("Granada", "Almería", "Jaén")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e11);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e11 = (Empresa) servicio.crearUsuario(atribsE11);
 
-        Empresa e12 = new Empresa("BioTechLab", "222-333-444", "info@biotechlab.es",
+        Object[] atribsE12 = {"BioTechLab", "222-333-444", "info@biotechlab.es",
                 "Investigación biotecnológica y desarrollo de medicamentos",
                 new ArrayList<>(Arrays.asList("Valencia", "Alicante", "Castellón")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e12);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e12 = (Empresa) servicio.crearUsuario(atribsE12);
 
-        Empresa e13 = new Empresa("QuantumSolutions", "333-444-555", "info@quantumsolutions.es",
+        Object[] atribsE13 = {"QuantumSolutions", "333-444-555", "info@quantumsolutions.es",
                 "Investigación en ciencias cuánticas y desarrollo tecnológico",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Zaragoza")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e13);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e13 = (Empresa) servicio.crearUsuario(atribsE13);
 
-        Empresa e14 = new Empresa("MatemáticasAvanzadas", "444-555-666", "info@matematicasavanzadas.es",
+        Object[] atribsE14 = {"MatemáticasAvanzadas", "444-555-666", "info@matematicasavanzadas.es",
                 "Soluciones matemáticas innovadoras y análisis numérico",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e14);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e14 = (Empresa) servicio.crearUsuario(atribsE14);
 
-        Empresa e15 = new Empresa("FarmaciaInnovadora", "555-666-777", "info@farmaciainnovadora.es",
+        Object[] atribsE15 = {"FarmaciaInnovadora", "555-666-777", "info@farmaciainnovadora.es",
                 "Desarrollo de medicamentos y cuidado farmacéutico",
                 new ArrayList<>(Arrays.asList("Zaragoza", "Barcelona", "Valencia")),
-                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(e15);
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Empresa e15 = (Empresa) servicio.crearUsuario(atribsE15);
         
         
      // Puestos de Trabajo
@@ -328,40 +329,40 @@ public class Main {
 		}
         
         
-        Persona p1 = new Persona("Juan", "Gómez", "Madrid", fecha, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p1);
-        Persona p2 = new Persona("María", "López", "Barcelona", fecha, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p2);
-        Persona p3 = new Persona("Carlos", "Martínez", "Valencia", fecha, "carlos@gmail.com", "567890123", crearCurriculum(h15, h18, h33, h48, h63), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p3);
-        Persona p4 = new Persona("Ana", "García", "Sevilla", fecha, "ana@gmail.com", "456789012", crearCurriculum(h3, h19, h34, h49, h64), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p4);
-        Persona p5 = new Persona("Javier", "Fernández", "Zaragoza", fecha, "javier@gmail.com", "234567890", crearCurriculum(h4, h20, h35, h50, h65), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p5);
-        Persona p6 = new Persona("Sara", "Ruiz", "Málaga", fecha, "sara@gmail.com", "890123456", crearCurriculum(h5, h21, h36, h51, h66), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p6);
-        Persona p7 = new Persona("Pedro", "Sánchez", "Murcia", fecha, "pedro@gmail.com", "345678901", crearCurriculum(h6, h22, h37, h52, h67), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p7);
-        Persona p8 = new Persona("Elena", "Jiménez", "Palma de Mallorca", fecha, "elena@gmail.com", "012345678", crearCurriculum(h7, h23, h38, h53, h68), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p8);
-        Persona p9 = new Persona("Francisco", "Rodríguez", "Las Palmas de Gran Canaria", fecha, "francisco@gmail.com", "678901234", crearCurriculum(h8, h24, h39, h54, h69), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p9);
-        Persona p10 = new Persona("Laura", "Gutiérrez", "Valladolid", fecha, "laura@gmail.com", "567827123", crearCurriculum(h9, h25, h40, h55, h70), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p10);
-        Persona p11 = new Persona("Alejandro", "Hernández", "Pamplona", fecha, "alejandro@gmail.com", "123456119", crearCurriculum(h10, h26, h41, h56, h71), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p11);
-        Persona p12 = new Persona("Isabel", "Díaz", "Toledo", fecha, "isabel@gmail.com", "987604321", crearCurriculum(h11, h27, h42, h57, h72), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p12);
-        Persona p13 = new Persona("Víctor", "Moreno", "Santander", fecha, "victor@gmail.com", "234529890", crearCurriculum(h12, h28, h43, h58, h73), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p13);
-        Persona p14 = new Persona("Carmen", "Álvarez", "Logroño", fecha, "carmen@gmail.com", "890121056", crearCurriculum(h13, h29, h44, h59, h74), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p14);
-        Persona p15 = new Persona("Raúl", "Fernández", "Cáceres", fecha, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf");
-        servicio.crearUsuario(p15);
+        Object[] atribsP1 = {"Juan", "Gómez", "Madrid", fecha, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p1 = (Persona) servicio.crearUsuario(atribsP1);
+        Object[] atribsP2 = {"María", "López", "Barcelona", fecha, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p2 = (Persona) servicio.crearUsuario(atribsP2);
+        Object[] atribsP3 = {"Carlos", "Martínez", "Valencia", fecha, "carlos@gmail.com", "567890123", crearCurriculum(h15, h18, h33, h48, h63), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p3 = (Persona) servicio.crearUsuario(atribsP3);
+        Object[] atribsP4 = {"Ana", "García", "Sevilla", fecha, "ana@gmail.com", "456789012", crearCurriculum(h3, h19, h34, h49, h64), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p4 = (Persona) servicio.crearUsuario(atribsP4);
+        Object[] atribsP5 = {"Javier", "Fernández", "Zaragoza", fecha, "javier@gmail.com", "234567890", crearCurriculum(h4, h20, h35, h50, h65), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p5 = (Persona) servicio.crearUsuario(atribsP5);
+        Object[] atribsP6 = {"Sara", "Ruiz", "Málaga", fecha, "sara@gmail.com", "890123456", crearCurriculum(h5, h21, h36, h51, h66), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p6 = (Persona) servicio.crearUsuario(atribsP6);
+        Object[] atribsP7 = {"Pedro", "Sánchez", "Murcia", fecha, "pedro@gmail.com", "345678901", crearCurriculum(h6, h22, h37, h52, h67), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p7 = (Persona) servicio.crearUsuario(atribsP7);
+        Object[] atribsP8 = {"Elena", "Jiménez", "Palma de Mallorca", fecha, "elena@gmail.com", "012345678", crearCurriculum(h7, h23, h38, h53, h68), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p8 = (Persona) servicio.crearUsuario(atribsP8);
+        Object[] atribsP9 = {"Francisco", "Rodríguez", "Las Palmas de Gran Canaria", fecha, "francisco@gmail.com", "678901234", crearCurriculum(h8, h24, h39, h54, h69), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p9 = (Persona) servicio.crearUsuario(atribsP9);
+        Object[] atribsP10 = {"Laura", "Gutiérrez", "Valladolid", fecha, "laura@gmail.com", "567827123", crearCurriculum(h9, h25, h40, h55, h70), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p10 = (Persona) servicio.crearUsuario(atribsP10);
+        Object[] atribsP11 = {"Alejandro", "Hernández", "Pamplona", fecha, "alejandro@gmail.com", "123456119", crearCurriculum(h10, h26, h41, h56, h71), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p11 = (Persona) servicio.crearUsuario(atribsP11);
+        Object[] atribsP12 = {"Isabel", "Díaz", "Toledo", fecha, "isabel@gmail.com", "987604321", crearCurriculum(h11, h27, h42, h57, h72), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p12 = (Persona) servicio.crearUsuario(atribsP12);
+        Object[] atribsP13 = {"Víctor", "Moreno", "Santander", fecha, "victor@gmail.com", "234529890", crearCurriculum(h12, h28, h43, h58, h73), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p13 = (Persona) servicio.crearUsuario(atribsP13);
+        Object[] atribsP14 = {"Carmen", "Álvarez", "Logroño", fecha, "carmen@gmail.com", "890121056", crearCurriculum(h13, h29, h44, h59, h74), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p14 = (Persona) servicio.crearUsuario(atribsP14);
+        Object[] atribsP15 = {"Raúl", "Fernández", "Cáceres", fecha, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Persona p15 = (Persona) servicio.crearUsuario(atribsP15);
         
 //		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
-		Persona pAdmin = new Persona("admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin");
-		servicio.crearUsuario(pAdmin);
+		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
+		Persona pAdmin = (Persona) servicio.crearUsuario(atribsAdmin);
 		
 		
 //		ArrayList<PuestoTrabajo> puestosEjemplo = new ArrayList<>();
@@ -375,14 +376,14 @@ public class Main {
 		
 //		Empresa pruebaPuestos = new Empresa("prueba","prueba", "prueba","prueba", null, puestosEjemplo, new File("TinkedinPNG.png") , "prueba");
 		
-		servicio.crearUsuario(adminE);
+//		servicio.crearUsuario(adminE);
 //		servicio.crearUsuario(pruebaPuestos);
 //		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
 //		datos.anadirUsuarioEmpresa(adminE2);
 		
-		Mensaje m1 = new Mensaje(31, 0, "Hola!", new Date());
+		Mensaje m1 = new Mensaje(pAdmin.getId(), adminE.getId(), "Hola!", new Date());
 		servicio.anadirMensaje(m1);
-		Mensaje m2 = new Mensaje(0, 31, "Buenas!", new Date());
+		Mensaje m2 = new Mensaje(adminE.getId(), pAdmin.getId(), "Buenas!", new Date());
 		servicio.anadirMensaje(m2);
 		
 		servicio.close();

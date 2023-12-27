@@ -125,9 +125,9 @@ public class PnlChat extends JPanel{
 		    JLabel lbl = null;
 //		    JLabel lbl = new JLabel(value.toString());
 		    if (value instanceof Persona) {
-		    	lbl = new JLabel(((Persona)value).getCorreoElectronico());
+		    	lbl = new JLabel(((Persona)value).getCorreo());
 		    }else {
-		    	lbl = new JLabel(((Empresa)value).getCorreoElectronico());
+		    	lbl = new JLabel(((Empresa)value).getCorreo());
 		    }
 //		    JLabel lbl = new JLabel(value.getId()+"");
 		    pnl.add(lbl);
@@ -267,9 +267,9 @@ public class PnlChat extends JPanel{
     	public void setLblContacto(Usuario u) {
     		
     		if (u instanceof Persona) {
-    			lblContacto.setText(((Persona)u).getCorreoElectronico());
+    			lblContacto.setText(((Persona)u).getCorreo());
     		}else {
-    			lblContacto.setText(((Empresa)u).getCorreoElectronico());
+    			lblContacto.setText(((Empresa)u).getCorreo());
     		}
     	}
     	

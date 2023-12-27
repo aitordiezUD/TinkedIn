@@ -179,4 +179,10 @@ public class ServicioPersistenciaBBDD implements ServicioPersistencia {
 		
 	}
 
+	@Override
+	public Usuario crearUsuario(Object[] atribs) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -22,6 +22,8 @@ public abstract class Usuario implements Serializable{
 	private String fotoDePerfil;
 	private String password;
 	private Tipo tipo;
+	private String correo;
+	private String telefono;
 	
 	//Getters y setters
 	
@@ -33,6 +35,9 @@ public abstract class Usuario implements Serializable{
 		this.password = password;
 	}
 	
+	public void setId(long id) {
+		this.id = id;
+	}
 	public static int getCount() {
 		return count;
 	}
@@ -55,13 +60,40 @@ public abstract class Usuario implements Serializable{
 	public void setFotoDePerfil(String fotoDePerfil) {
 		this.fotoDePerfil = fotoDePerfil;
 	}
-
+	public String getCorreo() {
+		return correo;
+	}
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
 	// Constructores
 		
 
 	
-	public Usuario(File fotoDePerfil,String password) {
+
+	public Usuario(int id, String fotoDePerfil,String password, String correo, String telefono) {
+		if (this instanceof Persona) {
+			this.tipo = Tipo.PERSONA;
+		}else {
+			this.tipo = Tipo.EMPRESA;
+		}
+		this.id = id;
+		this.password = password;
+//		new ImagenesAzure();
+//		ImagenesAzure.subirImagenFicheros(fotoDePerfil,id + ".jpg");
+		this.fotoDePerfil = rutaBase+this.id+".jpg";
+		this.correo = correo;
+		this.telefono = telefono;
+	}
+	
+	public Usuario(File fotoDePerfil,String password, String correo, String telefono) {
 		if (this instanceof Persona) {
 			this.tipo = Tipo.PERSONA;
 		}else {
@@ -70,9 +102,11 @@ public abstract class Usuario implements Serializable{
 		id = count;
 		count++;
 		this.password = password;
-		new ImagenesAzure();
-		ImagenesAzure.subirImagen(fotoDePerfil,id + ".jpg");
+//		new ImagenesAzure();
+//		ImagenesAzure.subirImagenFicheros(fotoDePerfil,id + ".jpg");
 		this.fotoDePerfil = rutaBase+this.id+".jpg";
+		this.correo = correo;
+		this.telefono = telefono;
 	}
 	
 	public Usuario(Usuario u) {
@@ -80,6 +114,8 @@ public abstract class Usuario implements Serializable{
 		this.id = u.getId();
 		this.password = u.getPassword();
 		this.tipo = u.getTipo();
+		this.correo = u.getCorreo();
+		this.telefono = u.getTelefono();
 	}
 
 	@Override

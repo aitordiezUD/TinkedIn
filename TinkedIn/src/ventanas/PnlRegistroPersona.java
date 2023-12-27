@@ -438,11 +438,11 @@ public class PnlRegistroPersona extends JPanel {
 					}
 		        	
 		        	ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
-					Persona p = new Persona(tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
+					Object[] atribsP = {tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 fecha, tfCorreo.getText(), tfTelefono.getText(),
-							habilidades,selectedFile, contrasena1);
+							habilidades,selectedFile, contrasena1};
 //					VentanaPrincipal.getDatos().anadirUsuarioPersona(p);
-					VentanaPrincipal.servicio.crearUsuario(p);
+					VentanaPrincipal.servicio.crearUsuario(atribsP);
 					layoutVentana.show(pnlContenido, "pnlLogIn");
 		        }		
 			}

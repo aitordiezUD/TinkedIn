@@ -19,8 +19,12 @@
     <artifactId>azure-storage-blob</artifactId>
     <version>12.16.0</version> <!-- Reemplaza con la última versión disponible -->
 	</dependency>
+	    <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.4.2.jre11</version>
+        </dependency>
 	</dependencies>
-
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>

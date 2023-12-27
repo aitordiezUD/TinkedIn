@@ -16,8 +16,8 @@ public class Empresa extends Usuario implements Serializable{
 	 */
 	//Atributos:
 	private String nombre;
-	private String telefono;
-	private String correoElectronico;
+//	private String telefono;
+//	private String correoElectronico;
 	private String descripcion;
 	private ArrayList<String> ubicaciones;
 	private ArrayList<PuestoTrabajo> puestos;
@@ -37,27 +37,27 @@ public class Empresa extends Usuario implements Serializable{
 
 
 
-	public String getTelefono() {
-		return telefono;
-	}
-
-
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-
-
-	public String getCorreoElectronico() {
-		return correoElectronico;
-	}
-
-
-
-	public void setCorreoElectronico(String correoElectronico) {
-		this.correoElectronico = correoElectronico;
-	}
+//	public String getTelefono() {
+//		return telefono;
+//	}
+//
+//
+//
+//	public void setTelefono(String telefono) {
+//		this.telefono = telefono;
+//	}
+//
+//
+//
+//	public String getCorreoElectronico() {
+//		return correoElectronico;
+//	}
+//
+//
+//
+//	public void setCorreoElectronico(String correoElectronico) {
+//		this.correoElectronico = correoElectronico;
+//	}
 
 
 
@@ -100,25 +100,35 @@ public class Empresa extends Usuario implements Serializable{
 	//Constructores:
 	public Empresa(String nombre, String telefono, String correo, String descripcion,
 			ArrayList<String> ubicaciones, File fotoDePerfil, String password) {
-		super(fotoDePerfil,password);
+		super(fotoDePerfil,password,correo,telefono);
 		this.nombre = nombre;
-		this.telefono = telefono;
-		this.correoElectronico = correo;
+//		this.telefono = telefono;
+//		this.correoElectronico = correo;
 		this.descripcion = descripcion;
 		this.ubicaciones = ubicaciones;
 		this.puestos = new ArrayList<>();
 	}
 	
 	
+	public Empresa(int id,String nombre, String telefono, String correo, String descripcion,
+			ArrayList<String> ubicaciones, String fotoDePerfil, String password) {
+		super(id,fotoDePerfil,password,correo,telefono);
+		this.nombre = nombre;
+//		this.telefono = telefono;
+//		this.correoElectronico = correo;
+		this.descripcion = descripcion;
+		this.ubicaciones = ubicaciones;
+		this.puestos = new ArrayList<>();
+	}
 
 	public Empresa(Empresa e) {
 		super(e);
 		this.nombre = e.getNombre();
-		this.telefono = e.getTelefono();
+//		this.telefono = e.getTelefono();
 		this.descripcion = e.getDescripcion();
 		this.puestos = e.getPuestos();
 		this.ubicaciones = e.getUbicaciones();
-		this.correoElectronico = e.getCorreoElectronico();
+//		this.correoElectronico = e.getCorreoElectronico();
 		
 		
 	}
@@ -128,7 +138,7 @@ public class Empresa extends Usuario implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getId() + ": " + nombre + " ; " + correoElectronico + " ; " + telefono;
+		return getId() + ": " + nombre + " ; " + getCorreo() + " ; " + getTelefono();
 	}
 	
 	public void notificarMatch(Usuario u) {

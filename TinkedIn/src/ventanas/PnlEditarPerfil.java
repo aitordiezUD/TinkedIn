@@ -236,7 +236,7 @@ public class PnlEditarPerfil  extends JPanel {
 		        lblCorreo.setBounds(42, 130, 150, 14);
 		        add(lblCorreo);
 		        
-		        tfCorreo = new JTextField(e.getCorreoElectronico());
+		        tfCorreo = new JTextField(e.getCorreo());
 		        tfCorreo.setColumns(10);
 		        tfCorreo.setBounds(42, 150, 215, 20);
 		        add(tfCorreo);

@@ -4,6 +4,7 @@ package servidor;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,23 +30,25 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import datos.DatosFicheros;
+import datos.ManejoDatos;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 
 public class Servidor {
 	private static final int PUERTO = ConfigServer.PUERTO;
-	private static DatosFicheros datos;
+	private static ManejoDatos datos;
 	private static Servidor instance;
 	
-	public static DatosFicheros getDatos() {
+	public static ManejoDatos getDatos() {
 		return datos;
 	}
 
-	public static void setDatos(DatosFicheros datos) {
+	public static void setDatos(ManejoDatos datos) {
 		Servidor.datos = datos;
 	}
 
@@ -189,7 +193,7 @@ public class Servidor {
 		    				Usuario u1 = (Usuario) input.readObject();
 		    				if (u1 instanceof Persona) {
 		    					Persona p1 = (Persona) u1;
-		    					Persona p2 = (Persona) datos.getUsuarioFromCorreo(p1.getCorreoElectronico());
+		    					Persona p2 = (Persona) datos.getUsuarioFromCorreo(p1.getCorreo());
 		    					p2.setNombre(p1.getNombre());
 		    					p2.setApellidos(p1.getApellidos());
 		    					p2.setEdad(p1.getEdad());
@@ -197,7 +201,7 @@ public class Servidor {
 		    					p2.setPassword(p1.getPassword());
 		    				} else {
 		    					Empresa e1 = (Empresa) u1;
-		    					Empresa e2 = (Empresa) datos.getUsuarioFromCorreo(e1.getCorreoElectronico());
+		    					Empresa e2 = (Empresa) datos.getUsuarioFromCorreo(e1.getCorreo());
 		    					e2.setNombre(e1.getNombre());
 		    					e2.setDescripcion(e1.getDescripcion());
 		    					e2.setUbicaciones(e1.getUbicaciones());
@@ -207,13 +211,15 @@ public class Servidor {
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.CREAR_USUARIO)) {
-	    					Usuario u1 = (Usuario) input.readObject();
-		    				if (u1 instanceof Persona) {
-		    					Persona p1 = (Persona) u1;
-		    					datos.anadirUsuarioPersona(p1);
+	    					Object[] atribs = (Object[]) input.readObject();
+		    				if (atribs.length == 9 ) {
+		    					Persona p = datos.crearUsuarioPersona((String) atribs[0],(String) atribs[1],(String) atribs[2],(Date) atribs[3],
+		    							(String) atribs[4],(String) atribs[5], (ArrayList<Habilidad>) atribs[6], (File) atribs[7], (String) atribs[8]);
+		    					output.writeObject(p);
 		    				}else {
-		    					Empresa e1 = (Empresa) u1;
-		    					datos.anadirUsuarioEmpresa(e1);
+		    					Empresa e = datos.crearUsuarioEmpresa((String) atribs[0], (String) atribs[1], (String) atribs[2], (String) atribs[3], 
+		    							(ArrayList<String>) atribs[4], (File) atribs[5], (String) atribs[6]);
+		    					output.writeObject(e);
 		    				}
 	    				}
 		    			
