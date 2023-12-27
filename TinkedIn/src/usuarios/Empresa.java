@@ -120,6 +120,17 @@ public class Empresa extends Usuario implements Serializable{
 		this.ubicaciones = ubicaciones;
 		this.puestos = new ArrayList<>();
 	}
+	
+	public Empresa(int id,String nombre, String telefono, String correo, String descripcion,
+			ArrayList<String> ubicaciones, ArrayList<PuestoTrabajo> puestos, String fotoDePerfil, String password) {
+		super(id,fotoDePerfil,password,correo,telefono);
+		this.nombre = nombre;
+//		this.telefono = telefono;
+//		this.correoElectronico = correo;
+		this.descripcion = descripcion;
+		this.ubicaciones = ubicaciones;
+		this.puestos = puestos;
+	}
 
 	public Empresa(Empresa e) {
 		super(e);
