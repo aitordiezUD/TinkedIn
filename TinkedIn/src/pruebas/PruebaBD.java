@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import datos.SQLCredentials;
 
@@ -16,10 +19,21 @@ public class PruebaBD {
 	
 	
 	public static void main(String[] args) throws SQLException {
-		connection = DriverManager.getConnection(SQLCredentials.connectionString);
-		pruebaUbicacion1();
-		
-		connection.close();
+//		connection = DriverManager.getConnection(SQLCredentials.connectionString);
+//		pruebaUbicacion1();
+//		
+//		connection.close();
+		Date fecha;
+		try {
+			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+		} catch (ParseException exc) {
+			// TODO Auto-generated catch block
+			fecha = null;
+			exc.printStackTrace();
+		}
+		java.sql.Date sqlDate = new java.sql.Date(fecha.getTime());
+		System.out.println(sqlDate);
+		System.out.println(fecha.toString());
 	}
 	
 	public static void pruebaUbicacion1() throws SQLException {

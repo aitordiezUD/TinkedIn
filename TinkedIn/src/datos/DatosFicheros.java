@@ -328,7 +328,7 @@ public class DatosFicheros implements ManejoDatos{
 		mapaMatchesDeUsuarios = new HashMap<>();
 		matches = new Vector<>();
 		properties = new Properties();
-		
+		ImagenesAzure.deleteBlobsFicheros();
 		try{
 			InputStream input = new FileInputStream(new File("userCreation.properties"));
             properties.load(input);

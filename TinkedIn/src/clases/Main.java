@@ -24,7 +24,8 @@ public class Main {
 		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
 		servicio.init();
 		servicio.delete();
-		ImagenesAzure.deleteBlobs();
+//		ImagenesAzure.deleteBlobsFicheros();
+		
 //		DatosFicheros datos = new DatosFicheros();
 //		Persona p1 = new Persona("Aitor", "Diez Mateo", "Alava", 19, "aitor.diez@opendeusto.es",
 //				"688680738",new ArrayList<Habilidad>(), null, "passWd");
@@ -112,104 +113,104 @@ public class Main {
 //      EMPRESAS
         
         // Empresa admin
-        Object[] atribsAdmin = {"adminE", "adminE", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE"};
+        Object[] atribsAdmin = {"adminE", "000000000", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE"};
         Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
         
         // Empresa 1
-        Object[] atribsE1 = {"TechIbérica", "912-345-678", "info@techiberica.es",
+        Object[] atribsE1 = {"TechIbérica", "912345678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e1 = (Empresa) servicio.crearUsuario(atribsE1);
         
         // Empresa 2
-        Object[] atribsE2 = {"EcoVida", "654-321-098", "contacto@ecovida.es",
+        Object[] atribsE2 = {"EcoVida", "654321098", "contacto@ecovida.es",
                 "Comprometidos con la sostenibilidad y el medio ambiente",
                 new ArrayList<>(Arrays.asList("Sevilla", "Málaga", "Granada")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
          Empresa e2 = (Empresa) servicio.crearUsuario(atribsE2);
 
         // Empresa 3
-         Object[] atribsE3 = {"ModaEspañola", "789-012-345", "info@modaespanola.es",
+         Object[] atribsE3 = {"ModaEspañola", "789012345", "info@modaespanola.es",
                 "Diseños exclusivos con la elegancia española",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
          Empresa e3 = (Empresa) servicio.crearUsuario(atribsE3);
 
         // Empresa 4
-        Object[] atribsE4 = {"Gastronómica", "678-901-234", "info@gastronomica.es",
+        Object[] atribsE4 = {"Gastronómica", "678909234", "info@gastronomica.es",
                 "Experiencias culinarias únicas y deliciosas",
                 new ArrayList<>(Arrays.asList("Alicante", "Murcia", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e4 = (Empresa) servicio.crearUsuario(atribsE4);
 
         // Empresa 5
-        Object[] atribsE5 = {"ViajesHispania", "567-890-123", "info@viajeshispania.es",
+        Object[] atribsE5 = {"ViajesHispania", "667890123", "info@viajeshispania.es",
                 "Descubre España a través de experiencias de viaje inolvidables",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e5 = (Empresa) servicio.crearUsuario(atribsE5);
 
         // Empresa 6
-        Object[] atribsE6 = {"InmobiliariaPlus", "456-789-012", "info@inmobiliariaplus.es",
+        Object[] atribsE6 = {"InmobiliariaPlus", "466789012", "info@inmobiliariaplus.es",
                 "Soluciones inmobiliarias personalizadas y confiables",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e6 = (Empresa) servicio.crearUsuario(atribsE6);
 
         // Empresa 7
-        Object[] atribsE7 = {"EducaciónExcel", "345-678-901", "info@educacionexcel.es",
+        Object[] atribsE7 = {"EducaciónExcel", "341678901", "info@educacionexcel.es",
                 "Formación de calidad para un futuro brillante",
                 new ArrayList<>(Arrays.asList("Sevilla", "Valencia", "Barcelona")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e7 = (Empresa) servicio.crearUsuario(atribsE7);
 
         // Empresa 8
-        Object[] atribsE8 = {"EstiloHogar", "234-567-890", "info@estilohogar.es",
+        Object[] atribsE8 = {"EstiloHogar", "234567190", "info@estilohogar.es",
                 "Productos y decoración para un hogar con estilo",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e8 = (Empresa) servicio.crearUsuario(atribsE8);
 
         // Empresa 9
-        Object[] atribsE9 = {"TurismoRural", "123-456-789", "info@turismorural.es",
+        Object[] atribsE9 = {"TurismoRural", "123456789", "info@turismorural.es",
                 "Descubre la belleza de la España rural",
                 new ArrayList<>(Arrays.asList("Salamanca", "Toledo", "Ávila")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e9 = (Empresa) servicio.crearUsuario(atribsE9);
 
         // Empresa 10
-        Object[] atribsE10 = {"ArteCreativo", "890-123-456", "info@artecreativo.es",
+        Object[] atribsE10 = {"ArteCreativo", "890123156", "info@artecreativo.es",
                 "Expresiones artísticas que inspiran y emocionan",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e10 = (Empresa) servicio.crearUsuario(atribsE10);
         
-        Object[] atribsE11 = {"ObservatorioEstelar", "111-222-333", "info@observatorioestelar.es",
+        Object[] atribsE11 = {"ObservatorioEstelar", "111222333", "info@observatorioestelar.es",
                 "Exploración del cosmos y estudio astronómico",
                 new ArrayList<>(Arrays.asList("Granada", "Almería", "Jaén")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e11 = (Empresa) servicio.crearUsuario(atribsE11);
 
-        Object[] atribsE12 = {"BioTechLab", "222-333-444", "info@biotechlab.es",
+        Object[] atribsE12 = {"BioTechLab", "222333444", "info@biotechlab.es",
                 "Investigación biotecnológica y desarrollo de medicamentos",
                 new ArrayList<>(Arrays.asList("Valencia", "Alicante", "Castellón")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e12 = (Empresa) servicio.crearUsuario(atribsE12);
 
-        Object[] atribsE13 = {"QuantumSolutions", "333-444-555", "info@quantumsolutions.es",
+        Object[] atribsE13 = {"QuantumSolutions", "333444555", "info@quantumsolutions.es",
                 "Investigación en ciencias cuánticas y desarrollo tecnológico",
                 new ArrayList<>(Arrays.asList("Barcelona", "Madrid", "Zaragoza")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e13 = (Empresa) servicio.crearUsuario(atribsE13);
 
-        Object[] atribsE14 = {"MatemáticasAvanzadas", "444-555-666", "info@matematicasavanzadas.es",
+        Object[] atribsE14 = {"MatemáticasAvanzadas", "444555666", "info@matematicasavanzadas.es",
                 "Soluciones matemáticas innovadoras y análisis numérico",
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Empresa e14 = (Empresa) servicio.crearUsuario(atribsE14);
 
-        Object[] atribsE15 = {"FarmaciaInnovadora", "555-666-777", "info@farmaciainnovadora.es",
+        Object[] atribsE15 = {"FarmaciaInnovadora", "555666777", "info@farmaciainnovadora.es",
                 "Desarrollo de medicamentos y cuidado farmacéutico",
                 new ArrayList<>(Arrays.asList("Zaragoza", "Barcelona", "Valencia")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
@@ -329,7 +330,7 @@ public class Main {
 		}
         
         
-        Object[] atribsP1 = {"Juan", "Gómez", "Madrid", fecha, "juan@gmail.com", "123456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
+        Object[] atribsP1 = {"Juan", "Gómez", "Madrid", fecha, "juan@gmail.com", "623456789", crearCurriculum(h1, h16, h31, h46, h61), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Persona p1 = (Persona) servicio.crearUsuario(atribsP1);
         Object[] atribsP2 = {"María", "López", "Barcelona", fecha, "maria@gmail.com", "987654321", crearCurriculum(h2, h17, h32, h47, h62), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Persona p2 = (Persona) servicio.crearUsuario(atribsP2);

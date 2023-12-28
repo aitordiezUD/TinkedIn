@@ -91,12 +91,32 @@ public class ImagenesAzure {
         return label;	
 	}
 	
-	public static void deleteBlobs() {
+	public static void deleteBlobsFicheros() {
         // Crear el cliente del servicio Blob
         BlobContainerClient containerClient = new BlobServiceClientBuilder()
         		.connectionString(connectionString)
         		.buildClient().
         		getBlobContainerClient(containerNameFicheros);
+
+        // Listar todos los blobs en el contenedor
+        for (BlobItem blobItem : containerClient.listBlobs()) {
+            // Obtener el nombre del blob
+            String blobName = blobItem.getName();
+
+            // Eliminar el blob
+            containerClient.getBlobClient(blobName).delete();
+            System.out.println("Blob eliminado: " + blobName);
+        }
+
+        System.out.println("Todos los blobs han sido eliminados.");
+	}
+	
+	public static void deleteBlobsBd() {
+        // Crear el cliente del servicio Blob
+        BlobContainerClient containerClient = new BlobServiceClientBuilder()
+        		.connectionString(connectionString)
+        		.buildClient().
+        		getBlobContainerClient(containerNameBd);
 
         // Listar todos los blobs en el contenedor
         for (BlobItem blobItem : containerClient.listBlobs()) {

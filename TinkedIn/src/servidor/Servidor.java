@@ -33,6 +33,7 @@ import javax.swing.JTextArea;
 import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
+import datos.DatosBD;
 import datos.DatosFicheros;
 import datos.ManejoDatos;
 import usuarios.Empresa;
@@ -65,7 +66,7 @@ public class Servidor {
 	private static JTextArea taMensajes = new JTextArea( 10, 1 );
 	
 	public Servidor() {
-		datos = new DatosFicheros();
+		datos = new DatosBD();
 		mapaDirecciones = new HashMap<>();
 		mapaDirecciones = Collections.synchronizedMap(mapaDirecciones);
 		mapaMensajasPorEnviar = new HashMap<>();

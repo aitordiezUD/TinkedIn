@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.IntSummaryStatistics;
 import java.util.TreeSet;
 
 import clases.Habilidad;
@@ -28,11 +29,16 @@ public class DatosBD implements ManejoDatos {
 	protected Statement statement;
 	protected PreparedStatement prepStatement;
 	
+	public DatosBD() {
+		init();
+	};
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		try {
-			connection = DriverManager.getConnection(SQLCredentials.connectionString);
+			this.connection = DriverManager.getConnection(SQLCredentials.connectionString);
+			System.out.println("Conexion establecida: " + connection);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -274,8 +280,6 @@ public class DatosBD implements ManejoDatos {
 	public void anadirPuesto(PuestoTrabajo puesto) {
 		// TODO Auto-generated method stub
 		final String anadirPuesto = "INSERT INTO PUESTO_TRABAJO(ID_EMPRESA,NOMBRE,DESCRIPCION) VALUES(?,?,?) ";
-		final String actualizarPuesto = "UPDATE PUESTO_TRABAJO SET ID = ? WHERE 'ID_EMPRESA = ? ";
-		int id;
 		try {
 			connection.setAutoCommit(false);
 			//INTRODUCCION DEL PUESTO DE TRABAJO EN SU TABLA
@@ -283,17 +287,6 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(1, (int)puesto.getIdEmpresa());
 			prepStatement.setString(2, puesto.getNombre());
 			prepStatement.setString(3, puesto.getDescripcion());
-			prepStatement.executeUpdate();
-			ResultSet generatedKeys = prepStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				id = generatedKeys.getInt(1);
-			}else {
-				return;
-			};
-			generatedKeys.close();
-			prepStatement.close();
-			prepStatement = connection.prepareStatement(actualizarPuesto);
-			prepStatement.setInt(1, id);
 			prepStatement.executeUpdate();
 			prepStatement.close();
 		} catch (Exception e) {
@@ -306,19 +299,158 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
-		
+		System.out.println(connection);
+		ImagenesAzure.deleteBlobsBd();
+		String sql = "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'MATCHES') DROP TABLE MATCHES;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'MENSAJE') DROP TABLE MENSAJE;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'LIKES') DROP TABLE LIKES;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'HABILIDAD') DROP TABLE HABILIDAD;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'PUESTO_TRABAJO') DROP TABLE PUESTO_TRABAJO;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'UBICACION_EMPRESA') DROP TABLE UBICACION_EMPRESA;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'PERSONA') DROP TABLE PERSONA;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'EMPRESA') DROP TABLE EMPRESA;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'USUARIO') DROP TABLE USUARIO;\r\n"
+				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'UBICACION') DROP TABLE UBICACION;"
+				+ "CREATE TABLE UBICACION(\r\n"
+				+ "	ID INT PRIMARY KEY IDENTITY(0,1),\r\n"
+				+ "	NOMBRE VARCHAR(255)\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE USUARIO (\r\n"
+				+ "    ID INT PRIMARY KEY IDENTITY(0,1),\r\n"
+				+ "    FOTO_PERFIL VARCHAR(255),\r\n"
+				+ "    CONTRASENA VARCHAR(255),\r\n"
+				+ "    TIPO VARCHAR(10),\r\n"
+				+ "	CORREO VARCHAR(255),\r\n"
+				+ "    TELEFONO VARCHAR(9),\r\n"
+				+ "	UNIQUE (CORREO),\r\n"
+				+ "	UNIQUE (TELEFONO)\r\n"
+				+ "    \r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE EMPRESA (\r\n"
+				+ "    ID INT PRIMARY KEY,\r\n"
+				+ "    NOMBRE VARCHAR(255),\r\n"
+				+ "    DESCRIPCION TEXT,\r\n"
+				+ "    FOREIGN KEY (ID) REFERENCES USUARIO(ID)\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE PERSONA (\r\n"
+				+ "    ID INT PRIMARY KEY,\r\n"
+				+ "    NOMBRE VARCHAR(255),\r\n"
+				+ "    APELLIDOS VARCHAR(255),\r\n"
+				+ "    NACIMIENTO DATE,\r\n"
+				+ "    UBICACION INT,\r\n"
+				+ "    FOREIGN KEY (ID) REFERENCES USUARIO(ID),\r\n"
+				+ "	FOREIGN KEY (UBICACION) REFERENCES UBICACION(ID)\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE UBICACION_EMPRESA(\r\n"
+				+ "	ID_EMPRESA INT NOT NULL,\r\n"
+				+ "	ID_UBICACION INT NOT NULL,\r\n"
+				+ "	PRIMARY KEY (ID_EMPRESA,ID_UBICACION),\r\n"
+				+ "	FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA(ID) ON DELETE CASCADE,\r\n"
+				+ "	FOREIGN KEY (ID_UBICACION) REFERENCES UBICACION(ID)\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE PUESTO_TRABAJO (\r\n"
+				+ "	ID INT PRIMARY KEY IDENTITY(0,1),\r\n"
+				+ "	ID_EMPRESA INT,\r\n"
+				+ "	NOMBRE VARCHAR(255),\r\n"
+				+ "	DESCRIPCION TEXT,\r\n"
+				+ "	FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA(ID)\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE HABILIDAD (\r\n"
+				+ "	ID INT PRIMARY KEY IDENTITY(0,1),\r\n"
+				+ "	CAMPO VARCHAR(255),\r\n"
+				+ "	NOMBRE VARCHAR(255),\r\n"
+				+ "	DESTREZA NUMERIC(1),\r\n"
+				+ "	DESCRIPCION TEXT,\r\n"
+				+ "	ID_PERSONA INT DEFAULT NULL,\r\n"
+				+ "	ID_PUESTO INT DEFAULT NULL,\r\n"
+				+ "	FOREIGN KEY (ID_PERSONA) REFERENCES PERSONA(ID) ON DELETE CASCADE,\r\n"
+				+ "	FOREIGN KEY (ID_PUESTO) REFERENCES PUESTO_TRABAJO(ID) ON DELETE CASCADE\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE LIKES (\r\n"
+				+ "	FROM_US INT,\r\n"
+				+ "	TO_US INT,\r\n"
+				+ "	PRIMARY KEY (FROM_US,TO_US),\r\n"
+				+ "	FOREIGN KEY (FROM_US) REFERENCES USUARIO(ID) ON DELETE CASCADE,\r\n"
+				+ "	FOREIGN KEY (TO_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE MENSAJE(\r\n"
+				+ "	FROM_US INT,\r\n"
+				+ "	TO_US INT,\r\n"
+				+ "	FECHA DATE,\r\n"
+				+ "	MENSAJE_TEXTO TEXT,\r\n"
+				+ "	PRIMARY KEY (FROM_US,TO_US,FECHA),\r\n"
+				+ "	FOREIGN KEY (FROM_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION,\r\n"
+				+ "	FOREIGN KEY (TO_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION\r\n"
+				+ ");\r\n"
+				+ "\r\n"
+				+ "\r\n"
+				+ "\r\n"
+				+ "CREATE TABLE MATCHES (\r\n"
+				+ "	USUARIO1 INT,\r\n"
+				+ "	USUARIO2 INT,\r\n"
+				+ "	PRIMARY KEY (USUARIO1,USUARIO2),\r\n"
+				+ "	FOREIGN KEY (USUARIO1) REFERENCES USUARIO(ID) ON DELETE NO ACTION,\r\n"
+				+ "	FOREIGN KEY (USUARIO2) REFERENCES USUARIO(ID) ON DELETE NO ACTION\r\n"
+				+ ");";
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+			statement.close();
+			System.out.println("Borrado finalizado");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void anadirMensaje(Mensaje mensaje) {
 		// TODO Auto-generated method stub
-		
+		final String insertarMensaje = "INSERT INTO MENSAJE VALUES(?,?,?,?);";
+		try {
+			prepStatement = connection.prepareStatement(insertarMensaje);
+			prepStatement.setInt(1, (int) mensaje.getFrom());
+			prepStatement.setInt(2, (int) mensaje.getTo());
+			java.sql.Date sqlDate = new java.sql.Date(mensaje.getDate().getTime());
+			prepStatement.setDate(3, sqlDate);
+			prepStatement.setString(4, mensaje.getMensaje());
+			prepStatement.close();
+		} catch (Exception e) {
+			System.err.println("No se ha podido añadir el mensaje: " +  mensaje);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public TreeSet<Mensaje> filtrarMensajes(Usuario usuario) {
 		// TODO Auto-generated method stub
-		return null;
+		final String buscarMensajes = "SELECT * FROM MENSAJE WHERE FROM_US = ? OR TO_US=? ORDER BY FECHA ASC";
+		int idUsuario = (int) usuario.getId();
+		TreeSet<Mensaje> set = new TreeSet<>();
+		try {
+			prepStatement = connection.prepareStatement(buscarMensajes);
+			prepStatement.setInt(1, idUsuario);
+			prepStatement.setInt(2, idUsuario);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				Mensaje m = new Mensaje(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4));
+				set.add(m);
+			}
+			rs.close();
+			prepStatement.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("Error: no se han podido obtener los mensajes filtrados");
+		}
+		return set;
 	}
 
 	@Override
@@ -330,7 +462,6 @@ public class DatosBD implements ManejoDatos {
 		final String anadirPersona = "INSERT INTO PERSONA VALUES(?, ?, ?, ?, ?)";
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO, NOMBRE, DESTREZA, DESCRIPCION, ID_PERSONA) VALUES(?,?,?,?,?)";
 		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE 'NOMBRE' = ?";
-		final String anadirUbicacion = "INSERT INTO UBICACION_EMPRESA VALUES(?,?)";
 		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
 		try {
@@ -363,7 +494,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(1, id); //ID
 			prepStatement.setString(2, nombre); //NOMBRE
 			prepStatement.setString(3, apellidos); //APELLIDOS
-			prepStatement.setString(4, nacimiento.toString()); //NACIMIENTO
+			java.sql.Date sqlDate = new java.sql.Date(nacimiento.getTime());
+			prepStatement.setDate(4, sqlDate); //NACIMIENTO
 
 			
 			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
@@ -450,6 +582,7 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setString(2, password);
 			prepStatement.setString(3, correo);
 			prepStatement.setString(4, telefono);
+			prepStatement.setInt(5, id);
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE USUARIO EN LA TABLA EMPRESA
