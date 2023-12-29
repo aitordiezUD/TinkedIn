@@ -716,7 +716,7 @@ public class DatosBD implements ManejoDatos {
 				if (rsPersona.next()) {
 					nombre = rsPersona.getString(2);
 					apellidos = rsPersona.getString(3);
-					java.sql.Date sqlDate = rs.getDate(4);
+					java.sql.Date sqlDate = rsPersona.getDate(4);
 					nacimiento = new Date(sqlDate.getTime());
 					idUbicacion = rsPersona.getInt(5);
 					ubicacion = getUbicacionFromId(idUbicacion);
@@ -791,7 +791,7 @@ public class DatosBD implements ManejoDatos {
 	public Vector<Empresa> getEmpresas() {
 		// TODO Auto-generated method stub
 		Vector<Empresa> empresas = new Vector<>();
-		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ";
+		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ?";
 		final String selectEmpresas = "SELECT * FROM EMPRESA";
 		try {
 //			RECORRER EMPRESAS:
@@ -844,7 +844,7 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public Vector<Persona> getPersonas() {
 		Vector<Persona> personas = new Vector<>();
-		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ";
+		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ?";
 		final String selectPersonas = "SELECT * FROM PERSONA";
 		try {
 			prepStatement = connection.prepareStatement(selectPersonas);
@@ -866,10 +866,10 @@ public class DatosBD implements ManejoDatos {
 				psUsuarios.setInt(1, id);
 				ResultSet rsUsuarios = psUsuarios.executeQuery();
 				if(rsUsuarios.next()) {
-					fotoDePerfil = rs.getString(2);
-					password = rs.getString(3);
+					fotoDePerfil = rsUsuarios.getString(2);
+					password = rsUsuarios.getString(3);
 					correo = rs.getString(5);
-					telefono = rs.getString(6);
+					telefono = rsUsuarios.getString(6);
 				}else {
 					return personas;
 				}
@@ -911,7 +911,7 @@ public class DatosBD implements ManejoDatos {
 	
 	private ArrayList<PuestoTrabajo> crearPuestos(int idEmpresa){
 		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
-		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
+		final String buscarHabilidadesPuesto = "SELECT * FROM HABILIDAD WHERE ID_PUESTO = ?";
 		
 		ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 		
@@ -994,23 +994,27 @@ public class DatosBD implements ManejoDatos {
 		}
 	}
 
+	@Override
+	public Vector<Usuario> getUsuarios() {
+		Vector<Usuario> usuarios = new Vector<>();
+		for (Empresa e : getEmpresas()) {
+			usuarios.add(e);
+		}
+		for (Persona p : getPersonas()) {
+			usuarios.add(p);
+		}
+		return null;
+	}
+
 
 	
-//	public static void main(String[] args) {
-//		DatosBD datos = new DatosBD();
-//		datos.init();
-//		Date fecha;
-//		try {
-//			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
-//		} catch (ParseException exc) {
-//			// TODO Auto-generated catch block
-//			fecha = null;
-//			exc.printStackTrace();
-//		}
-//		Persona p = datos.crearUsuarioPersona("admin", "admin", "Alava",fecha ,"admin","admin", new ArrayList<Habilidad>(),new File("adminpng.png"),"admin");
-//		System.out.println(p);
-//		datos.fin();
-//	}
+	public static void main(String[] args) {
+		DatosBD datos = new DatosBD();
+		datos.init();
+		System.out.println(datos.getEmpresas());
+		
+		datos.fin();
+	}
 
 
 
