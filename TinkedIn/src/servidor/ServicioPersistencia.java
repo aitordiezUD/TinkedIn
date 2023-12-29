@@ -50,4 +50,6 @@ public interface ServicioPersistencia {
 	
 	public void anadirMensaje(Mensaje m);
 	
+	public Empresa getEmpresaFromPuesto(PuestoTrabajo puesto);
+	
 }

@@ -442,6 +442,29 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		
 	}
 
+	@Override
+	public Empresa getEmpresaFromPuesto(PuestoTrabajo puesto) {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject( ConfigServer.GET_EMPRESA_FROM_PUESTO);
+			flujoOut.writeObject( puesto );
+			
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el listado de empresas, timeout servidor");
+				return null;
+			}
+			Empresa empresa = (Empresa) respuestasServidor.remove(0);
+			return empresa;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 
 	
 	

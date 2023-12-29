@@ -61,5 +61,8 @@ public class ConfigServer {
 //		Añade un mensaje a los datos - va seguido de un mensaje
 		static String ANADIR_MENSAJE = "anadir_mensaje";
 		
+//		Devuelve la empresa que ha creado un puesto de trabajo - va seguido de un puesto de trabajo
+		static String GET_EMPRESA_FROM_PUESTO = "get_empresa_from_puesto";
+		
 
 }

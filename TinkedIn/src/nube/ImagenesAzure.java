@@ -131,21 +131,5 @@ public class ImagenesAzure {
         System.out.println("Todos los blobs han sido eliminados.");
 	}
 	
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		JPanel p = new JPanel(new FlowLayout());
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		f.setSize(600,600);
-		DatosFicheros datos = new DatosFicheros();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		p.add(crearImagen(DatosFicheros.getPersonas().get(0),100,100));
-		f.add(p);
-		
-		f.setVisible(true);
-	}
+
 }

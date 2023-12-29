@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.IntSummaryStatistics;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import clases.Habilidad;
 import clases.Mensaje;
@@ -102,6 +103,7 @@ public class DatosBD implements ManejoDatos {
 			if (tipo.equals("PERSONA")) {
 				String nombre = null;
 				String apellidos = null;
+				int idUbicacion;
 				String ubicacion = null;
 				Date nacimiento = null;
 				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
@@ -112,7 +114,8 @@ public class DatosBD implements ManejoDatos {
 					nombre = rsPersona.getString(2);
 					apellidos = rsPersona.getString(3);
 					nacimiento =  rsPersona.getDate(4);
-					ubicacion = rsPersona.getString(5);
+					idUbicacion = rsPersona.getInt(5);
+					ubicacion = getUbicacionFromId(idUbicacion);
 				}
 				rsPersona.close();
 				prepStatement.close();
@@ -143,30 +146,32 @@ public class DatosBD implements ManejoDatos {
 				}
 				rsEmpresa.close();
 				prepStatement.close();
-//				OBTENER PUESTOS
-				int idPuesto = -1;
-				int idEmpresa = id;
-				String nombrePuesto = null;
-				String descripcionPuesto = null;
-				
-				prepStatement = connection.prepareStatement(buscarPuesto);
-				prepStatement.setInt(1, idEmpresa);
-				ResultSet rsPuestos = prepStatement.executeQuery();
-				while (rsPuestos.next()) {
-					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
-					idPuesto = rsPuestos.getInt(1);
-					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
-					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
-					busquedaHabilidad.setInt(1, idPuesto);
-					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
-					while (rsHabilidadesPuestos.next()) {
-						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
-								rsHabilidadesPuestos.getString(5));
-						habilidadesPuesto.add(h);
-					}
-					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
-					puestos.add(p);
-				}
+//				OBTENER PUESTOS Y UBICACIONES
+				puestos = crearPuestos(id);
+				ubicaciones = crearUbicaciones(id);
+//				int idPuesto = -1;
+//				int idEmpresa = id;
+//				String nombrePuesto = null;
+//				String descripcionPuesto = null;
+//				
+//				prepStatement = connection.prepareStatement(buscarPuesto);
+//				prepStatement.setInt(1, idEmpresa);
+//				ResultSet rsPuestos = prepStatement.executeQuery();
+//				while (rsPuestos.next()) {
+//					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
+//					idPuesto = rsPuestos.getInt(1);
+//					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
+//					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
+//					busquedaHabilidad.setInt(1, idPuesto);
+//					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
+//					while (rsHabilidadesPuestos.next()) {
+//						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
+//								rsHabilidadesPuestos.getString(5));
+//						habilidadesPuesto.add(h);
+//					}
+//					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
+//					puestos.add(p);
+//				}
 				return new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos, fotoDePerfil, password);
 
 			}
@@ -634,21 +639,288 @@ public class DatosBD implements ManejoDatos {
 		    return null;
 		}
 	}
-	
-	public static void main(String[] args) {
-		DatosBD datos = new DatosBD();
-		datos.init();
-		Date fecha;
+
+	@Override
+	public Usuario getUsuarioFromId(int id) {
+		final String buscarUsuarios = "SELECT * FROM USUARIO WHERE ID = ?";
+		final String buscarPersona = "SELECT * FROM PERSONA WHERE ID = ?";
+		final String buscarHabilidadesPersona = "SELECT * FROM HABILIDAD WHERE ID_PERSONA = ?";
+		final String buscarEmpresa = "SELECT * FROM EMPRESA WHERE ID = ?";
+//		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
+//		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
+		String correo;
+		String fotoDePerfil;
+		String password;
+		String tipo;
+		String telefono;
+		
 		try {
-			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
-		} catch (ParseException exc) {
-			// TODO Auto-generated catch block
-			fecha = null;
-			exc.printStackTrace();
+			prepStatement = connection.prepareStatement(buscarUsuarios);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				fotoDePerfil = rs.getString(2);
+				password = rs.getString(3);
+				tipo = rs.getString(4);
+				correo = rs.getString(5);
+				telefono = rs.getString(6);
+			}else {
+				rs.close();
+				prepStatement.close();
+				return null;
+			}
+			rs.close();
+			prepStatement.close();
+			if (tipo.equals("PERSONA")) {
+				String nombre = null;
+				String apellidos = null;
+				int idUbicacion;
+				String ubicacion = null;
+				Date nacimiento = null;
+				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
+				prepStatement = connection.prepareStatement(buscarPersona);
+				prepStatement.setInt(1,id);
+				ResultSet rsPersona = prepStatement.executeQuery();
+				if (rsPersona.next()) {
+					nombre = rsPersona.getString(2);
+					apellidos = rsPersona.getString(3);
+					nacimiento =  rsPersona.getDate(4);
+					idUbicacion = rsPersona.getInt(5);
+					ubicacion = getUbicacionFromId(idUbicacion);
+				}
+				rsPersona.close();
+				prepStatement.close();
+//				OBTENCION DEL ARRAYLIST DE HABILIDADES
+				prepStatement = connection.prepareStatement(buscarHabilidadesPersona);
+				prepStatement.setInt(1, id);
+				ResultSet rsHabilidadesPersona = prepStatement.executeQuery();
+				while (rsHabilidadesPersona.next()) {
+					Habilidad h = new Habilidad(rsHabilidadesPersona.getString(2),rsHabilidadesPersona.getString(3),rsHabilidadesPersona.getInt(4),
+							rsHabilidadesPersona.getString(5));
+					habilidades.add(h);
+				}
+				rsHabilidadesPersona.close();
+				prepStatement.close();
+				return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
+			}else {
+//				OBTENER EMPRESA
+				String nombre = null;
+				String descripcion = null;
+				ArrayList<String> ubicaciones = new ArrayList<String>();
+				ArrayList<PuestoTrabajo> puestos = new ArrayList<PuestoTrabajo>();
+				prepStatement = connection.prepareStatement(buscarEmpresa);
+				prepStatement.setInt(1, id);
+				ResultSet rsEmpresa = prepStatement.executeQuery();
+				if (rsEmpresa.next()) {
+					nombre = rsEmpresa.getString(2);
+					descripcion = rsEmpresa.getString(3);
+				}
+				rsEmpresa.close();
+				prepStatement.close();
+//				OBTENER PUESTOS Y UBICACIONES
+				puestos = crearPuestos(id);
+				ubicaciones = crearUbicaciones(id);
+//				int idPuesto = -1;
+//				int idEmpresa = id;
+//				String nombrePuesto = null;
+//				String descripcionPuesto = null;
+//				
+//				prepStatement = connection.prepareStatement(buscarPuesto);
+//				prepStatement.setInt(1, idEmpresa);
+//				ResultSet rsPuestos = prepStatement.executeQuery();
+//				while (rsPuestos.next()) {
+//					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
+//					idPuesto = rsPuestos.getInt(1);
+//					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
+//					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
+//					busquedaHabilidad.setInt(1, idPuesto);
+//					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
+//					while (rsHabilidadesPuestos.next()) {
+//						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
+//								rsHabilidadesPuestos.getString(5));
+//						habilidadesPuesto.add(h);
+//					}
+//					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
+//					puestos.add(p);
+//				}
+				return new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos, fotoDePerfil, password);
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-		Persona p = datos.crearUsuarioPersona("admin", "admin", "Alava",fecha ,"admin","admin", new ArrayList<Habilidad>(),new File("adminpng.png"),"admin");
-		System.out.println(p);
-		datos.fin();
+		
+		return null;
 	}
+
+	@Override
+	public Vector<Empresa> getEmpresas() {
+		// TODO Auto-generated method stub
+		Vector<Empresa> empresas = new Vector<>();
+		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ";
+		final String selectEmpresas = "SELECT * FROM EMPRESA";
+		try {
+//			RECORRER EMPRESAS:
+			prepStatement = connection.prepareStatement(selectEmpresas);
+			ResultSet rs = prepStatement.executeQuery();
+			while (rs.next()) {
+				int id;
+				String nombre;
+				String descripcion;
+				String correo;
+				String fotoDePerfil;
+				String password;
+				String telefono;
+				ArrayList<String> ubicaciones = new ArrayList<>();
+				ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
+				
+				id = rs.getInt(1);
+				nombre = rs.getString(2);
+				descripcion = rs.getString(3);
+				PreparedStatement prepStatementUsuario = connection.prepareStatement(selectUsuarios);
+				prepStatementUsuario.setInt(1, id);
+				ResultSet rsUsuario = prepStatementUsuario.executeQuery();
+				if (rsUsuario.next()) {
+					fotoDePerfil = rsUsuario.getString(2);
+					password = rsUsuario.getString(3);
+					correo = rsUsuario.getString(5);
+					telefono = rsUsuario.getString(6);
+				}else {
+					return null;
+				}
+				rsUsuario.close();
+				prepStatementUsuario.close();
+				puestos = crearPuestos(id);
+				ubicaciones = crearUbicaciones(id);
+				Empresa e = new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos,
+						fotoDePerfil, password);
+				empresas.add(e);
+			}
+			rs.close();
+			prepStatement.close();
+			return empresas;
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return empresas;
+		}
+		
+	}
+	
+	@Override
+	public Vector<Persona> getPersonas() {
+		Vector<Persona> personas = new Vector<>();
+		try {
+			return personas;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	
+	
+	private String getUbicacionFromId(int id) {
+		final String buscarUbi = "SELECT * FROM UBICACION WHERE ID = ?";
+		String ubicacion = "";
+		try {
+			PreparedStatement psUbicacion = connection.prepareStatement(buscarUbi);
+			psUbicacion.setInt(1, id);
+			ResultSet rsUbicacion = psUbicacion.executeQuery();
+			if (rsUbicacion.next()) {
+				ubicacion = rsUbicacion.getString(2);
+			}
+			return ubicacion;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ubicacion;
+		}
+	}
+	
+	private ArrayList<PuestoTrabajo> crearPuestos(int idEmpresa){
+		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
+		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
+		
+		ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
+		
+		int idPuesto = -1;
+		String nombrePuesto = null;
+		String descripcionPuesto = null;
+		
+		try {
+			PreparedStatement prepStatementPuestos = connection.prepareStatement(buscarPuesto);
+			prepStatementPuestos.setInt(1, idEmpresa);
+			ResultSet rsPuestos = prepStatementPuestos.executeQuery();
+			while (rsPuestos.next()) {
+				ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
+				idPuesto = rsPuestos.getInt(1);
+				//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
+				PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
+				busquedaHabilidad.setInt(1, idPuesto);
+				ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
+				while (rsHabilidadesPuestos.next()) {
+					Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
+							rsHabilidadesPuestos.getString(5));
+					habilidadesPuesto.add(h);
+				}
+				rsHabilidadesPuestos.close();
+				busquedaHabilidad.close();
+				PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
+				puestos.add(p);
+			}
+			rsPuestos.close();
+			prepStatementPuestos.close();
+			return puestos;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private ArrayList<String> crearUbicaciones(int id){
+		final String obtenerUbicacionEmpresa = "SELECT * FROM UBICACION_EMPRESA WHERE ID_EMPRESA = ?";
+		
+		ArrayList<String> ubicaciones = new ArrayList<>();
+		try {
+			PreparedStatement psUbicaciones = connection.prepareStatement(obtenerUbicacionEmpresa);
+			psUbicaciones.setInt(1, id);
+			ResultSet rsUbicaciones = psUbicaciones.executeQuery();
+			while (rsUbicaciones.next()) {
+				int idUbicacion = rsUbicaciones.getInt(2);
+				String ubicacion = getUbicacionFromId(idUbicacion);
+				ubicaciones.add(ubicacion);
+			}
+			rsUbicaciones.close();
+			psUbicaciones.close();
+			return ubicaciones;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ubicaciones;
+		}
+	}
+
+
+	
+//	public static void main(String[] args) {
+//		DatosBD datos = new DatosBD();
+//		datos.init();
+//		Date fecha;
+//		try {
+//			fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+//		} catch (ParseException exc) {
+//			// TODO Auto-generated catch block
+//			fecha = null;
+//			exc.printStackTrace();
+//		}
+//		Persona p = datos.crearUsuarioPersona("admin", "admin", "Alava",fecha ,"admin","admin", new ArrayList<Habilidad>(),new File("adminpng.png"),"admin");
+//		System.out.println(p);
+//		datos.fin();
+//	}
+
+
 
 }
