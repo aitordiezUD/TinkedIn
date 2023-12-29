@@ -58,8 +58,8 @@ public class DatosFicheros implements ManejoDatos{
 		DatosFicheros.usuarios = usuarios;
 	}
 
-
-	public static Vector<Persona> getPersonas() {
+	@Override
+	public Vector<Persona> getPersonas() {
 		return personas;
 	}
 
@@ -78,8 +78,8 @@ public class DatosFicheros implements ManejoDatos{
 		DatosFicheros.mensajes = mensajes;
 	}
 
-
-	public static Vector<Empresa> getEmpresas() {
+	@Override
+	public Vector<Empresa> getEmpresas() {
 		return empresas;
 	}
 
@@ -382,6 +382,12 @@ public class DatosFicheros implements ManejoDatos{
 		ImagenesAzure.subirImagenFicheros(fotoDePerfil,e.getId() + ".jpg");
 		anadirUsuarioEmpresa(e);
 		return e;
+	}
+
+
+	@Override
+	public Usuario getUsuarioFromId(int id) {
+		return DatosFicheros.getMapaIdUsuario().get(id);
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import clases.Habilidad;
 import clases.Mensaje;
@@ -138,4 +139,23 @@ public interface ManejoDatos {
 	 * @param usuario Usuario del cual queremos obtener sus mensajes
 	 */
 	public TreeSet<Mensaje> filtrarMensajes(Usuario usuario);
+	
+	
+	/**Función que devuelve una empresa dada su Id
+	 * @param id
+	 * @return
+	 */
+	public Usuario getUsuarioFromId(int id);
+	
+	
+	
+	/**Devuelve todas las empresas de la base de datos
+	 * @return vector de empresas
+	 */
+	public Vector<Empresa> getEmpresas();
+	
+	/**Devuelve todas las personas de la base de datos
+	 * @return vector de personas
+	 */
+	public Vector<Persona> getPersonas();
 }

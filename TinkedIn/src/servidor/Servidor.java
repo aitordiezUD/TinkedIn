@@ -261,12 +261,13 @@ public class Servidor {
 //		    	    			}
 //		    	    		}
 //		    	    		output.writeObject(ConfigServer.NO_OK);
-		    				TreeSet<Mensaje> set = datos.filtrarMensajes(DatosFicheros.getMapaIdUsuario().get(idSender));
+//		    				TreeSet<Mensaje> set = datos.filtrarMensajes(DatosFicheros.getMapaIdUsuario().get(idSender));
+		    				TreeSet<Mensaje> set = datos.filtrarMensajes(datos.getUsuarioFromId(idSender));
 		    				output.writeObject(set);
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.GET_EMPRESAS)) {
-		    				output.writeObject(DatosFicheros.getEmpresas());
+		    				output.writeObject(datos.getEmpresas());
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS)) {
@@ -275,13 +276,17 @@ public class Servidor {
 		    			
 		    			if (objRecibido.equals(ConfigServer.ANADIR_MENSAJE)) {
 		    				Mensaje m = (Mensaje) input.readObject();
-		    				System.out.println("Servidor va a añadir: " + m);
 		    				datos.anadirMensaje(m);
-		    				System.out.println(DatosFicheros.getMensajes());
 		    			}
 		    				
 		    			if (objRecibido.equals(ConfigServer.GET_PERSONAS)) {
-		    				output.writeObject(DatosFicheros.getPersonas());
+		    				output.writeObject(datos.getPersonas());
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_EMPRESA_FROM_PUESTO)) {
+		    				PuestoTrabajo puesto = (PuestoTrabajo) input.readObject();
+		    				Empresa empresa = (Empresa) datos.getUsuarioFromId( (int) puesto.getIdEmpresa());
+		    				output.writeObject(empresa);
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
