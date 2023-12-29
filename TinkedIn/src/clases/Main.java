@@ -115,7 +115,7 @@ public class Main {
         // Empresa admin
         Object[] atribsAdmin = {"adminE", "000000000", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE"};
         Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
-        
+        System.out.println("Id adminE :" + adminE.getId());
         // Empresa 1
         Object[] atribsE1 = {"TechIbérica", "912345678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",
@@ -315,9 +315,9 @@ public class Main {
                 new ArrayList<>(Arrays.asList(h27, h47)), e4);
         servicio.anadirPuesto(puesto20);
         //Puesto para el admin
-        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs", "Administración de organizaciones benéficas en entornos rurales",
-                new ArrayList<>(Arrays.asList(h30, h13)), adminE);
-        servicio.anadirPuesto(puestoAdmin);
+//        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs", "Administración de organizaciones benéficas en entornos rurales",
+//                new ArrayList<>(Arrays.asList(h30, h13)), adminE);
+//        servicio.anadirPuesto(puestoAdmin);
         
         
     	Date fecha;
@@ -361,26 +361,8 @@ public class Main {
         Object[] atribsP15 = {"Raúl", "Fernández", "Cáceres", fecha, "raul@gmail.com", "345671001", crearCurriculum(h14, h30, h45, h60, h75), new File("src/ventanas/defaultFotoPerfil.jpg"), "asdf"};
         Persona p15 = (Persona) servicio.crearUsuario(atribsP15);
         
-//		Persona pAdmin = new Persona("admin", "admin", "Alava",20,"admin","admin", new ArrayList<>(),new File("adminpng.png"),"admin");
 		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
 		Persona pAdmin = (Persona) servicio.crearUsuario(atribsPAdmin);
-		
-		
-//		ArrayList<PuestoTrabajo> puestosEjemplo = new ArrayList<>();
-//		
-//		for(int i = 0; i<5;i++) {
-//			PuestoTrabajo pt = new PuestoTrabajo(String.valueOf(i), String.valueOf(i), null, null);
-//			puestosEjemplo.add(pt);
-//		}
-		
-		
-		
-//		Empresa pruebaPuestos = new Empresa("prueba","prueba", "prueba","prueba", null, puestosEjemplo, new File("TinkedinPNG.png") , "prueba");
-		
-//		servicio.crearUsuario(adminE);
-//		servicio.crearUsuario(pruebaPuestos);
-//		Empresa adminE2 = new Empresa("adminE2", "adminE2", "adminE2","adminE2",null,null, (new ImageIcon(PnlExplorar.class.getResource("fotoPerfilEjemplo.jpg"))),"adminE2");
-//		datos.anadirUsuarioEmpresa(adminE2);
 		
 		Mensaje m1 = new Mensaje(pAdmin.getId(), adminE.getId(), "Hola!", new Date());
 		servicio.anadirMensaje(m1);

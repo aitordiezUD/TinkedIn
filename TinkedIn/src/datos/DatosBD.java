@@ -113,7 +113,8 @@ public class DatosBD implements ManejoDatos {
 				if (rsPersona.next()) {
 					nombre = rsPersona.getString(2);
 					apellidos = rsPersona.getString(3);
-					nacimiento =  rsPersona.getDate(4);
+					java.sql.Date sqlDate = rsPersona.getDate(4);
+					nacimiento = new Date(sqlDate.getTime());
 					idUbicacion = rsPersona.getInt(5);
 					ubicacion = getUbicacionFromId(idUbicacion);
 				}
@@ -186,14 +187,19 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public boolean autenticarUsuario(String correo, String contraseña) {
 		// TODO Auto-generated method stub
-		final String comprobarContraseña = "SELECT * FROM USUARIO WHERE 'CORREO' = ? AND 'CONTRASENA' = ? ";
+		final String comprobarContraseña = "SELECT * FROM USUARIO WHERE CORREO = ? AND CONTRASENA = ? ";
 		try {
 			prepStatement = connection.prepareStatement(comprobarContraseña);
 			prepStatement.setString(1, correo);
 			prepStatement.setString(2, contraseña);
 			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				rs.close();
+				prepStatement.close();
+				return true;
+			}
+			rs.close();
 			prepStatement.close();
-			if (rs.next()) return true;
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -209,8 +215,13 @@ public class DatosBD implements ManejoDatos {
 			prepStatement = connection.prepareStatement(contieneTlf);
 			prepStatement.setString(1, contieneTlf);
 			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				rs.close();
+				prepStatement.close();
+				return true;
+			}
+			rs.close();
 			prepStatement.close();
-			if (rs.next()) return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -226,8 +237,13 @@ public class DatosBD implements ManejoDatos {
 			prepStatement = connection.prepareStatement(contieneEMail);
 			prepStatement.setString(1, email);
 			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				rs.close();
+				prepStatement.close();
+				return true;
+			}
+			rs.close();
 			prepStatement.close();
-			if (rs.next()) return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -284,16 +300,28 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public void anadirPuesto(PuestoTrabajo puesto) {
 		// TODO Auto-generated method stub
-		final String anadirPuesto = "INSERT INTO PUESTO_TRABAJO(ID_EMPRESA,NOMBRE,DESCRIPCION) VALUES(?,?,?) ";
+		final String anadirPuesto = "INSERT INTO PUESTO_TRABAJO(ID_EMPRESA,NOMBRE,DESCRIPCION) VALUES(?,?,?)";
+		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO,NOMBRE,DESTREZA,DESCRIPCION,ID_PUESTO) VALUES(?,?,?,?,?)";
 		try {
 			connection.setAutoCommit(false);
 			//INTRODUCCION DEL PUESTO DE TRABAJO EN SU TABLA
 			prepStatement = connection.prepareStatement(anadirPuesto,statement.RETURN_GENERATED_KEYS);
-			prepStatement.setInt(1, (int)puesto.getIdEmpresa());
+			prepStatement.setInt(1, (int) puesto.getIdEmpresa());
 			prepStatement.setString(2, puesto.getNombre());
 			prepStatement.setString(3, puesto.getDescripcion());
 			prepStatement.executeUpdate();
 			prepStatement.close();
+			for (Habilidad h : puesto.getHabilidadesReq()) {
+				prepStatement = connection.prepareStatement(anadirHabilidad);
+				prepStatement.setString(1, h.getCampo());
+				prepStatement.setString(2, h.getNombre());
+				prepStatement.setInt(3, h.getDestreza());
+				prepStatement.setString(4, h.getDescripcion());
+				prepStatement.setInt(0, (int) puesto.getIdEmpresa());
+				prepStatement.executeUpdate();
+				prepStatement.close();
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -528,15 +556,19 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE HABILIDADES EN LA TABLA HABILIDAD
+//			System.out.println("Añadiendo habilidades: ");
 			for (Habilidad h : habilidades) {
-				prepStatement = connection.prepareStatement(anadirHabilidad);
+				System.out.println(h);
+//				prepStatement = connection.prepareStatement(anadirHabilidad);
 				prepStatement.setString(1, h.getCampo()); //CAMPO
 				prepStatement.setString(2, h.getNombre()); //NOMBRE
 				prepStatement.setInt(3, h.getDestreza()); //DESTREZA
 				prepStatement.setString(4, h.getDescripcion()); //DESCRIPCION
 				prepStatement.setInt(5, id); //ID_PERSONA
+				prepStatement.executeUpdate();
 				prepStatement.close();
 			}
+//			System.out.println("Habilidades añadidas");
 			connection.commit();
 			connection.setAutoCommit(true);
 			return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correoElectronico, telefeno, habilidades, rutaImagen, password);
@@ -684,7 +716,8 @@ public class DatosBD implements ManejoDatos {
 				if (rsPersona.next()) {
 					nombre = rsPersona.getString(2);
 					apellidos = rsPersona.getString(3);
-					nacimiento =  rsPersona.getDate(4);
+					java.sql.Date sqlDate = rs.getDate(4);
+					nacimiento = new Date(sqlDate.getTime());
 					idUbicacion = rsPersona.getInt(5);
 					ubicacion = getUbicacionFromId(idUbicacion);
 				}
@@ -811,12 +844,48 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public Vector<Persona> getPersonas() {
 		Vector<Persona> personas = new Vector<>();
+		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ";
+		final String selectPersonas = "SELECT * FROM PERSONA";
 		try {
+			prepStatement = connection.prepareStatement(selectPersonas);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				String nombre = rs.getString(2);
+				String apellidos = rs.getString(3);
+				java.sql.Date sqlDate = rs.getDate(4);
+				Date nacimiento = new Date(sqlDate.getTime());
+				int idUbicacion = rs.getInt(5);
+				String ubicacion = getUbicacionFromId(idUbicacion);
+				String correo;
+				String fotoDePerfil;
+				String password;
+				String telefono;
+				ArrayList<Habilidad> habilidades = new ArrayList<>();
+				PreparedStatement psUsuarios = connection.prepareStatement(selectUsuarios);
+				psUsuarios.setInt(1, id);
+				ResultSet rsUsuarios = psUsuarios.executeQuery();
+				if(rsUsuarios.next()) {
+					fotoDePerfil = rs.getString(2);
+					password = rs.getString(3);
+					correo = rs.getString(5);
+					telefono = rs.getString(6);
+				}else {
+					return personas;
+				}
+				rsUsuarios.close();
+				psUsuarios.close();
+				habilidades = crearHabilidades(id);
+				Persona persona = new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
+				personas.add(persona);
+			}
+			prepStatement.close();
+			rs.close();
 			return personas;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return null;
+			return personas;
 		}
 		
 	}
@@ -900,6 +969,28 @@ public class DatosBD implements ManejoDatos {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ubicaciones;
+		}
+	}
+	
+	private ArrayList<Habilidad> crearHabilidades(int id){
+		ArrayList<Habilidad> habilidades = new ArrayList<>();
+		final String buscarHabilidades = "SELECT * FROM HABILIDAD WHERE ID_PERSONA = ?";
+		try {
+			PreparedStatement psHabilidades = connection.prepareStatement(buscarHabilidades);
+			psHabilidades.setInt(1, id);
+			ResultSet rsHabilidades = psHabilidades.executeQuery();
+			while(rsHabilidades.next()) {
+				String campo = rsHabilidades.getString(2);
+				String nombre = rsHabilidades.getString(3);
+				int destreza = rsHabilidades.getInt(4);
+				String descripcion = rsHabilidades.getString(5);
+				Habilidad habilidad = new Habilidad(campo, nombre, destreza, descripcion);
+				habilidades.add(habilidad);
+			}
+			return habilidades;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return habilidades;
 		}
 	}
 
