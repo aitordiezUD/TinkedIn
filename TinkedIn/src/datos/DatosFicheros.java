@@ -188,7 +188,7 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void anadirUsuarioPersona(Persona persona) {
 		// TODO Auto-generated method stub
-		String correo = persona.getCorreoElectronico();
+		String correo = persona.getCorreo();
 		String telefono = persona.getTelefono();
 		String contraseña = persona.getPassword();
 		if (mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)) {
@@ -205,7 +205,7 @@ public class DatosFicheros implements ManejoDatos{
 			usuarios.add(persona);
 			personas.add(persona);
 			mapaIdUsuario.put(Integer.parseInt(persona.getId()+""), persona);
-			mapaEmailUsuario.put(persona.getCorreoElectronico(), persona);
+			mapaEmailUsuario.put(persona.getCorreo(), persona);
 			mapaTlfnoUsuario.put(persona.getTelefono(), persona);
 			mapaContraseñaUsuario.put(persona, contraseña);
 //			System.out.println(mapaIdUsuario);
@@ -218,7 +218,7 @@ public class DatosFicheros implements ManejoDatos{
 	@Override
 	public void anadirUsuarioEmpresa( Empresa empresa ) {
 		//TODO Auto-generated method stub
-		String correo = empresa.getCorreoElectronico();
+		String correo = empresa.getCorreo();
 		String telefono = empresa.getTelefono();
 		String contrasñea = empresa.getPassword();
 		if(mapaEmailUsuario.keySet().contains(correo) | mapaTlfnoUsuario.keySet().contains(telefono)){
@@ -236,7 +236,7 @@ public class DatosFicheros implements ManejoDatos{
 			usuarios.add(empresa);
 			empresas.add(empresa);
 			mapaIdUsuario.put(Integer.parseInt(empresa.getId()+""), empresa);
-			mapaEmailUsuario.put(empresa.getCorreoElectronico(), empresa);
+			mapaEmailUsuario.put(empresa.getCorreo(), empresa);
 			mapaTlfnoUsuario.put(empresa.getTelefono(), empresa);
 			mapaContraseñaUsuario.put(empresa, contrasñea);
 		}
