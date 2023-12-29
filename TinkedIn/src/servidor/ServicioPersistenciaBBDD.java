@@ -107,11 +107,11 @@ public class ServicioPersistenciaBBDD implements ServicioPersistencia {
 		
 	}
 
-	@Override
-	public void crearUsuario(Usuario u) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void crearUsuario(Usuario u) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public Boolean contieneCorreo(String correo) {
@@ -181,6 +181,12 @@ public class ServicioPersistenciaBBDD implements ServicioPersistencia {
 
 	@Override
 	public Usuario crearUsuario(Object[] atribs) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Empresa getEmpresaFromPuesto(PuestoTrabajo puesto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
