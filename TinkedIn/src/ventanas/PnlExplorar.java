@@ -400,7 +400,8 @@ public class PnlExplorar extends JPanel {
 	        		iteradorPuestos = puestosCandidatos.iterator();
 	        		System.out.println(puestosCandidatos);
 	        		for( PuestoTrabajo pt : puestosCandidatos ) {
-    					lblNombreUsu.setText( pt.getEmpresaPertenece().getNombre() );
+	        			Empresa empresaPertenece = VentanaPrincipal.servicio.getEmpresaFromPuesto(pt);
+    					lblNombreUsu.setText( empresaPertenece.getNombre() );
 		    		}
 	    		
 	        			
@@ -527,11 +528,12 @@ public class PnlExplorar extends JPanel {
 	private void mostrarSiguientePuesto() {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
-			lblNombreUsu.setText( puestoActual.getEmpresaPertenece().getNombre() );
-			lblNomEInfo.setText( puestoActual.getEmpresaPertenece().getNombre() );
+			Empresa empresaPertenece = VentanaPrincipal.servicio.getEmpresaFromPuesto(puestoActual);
+			lblNombreUsu.setText( empresaPertenece.getNombre() );
+			lblNomEInfo.setText( empresaPertenece.getNombre() );
 			DescripcionPuesto.setText( puestoActual.getDescripcion() );
 			//Cambiar
-			JLabel Imagen = ImagenesAzure.crearImagen(puestoActual.getEmpresaPertenece(), 150, 150);
+			JLabel Imagen = ImagenesAzure.crearImagen(empresaPertenece, 150, 150);
 			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
 			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
 			lblNombreUsu.setForeground(new Color(4, 32, 63));
