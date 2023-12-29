@@ -926,18 +926,31 @@ public class DatosBD implements ManejoDatos {
 			while (rsPuestos.next()) {
 				ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
 				idPuesto = rsPuestos.getInt(1);
+				nombrePuesto = rsPuestos.getString(3);
+				descripcionPuesto = rsPuestos.getString(4);
+				System.out.println(idPuesto);
 				//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
 				PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
 				busquedaHabilidad.setInt(1, idPuesto);
 				ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
 				while (rsHabilidadesPuestos.next()) {
+					System.out.println("Dentro while");
+					System.out.println(rsHabilidadesPuestos.getString(2));
+					System.out.println(rsHabilidadesPuestos.getString(3));
+					System.out.println(rsHabilidadesPuestos.getInt(4));
+					System.out.println(rsHabilidadesPuestos.getString(5));
 					Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
 							rsHabilidadesPuestos.getString(5));
 					habilidadesPuesto.add(h);
 				}
 				rsHabilidadesPuestos.close();
 				busquedaHabilidad.close();
+//				System.out.println(nombrePuesto);
+//				System.out.println(descripcionPuesto);
+//				System.out.println(habilidadesPuesto);
+//				System.out.println(idEmpresa);
 				PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
+				System.out.println(p);
 				puestos.add(p);
 			}
 			rsPuestos.close();
@@ -1003,16 +1016,15 @@ public class DatosBD implements ManejoDatos {
 		for (Persona p : getPersonas()) {
 			usuarios.add(p);
 		}
-		return null;
+		return usuarios;
 	}
 
 
 	
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();
-		datos.init();
-		System.out.println(datos.getEmpresas());
-		
+		System.out.println(datos.getEmpresas().get(2).getPuestos());
+//		System.out.println(datos.getUsuarios());
 		datos.fin();
 	}
 

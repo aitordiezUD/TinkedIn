@@ -245,7 +245,7 @@ public class PnlExplorar extends JPanel {
 	        	Empresa e = (Empresa) usuarioAutenticado;
 	        	mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
 	      
-	        	System.out.println(mapaPersonasPorPuesto.get(1));
+//	        	System.out.println(mapaPersonasPorPuesto.get(1));
 	        	JPanel pnlLista = new JPanel();
 		        pnlLista.setLayout( new BorderLayout() );
 		        pnlLista.setBackground( new Color( 129, 186, 207 ) );
@@ -398,7 +398,7 @@ public class PnlExplorar extends JPanel {
 	        		
 	        		puestosCandidatos = CrearTreeSetPuestos();
 	        		iteradorPuestos = puestosCandidatos.iterator();
-	        		System.out.println(puestosCandidatos);
+//	        		System.out.println(puestosCandidatos);
 	        		for( PuestoTrabajo pt : puestosCandidatos ) {
 	        			Empresa empresaPertenece = VentanaPrincipal.servicio.getEmpresaFromPuesto(pt);
     					lblNombreUsu.setText( empresaPertenece.getNombre() );
@@ -471,7 +471,7 @@ public class PnlExplorar extends JPanel {
 		});
 		for(Empresa e: VentanaPrincipal.servicio.getEmpresas()) {
 			for(PuestoTrabajo p: e.getPuestos()) {
-//				System.out.println(p);
+				System.out.println(p);
 				
 				puestosCandidatos.add(p);
 			}
@@ -529,6 +529,11 @@ public class PnlExplorar extends JPanel {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
 			Empresa empresaPertenece = VentanaPrincipal.servicio.getEmpresaFromPuesto(puestoActual);
+			System.out.println(empresaPertenece);
+			System.out.println(empresaPertenece.getNombre());
+			System.out.println(empresaPertenece.getDescripcion());
+			System.out.println(puestoActual.getDescripcion());
+			
 			lblNombreUsu.setText( empresaPertenece.getNombre() );
 			lblNomEInfo.setText( empresaPertenece.getNombre() );
 			DescripcionPuesto.setText( puestoActual.getDescripcion() );

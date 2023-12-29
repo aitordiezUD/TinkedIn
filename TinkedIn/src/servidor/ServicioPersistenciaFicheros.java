@@ -28,7 +28,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	private HiloComunicacionServidor hilo = null;
 	private ObjectOutputStream flujoOut = null;
 	private boolean finComunicacion = false;
-	private long TIMEOUT_ESPERA_SERVIDOR = 5000;  // Máximo tiempo a esperar respuesta del servidor
+	private long TIMEOUT_ESPERA_SERVIDOR = 15000;  // Máximo tiempo a esperar respuesta del servidor
 	
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
