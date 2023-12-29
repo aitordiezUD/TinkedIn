@@ -158,4 +158,9 @@ public interface ManejoDatos {
 	 * @return vector de personas
 	 */
 	public Vector<Persona> getPersonas();
+	
+	/**Devuelve todos los usuarios de la base de datos
+	 * @return vector de usuarios
+	 */
+	public Vector<Usuario> getUsuarios();
 }

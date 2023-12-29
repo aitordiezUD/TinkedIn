@@ -271,7 +271,7 @@ public class Servidor {
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS)) {
-		    				output.writeObject(DatosFicheros.getUsuarios());
+		    				output.writeObject(datos.getUsuarios());
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.ANADIR_MENSAJE)) {
