@@ -49,7 +49,8 @@ public class DatosFicheros implements ManejoDatos{
 	
 	protected static boolean test = false;
 	
-	public static Vector<Usuario> getUsuarios() {
+	@Override
+	public Vector<Usuario> getUsuarios() {
 		return usuarios;
 	}
 

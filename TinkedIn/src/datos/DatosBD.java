@@ -260,7 +260,7 @@ public class DatosBD implements ManejoDatos {
 		try {
 			prepStatement = connection.prepareStatement(crearLike);
 			prepStatement.setInt( 1, (int) idFrom );
-			prepStatement.setInt( 2, (int)idTo );
+			prepStatement.setInt( 2, (int) idTo );
 			prepStatement.executeUpdate();
 			prepStatement.close();
 			
@@ -306,7 +306,7 @@ public class DatosBD implements ManejoDatos {
 		try {
 			connection.setAutoCommit(false);
 			//INTRODUCCION DEL PUESTO DE TRABAJO EN SU TABLA
-			prepStatement = connection.prepareStatement(anadirPuesto,statement.RETURN_GENERATED_KEYS);
+			prepStatement = connection.prepareStatement(anadirPuesto,Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setInt(1, (int) puesto.getIdEmpresa());
 			prepStatement.setString(2, puesto.getNombre());
 			prepStatement.setString(3, puesto.getDescripcion());
@@ -330,7 +330,6 @@ public class DatosBD implements ManejoDatos {
 				prepStatement.setInt(5, clave);
 				prepStatement.executeUpdate();
 				prepStatement.close();
-				System.out.println("Habilidad subida");
 			}
 			
 		} catch (Exception e) {
@@ -343,7 +342,6 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
-		System.out.println(connection);
 		ImagenesAzure.deleteBlobsBd();
 		String sql = "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'MATCHES') DROP TABLE MATCHES;\r\n"
 				+ "IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'MENSAJE') DROP TABLE MENSAJE;\r\n"
@@ -496,6 +494,43 @@ public class DatosBD implements ManejoDatos {
 		}
 		return set;
 	}
+	
+	private int subirUbicacion(String ubicacion) {
+		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE NOMBRE = ?";
+		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
+		try {
+			System.err.println(ubicacion);
+			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
+			int idUbi;
+			psUbicacion.setString(1, ubicacion);
+			ResultSet rs = psUbicacion.executeQuery();
+			if(rs.next()) {
+				idUbi = rs.getInt(1);
+				rs.close();
+				psUbicacion.close();
+				return idUbi;
+			}else {
+				rs.close();
+				psUbicacion.close();
+				psUbicacion = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
+				psUbicacion.setString(1, ubicacion);
+				psUbicacion.executeUpdate();
+				ResultSet generatedKeysUbis = psUbicacion.getGeneratedKeys();
+				if (generatedKeysUbis.next()) {
+					idUbi = generatedKeysUbis.getInt(1);
+					generatedKeysUbis.close();
+					psUbicacion.close();
+					return idUbi;
+				}else {
+					generatedKeysUbis.close();
+					return -1;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
 
 	@Override
 	public Persona crearUsuarioPersona(String nombre, String apellidos, String ubicacion, Date nacimiento,String correoElectronico, 
@@ -505,8 +540,8 @@ public class DatosBD implements ManejoDatos {
 		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ?, CORREO = ?, TELEFONO = ? WHERE ID = ?";
 		final String anadirPersona = "INSERT INTO PERSONA VALUES(?, ?, ?, ?, ?)";
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO, NOMBRE, DESTREZA, DESCRIPCION, ID_PERSONA) VALUES(?,?,?,?,?)";
-		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE 'NOMBRE' = ?";
-		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
+//		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE NOMBRE = ?";
+//		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
 		try {
 			connection.setAutoCommit(false);
@@ -542,27 +577,30 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setDate(4, sqlDate); //NACIMIENTO
 
 			
-			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
-			int idUbi;
-			psUbicacion.setString(1, ubicacion);
-			ResultSet rs = psUbicacion.executeQuery();
-			if(rs.next()) {
-				idUbi = rs.getInt(1);
-				rs.close();
-			}else {
-				rs.close();
-				psUbicacion = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
-				psUbicacion.setString(1, ubicacion);
-				psUbicacion.executeUpdate();
-				ResultSet generatedKeysUbis = psUbicacion.getGeneratedKeys();
-				if (generatedKeysUbis.next()) {
-					idUbi = generatedKeysUbis.getInt(1);
-					generatedKeysUbis.close();
-				}else {
-					generatedKeysUbis.close();
-					return null;
-				}
-			}
+//			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
+//			int idUbi;
+//			psUbicacion.setString(1, ubicacion);
+//			ResultSet rs = psUbicacion.executeQuery();
+//			if(rs.next()) {
+//				idUbi = rs.getInt(1);
+//				System.out.println("ID Ubicacion: " + idUbi);
+//				rs.close();
+//			}else {
+//				rs.close();
+//				psUbicacion = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
+//				psUbicacion.setString(1, ubicacion);
+//				psUbicacion.executeUpdate();
+//				ResultSet generatedKeysUbis = psUbicacion.getGeneratedKeys();
+//				if (generatedKeysUbis.next()) {
+//					idUbi = generatedKeysUbis.getInt(1);
+//					generatedKeysUbis.close();
+//				}else {
+//					generatedKeysUbis.close();
+//					return null;
+//				}
+//			}
+			
+			int idUbi = subirUbicacion(ubicacion);
 			prepStatement.setInt(5, idUbi); //UBICACION
 			prepStatement.executeUpdate();
 			prepStatement.close();
@@ -607,7 +645,6 @@ public class DatosBD implements ManejoDatos {
 		final String anadirUbicacion = "INSERT INTO UBICACION_EMPRESA VALUES(?,?)";
 		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
-		int idUbi;
 		try {
 			connection.setAutoCommit(false);
 //			INTRODUCCION DEL USUARIO EN LA TABLA USUARIO
@@ -642,27 +679,29 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.close();
 //			INTRODUCCION DE UBICACIONES EN LA TABLA UBICACION_EMPRESA
 			for (String u: ubicaciones) {
-				prepStatement = connection.prepareStatement(comprobarUbicacion);
-				prepStatement.setString(1, u);
-				ResultSet rs = prepStatement.executeQuery();
-				if(rs.next()) {
-					idUbi = rs.getInt(1);
-					rs.close();
-				}else {
-					rs.close();
-					prepStatement = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
-					prepStatement.setString(1, u);
-					prepStatement.executeUpdate();
-					ResultSet generatedKeysUbis = prepStatement.getGeneratedKeys();
-					if (generatedKeysUbis.next()) {
-						idUbi = generatedKeysUbis.getInt(1);
-						generatedKeysUbis.close();
-					}else {
-						generatedKeysUbis.close();
-						return null;
-					}
-				}
-				prepStatement.close();
+//				prepStatement = connection.prepareStatement(comprobarUbicacion);
+//				prepStatement.setString(1, u);
+//				ResultSet rs = prepStatement.executeQuery();
+//				if(rs.next()) {
+//					idUbi = rs.getInt(1);
+//					System.out.println("ID Ubi (Empresa): " + idUbi);
+//					rs.close();
+//				}else {
+//					rs.close();
+//					prepStatement = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
+//					prepStatement.setString(1, u);
+//					prepStatement.executeUpdate();
+//					ResultSet generatedKeysUbis = prepStatement.getGeneratedKeys();
+//					if (generatedKeysUbis.next()) {
+//						idUbi = generatedKeysUbis.getInt(1);
+//						generatedKeysUbis.close();
+//					}else {
+//						generatedKeysUbis.close();
+//						return null;
+//					}
+//				}
+//				prepStatement.close();
+				int idUbi = subirUbicacion(u);
 				prepStatement = connection.prepareStatement(anadirUbicacion);
 				prepStatement.setInt(1, id);
 				prepStatement.setInt(2,idUbi);
@@ -939,30 +978,18 @@ public class DatosBD implements ManejoDatos {
 				idPuesto = rsPuestos.getInt(1);
 				nombrePuesto = rsPuestos.getString(3);
 				descripcionPuesto = rsPuestos.getString(4);
-				System.out.println(idPuesto);
 				//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
 				PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
 				busquedaHabilidad.setInt(1, idPuesto);
 				ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
-				System.out.println(rsHabilidadesPuestos.next());
 				while (rsHabilidadesPuestos.next()) {
-					System.out.println("Dentro while");
-					System.out.println(rsHabilidadesPuestos.getString(2));
-					System.out.println(rsHabilidadesPuestos.getString(3));
-					System.out.println(rsHabilidadesPuestos.getInt(4));
-					System.out.println(rsHabilidadesPuestos.getString(5));
 					Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
 							rsHabilidadesPuestos.getString(5));
 					habilidadesPuesto.add(h);
 				}
 				rsHabilidadesPuestos.close();
 				busquedaHabilidad.close();
-//				System.out.println(nombrePuesto);
-//				System.out.println(descripcionPuesto);
-//				System.out.println(habilidadesPuesto);
-//				System.out.println(idEmpresa);
 				PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
-				System.out.println(p);
 				puestos.add(p);
 			}
 			rsPuestos.close();

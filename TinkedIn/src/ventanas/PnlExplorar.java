@@ -492,8 +492,7 @@ public class PnlExplorar extends JPanel {
 		});
 		for(Empresa e: VentanaPrincipal.servicio.getEmpresas()) {
 			for(PuestoTrabajo p: e.getPuestos()) {
-				System.out.println(p);
-				
+//				System.out.println(p);
 				puestosCandidatos.add(p);
 			}
 		}

@@ -32,6 +32,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
+
 	
 	private PnlChat pnlChat = null;
 	
@@ -115,7 +116,6 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	
 	@Override
 	public void escuchadorMensajes() {
-		System.out.println("Escuchador de mensajes corriendo");
 		while (!finComunicacion) {
 			while(mensajesRecibidos.size() != 0) {
 				Mensaje m = mensajesRecibidos.remove(0);
@@ -123,7 +123,6 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		System.out.println("Escuchador de mensajes dead");
 	}
 	
 	@Override

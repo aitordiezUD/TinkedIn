@@ -60,6 +60,10 @@ public class PnlBotonera extends JPanel {
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
 	//protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	
+//	Pruebas tiempo
+	long tiempoInicio;
+	long tiempoActual;
+	long tiempoResultante;
 	
 	public Usuario getUsuarioAutenticado() {
 		return usuarioAutenticado;
@@ -80,15 +84,17 @@ public class PnlBotonera extends JPanel {
 		setLayout(null);
 		
 		this.usuarioAutenticado = usuarioAutenticado;
-		
-		
+		mapaPaneles = new HashMap<JPanel,JPanel>();
 
+		
+		tiempoInicio = System.currentTimeMillis();
+		
 		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
 		
-//		System.out.println(usuarioAutenticado.getClass());
-		
-		
-		mapaPaneles = new HashMap<JPanel,JPanel>();
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.err.println("PnlExplorar: " + tiempoResultante);
+		tiempoInicio = System.currentTimeMillis();
 		
 		pnlFuncional = new JPanel();
 		pnlFuncional.setBackground(Color.PINK);
@@ -99,7 +105,19 @@ public class PnlBotonera extends JPanel {
 		add(pnlFuncional);
 		
 		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil(usuarioAutenticado);
+		
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.err.println("PnlMiPerfil: " + tiempoResultante);
+		tiempoInicio = System.currentTimeMillis();
+		
+		
 		pnlPuestoDeTrabajo pnlPuestoTrabajo = new pnlPuestoDeTrabajo();
+		
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.err.println("pnlPuestoTrabajo: " + tiempoResultante);
+		tiempoInicio = System.currentTimeMillis();
 		
 		JPanel pnlInicial = new JPanel(new BorderLayout());
 		icono = new ImageIcon("TinkedinPNG.png");
@@ -133,12 +151,20 @@ public class PnlBotonera extends JPanel {
 			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
 			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
 			
-
-			
+			tiempoActual = System.currentTimeMillis();
+			tiempoResultante = tiempoActual - tiempoInicio;
+			System.err.println("PnlHabilidad: " + tiempoResultante);
+			tiempoInicio = System.currentTimeMillis();
 		}
 
 		
 		PnlEditarPerfil pnlEditarPerfil = new PnlEditarPerfil();
+		
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.err.println("PnlEditarPerfil: " + tiempoResultante);
+		tiempoInicio = System.currentTimeMillis();
+		
 		pnlFuncional.add(pnlEditarPerfil,"pnlEditarPerfil");
 		
 		JLabel lblPerfil = new JLabel("Mi Perfil");
@@ -290,6 +316,10 @@ public class PnlBotonera extends JPanel {
 		pnlChat.setBackground(Color.GREEN);
 		VentanaPrincipal.servicio.setPnlChat(pnlChat);
 		pnlFuncional.add(pnlChat,"pnlChat");
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.err.println("PnlChat: " + tiempoResultante);
+		tiempoInicio = System.currentTimeMillis();
 		
 		JLabel lblMensajes = new JLabel("Mensajes");
 		lblMensajes.setHorizontalAlignment(SwingConstants.CENTER);
