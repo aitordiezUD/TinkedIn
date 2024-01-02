@@ -36,6 +36,8 @@ import clases.PuestoTrabajo;
 import datos.DatosBD;
 import datos.DatosFicheros;
 import datos.ManejoDatos;
+import sistemaExplorar.Like;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -169,6 +171,19 @@ public class Servidor {
 //			    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
 			    				datos.anadirMensaje(mensaje);
 			    			}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.ANADIR_LIKE)) {
+		    				Like like = (Like) input.readObject();
+		    				if (datos.comprobarMatch(like)) {
+		    					output.writeObject(ConfigServer.OK);
+		    					
+		    				}
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.ANADIR_MATCH)) {
+		    				Match m = (Match) input.readObject();
+		    				output.writeObject(m);
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.LOGIN)) {

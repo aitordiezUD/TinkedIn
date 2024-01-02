@@ -64,5 +64,11 @@ public class ConfigServer {
 //		Devuelve la empresa que ha creado un puesto de trabajo - va seguido de un puesto de trabajo
 		static String GET_EMPRESA_FROM_PUESTO = "get_empresa_from_puesto";
 		
+//		Comprueba que haya match
+		static String ANADIR_LIKE = "comprueba_match";
+		
+//		Añade un match a los datos
+		static String ANADIR_MATCH = "añadir_match";
+		
 
 }

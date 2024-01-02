@@ -49,7 +49,8 @@ public class DatosFicheros implements ManejoDatos{
 	
 	protected static boolean test = false;
 	
-	public static Vector<Usuario> getUsuarios() {
+	@Override
+	public Vector<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
@@ -277,7 +278,7 @@ public class DatosFicheros implements ManejoDatos{
 
 
 	@Override
-	public void comprobarMatch(Like like) {
+	public boolean comprobarMatch(Like like) {
 		Usuario from = like.getFrom();
 		Usuario to = like.getTo();
 		
@@ -286,6 +287,7 @@ public class DatosFicheros implements ManejoDatos{
 		if (mapaLikesPorUsuario.get(to).contains(likeInverso)) {
 			if (mapaMatchesDeUsuarios.get(from) == null) {
 				mapaMatchesDeUsuarios.put(from, new Vector<>());
+				return true;
 			}
 			if (mapaMatchesDeUsuarios.get(to) == null) {
 				mapaMatchesDeUsuarios.put(to, new Vector<>());
@@ -296,7 +298,7 @@ public class DatosFicheros implements ManejoDatos{
 			Match m = new Match(from, to);
 			matches.add(m);
 		}
-		
+		return false;
 	}
 
 
