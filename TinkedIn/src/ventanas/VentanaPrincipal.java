@@ -7,6 +7,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -118,5 +119,7 @@ public class VentanaPrincipal extends JFrame {
 			
 	}
 
-	
+	public static void notificarMatch() {
+		JOptionPane.showMessageDialog(null, "Enhorabuena, tienes un Match pendiente por revisar!!","Notificación" ,JOptionPane.INFORMATION_MESSAGE);
+	}
 }

@@ -117,7 +117,7 @@ public interface ManejoDatos {
 	/**Funcion que dado un like, comprueba si hay match entre los dos usuarios 
 	 * @param like
 	 */
-	public void comprobarMatch(Like like);
+	public boolean comprobarMatch(Like like);
 	
 	/**Funcion para añadir un puesto a una empresa (la empresa va como atributo del puesto)
 	 * @param puesto PuestoDeTrabajo que queremos anadir

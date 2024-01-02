@@ -257,7 +257,7 @@ public class DatosBD implements ManejoDatos {
 	}
 
 	@Override
-	public void comprobarMatch(Like like) {
+	public boolean comprobarMatch(Like like) {
 		// TODO Auto-generated method stub 
 		int idFrom = (int) like.getFrom().getId();
 		int idTo = (int)like.getTo().getId();
@@ -268,17 +268,23 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(1, idFrom);
 			prepStatement.setInt(2, idTo);
 			ResultSet rs = prepStatement.executeQuery();
-			prepStatement.close();
 			
 			if(rs.next()) {
 				prepStatement = connection.prepareStatement(anadirMatch);
 				prepStatement.setInt(1, idFrom);
 				prepStatement.setInt(2, idTo);
 				prepStatement.executeUpdate();
+				rs.close();
+				prepStatement.close();
+				return true;
 			}
+			rs.close();
 			prepStatement.close();
+			return false;
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+			return false;
 		}
 	}
 

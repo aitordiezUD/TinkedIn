@@ -6,6 +6,8 @@ import java.util.Vector;
 
 import clases.Mensaje;
 import clases.PuestoTrabajo;
+import sistemaExplorar.Like;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -51,5 +53,12 @@ public interface ServicioPersistencia {
 	public void anadirMensaje(Mensaje m);
 	
 	public Empresa getEmpresaFromPuesto(PuestoTrabajo puesto);
+
+	public void comprobadorDeMatches();
 	
+	public void anadirLike(Like like);
+	
+	public void anyadirMatch(Match match);
+
+
 }

@@ -15,10 +15,13 @@ import javax.swing.JOptionPane;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import clases.TipoMensaje;
+import sistemaExplorar.Like;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 import ventanas.PnlChat;
+import ventanas.VentanaPrincipal;
 
 
 
@@ -32,6 +35,10 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
+	private Vector<Match> listaMatches = new Vector<>(); //Matches encolados para ser procesados segun procedan
+	
+
+
 
 	
 	private PnlChat pnlChat = null;
@@ -70,7 +77,10 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	            		Object respuesta = flujoIn.readObject();  // Devuelve mensaje de servidor o null cuando se cierra la comunicación
 	            		if (respuesta instanceof Mensaje) {
 	            			mensajesRecibidos.add( (Mensaje) respuesta );
-	            		}else {
+	            		}else if(respuesta instanceof Match) {
+	            			listaMatches.add((Match)respuesta);
+	            		}
+	            		else {
 	            			respuestasServidor.add( respuesta );
 						}
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
@@ -126,6 +136,19 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	}
 	
 	@Override
+	public void comprobadorDeMatches() {
+		System.out.println("Comprobador de matches corriendo");
+		while (!finComunicacion) {
+			while(listaMatches.size() !=0) {
+				Match m = listaMatches.remove(0);
+				VentanaPrincipal.notificarMatch();
+			}
+			try {Thread.sleep(100);} catch (InterruptedException e){e.printStackTrace();}
+		}
+		System.out.println("Comprobador de matches dead");
+	}
+	
+	@Override
 	public void close() {
 		try {
 			flujoOut.writeObject( ConfigServer.FIN );
@@ -162,6 +185,17 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			// TODO: handle exception
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	@Override
+	public void anadirLike(Like like) {
+		try {
+			flujoOut.writeObject(ConfigServer.ANADIR_LIKE);
+			flujoOut.writeObject(like);
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -461,6 +495,17 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public void anyadirMatch(Match match) {
+		// TODO Auto-generated method stub
+		try {
+			flujoOut.writeObject(ConfigServer.ANADIR_MATCH);
+			flujoOut.writeObject(match);
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 
