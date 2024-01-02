@@ -24,11 +24,19 @@ import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 
+
+
+
 public class DatosBD implements ManejoDatos {
 	
 	protected Connection connection;
 	protected Statement statement;
 	protected PreparedStatement prepStatement;
+	
+//	PRUEBAS TIEMPO:
+	long tiempoInicio;
+	long tiempoActual;
+	long tiempoResultante;
 	
 	public DatosBD() {
 		init();
@@ -75,8 +83,6 @@ public class DatosBD implements ManejoDatos {
 		final String buscarPersona = "SELECT * FROM PERSONA WHERE ID = ?";
 		final String buscarHabilidadesPersona = "SELECT * FROM HABILIDAD WHERE ID_PERSONA = ?";
 		final String buscarEmpresa = "SELECT * FROM EMPRESA WHERE ID = ?";
-		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
-		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
 		int id;
 		String fotoDePerfil;
 		String password;
@@ -84,9 +90,11 @@ public class DatosBD implements ManejoDatos {
 		String telefono;
 		
 		try {
+			
 			prepStatement = connection.prepareStatement(buscarUsuarios);
 			prepStatement.setString(1, correo);
 			ResultSet rs = prepStatement.executeQuery();
+			
 			if (rs.next()) {
 				id = rs.getInt(1);
 				fotoDePerfil = rs.getString(2);
@@ -150,29 +158,6 @@ public class DatosBD implements ManejoDatos {
 //				OBTENER PUESTOS Y UBICACIONES
 				puestos = crearPuestos(id);
 				ubicaciones = crearUbicaciones(id);
-//				int idPuesto = -1;
-//				int idEmpresa = id;
-//				String nombrePuesto = null;
-//				String descripcionPuesto = null;
-//				
-//				prepStatement = connection.prepareStatement(buscarPuesto);
-//				prepStatement.setInt(1, idEmpresa);
-//				ResultSet rsPuestos = prepStatement.executeQuery();
-//				while (rsPuestos.next()) {
-//					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
-//					idPuesto = rsPuestos.getInt(1);
-//					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
-//					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
-//					busquedaHabilidad.setInt(1, idPuesto);
-//					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
-//					while (rsHabilidadesPuestos.next()) {
-//						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
-//								rsHabilidadesPuestos.getString(5));
-//						habilidadesPuesto.add(h);
-//					}
-//					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
-//					puestos.add(p);
-//				}
 				return new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos, fotoDePerfil, password);
 
 			}
@@ -576,36 +561,11 @@ public class DatosBD implements ManejoDatos {
 			java.sql.Date sqlDate = new java.sql.Date(nacimiento.getTime());
 			prepStatement.setDate(4, sqlDate); //NACIMIENTO
 
-			
-//			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
-//			int idUbi;
-//			psUbicacion.setString(1, ubicacion);
-//			ResultSet rs = psUbicacion.executeQuery();
-//			if(rs.next()) {
-//				idUbi = rs.getInt(1);
-//				System.out.println("ID Ubicacion: " + idUbi);
-//				rs.close();
-//			}else {
-//				rs.close();
-//				psUbicacion = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
-//				psUbicacion.setString(1, ubicacion);
-//				psUbicacion.executeUpdate();
-//				ResultSet generatedKeysUbis = psUbicacion.getGeneratedKeys();
-//				if (generatedKeysUbis.next()) {
-//					idUbi = generatedKeysUbis.getInt(1);
-//					generatedKeysUbis.close();
-//				}else {
-//					generatedKeysUbis.close();
-//					return null;
-//				}
-//			}
-			
 			int idUbi = subirUbicacion(ubicacion);
 			prepStatement.setInt(5, idUbi); //UBICACION
 			prepStatement.executeUpdate();
 			prepStatement.close();
 //			INTRODUCCION DE HABILIDADES EN LA TABLA HABILIDAD
-//			System.out.println("Añadiendo habilidades: ");
 			for (Habilidad h : habilidades) {
 				System.out.println(h);
 				prepStatement = connection.prepareStatement(anadirHabilidad);
@@ -617,7 +577,6 @@ public class DatosBD implements ManejoDatos {
 				prepStatement.executeUpdate();
 				prepStatement.close();
 			}
-//			System.out.println("Habilidades añadidas");
 			connection.commit();
 			connection.setAutoCommit(true);
 			return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correoElectronico, telefeno, habilidades, rutaImagen, password);
@@ -641,9 +600,7 @@ public class DatosBD implements ManejoDatos {
 		final String anadirUsuario = "INSERT INTO USUARIO(TIPO) VALUES (?)";
 		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ?, CORREO = ?, TELEFONO = ? WHERE ID = ?";
 		final String anadirEmpresa = "INSERT INTO EMPRESA VALUES(?, ?, ?)";
-		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE 'NOMBRE' = ?";
 		final String anadirUbicacion = "INSERT INTO UBICACION_EMPRESA VALUES(?,?)";
-		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
 		try {
 			connection.setAutoCommit(false);
@@ -679,28 +636,6 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.close();
 //			INTRODUCCION DE UBICACIONES EN LA TABLA UBICACION_EMPRESA
 			for (String u: ubicaciones) {
-//				prepStatement = connection.prepareStatement(comprobarUbicacion);
-//				prepStatement.setString(1, u);
-//				ResultSet rs = prepStatement.executeQuery();
-//				if(rs.next()) {
-//					idUbi = rs.getInt(1);
-//					System.out.println("ID Ubi (Empresa): " + idUbi);
-//					rs.close();
-//				}else {
-//					rs.close();
-//					prepStatement = connection.prepareStatement(crearUbicacion, Statement.RETURN_GENERATED_KEYS);
-//					prepStatement.setString(1, u);
-//					prepStatement.executeUpdate();
-//					ResultSet generatedKeysUbis = prepStatement.getGeneratedKeys();
-//					if (generatedKeysUbis.next()) {
-//						idUbi = generatedKeysUbis.getInt(1);
-//						generatedKeysUbis.close();
-//					}else {
-//						generatedKeysUbis.close();
-//						return null;
-//					}
-//				}
-//				prepStatement.close();
 				int idUbi = subirUbicacion(u);
 				prepStatement = connection.prepareStatement(anadirUbicacion);
 				prepStatement.setInt(1, id);
@@ -728,8 +663,6 @@ public class DatosBD implements ManejoDatos {
 		final String buscarPersona = "SELECT * FROM PERSONA WHERE ID = ?";
 		final String buscarHabilidadesPersona = "SELECT * FROM HABILIDAD WHERE ID_PERSONA = ?";
 		final String buscarEmpresa = "SELECT * FROM EMPRESA WHERE ID = ?";
-//		final String buscarPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ?";
-//		final String buscarHabilidadesPuesto = "SELECT * FROM PUESTO_TRABAJO WHERE ID_PUESTO = ?";
 		String correo;
 		String fotoDePerfil;
 		String password;
@@ -803,29 +736,6 @@ public class DatosBD implements ManejoDatos {
 //				OBTENER PUESTOS Y UBICACIONES
 				puestos = crearPuestos(id);
 				ubicaciones = crearUbicaciones(id);
-//				int idPuesto = -1;
-//				int idEmpresa = id;
-//				String nombrePuesto = null;
-//				String descripcionPuesto = null;
-//				
-//				prepStatement = connection.prepareStatement(buscarPuesto);
-//				prepStatement.setInt(1, idEmpresa);
-//				ResultSet rsPuestos = prepStatement.executeQuery();
-//				while (rsPuestos.next()) {
-//					ArrayList<Habilidad> habilidadesPuesto = new ArrayList<Habilidad>();
-//					idPuesto = rsPuestos.getInt(1);
-//					//BUSQUEDA DE LAS HABILIDADES DEL PUESTO ACUAL
-//					PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
-//					busquedaHabilidad.setInt(1, idPuesto);
-//					ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
-//					while (rsHabilidadesPuestos.next()) {
-//						Habilidad h = new Habilidad(rsHabilidadesPuestos.getString(2),rsHabilidadesPuestos.getString(3),rsHabilidadesPuestos.getInt(4),
-//								rsHabilidadesPuestos.getString(5));
-//						habilidadesPuesto.add(h);
-//					}
-//					PuestoTrabajo p = new PuestoTrabajo(nombrePuesto, descripcionPuesto, habilidadesPuesto, (long) idEmpresa);
-//					puestos.add(p);
-//				}
 				return new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos, fotoDePerfil, password);
 
 			}
@@ -898,7 +808,13 @@ public class DatosBD implements ManejoDatos {
 		final String selectPersonas = "SELECT * FROM PERSONA";
 		try {
 			prepStatement = connection.prepareStatement(selectPersonas);
+			tiempoInicio = System.currentTimeMillis();
 			ResultSet rs = prepStatement.executeQuery();
+			tiempoActual = System.currentTimeMillis();
+			tiempoResultante = tiempoActual-tiempoInicio;
+			System.out.println("Tiempo en ejecutar query SELECT * PERSONAS: " + tiempoResultante);
+			
+			dvd
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String nombre = rs.getString(2);
@@ -1063,7 +979,6 @@ public class DatosBD implements ManejoDatos {
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
-//		System.out.println(datos.getUsuarios());
 		datos.fin();
 	}
 

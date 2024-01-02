@@ -162,11 +162,8 @@ public class Servidor {
 			    			//mapa de mensajes por enviar hasta que el destinatario este conectado.
 			    			if (mapaDirecciones.get(mensaje.getTo()) != null) {
 			    				mapaDirecciones.get(mensaje.getTo()).writeObject(mensaje);
+			    				datos.anadirMensaje(mensaje);
 			    			}else {
-//			    				if (mapaMensajasPorEnviar.get(mensaje.getTo()) == null) {
-//			    					mapaMensajasPorEnviar.put(mensaje.getTo(), new ArrayList<Mensaje>());
-//			    				}
-//			    				mapaMensajasPorEnviar.get(mensaje.getTo()).add(mensaje);
 			    				datos.anadirMensaje(mensaje);
 			    			}
 		    			}

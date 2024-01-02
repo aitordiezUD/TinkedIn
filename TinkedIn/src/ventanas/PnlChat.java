@@ -58,11 +58,15 @@ public class PnlChat extends JPanel{
 	private CardLayout layoutChats;
 	protected HashMap<Integer, MiPanelChat> mapaPaneles;
 	
+//	PRUEBAS TIEMPO:
+	long tiempoInicio;
+	long tiempoActual;
+	long tiempoResultante;
+	
 //	SOCKETS:
 	public JList<Usuario> getListaContactos() {
 		return listaContactos;
 	}
-	
 	
 	
 	public HashMap<Integer, MiPanelChat> getMapaPaneles() {
@@ -106,7 +110,20 @@ public class PnlChat extends JPanel{
 //		listaContactos.setPreferredSize(new Dimension(200,200));
 		JScrollPane spLista = new JScrollPane(listaContactos);
 		spLista.setPreferredSize(new Dimension(200,200));
+		
+		tiempoInicio = System.currentTimeMillis();
+		
 		anadirContactos();
+		
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.out.println("Anadir Contactos: " + tiempoResultante);
+		
+		tiempoInicio = System.currentTimeMillis();
+		servicio.getUsuarios();
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual - tiempoInicio;
+		System.out.println("Tiempo que tarda en obtener los usuarios: " + tiempoResultante);
 		
 //		Datos.getMapaActListas().put(this, listaContactos);
 		add(spLista,BorderLayout.WEST);
@@ -166,6 +183,7 @@ public class PnlChat extends JPanel{
 			layoutChats.show(pnlChatsContent, modeloLista.get(0).getId()+"");
 		}
 		
+		tiempoInicio = System.currentTimeMillis();
 		
 		TreeSet<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
 		if (mensajesPendientes != null) {
@@ -175,12 +193,12 @@ public class PnlChat extends JPanel{
 				}else {
 					mapaPaneles.get(m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
 				}
-				
-				
 			}
 		}
 		
-		
+		tiempoActual = System.currentTimeMillis();
+		tiempoResultante = tiempoActual-tiempoInicio;
+		System.out.println("Mensajes pendientes: " +  tiempoResultante);
 		
 		setVisible(true);
 	}
@@ -188,6 +206,7 @@ public class PnlChat extends JPanel{
 	public void anadirContactos() {
 //		for (Usuario u: DatosFicheros.getUsuarios()) {
 		for (Usuario u: servicio.getUsuarios()) {
+			long tiempoInicio1 = System.currentTimeMillis();
 			if (!u.equals(this.usuario)) {
 				if (!modeloLista.contains(u)) {
 				modeloLista.add(modeloLista.getSize(),u);
@@ -196,6 +215,10 @@ public class PnlChat extends JPanel{
 				mapaPaneles.put((int) u.getId(), p);
 				}
 			}
+			long tiempoActual1 = System.currentTimeMillis();
+			long tiempoResultante1 = tiempoActual1-tiempoInicio1;
+			System.out.println("Tiempo en anadir un usuario: " + tiempoResultante1);
+			
 		}
 	}
 	
