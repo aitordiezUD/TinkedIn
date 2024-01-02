@@ -362,11 +362,12 @@ public class Main {
         Persona p15 = (Persona) servicio.crearUsuario(atribsP15);
         
 		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
-		Persona pAdmin = (Persona) servicio.crearUsuario(atribsPAdmin);
+		Persona adminP = (Persona) servicio.crearUsuario(atribsPAdmin);
+//		System.out.println("adminP: " + adminP);
 		
-		Mensaje m1 = new Mensaje(pAdmin.getId(), adminE.getId(), "Hola!", new Date());
+		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", new Date());
 		servicio.anadirMensaje(m1);
-		Mensaje m2 = new Mensaje(adminE.getId(), pAdmin.getId(), "Buenas!", new Date());
+		Mensaje m2 = new Mensaje(adminE.getId(), adminP.getId(), "Buenas!", new Date());
 		servicio.anadirMensaje(m2);
 		
 		servicio.close();
