@@ -54,6 +54,7 @@ import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 import componentes.botonCorazon;
+import componentes.botonLike;
 import componentes.botonX;
 
 import javax.swing.JTextField;
@@ -166,9 +167,11 @@ public class PnlExplorar extends JPanel {
 
 	        pnlLike = new JPanel();
 	        pnlLike.setLayout(new BorderLayout());
-	        botonCorazon btnCorazon = new botonCorazon();
-	        btnCorazon.repaint();
-	        pnlLike.add(btnCorazon, BorderLayout.CENTER);
+	        JPanel pnlBotonLike = new JPanel();
+	        pnlBotonLike.setPreferredSize( new Dimension(100,100));
+	        botonLike btnLike = new botonLike();
+	        pnlBotonLike.add( btnLike );
+	        pnlLike.add(pnlBotonLike, BorderLayout.CENTER);
 	        pnlBotonera.add(pnlLike);
 	        
 	        
@@ -399,12 +402,30 @@ public class PnlExplorar extends JPanel {
 	        		puestosCandidatos = CrearTreeSetPuestos();
 	        		iteradorPuestos = puestosCandidatos.iterator();
 //	        		System.out.println(puestosCandidatos);
-	        		for( PuestoTrabajo pt : puestosCandidatos ) {
-	        			Empresa empresaPertenece = VentanaPrincipal.servicio.getEmpresaFromPuesto(pt);
-    					lblNombreUsu.setText( empresaPertenece.getNombre() );
-		    		}
-	    		
-	        			
+	        		Empresa primeraEmpresa = VentanaPrincipal.servicio.getEmpresaFromPuesto(puestosCandidatos.first());
+	        		lblNombreUsu.setText(primeraEmpresa.getNombre());
+	        		DescripcionPuesto.setText(puestosCandidatos.first().getDescripcion());
+	    			JLabel Imagen = ImagenesAzure.crearImagen(primeraEmpresa, 150, 150);
+	    			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
+	    			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
+	    			lblNombreUsu.setForeground(new Color(4, 32, 63));
+	    			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
+	    			lblPuesto.removeAll();
+	    			lblPuesto.setText(puestosCandidatos.first().getNombre());
+	    			
+	    			pnlHabilidades.removeAll();
+	    			
+	    			for(Habilidad hab: puestosCandidatos.first().getHabilidadesReq()) {
+	    				JButton btnHab = new JButton(hab.getNombre());
+	    				pnlHabilidades.add(btnHab);
+	    				btnHab.addActionListener(new ActionListener() {
+	    					
+	    					@Override
+	    					public void actionPerformed(ActionEvent e) {
+	    						JOptionPane.showMessageDialog(null, "Nivel requerido: " + hab.getDestreza(), "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
+	    					}
+	    				});
+	    			}
 	        			
 	    		
 	    	}
