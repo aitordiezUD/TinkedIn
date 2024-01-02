@@ -120,7 +120,7 @@ public class PnlChat extends JPanel{
 		System.out.println("Anadir Contactos: " + tiempoResultante);
 		
 		tiempoInicio = System.currentTimeMillis();
-		servicio.getUsuarios();
+//		servicio.getUsuarios();
 		tiempoActual = System.currentTimeMillis();
 		tiempoResultante = tiempoActual - tiempoInicio;
 		System.out.println("Tiempo que tarda en obtener los usuarios: " + tiempoResultante);
