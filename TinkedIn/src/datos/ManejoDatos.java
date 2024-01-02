@@ -10,6 +10,7 @@ import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import sistemaExplorar.Like;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -114,10 +115,10 @@ public interface ManejoDatos {
 	 */
 	public void crearLike(Usuario from, Usuario to);
 	
-	/**Funcion que dado un like, comprueba si hay match entre los dos usuarios 
+	/**Funcion que dado un like, sube el like a la BD y comprueba si hay match entre los dos usuarios 
 	 * @param like
 	 */
-	public boolean comprobarMatch(Like like);
+	public Match comprobarMatch(Like like);
 	
 	/**Funcion para añadir un puesto a una empresa (la empresa va como atributo del puesto)
 	 * @param puesto PuestoDeTrabajo que queremos anadir

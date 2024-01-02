@@ -4,28 +4,28 @@ import usuarios.Usuario;
 
 public class Match {
 
-	private Usuario u1;
-	private Usuario u2;
+	private int u1;
+	private int u2;
 	
-	public Usuario getU1() {
+	public int getU1() {
 		return u1;
 	}
 
-	public void setU1(Usuario u1) {
+	public void setU1(int u1) {
 		this.u1 = u1;
 	}
 
-	public Usuario getU2() {
+	public int getU2() {
 		return u2;
 	}
 
-	public void setU2(Usuario u2) {
+	public void setU2(int u2) {
 		this.u2 = u2;
 	}
 
 
 
-	public Match( Usuario u1, Usuario u2) {
+	public Match( int u1, int u2) {
 		this.u1 = u1;
 		this.u2 = u2;
 	}

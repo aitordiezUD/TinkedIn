@@ -20,6 +20,7 @@ import clases.Mensaje;
 import clases.PuestoTrabajo;
 import nube.ImagenesAzure;
 import sistemaExplorar.Like;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -257,7 +258,7 @@ public class DatosBD implements ManejoDatos {
 	}
 
 	@Override
-	public boolean comprobarMatch(Like like) {
+	public Match comprobarMatch(Like like) {
 		// TODO Auto-generated method stub 
 		int idFrom = (int) like.getFrom().getId();
 		int idTo = (int)like.getTo().getId();
@@ -276,15 +277,15 @@ public class DatosBD implements ManejoDatos {
 				prepStatement.executeUpdate();
 				rs.close();
 				prepStatement.close();
-				return true;
+				return new Match(idFrom, idTo);
 			}
 			rs.close();
 			prepStatement.close();
-			return false;
+			return null;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
@@ -820,7 +821,7 @@ public class DatosBD implements ManejoDatos {
 			tiempoResultante = tiempoActual-tiempoInicio;
 			System.out.println("Tiempo en ejecutar query SELECT * PERSONAS: " + tiempoResultante);
 			
-			dvd
+//			POR HACER: COMPROBAR TIEMPOS
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String nombre = rs.getString(2);

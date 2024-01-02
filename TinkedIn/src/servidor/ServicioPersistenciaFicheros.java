@@ -20,6 +20,7 @@ import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
+import ventanas.PnlBotonera;
 import ventanas.PnlChat;
 import ventanas.VentanaPrincipal;
 
@@ -141,7 +142,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 		while (!finComunicacion) {
 			while(listaMatches.size() !=0) {
 				Match m = listaMatches.remove(0);
-				VentanaPrincipal.notificarMatch();
+				PnlBotonera.notificarMatch(m);
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e){e.printStackTrace();}
 		}

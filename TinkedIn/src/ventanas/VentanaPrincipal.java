@@ -69,7 +69,6 @@ public class VentanaPrincipal extends JFrame {
 //					VentanaPrincipal frame = new VentanaPrincipal(datos);
 					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -119,7 +118,5 @@ public class VentanaPrincipal extends JFrame {
 			
 	}
 
-	public static void notificarMatch() {
-		JOptionPane.showMessageDialog(null, "Enhorabuena, tienes un Match pendiente por revisar!!","Notificación" ,JOptionPane.INFORMATION_MESSAGE);
-	}
+	
 }

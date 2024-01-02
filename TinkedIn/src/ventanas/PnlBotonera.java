@@ -27,12 +27,14 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import clases.Main;
 import datos.DatosFicheros;
 import servidor.ServicioPersistencia;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -548,38 +550,10 @@ public class PnlBotonera extends JPanel {
 		
 
 	}
-//	public TreeSet<PuestoTrabajo> CrearTreeSet() {
-//		Persona usuarioP = (Persona) usuarioAutenticado;
-//		TreeSet<PuestoTrabajo> puestosCandidatos = new TreeSet<PuestoTrabajo>( new Comparator<PuestoTrabajo>() {
-//			
-//			@Override
-//			public int compare(PuestoTrabajo o1, PuestoTrabajo o2) {
-//				int contador1 = 0;
-//				int contador2 = 0;
-//				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
-//					for( int j = 0; j<o1.getHabilidadesReq().size(); j++) {
-//						if(usuarioP.getCurriculum().get(i).equals(o1.getHabilidadesReq().get(j))) {
-//							contador1++;
-//						} 
-//					}
-//				}
-//				for( int i = 0; i<usuarioP.getCurriculum().size() ;i++) {
-//					for( int j = 0; j<o2.getHabilidadesReq().size(); j++) {
-//						if(usuarioP.getCurriculum().get(i).equals(o2.getHabilidadesReq().get(j))) {
-//							contador2++;
-//						} 
-//					}
-//				}
-//				return contador1 - contador2;
-//			}
-//		});
-//		for(Empresa e: DatosFicheros.getEmpresas()) {
-//			for(PuestoTrabajo p: e.getPuestos()) {
-//				puestosCandidatos.add(p);
-//			}
-//		}
-//		return puestosCandidatos;
-//	}
+
+	public static void notificarMatch(Match m) {
+		JOptionPane.showMessageDialog(null, "Enhorabuena, tienes un Match pendiente por revisar!!","Notificación" ,JOptionPane.INFORMATION_MESSAGE);
+	}
 	
 	
 }

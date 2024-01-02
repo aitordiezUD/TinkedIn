@@ -172,9 +172,18 @@ public class Servidor {
 		    			
 		    			if (objRecibido.equals(ConfigServer.ANADIR_LIKE)) {
 		    				Like like = (Like) input.readObject();
-		    				if (datos.comprobarMatch(like)) {
-		    					output.writeObject(ConfigServer.OK);
-		    					
+		    				Match match = datos.comprobarMatch(like);
+		    				if (match != null) {
+		    					int idOther;
+			    				if (match.getU1() == idSender) {
+			    					idOther = match.getU2();
+			    				}else {
+			    					idOther = match.getU1();
+			    				}
+		    					output.writeObject(match);
+		    					if (mapaDirecciones.get(idOther) != null) {
+		    						mapaDirecciones.get(idOther).writeObject(match);
+		    					}
 		    				}
 		    			}
 		    			
