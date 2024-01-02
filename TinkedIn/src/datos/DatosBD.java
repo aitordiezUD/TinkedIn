@@ -302,6 +302,7 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub
 		final String anadirPuesto = "INSERT INTO PUESTO_TRABAJO(ID_EMPRESA,NOMBRE,DESCRIPCION) VALUES(?,?,?)";
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO,NOMBRE,DESTREZA,DESCRIPCION,ID_PUESTO) VALUES(?,?,?,?,?)";
+		int clave;
 		try {
 			connection.setAutoCommit(false);
 			//INTRODUCCION DEL PUESTO DE TRABAJO EN SU TABLA
@@ -310,6 +311,15 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setString(2, puesto.getNombre());
 			prepStatement.setString(3, puesto.getDescripcion());
 			prepStatement.executeUpdate();
+			ResultSet claveGenerada =  prepStatement.getGeneratedKeys();
+			if (claveGenerada.next()) {
+				clave = claveGenerada.getInt(1);
+			}else {
+				claveGenerada.close();
+				prepStatement.close();
+				return;
+			}
+			claveGenerada.close();
 			prepStatement.close();
 			for (Habilidad h : puesto.getHabilidadesReq()) {
 				prepStatement = connection.prepareStatement(anadirHabilidad);
@@ -317,9 +327,10 @@ public class DatosBD implements ManejoDatos {
 				prepStatement.setString(2, h.getNombre());
 				prepStatement.setInt(3, h.getDestreza());
 				prepStatement.setString(4, h.getDescripcion());
-				prepStatement.setInt(0, (int) puesto.getIdEmpresa());
+				prepStatement.setInt(5, clave);
 				prepStatement.executeUpdate();
 				prepStatement.close();
+				System.out.println("Habilidad subida");
 			}
 			
 		} catch (Exception e) {
@@ -559,7 +570,7 @@ public class DatosBD implements ManejoDatos {
 //			System.out.println("Añadiendo habilidades: ");
 			for (Habilidad h : habilidades) {
 				System.out.println(h);
-//				prepStatement = connection.prepareStatement(anadirHabilidad);
+				prepStatement = connection.prepareStatement(anadirHabilidad);
 				prepStatement.setString(1, h.getCampo()); //CAMPO
 				prepStatement.setString(2, h.getNombre()); //NOMBRE
 				prepStatement.setInt(3, h.getDestreza()); //DESTREZA
@@ -933,6 +944,7 @@ public class DatosBD implements ManejoDatos {
 				PreparedStatement busquedaHabilidad = connection.prepareStatement(buscarHabilidadesPuesto);
 				busquedaHabilidad.setInt(1, idPuesto);
 				ResultSet rsHabilidadesPuestos = busquedaHabilidad.executeQuery();
+				System.out.println(rsHabilidadesPuestos.next());
 				while (rsHabilidadesPuestos.next()) {
 					System.out.println("Dentro while");
 					System.out.println(rsHabilidadesPuestos.getString(2));
