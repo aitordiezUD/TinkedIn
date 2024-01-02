@@ -15,10 +15,12 @@ import javax.swing.JOptionPane;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import clases.TipoMensaje;
+import sistemaExplorar.Match;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 import ventanas.PnlChat;
+import ventanas.VentanaPrincipal;
 
 
 
@@ -32,6 +34,8 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
+	private Vector<Match> matches = new Vector<>(); //Matches encolados para ser procesados segun procedan
+	
 	
 	private PnlChat pnlChat = null;
 	
@@ -124,6 +128,19 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 		System.out.println("Escuchador de mensajes dead");
+	}
+	
+	@Override
+	public void comprobadorDeMatches() {
+		System.out.println("Comprobador de matches corriendo");
+		while (!finComunicacion) {
+			while(matches.size() !=0) {
+				Match m = matches.remove(0);
+				VentanaPrincipal.notificarMatch();
+			}
+			try {Thread.sleep(100);} catch (InterruptedException e){e.printStackTrace();}
+		}
+		System.out.println("Comprobador de matches dead");
 	}
 	
 	@Override
