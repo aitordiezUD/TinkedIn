@@ -107,328 +107,311 @@ public class PnlExplorar extends JPanel {
 		
 		setLayout( new BorderLayout( 0,0 ) );
 		
-    		this.usuarioAutenticado = usuarioAutenticado;
-    		
-	        //PuestoTrabajo primerPuesto = puestosCandidatos.first();
-	        
-	        
-	        JPanel pnlContenido = new JPanel();
-	        pnlContenido.setLayout( new BorderLayout());
-	        pnlContenido.setBackground(Color.WHITE);
-	        pnlContenido.setPreferredSize(new Dimension(getWidth()-250, getHeight()));
-	        add(pnlContenido, BorderLayout.CENTER);
-      
-	        JPanel pnlInfo = new JPanel();
-	        pnlInfo.setLayout( new BorderLayout() );
-	        pnlInfo.setBackground(new Color(129, 186, 207));
+		this.usuarioAutenticado = usuarioAutenticado;
+		
+        //PuestoTrabajo primerPuesto = puestosCandidatos.first();
+        
+        
+        JPanel pnlContenido = new JPanel();
+        pnlContenido.setLayout( new BorderLayout());
+        pnlContenido.setBackground(Color.WHITE);
+        pnlContenido.setPreferredSize(new Dimension(getWidth()-250, getHeight()));
+        add(pnlContenido, BorderLayout.CENTER);
+  
+        JPanel pnlInfo = new JPanel();
+        pnlInfo.setLayout( new BorderLayout() );
+        pnlInfo.setBackground(new Color(129, 186, 207));
 //	        pnlInfo.setBackground( Color.GREEN );
-	        //pnlInfo.setBackground( Color.GREEN);
-	        pnlContenido.add(pnlInfo, BorderLayout.CENTER);
-	        
-	        pnlInfoUsu = new JPanel();
-	        pnlInfoUsu.setBackground(new Color(129, 186, 207));
-	        pnlInfoUsu.setLayout(new BorderLayout());
-	        pnlAbajo = new JPanel();
-	        pnlAbajo.setBackground(pnlInfoUsu.getBackground());
-	        pnlAbajo.setPreferredSize(new Dimension(pnlInfoUsu.getWidth(), 100));
-	        pnlInfoUsu.add(pnlAbajo, BorderLayout.SOUTH);
-	        
-
-	        
-	        //lblNombreUsu2 = new JLabel(lblNombreUsu.getText());
-	       // pnlInfoUsu.add(lblNombreUsu2, BorderLayout.SOUTH);
-	       
-	     
-	        //pnlInfoPuesto.add(lblNomEInfo);
-	        //pnlInfoPuesto.add(lblDescrPInfo, BorderLayout.CENTER);
-	        
-	       
-	        pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
-	        
-	        pnlDatos = new JPanel();
-	        pnlDatos.setBackground(new Color(208, 235, 242));
-	        pnlDatos.setLayout(new BorderLayout());
+        //pnlInfo.setBackground( Color.GREEN);
+        pnlContenido.add(pnlInfo, BorderLayout.CENTER);
+        
+        pnlInfoUsu = new JPanel();
+        pnlInfoUsu.setBackground(new Color(129, 186, 207));
+        pnlInfoUsu.setLayout(new BorderLayout());
+        pnlAbajo = new JPanel();
+        pnlAbajo.setBackground(pnlInfoUsu.getBackground());
+        pnlAbajo.setPreferredSize(new Dimension(pnlInfoUsu.getWidth(), 100));
+        pnlInfoUsu.add(pnlAbajo, BorderLayout.SOUTH);
+       
+        pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
+        
+        pnlDatos = new JPanel();
+        pnlDatos.setBackground(new Color(208, 235, 242));
+        pnlDatos.setLayout(new BorderLayout());
 //	        pnlDatos.setBackground(Color.GREEN);
-	        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
-	        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
-	        
-	        lblPuesto = new JLabel("");
-			lblPuesto.setForeground(new Color(192, 192, 192));
-			lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20 ));
-			lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
-			pnlDatos.add(lblPuesto, BorderLayout.CENTER);
-	        
-	        JPanel pnlBotonera = new JPanel();
-	        pnlBotonera.setLayout( new GridLayout(0,3) );
+        pnlDatos.setPreferredSize(new Dimension(getWidth()-250, 125));
+        pnlContenido.add( pnlDatos, BorderLayout.NORTH);
+        
+        lblPuesto = new JLabel("");
+		lblPuesto.setForeground(new Color(192, 192, 192));
+		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20 ));
+		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
+        
+        JPanel pnlBotonera = new JPanel();
+        pnlBotonera.setLayout( new GridLayout(0,3) );
 //	        pnlBotonera.setBackground( Color.BLUE);
-	        pnlBotonera.setPreferredSize( new Dimension(getWidth()-250, 120 ));
-	        pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
+        pnlBotonera.setPreferredSize( new Dimension(getWidth()-250, 120 ));
+        pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
 //	        System.out.println( tipoUsuario.getClass() );
 
-	        pnlLike = new JPanel();
-	        pnlLike.setLayout(new BorderLayout());
-	        JPanel pnlBotonLike = new JPanel();
-	        pnlBotonLike.setPreferredSize( new Dimension(100,100));
-	        botonLike btnLike = new botonLike();
-	        pnlBotonLike.add( btnLike );
-	        pnlLike.add(pnlBotonLike, BorderLayout.CENTER);
-	        pnlBotonera.add(pnlLike);
-	        
-	        
+        pnlLike = new JPanel();
+        pnlLike.setLayout(new BorderLayout());
+        JPanel pnlBotonLike = new JPanel();
+        pnlBotonLike.setPreferredSize( new Dimension(100,100));
+        botonLike btnLike = new botonLike();
+        pnlBotonLike.add( btnLike );
+        pnlLike.add(pnlBotonLike, BorderLayout.CENTER);
+        pnlBotonera.add(pnlLike);
+        
+        
 
-	        
-	        JPanel pnlVacio = new JPanel();
-	        pnlVacio.setPreferredSize( new Dimension(10,10));
-	        pnlBotonera.add(pnlVacio);
-	        
-	        pnlPass = new JPanel();
-	        pnlPass.setLayout(new BorderLayout());
-	        botonX btnX = new botonX();
-	        
-	        pnlPass.add(btnX, BorderLayout.CENTER);
-	        pnlBotonera.add(pnlPass);
-	        
-	        
-	        
-	        
-	        try {
-	            // Carga la imagen original desde el archivo en el paquete "imagenes"
-	            InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
-	            BufferedImage originalImage = ImageIO.read(imageStream);
+        
+        JPanel pnlVacio = new JPanel();
+        pnlVacio.setPreferredSize( new Dimension(10,10));
+        pnlBotonera.add(pnlVacio);
+        
+        pnlPass = new JPanel();
+        pnlPass.setLayout(new BorderLayout());
+        botonX btnX = new botonX();
+        
+        pnlPass.add(btnX, BorderLayout.CENTER);
+        pnlBotonera.add(pnlPass);
+        
+        
+        
+        
+        try {
+            // Carga la imagen original desde el archivo en el paquete "imagenes"
+            InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
+            BufferedImage originalImage = ImageIO.read(imageStream);
 
-	            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-	            int width = 70;
-	            int height = 70;
-	            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
+            int width = 70;
+            int height = 70;
+            Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-	            // Convierte la imagen escalada en un BufferedImage
-	            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	            Graphics2D g2d = resizedImage.createGraphics();
-	            Shape circle = new Ellipse2D.Float(0, 0, width, height);
-	            g2d.setClip(circle);
-	            g2d.drawImage(scaledImage, 0, 0, null);
-	            g2d.dispose();
-	            
-	            
-	            
-	            
-	           
-	            
-	            // Crea un JLabel y asigna la imagen escalada como ícono
-	            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
-	            lblGrafExp.setBackground(new Color(240, 240, 240));
-	    		lblGrafExp.setBounds(20, 0, 38, 38);
-	    		//pnlDatos.add(lblGrafExp);
-	      
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        
-	        //botonCorazon btnCorazon = new botonCorazon();
-	        //pnlLike.add(btnCorazon, BorderLayout.EAST);
-	        lblNombreUsu = new JLabel( "      Nombre de Usuario" );
-            lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-            //pnlDatos.add(lblNombreUsu);
-	        
-	        if( usuarioAutenticado instanceof Empresa ) {
-	        	
-	        	JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
-        		lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
-        		lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
-        		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
-	        	
-	        	pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
+            // Convierte la imagen escalada en un BufferedImage
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+            Shape circle = new Ellipse2D.Float(0, 0, width, height);
+            g2d.setClip(circle);
+            g2d.drawImage(scaledImage, 0, 0, null);
+            g2d.dispose();
+            
+            
+            
+            
+           
+            
+            // Crea un JLabel y asigna la imagen escalada como ícono
+            JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
+            lblGrafExp.setBackground(new Color(240, 240, 240));
+    		lblGrafExp.setBounds(20, 0, 38, 38);
+    		//pnlDatos.add(lblGrafExp);
+      
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        //botonCorazon btnCorazon = new botonCorazon();
+        //pnlLike.add(btnCorazon, BorderLayout.EAST);
+        lblNombreUsu = new JLabel( "      Nombre de Usuario" );
+        lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+        //pnlDatos.add(lblNombreUsu);
+        
+//        if( usuarioAutenticado instanceof Empresa ) {
+        	JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
+    		lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
+    		lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
+    		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
+        	
+        	pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
 //	        	pnlInfo.remove(pnlInfoPuesto);
-	        	JPanel pnlCurriculum = new JPanel();
-	        	pnlCurriculum.setPreferredSize(new Dimension(pnlInfo.getWidth()-100, pnlInfo.getHeight()));
-	        	pnlInfo.add(pnlCurriculum, BorderLayout.WEST);
-	        	pnlInfo.repaint();
-	        	
-	        	
-	        	Empresa e = (Empresa) usuarioAutenticado;
-	        	mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
-	      
-//	        	System.out.println(mapaPersonasPorPuesto.get(1));
-	        	JPanel pnlLista = new JPanel();
-		        pnlLista.setLayout( new BorderLayout() );
-		        pnlLista.setBackground( new Color( 129, 186, 207 ) );
-		 	    
-		        
-	        	JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
-				modeloListaPt = new DefaultListModel<PuestoTrabajo>();
+        	JPanel pnlCurriculum = new JPanel();
+        	pnlCurriculum.setPreferredSize(new Dimension(pnlInfo.getWidth()-100, pnlInfo.getHeight()));
+        	pnlInfo.add(pnlCurriculum, BorderLayout.WEST);
+        	pnlInfo.repaint();
+        	
+        	
+        	Empresa e = (Empresa) usuarioAutenticado;
+        	mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
+      
+        	JPanel pnlLista = new JPanel();
+	        pnlLista.setLayout( new BorderLayout() );
+	        pnlLista.setBackground( new Color( 129, 186, 207 ) );
+	 	    
+	        
+        	JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
+			modeloListaPt = new DefaultListModel<PuestoTrabajo>();
+			
+			for (PuestoTrabajo pt: e.getPuestos()) {
+				modeloListaPt.addElement(pt);
+			}
+			
+			listaPuestos.setModel(modeloListaPt);
+			listaPuestos.setBackground(new Color(202, 232, 232));
+			
+			
+			listaPuestos.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 				
-				for (PuestoTrabajo pt: e.getPuestos()) {
-					modeloListaPt.addElement(pt);
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					puestoElegido = listaPuestos.getSelectedValue();
+					
 				}
-				
-				listaPuestos.setModel(modeloListaPt);
-				listaPuestos.setBackground(new Color(202, 232, 232));
-				
-				
-				listaPuestos.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
-					
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						puestoElegido = listaPuestos.getSelectedValue();
-						
-					}
-				});
-				
-				btnX.addActionListener( (ActionListener) new ActionListener() {
+			});
+			
+			btnX.addActionListener( (ActionListener) new ActionListener() {
 
-    				@Override
-    				public void actionPerformed(ActionEvent e) {
-    					mostrarSiguientePersona(puestoElegido);
-    				}});
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mostrarSiguientePersona(puestoElegido);
+				}});
+			
+			JScrollPane spLista = new JScrollPane(listaPuestos);
+	 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
+	 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
+	 	    spLista.setBackground(getBackground());
+	 	    pnlLista.add(spLista);
+	 	    
+	 	    add(pnlLista,BorderLayout.WEST);
+	 	    JPanel pnlBotoneraIzq = new JPanel();
+	 	    pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
+	 	    pnlBotoneraIzq.setLayout( new FlowLayout() );
+	        pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
+	        pnlBotoneraIzq.setPreferredSize( new Dimension( pnlLista.getWidth(), 75));
+	        pnlBotoneraIzq.add( new botonAnEl("Añadir") );
+	        pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
+	       
+			
+			listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
+				private static final long serialVersionUID = 1L;
 				
-				JScrollPane spLista = new JScrollPane(listaPuestos);
-		 	    spLista.setPreferredSize(new Dimension(250,getHeight()));
-		 	    spLista.setMaximumSize( new Dimension(250, getHeight()) );
-		 	    spLista.setBackground(getBackground());
-		 	    pnlLista.add(spLista);
-		 	    
-		 	   add(pnlLista,BorderLayout.WEST);
-		 	   JPanel pnlBotoneraIzq = new JPanel();
-		 	   pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
-		 	   pnlBotoneraIzq.setLayout( new FlowLayout() );
-		       pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
-		       pnlBotoneraIzq.setPreferredSize( new Dimension( pnlLista.getWidth(), 75));
-		       pnlBotoneraIzq.add( new botonAnEl("Añadir") );
-		       pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
-		       
+				JPanel pnl;
+				JLabel lbl1;
+				JLabel lbl2;
 				
-				listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
-					private static final long serialVersionUID = 1L;
+				@Override
+				public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+						boolean isSelected, boolean cellHasFocus) {
+					// TODO Auto-generated method stub
 					
-					JPanel pnl;
-					JLabel lbl1;
-					JLabel lbl2;
-					
-					@Override
-					public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-							boolean isSelected, boolean cellHasFocus) {
-						// TODO Auto-generated method stub
-						
-						pnl = new JPanel();
-						pnl.setPreferredSize(new Dimension(pnlLista.getWidth()-5,70));
-						pnl.setSize(200,50);
-						pnl.setBorder(BorderFactory.createMatteBorder(0,1,1,1,new Color(0, 64, 128)));
-						if (isSelected) {
-		                    pnl.setBackground(new Color(122, 199, 218));
-		                } else {
-		                    pnl.setBackground(new Color(202, 232, 232));
-		                    pnl.setForeground(list.getForeground());
-		                }
-						lbl1 = new JLabel(value.toString());
-						lbl2 = new JLabel("Numero de plazas");
-						lbl2.setForeground(new Color(128, 128, 128));
-						pnl.add(lbl1);
-						pnl.add(lbl2);
-						return pnl;
-					}
+					pnl = new JPanel();
+					pnl.setPreferredSize(new Dimension(pnlLista.getWidth()-5,70));
+					pnl.setSize(200,50);
+					pnl.setBorder(BorderFactory.createMatteBorder(0,1,1,1,new Color(0, 64, 128)));
+					if (isSelected) {
+	                    pnl.setBackground(new Color(122, 199, 218));
+	                } else {
+	                    pnl.setBackground(new Color(202, 232, 232));
+	                    pnl.setForeground(list.getForeground());
+	                }
+					lbl1 = new JLabel(value.toString());
+					lbl2 = new JLabel("Numero de plazas");
+					lbl2.setForeground(new Color(128, 128, 128));
+					pnl.add(lbl1);
+					pnl.add(lbl2);
+					return pnl;
+				}
 
-				});
-				
-				listaPuestos.addMouseListener(new MouseAdapter() {
-		            @Override
-		            public void mouseExited(MouseEvent e) {
-		            	listaPuestos.clearSelection();
-		            }		            
-		        });
-	
-				listaPuestos.addMouseMotionListener(new MouseMotionAdapter() {
-		            @Override
-		            public void mouseMoved(MouseEvent e) {
-		                int index = listaPuestos.locationToIndex(e.getPoint());
-		                if (index != -1) {
-		                    listaPuestos.setSelectedIndex(index);
+			});
+			
+			listaPuestos.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseExited(MouseEvent e) {
+	            	listaPuestos.clearSelection();
+	            }		            
+	        });
+
+			listaPuestos.addMouseMotionListener(new MouseMotionAdapter() {
+	            @Override
+	            public void mouseMoved(MouseEvent e) {
+	                int index = listaPuestos.locationToIndex(e.getPoint());
+	                if (index != -1) {
+	                    listaPuestos.setSelectedIndex(index);
 	                }
 	            }
-	        });
-	    		}
-	        	
-	        	
-	        	
-	        	if(usuarioAutenticado instanceof Persona) {
-	        		
-	        		
-	        		JPanel pnlInfoPuesto = new JPanel();
-	       	        pnlInfoPuesto.setLayout(new BorderLayout());
-	       	        pnlInfoPuesto.setBackground( Color.WHITE );
-	       	        pnlInfoPuesto.setForeground(Color.BLUE);
-	       	        pnlInfoPuesto.setPreferredSize( new Dimension(400,200));
-	       	        
-	       	        JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
-	       	        JLabel lblDescripcionPuesto = new JLabel("   Descripcion del puesto: ");
-	       	        lblDescripcionPuesto.setPreferredSize(new Dimension(pnlInfoPuesto.getWidth(), 60));
-	       	        lblDescripcionPuesto.setFont(new Font("Tahoma", Font.BOLD, 16));
-	       	        
-	       	        DescripcionPuesto = new JTextPane();
-	       	        DescripcionPuesto.setBorder(new LineBorder(new Color(129, 186, 207), 3));
-	       	        DescripcionPuesto.setEditable(false);
-	       	        pnlInfoPuesto.add(DescripcionPuesto, BorderLayout.CENTER);
-	       	        
-	       	        pnlHabilidades = new JPanel();
-	       	        pnlHabilidades.setBackground(Color.WHITE);
-	       	        pnlInfoPuesto.add(pnlHabilidades, BorderLayout.SOUTH);
-	       	        
-	       	        JPanel panelIzqv = new JPanel();
-	       	        panelIzqv.setPreferredSize(new Dimension(60, 0));
-	       	        panelIzqv.setBackground(Color.WHITE);
-	       	        pnlInfoPuesto.add(panelIzqv, BorderLayout.WEST);
-	       	        
-	       	        JPanel panelDerv = new JPanel();
-	       	        panelDerv.setPreferredSize(new Dimension(60, 0));
-	       	        panelDerv.setBackground(Color.WHITE);
-	       	        pnlInfoPuesto.add(panelDerv, BorderLayout.EAST);
-	       	        pnlInfo.add(pnlInfoPuesto, BorderLayout.WEST);
-	       	        lblNomEInfo = new JLabel("");
-	       	        lblDescrPInfo = new JLabel("");
-	       	        
-	       	        //pnlInfoPuesto.add(nomEmpresa);
-	       	        pnlInfoPuesto.add(lblDescripcionPuesto, BorderLayout.NORTH);
-	        		JLabel lblExplorarPuestos = new JLabel("Explora Puestos De Trabajo");
-	        		lblExplorarPuestos.setFont(new Font("Tahoma", Font.BOLD, 30));
-	        		lblExplorarPuestos.setHorizontalAlignment(SwingConstants.CENTER);
-	        		pnlDatos.add(lblExplorarPuestos, BorderLayout.NORTH);
-	        		
-	        		btnX.addActionListener( (ActionListener) new ActionListener() {
-
-	    				@Override
-	    				public void actionPerformed(ActionEvent e) {
-	    					mostrarSiguientePuesto();
-	    				}});
-	        		
-	        		puestosCandidatos = CrearTreeSetPuestos();
-	        		iteradorPuestos = puestosCandidatos.iterator();
-//	        		System.out.println(puestosCandidatos);
-	        		Empresa primeraEmpresa = VentanaPrincipal.servicio.getEmpresaFromPuesto(puestosCandidatos.first());
-	        		lblNombreUsu.setText(primeraEmpresa.getNombre());
-	        		DescripcionPuesto.setText(puestosCandidatos.first().getDescripcion());
-	    			JLabel Imagen = ImagenesAzure.crearImagen(primeraEmpresa, 150, 150);
-	    			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
-	    			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
-	    			lblNombreUsu.setForeground(new Color(4, 32, 63));
-	    			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
-	    			lblPuesto.removeAll();
-	    			lblPuesto.setText(puestosCandidatos.first().getNombre());
-	    			
-	    			pnlHabilidades.removeAll();
-	    			
-	    			for(Habilidad hab: puestosCandidatos.first().getHabilidadesReq()) {
-	    				JButton btnHab = new JButton(hab.getNombre());
-	    				pnlHabilidades.add(btnHab);
-	    				btnHab.addActionListener(new ActionListener() {
-	    					
-	    					@Override
-	    					public void actionPerformed(ActionEvent e) {
-	    						JOptionPane.showMessageDialog(null, "Nivel requerido: " + hab.getDestreza(), "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
-	    					}
-	    				});
-	    			}
-	        			
-	    		
-	    	}
+			});
+//        } else if(usuarioAutenticado instanceof Persona) {
+//        	
+//    		JPanel pnlInfoPuesto = new JPanel();
+//   	        pnlInfoPuesto.setLayout(new BorderLayout());
+//   	        pnlInfoPuesto.setBackground( Color.WHITE );
+//   	        pnlInfoPuesto.setForeground(Color.BLUE);
+//   	        pnlInfoPuesto.setPreferredSize( new Dimension(400,200));
+//   	        
+//   	        JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
+//   	        JLabel lblDescripcionPuesto = new JLabel("   Descripcion del puesto: ");
+//   	        lblDescripcionPuesto.setPreferredSize(new Dimension(pnlInfoPuesto.getWidth(), 60));
+//   	        lblDescripcionPuesto.setFont(new Font("Tahoma", Font.BOLD, 16));
+//   	        
+//   	        DescripcionPuesto = new JTextPane();
+//   	        DescripcionPuesto.setBorder(new LineBorder(new Color(129, 186, 207), 3));
+//   	        DescripcionPuesto.setEditable(false);
+//   	        pnlInfoPuesto.add(DescripcionPuesto, BorderLayout.CENTER);
+//   	        
+//   	        pnlHabilidades = new JPanel();
+//   	        pnlHabilidades.setBackground(Color.WHITE);
+//   	        pnlInfoPuesto.add(pnlHabilidades, BorderLayout.SOUTH);
+//   	        
+//   	        JPanel panelIzqv = new JPanel();
+//   	        panelIzqv.setPreferredSize(new Dimension(60, 0));
+//   	        panelIzqv.setBackground(Color.WHITE);
+//   	        pnlInfoPuesto.add(panelIzqv, BorderLayout.WEST);
+//   	        
+//   	        JPanel panelDerv = new JPanel();
+//   	        panelDerv.setPreferredSize(new Dimension(60, 0));
+//   	        panelDerv.setBackground(Color.WHITE);
+//   	        pnlInfoPuesto.add(panelDerv, BorderLayout.EAST);
+//   	        pnlInfo.add(pnlInfoPuesto, BorderLayout.WEST);
+//   	        lblNomEInfo = new JLabel("");
+//   	        lblDescrPInfo = new JLabel("");
+//   	        
+//   	        //pnlInfoPuesto.add(nomEmpresa);
+//   	        pnlInfoPuesto.add(lblDescripcionPuesto, BorderLayout.NORTH);
+//    		JLabel lblExplorarPuestos = new JLabel("Explora Puestos De Trabajo");
+//    		lblExplorarPuestos.setFont(new Font("Tahoma", Font.BOLD, 30));
+//    		lblExplorarPuestos.setHorizontalAlignment(SwingConstants.CENTER);
+//    		pnlDatos.add(lblExplorarPuestos, BorderLayout.NORTH);
+//    		
+//    		btnX.addActionListener( (ActionListener) new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					mostrarSiguientePuesto();
+//				}});
+//    		
+//    		puestosCandidatos = CrearTreeSetPuestos();
+//    		iteradorPuestos = puestosCandidatos.iterator();
+////	        		System.out.println(puestosCandidatos);
+//    		Empresa primeraEmpresa = VentanaPrincipal.servicio.getEmpresaFromPuesto(puestosCandidatos.first());
+//    		lblNombreUsu.setText(primeraEmpresa.getNombre());
+//    		DescripcionPuesto.setText(puestosCandidatos.first().getDescripcion());
+//			JLabel Imagen = ImagenesAzure.crearImagen(primeraEmpresa, 150, 150);
+//			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
+//			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
+//			lblNombreUsu.setForeground(new Color(4, 32, 63));
+//			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
+//			lblPuesto.removeAll();
+//			lblPuesto.setText(puestosCandidatos.first().getNombre());
+//			
+//			pnlHabilidades.removeAll();
+//			
+//			for(Habilidad hab: puestosCandidatos.first().getHabilidadesReq()) {
+//				JButton btnHab = new JButton(hab.getNombre());
+//				pnlHabilidades.add(btnHab);
+//				btnHab.addActionListener(new ActionListener() {
+//					
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						JOptionPane.showMessageDialog(null, "Nivel requerido: " + hab.getDestreza(), "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
+//					}
+//				});
+//			}
+//        			
+//    		
+//    	}
 	        
 		        
 	}
@@ -542,6 +525,7 @@ public class PnlExplorar extends JPanel {
 		for(PuestoTrabajo pt : usuarioE.getPuestos()) {
 			mapaPersonasPorPuesto.put(pt, crearTreeSetPersonas(pt));
 		}
+		System.err.println("Mapa Personas Puesto: " + mapaPersonasPorPuesto);
 		return mapaPersonasPorPuesto;
 	}
 	

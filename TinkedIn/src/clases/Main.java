@@ -112,10 +112,7 @@ public class Main {
 		
 //      EMPRESAS
         
-        // Empresa admin
-        Object[] atribsAdmin = {"adminE", "000000000", "adminE","adminE",new ArrayList<>(), new File("TinkedinPNG.png"),"adminE"};
-        Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
-        System.out.println("Id adminE :" + adminE.getId());
+        
         // Empresa 1
         Object[] atribsE1 = {"TechIbérica", "912345678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",
@@ -364,6 +361,14 @@ public class Main {
 		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
 		Persona adminP = (Persona) servicio.crearUsuario(atribsPAdmin);
 //		System.out.println("adminP: " + adminP);
+		
+		// Empresa admin
+        Object[] atribsAdmin = {"adminE", "001010101", "adminE",
+                "adminE",
+                new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
+                new File("src/ventanas/defaultFotoPerfil.jpg"), "adminE"};
+        Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
+        System.out.println("Id adminE :" + adminE.getId());
 		
 		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", new Date());
 		servicio.anadirMensaje(m1);

@@ -38,13 +38,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
 	private Vector<Match> listaMatches = new Vector<>(); //Matches encolados para ser procesados segun procedan
 	
-
-
-
-	
 	private PnlChat pnlChat = null;
-	
-	
 	
 	public PnlChat getPnlChat() {
 		return pnlChat;

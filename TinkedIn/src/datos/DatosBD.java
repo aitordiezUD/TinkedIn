@@ -180,8 +180,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setString(2, contraseña);
 			ResultSet rs = prepStatement.executeQuery();
 			if (rs.next()) {
-				rs.close();
-				prepStatement.close();
+//				rs.close();
+//				prepStatement.close();
 				return true;
 			}
 			rs.close();
@@ -758,8 +758,7 @@ public class DatosBD implements ManejoDatos {
 	public Vector<Empresa> getEmpresas() {
 		// TODO Auto-generated method stub
 		Vector<Empresa> empresas = new Vector<>();
-		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ?";
-		final String selectEmpresas = "SELECT * FROM EMPRESA";
+		final String selectEmpresas = "SELECT * FROM USUARIO U, EMPRESA E WHERE U.ID = E.ID";
 		try {
 //			RECORRER EMPRESAS:
 			prepStatement = connection.prepareStatement(selectEmpresas);
@@ -778,21 +777,13 @@ public class DatosBD implements ManejoDatos {
 				id = rs.getInt(1);
 				nombre = rs.getString(2);
 				descripcion = rs.getString(3);
-				PreparedStatement prepStatementUsuario = connection.prepareStatement(selectUsuarios);
-				prepStatementUsuario.setInt(1, id);
-				ResultSet rsUsuario = prepStatementUsuario.executeQuery();
-				if (rsUsuario.next()) {
-					fotoDePerfil = rsUsuario.getString(2);
-					password = rsUsuario.getString(3);
-					correo = rsUsuario.getString(5);
-					telefono = rsUsuario.getString(6);
-				}else {
-					return null;
-				}
-				rsUsuario.close();
-				prepStatementUsuario.close();
+				telefono = rs.getString(9);
+				correo = rs.getString(8);
+				fotoDePerfil = rs.getString(5);
+				password = rs.getString(6);
 				puestos = crearPuestos(id);
 				ubicaciones = crearUbicaciones(id);
+				
 				Empresa e = new Empresa(id, nombre, telefono, correo, descripcion, ubicaciones, puestos,
 						fotoDePerfil, password);
 				empresas.add(e);
@@ -811,8 +802,7 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public Vector<Persona> getPersonas() {
 		Vector<Persona> personas = new Vector<>();
-		final String selectUsuarios = "SELECT * FROM USUARIO WHERE ID = ?";
-		final String selectPersonas = "SELECT * FROM PERSONA";
+		final String selectPersonas = "SELECT * FROM PERSONA P, USUARIO U WHERE P.ID = U.ID";
 		try {
 			prepStatement = connection.prepareStatement(selectPersonas);
 			tiempoInicio = System.currentTimeMillis();
@@ -823,37 +813,41 @@ public class DatosBD implements ManejoDatos {
 			
 //			POR HACER: COMPROBAR TIEMPOS
 			while(rs.next()) {
+				tiempoInicio = System.currentTimeMillis();
 				int id = rs.getInt(1);
 				String nombre = rs.getString(2);
 				String apellidos = rs.getString(3);
 				java.sql.Date sqlDate = rs.getDate(4);
 				Date nacimiento = new Date(sqlDate.getTime());
 				int idUbicacion = rs.getInt(5);
+				String fotoDePerfil = rs.getString(7);
+				String correo = rs.getString(10);
+				String telefono = rs.getString(11);
+				String password = rs.getString(8);
 				String ubicacion = getUbicacionFromId(idUbicacion);
-				String correo;
-				String fotoDePerfil;
-				String password;
-				String telefono;
 				ArrayList<Habilidad> habilidades = new ArrayList<>();
-				PreparedStatement psUsuarios = connection.prepareStatement(selectUsuarios);
-				psUsuarios.setInt(1, id);
-				ResultSet rsUsuarios = psUsuarios.executeQuery();
-				if(rsUsuarios.next()) {
-					fotoDePerfil = rsUsuarios.getString(2);
-					password = rsUsuarios.getString(3);
-					correo = rs.getString(5);
-					telefono = rsUsuarios.getString(6);
-				}else {
-					return personas;
-				}
-				rsUsuarios.close();
-				psUsuarios.close();
+
+				tiempoActual = System.currentTimeMillis();
+				tiempoResultante = tiempoActual - tiempoInicio;
+				System.out.println("Obtener atribs basicos: " + tiempoResultante);
+				
+				
+				tiempoInicio = System.currentTimeMillis();
 				habilidades = crearHabilidades(id);
+				tiempoActual = System.currentTimeMillis();
+				tiempoResultante = tiempoActual-tiempoInicio;
+				System.out.println("Crear habilidades: " + tiempoResultante);
+				
+				tiempoInicio = System.currentTimeMillis();
 				Persona persona = new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
 				personas.add(persona);
+				tiempoActual = System.currentTimeMillis();
+				tiempoResultante = tiempoActual-tiempoInicio;
+				System.out.println("Tiempo Vector: " + tiempoResultante);
+				
 			}
-			prepStatement.close();
 			rs.close();
+			prepStatement.close();
 			return personas;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -972,14 +966,34 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public Vector<Usuario> getUsuarios() {
 		Vector<Usuario> usuarios = new Vector<>();
-		for (Empresa e : getEmpresas()) {
-			usuarios.add(e);
-		}
-		for (Persona p : getPersonas()) {
-			usuarios.add(p);
-		}
-		return usuarios;
-	}
+
+        long tiempoInicio3 = System.currentTimeMillis();
+
+        Thread threadEmpresas = new Thread(() -> {
+            usuarios.addAll(new Vector<>(getEmpresas()));
+        });
+
+        Thread threadPersonas = new Thread(() -> {
+            usuarios.addAll(new Vector<>(getPersonas()));
+        });
+
+        threadEmpresas.start();
+        threadPersonas.start();
+
+        try {
+            threadEmpresas.join();
+            threadPersonas.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        long tiempoActual3 = System.currentTimeMillis();
+        System.err.println("Tiempo añadir usuarios: " + (tiempoActual3 - tiempoInicio3));
+
+        return usuarios;
+    }
+
+	
 
 
 	
