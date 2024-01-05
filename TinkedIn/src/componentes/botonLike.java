@@ -16,11 +16,21 @@ public class botonLike extends JButton {
 		// TODO Auto-generated constructor stub
 		setContentAreaFilled(false);  // Hace que el fondo del botón sea transparente
         setPreferredSize(new Dimension(50, 50));  // Ajusta el tamaño del botón según sea necesario
+        setBorderPainted(false);
+        setFocusPainted(false);
+        setOpaque(false);
 	}
 	
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        if (getModel().isArmed()) {
+        	g.setColor(Color.RED);
+        }else {
+        	g.setColor( new Color(4,32,63));
+        }
+        
         Graphics2D g2d = (Graphics2D) g.create();
 
         int width = getWidth();
@@ -32,7 +42,7 @@ public class botonLike extends JButton {
         path.curveTo(width / 2, 0, width, 0, width / 2, height);
         path.curveTo(0, 0, width / 2, 0, width / 2, height / 5);
 
-        g2d.setColor(Color.RED); 
+        g2d.setColor(Color.BLUE); 
         g2d.fill(path);
 
         g2d.dispose();

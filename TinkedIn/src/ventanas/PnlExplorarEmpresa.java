@@ -66,6 +66,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
@@ -87,13 +89,17 @@ public class PnlExplorarEmpresa extends JPanel {
 	private JPanel pnlLike;
 	private JPanel pnlPass;
 	private JPanel pnlInfoUsu;
-	private JPanel pnlAbajo;
 	private JPanel pnlDatos;
 	private PuestoTrabajo puestoElegido;
 	protected JLabel lblNombreUsu;
 	protected JLabel lblNomEInfo;
 	protected JLabel lblDescrPInfo;
 	protected JLabel lblPuesto;
+	protected JLabel lblNombreDatosPer;
+	protected JLabel lblApellidosDatosPer;
+	protected JLabel lblFechaDatosPer;
+	protected JLabel lblUbicacionDatosPer;
+	protected DefaultListModel<Habilidad> modeloHP;
 	protected static Usuario usuarioAutenticado;
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static HashMap<PuestoTrabajo, Iterator<Persona>> mapaIteradorPersonas;
@@ -106,6 +112,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		mapaIteradorPersonas = new HashMap<>();
+		
 		this.usuarioAutenticado = e;
 		this.servicio = servicio;
 		// PuestoTrabajo primerPuesto = puestosCandidatos.first();
@@ -125,14 +132,47 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		pnlInfoUsu = new JPanel();
 		pnlInfoUsu.setBackground(new Color(129, 186, 207));
+		pnlInfoUsu.setPreferredSize( new Dimension(186,207));
 		pnlInfoUsu.setLayout(new BorderLayout());
-		pnlAbajo = new JPanel();
-		pnlAbajo.setBackground(pnlInfoUsu.getBackground());
-		pnlAbajo.setPreferredSize(new Dimension(pnlInfoUsu.getWidth(), 100));
-		pnlInfoUsu.add(pnlAbajo, BorderLayout.SOUTH);
+
 
 		pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
 
+		JPanel pnlInfoPersonal = new JPanel();
+		pnlInfoPersonal.setPreferredSize( new Dimension(240, 103));
+		pnlInfoUsu.add(pnlInfoPersonal, BorderLayout.WEST);
+		
+		JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
+		pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
+		
+		JPanel pnlDatosPers = new JPanel();
+		pnlDatosPers.setPreferredSize( new Dimension(200, 280));
+		pnlDatosPers.setLayout( new BoxLayout(pnlDatosPers, BoxLayout.Y_AXIS));
+		pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
+		lblNombreDatosPer =  new JLabel("Prueba");
+		lblApellidosDatosPer = new JLabel("Prueba apellidos");
+		lblFechaDatosPer = new JLabel("Prueba Fecha");
+		lblUbicacionDatosPer = new JLabel("Prueba ubicacion");
+		
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add(lblNombreDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add(lblApellidosDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add( lblFechaDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add( lblUbicacionDatosPer );
+		
+		JPanel pnlInfoHabi = new JPanel();
+		pnlInfoHabi.setPreferredSize( new Dimension(258, 0));
+		pnlInfoUsu.add(pnlInfoHabi, BorderLayout.EAST);
+		JList<Habilidad> habilidadesPersona = new JList<>();
+		modeloHP = new DefaultListModel<>();
+		habilidadesPersona.setModel(modeloHP);
+		JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
+		spListaHP.setPreferredSize( new Dimension(250,300));
+		pnlInfoHabi.add(spListaHP);
+		
 		pnlDatos = new JPanel();
 		pnlDatos.setBackground(new Color(208, 235, 242));
 		pnlDatos.setLayout(new BorderLayout());
@@ -155,11 +195,10 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		pnlLike = new JPanel();
 		pnlLike.setLayout(new BorderLayout());
-		JPanel pnlBotonLike = new JPanel();
-		pnlBotonLike.setPreferredSize(new Dimension(100, 100));
+		pnlLike.setPreferredSize( new Dimension(70,70));
 		botonLike btnLike = new botonLike();
-		pnlBotonLike.add(btnLike);
-		pnlLike.add(pnlBotonLike, BorderLayout.CENTER);
+		btnLike.setPreferredSize( new Dimension(70,70));
+		pnlLike.add(btnLike, BorderLayout.CENTER);
 		pnlBotonera.add(pnlLike);
 
 		JPanel pnlVacio = new JPanel();
@@ -214,14 +253,11 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
 
 		pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
-//     	pnlInfo.remove(pnlInfoPuesto);
-		JPanel pnlCurriculum = new JPanel();
-		pnlCurriculum.setPreferredSize(new Dimension(pnlInfo.getWidth() - 100, pnlInfo.getHeight()));
-		pnlInfo.add(pnlCurriculum, BorderLayout.WEST);
 		pnlInfo.repaint();
 
 //       	Empresa e = (Empresa) usuarioAutenticado;
 		mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
+		
 
 		JPanel pnlLista = new JPanel();
 		pnlLista.setLayout(new BorderLayout());
@@ -429,21 +465,34 @@ public class PnlExplorarEmpresa extends JPanel {
 
 	private void mostrarSiguientePersona(PuestoTrabajo puestoElegido) {
 		if (modeloListaPt.getSize() > 0) {
+			modeloHP.clear();
 			PuestoTrabajo puestoActual = puestoElegido;
 			Iterator<Persona> iterador = mapaIteradorPersonas.get(puestoElegido);
 			System.out.println(mapaIteradorPersonas.get(puestoElegido));
 			System.out.println(mapaIteradorPersonas.keySet());
 			System.out.println(puestoElegido);
 			System.out.println(mapaIteradorPersonas);
-			if (iterador.hasNext()) {
+			if (iterador != null && iterador.hasNext()) {
 				Persona personaActual = iterador.next();
 				System.err.println(personaActual);
 				lblNombreUsu.setText(personaActual.getNombre());
+				lblNombreDatosPer.setText(personaActual.getNombre());
+				lblApellidosDatosPer.setText(personaActual.getApellidos());
+				lblFechaDatosPer.setText(personaActual.getEdad().toString());
+				lblUbicacionDatosPer.setText(personaActual.getUbicacion());
+				llenarListaHabilidades(personaActual);
 			} else {
 				System.out.println("No quedan puestos. ");
 				;
 			}
 
+		}
+	}
+
+	private void llenarListaHabilidades(Persona p) {
+		ArrayList<Habilidad> habilidades = p.getCurriculum();
+		for (Habilidad h : habilidades) {
+			modeloHP.addElement(h);
 		}
 	}
 

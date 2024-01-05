@@ -160,11 +160,10 @@ public class PnlExplorarPersona extends JPanel {
 
 		pnlLike = new JPanel();
 		pnlLike.setLayout(new BorderLayout());
-		JPanel pnlBotonLike = new JPanel();
-		pnlBotonLike.setPreferredSize(new Dimension(100, 100));
+		pnlLike.setPreferredSize( new Dimension(70,70));
 		botonLike btnLike = new botonLike();
-		pnlBotonLike.add(btnLike);
-		pnlLike.add(pnlBotonLike, BorderLayout.CENTER);
+		btnLike.setPreferredSize( new Dimension(55,55));
+		pnlLike.add(btnLike, BorderLayout.CENTER);
 		pnlBotonera.add(pnlLike);
 
 		JPanel pnlVacio = new JPanel();
@@ -501,6 +500,7 @@ public class PnlExplorarPersona extends JPanel {
 		});
 		frame.getContentPane().add(new PnlExplorarPersona(servicio.getPersonas().get(3), servicio));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setSize(750, 650);
 		// frame.getContentPane().add(new
 		// PnlExplorar(DatosFicheros.getEmpresas().get(0)));
