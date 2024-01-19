@@ -26,6 +26,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -104,6 +105,8 @@ public class PnlExplorarEmpresa extends JPanel {
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static HashMap<PuestoTrabajo, Iterator<Persona>> mapaIteradorPersonas;
 	protected ServicioPersistencia servicio;
+	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+;
 
 	public PnlExplorarEmpresa(Empresa e, ServicioPersistencia servicio) {
 		setLayout(new BorderLayout());
@@ -117,6 +120,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		this.servicio = servicio;
 		// PuestoTrabajo primerPuesto = puestosCandidatos.first();
 
+		
 		JPanel pnlContenido = new JPanel();
 		pnlContenido.setLayout(new BorderLayout());
 		pnlContenido.setBackground(Color.WHITE);
@@ -478,7 +482,7 @@ public class PnlExplorarEmpresa extends JPanel {
 				lblNombreUsu.setText(personaActual.getNombre());
 				lblNombreDatosPer.setText(personaActual.getNombre());
 				lblApellidosDatosPer.setText(personaActual.getApellidos());
-				lblFechaDatosPer.setText(personaActual.getEdad().toString());
+				lblFechaDatosPer.setText(sdf.format(personaActual.getEdad()));
 				lblUbicacionDatosPer.setText(personaActual.getUbicacion());
 				llenarListaHabilidades(personaActual);
 			} else {
@@ -491,6 +495,7 @@ public class PnlExplorarEmpresa extends JPanel {
 
 	private void llenarListaHabilidades(Persona p) {
 		ArrayList<Habilidad> habilidades = p.getCurriculum();
+		System.out.println("Habilidades: " + habilidades);
 		for (Habilidad h : habilidades) {
 			modeloHP.addElement(h);
 		}
@@ -501,7 +506,11 @@ public class PnlExplorarEmpresa extends JPanel {
 		servicio.init();
 // 		System.out.println(servicio.getPersonas().size());
 		JFrame frame = new JFrame();
-		frame.getContentPane().add(new PnlExplorarEmpresa(servicio.getEmpresas().get(3), servicio));
+		Vector<Empresa> empresasVc = servicio.getEmpresas();
+		Empresa empr = empresasVc.get(3);
+		System.out.println("Correo: " + empr.getCorreo());
+		System.out.println("Contraseña: " + empr.getPassword());
+		frame.getContentPane().add(new PnlExplorarEmpresa(empr, servicio));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
 		// frame.getContentPane().add(new

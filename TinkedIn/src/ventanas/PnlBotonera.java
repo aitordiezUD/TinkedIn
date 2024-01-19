@@ -89,9 +89,8 @@ public class PnlBotonera extends JPanel {
 		mapaPaneles = new HashMap<JPanel,JPanel>();
 
 		
-		tiempoInicio = System.currentTimeMillis();
+		tiempoInicio = System.currentTimeMillis();		
 		
-		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
 		
 		tiempoActual = System.currentTimeMillis();
 		tiempoResultante = tiempoActual - tiempoInicio;
@@ -240,7 +239,19 @@ public class PnlBotonera extends JPanel {
 		pnlExplorar.setBounds(0, 199, 150, 38);
 		PnlBotones.add(pnlExplorar);
 		
-		pnlFuncional.add(pExplorar,"pnlExplorar");
+		
+		if (usuarioAutenticado instanceof Persona) {
+			Persona personaAutenticada = (Persona) usuarioAutenticado;
+			PnlExplorarPersona pExplorarPersona = new PnlExplorarPersona(personaAutenticada, VentanaPrincipal.servicio);
+			pnlFuncional.add(pExplorarPersona,"pnlExplorar");
+		}else {
+			Empresa empresaAutenticada = (Empresa) usuarioAutenticado;
+			PnlExplorarEmpresa pExplorarEmpresa = new PnlExplorarEmpresa(empresaAutenticada, VentanaPrincipal.servicio);
+			pnlFuncional.add(pExplorarEmpresa,"pnlExplorar");
+
+		}
+//		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
+//		pnlFuncional.add(pExplorar,"pnlExplorar");
 		
 		JLabel lblExplorar = new JLabel("Explorar");
 		lblExplorar.setHorizontalAlignment(SwingConstants.CENTER);

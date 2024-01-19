@@ -775,12 +775,12 @@ public class DatosBD implements ManejoDatos {
 				ArrayList<PuestoTrabajo> puestos = new ArrayList<>();
 				
 				id = rs.getInt(1);
-				nombre = rs.getString(2);
-				descripcion = rs.getString(3);
-				telefono = rs.getString(9);
-				correo = rs.getString(8);
-				fotoDePerfil = rs.getString(5);
-				password = rs.getString(6);
+				nombre = rs.getString(8);
+				descripcion = rs.getString(9);
+				telefono = rs.getString(6);
+				correo = rs.getString(5);
+				fotoDePerfil = rs.getString(2);
+				password = rs.getString(3);
 				puestos = crearPuestos(id);
 				ubicaciones = crearUbicaciones(id);
 				
@@ -809,7 +809,7 @@ public class DatosBD implements ManejoDatos {
 			ResultSet rs = prepStatement.executeQuery();
 			tiempoActual = System.currentTimeMillis();
 			tiempoResultante = tiempoActual-tiempoInicio;
-			System.out.println("Tiempo en ejecutar query SELECT * PERSONAS: " + tiempoResultante);
+//			System.out.println("Tiempo en ejecutar query SELECT * PERSONAS: " + tiempoResultante);
 			
 //			POR HACER: COMPROBAR TIEMPOS
 			while(rs.next()) {
@@ -829,21 +829,21 @@ public class DatosBD implements ManejoDatos {
 
 				tiempoActual = System.currentTimeMillis();
 				tiempoResultante = tiempoActual - tiempoInicio;
-				System.out.println("Obtener atribs basicos: " + tiempoResultante);
+//				System.out.println("Obtener atribs basicos: " + tiempoResultante);
 				
 				
 				tiempoInicio = System.currentTimeMillis();
 				habilidades = crearHabilidades(id);
 				tiempoActual = System.currentTimeMillis();
 				tiempoResultante = tiempoActual-tiempoInicio;
-				System.out.println("Crear habilidades: " + tiempoResultante);
+//				System.out.println("Crear habilidades: " + tiempoResultante);
 				
 				tiempoInicio = System.currentTimeMillis();
 				Persona persona = new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
 				personas.add(persona);
 				tiempoActual = System.currentTimeMillis();
 				tiempoResultante = tiempoActual-tiempoInicio;
-				System.out.println("Tiempo Vector: " + tiempoResultante);
+//				System.out.println("Tiempo Vector: " + tiempoResultante);
 				
 			}
 			rs.close();
@@ -988,7 +988,7 @@ public class DatosBD implements ManejoDatos {
         }
 
         long tiempoActual3 = System.currentTimeMillis();
-        System.err.println("Tiempo añadir usuarios: " + (tiempoActual3 - tiempoInicio3));
+//        System.err.println("Tiempo añadir usuarios: " + (tiempoActual3 - tiempoInicio3));
 
         return usuarios;
     }
