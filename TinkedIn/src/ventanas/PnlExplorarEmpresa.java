@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,6 +76,7 @@ import javax.swing.DropMode;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 public class PnlExplorarEmpresa extends JPanel {
 
@@ -142,53 +144,6 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
 
-		JPanel pnlInfoPersonal = new JPanel();
-		pnlInfoPersonal.setPreferredSize( new Dimension(240, 103));
-		pnlInfoUsu.add(pnlInfoPersonal, BorderLayout.WEST);
-		
-		JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
-		pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
-		
-		JPanel pnlDatosPers = new JPanel();
-		pnlDatosPers.setPreferredSize( new Dimension(200, 280));
-		pnlDatosPers.setLayout( new BoxLayout(pnlDatosPers, BoxLayout.Y_AXIS));
-		pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
-		lblNombreDatosPer =  new JLabel("Prueba");
-		lblApellidosDatosPer = new JLabel("Prueba apellidos");
-		lblFechaDatosPer = new JLabel("Prueba Fecha");
-		lblUbicacionDatosPer = new JLabel("Prueba ubicacion");
-		
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add(lblNombreDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add(lblApellidosDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add( lblFechaDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add( lblUbicacionDatosPer );
-		
-		JPanel pnlInfoHabi = new JPanel();
-		pnlInfoHabi.setPreferredSize( new Dimension(258, 0));
-		pnlInfoUsu.add(pnlInfoHabi, BorderLayout.EAST);
-		JList<Habilidad> habilidadesPersona = new JList<>();
-		modeloHP = new DefaultListModel<>();
-		habilidadesPersona.setModel(modeloHP);
-		JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
-		spListaHP.setPreferredSize( new Dimension(250,300));
-		pnlInfoHabi.add(spListaHP);
-		
-		pnlDatos = new JPanel();
-		pnlDatos.setBackground(new Color(208, 235, 242));
-		pnlDatos.setLayout(new BorderLayout());
-//	 	        pnlDatos.setBackground(Color.GREEN);
-		pnlDatos.setPreferredSize(new Dimension(getWidth() - 250, 125));
-		pnlContenido.add(pnlDatos, BorderLayout.NORTH);
-
-		lblPuesto = new JLabel("");
-		lblPuesto.setForeground(new Color(192, 192, 192));
-		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
-		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
 
 		JPanel pnlBotonera = new JPanel();
 		pnlBotonera.setLayout(new GridLayout(0, 3));
@@ -244,6 +199,8 @@ public class PnlExplorarEmpresa extends JPanel {
 			e1.printStackTrace();
 		}
 
+		
+
 		// botonCorazon btnCorazon = new botonCorazon();
 		// pnlLike.add(btnCorazon, BorderLayout.EAST);
 		lblNombreUsu = new JLabel("      Nombre de Usuario");
@@ -276,6 +233,9 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		listaPuestos.setModel(modeloListaPt);
 		listaPuestos.setBackground(new Color(202, 232, 232));
+		
+
+		
 
 //		listaPuestos.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 //
@@ -386,6 +346,89 @@ public class PnlExplorarEmpresa extends JPanel {
 			}
 		});
 
+		CardLayout clPaneles = new CardLayout();
+		pnlInfoUsu.setLayout(clPaneles);
+
+		
+		JPanel pnlLogo = new JPanel(new BorderLayout());
+		pnlLogo.setBackground(new Color(202, 232, 232));
+		
+		ImageIcon icono = new ImageIcon("TinkedinPNG.png");
+		ImageIcon iconoRedimensionado = new ImageIcon(getScaledImage(icono.getImage(), 350, 300));
+		
+		JLabel lblLogo = new JLabel(iconoRedimensionado);
+		lblLogo.setHorizontalAlignment(JLabel.CENTER);
+        lblLogo.setVerticalAlignment(JLabel.CENTER);
+        pnlLogo.add(lblLogo,BorderLayout.CENTER);
+        
+        pnlInfoUsu.add( pnlLogo,"pnlLogo" );
+        
+        JPanel pnlInfoDatos = new JPanel();
+        pnlInfoDatos.setLayout(new BorderLayout());
+        pnlInfoUsu.add(pnlInfoDatos, "pnlInfoDatos");
+        
+		JPanel pnlInfoHabi = new JPanel();
+		pnlInfoHabi.setPreferredSize( new Dimension(258, 0));
+		JList<Habilidad> habilidadesPersona = new JList<>();
+		modeloHP = new DefaultListModel<>();
+		habilidadesPersona.setModel(modeloHP);
+		JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
+		spListaHP.setPreferredSize( new Dimension(250,300));
+		pnlInfoHabi.add(spListaHP);
+		
+		pnlInfoDatos.add(pnlInfoHabi, BorderLayout.EAST);
+        
+		JPanel pnlInfoPersonal = new JPanel();
+		pnlInfoPersonal.setPreferredSize( new Dimension(240, 103));
+		
+		JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
+		pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
+		
+		JPanel pnlDatosPers = new JPanel();
+		pnlDatosPers.setPreferredSize( new Dimension(200, 280));
+		pnlDatosPers.setLayout( new BoxLayout(pnlDatosPers, BoxLayout.Y_AXIS));
+		pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
+		lblNombreDatosPer =  new JLabel("Prueba");
+		lblApellidosDatosPer = new JLabel("Prueba apellidos");
+		lblFechaDatosPer = new JLabel("Prueba Fecha");
+		lblUbicacionDatosPer = new JLabel("Prueba ubicacion");
+		
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add(lblNombreDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add(lblApellidosDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add( lblFechaDatosPer);
+		pnlDatosPers.add(Box.createVerticalStrut(40));
+		pnlDatosPers.add( lblUbicacionDatosPer );
+		
+
+		
+		pnlDatos = new JPanel();
+		pnlDatos.setBackground(new Color(208, 235, 242));
+		pnlDatos.setLayout(new BorderLayout());
+//	 	        pnlDatos.setBackground(Color.GREEN);
+		pnlDatos.setPreferredSize(new Dimension(getWidth() - 250, 125));
+		pnlContenido.add(pnlDatos, BorderLayout.NORTH);
+
+		lblPuesto = new JLabel("");
+		lblPuesto.setForeground(new Color(192, 192, 192));
+		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
+		
+		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
+		
+		//Visualizacion puestos
+		if(puestoElegido == null) {
+//			clPaneles.show(pnlInfoUsu, "pnlLogo");
+		}else {
+//			clPaneles.show(pnlInfoUsu, "pnlInfoDatos");
+
+		}
+		
+		
+		
 	}
 
 	public void xArojo() {
@@ -470,7 +513,6 @@ public class PnlExplorarEmpresa extends JPanel {
 	private void mostrarSiguientePersona(PuestoTrabajo puestoElegido) {
 		if (modeloListaPt.getSize() > 0) {
 			modeloHP.clear();
-			PuestoTrabajo puestoActual = puestoElegido;
 			Iterator<Persona> iterador = mapaIteradorPersonas.get(puestoElegido);
 			System.out.println(mapaIteradorPersonas.get(puestoElegido));
 			System.out.println(mapaIteradorPersonas.keySet());
@@ -501,6 +543,15 @@ public class PnlExplorarEmpresa extends JPanel {
 		}
 	}
 
+	private Image getScaledImage(Image srcImg, int width, int height) {
+        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resizedImg.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.drawImage(srcImg, 0, 0, width, height, null);
+        g2d.dispose();
+        return resizedImg;
+    }
+	
 	public static void main(String[] args) {
 		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
 		servicio.init();
