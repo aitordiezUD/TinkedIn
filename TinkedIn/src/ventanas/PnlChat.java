@@ -18,6 +18,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -178,14 +180,14 @@ public class PnlChat extends JPanel{
 		}
 		
 		tiempoInicio = System.currentTimeMillis();
-		
 		TreeSet<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
+		System.out.println("MapaPaneles: " + mapaPaneles);
 		if (mensajesPendientes != null) {
 			for (Mensaje m : mensajesPendientes) {
 				if (m.getFrom() == usuario.getId()) {
-					mapaPaneles.get(m.getTo()).locateMessage(TipoMensaje.ENVIO, m);
+					mapaPaneles.get((int) m.getTo()).locateMessage(TipoMensaje.ENVIO, m);
 				}else {
-					mapaPaneles.get(m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
+					mapaPaneles.get((int) m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
 				}
 			}
 		}
@@ -267,8 +269,7 @@ public class PnlChat extends JPanel{
     		tfMensaje.addActionListener( new ActionListener() { // Evento de <enter> de textfield
     			@Override
     			public void actionPerformed(ActionEvent e) {
-    				Mensaje mensaje = new Mensaje((int) usuario.getId(), (int) contacto.getId(), tfMensaje.getText(), new Date());
-    				VentanaPrincipal.servicio.anadirMensaje(mensaje);
+    				Mensaje mensaje = new Mensaje((int) usuario.getId(), (int) contacto.getId(), tfMensaje.getText(), LocalDateTime.now());
     				locateMessage(TipoMensaje.ENVIO, mensaje);
     				tfMensaje.setText( "" );
     				try {
@@ -354,10 +355,11 @@ public class PnlChat extends JPanel{
 	        panel.add(output);
 	        
 	//        Calendar cal = Calendar.getInstance();
-	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd - HH:mm");
+
 	        
 	        JLabel lblTime = new JLabel();
-	        lblTime.setText(sdf.format(out.getDate()));
+	        lblTime.setText(out.getDate().format(dtf));
 	        
 	        panel.add(lblTime);
 	        

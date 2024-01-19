@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.IntSummaryStatistics;
@@ -419,7 +420,7 @@ public class DatosBD implements ManejoDatos {
 				+ " ID INT PRIMARY KEY IDENTITY(0,1),"
 				+ "	FROM_US INT,\r\n"
 				+ "	TO_US INT,\r\n"
-				+ "	FECHA DATE,\r\n"
+				+ "	FECHA DATETIME,\r\n"
 				+ "	MENSAJE_TEXTO TEXT,\r\n"
 				+ "	FOREIGN KEY (FROM_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION,\r\n"
 				+ "	FOREIGN KEY (TO_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION\r\n"
@@ -453,8 +454,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement = connection.prepareStatement(insertarMensaje);
 			prepStatement.setInt(1, (int) mensaje.getFrom());
 			prepStatement.setInt(2, (int) mensaje.getTo());
-			java.sql.Date sqlDate = new java.sql.Date(mensaje.getDate().getTime());
-			prepStatement.setDate(3, sqlDate);
+			java.sql.Timestamp sqlTimestamp = java.sql.Timestamp.valueOf(mensaje.getDate());
+			prepStatement.setTimestamp(3, sqlTimestamp);
 			prepStatement.setString(4, mensaje.getMensaje());
 			prepStatement.executeUpdate();
 			prepStatement.close();
@@ -476,8 +477,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(2, idUsuario);
 			ResultSet rs = prepStatement.executeQuery();
 			while(rs.next()) {
-				java.sql.Date sqlDate = rs.getDate(4);
-				Date fecha = new Date(sqlDate.getTime());
+				java.sql.Timestamp sqlTimestamp = rs.getTimestamp(4);
+				LocalDateTime fecha = sqlTimestamp.toLocalDateTime();
 				Mensaje m = new Mensaje(rs.getInt(2), rs.getInt(3), rs.getString(5), fecha);
 				set.add(m);
 			}

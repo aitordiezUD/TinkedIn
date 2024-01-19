@@ -3,6 +3,7 @@ package clases;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -369,9 +370,10 @@ public class Main {
         Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
         System.out.println("Id adminE :" + adminE.getId());
 		
-		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", new Date());
+        
+		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", LocalDateTime.now());
 		servicio.anadirMensaje(m1);
-		Mensaje m2 = new Mensaje(adminE.getId(), adminP.getId(), "Buenas!", new Date());
+		Mensaje m2 = new Mensaje(adminE.getId(), adminP.getId(), "Buenas!", LocalDateTime.now());
 		servicio.anadirMensaje(m2);
 		
 		servicio.close();

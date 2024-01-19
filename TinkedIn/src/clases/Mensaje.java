@@ -2,6 +2,7 @@ package clases;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,7 +10,7 @@ public class Mensaje implements Serializable, Comparable{
 	private long from;
 	private long to;
 	private String mensaje;
-	private Date date;
+	private LocalDateTime date;
 	public long getFrom() {
 		return from;
 	}
@@ -28,19 +29,19 @@ public class Mensaje implements Serializable, Comparable{
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-	public Mensaje(int from, int to, String mensaje, Date date) {
+	public Mensaje(int from, int to, String mensaje, LocalDateTime date) {
 		this.from = from;
 		this.to = to;
 		this.mensaje = mensaje;
 		this.date = date;
 	}
-	public Mensaje(long from, long to, String mensaje, Date date) {
+	public Mensaje(long from, long to, String mensaje, LocalDateTime date) {
 		this.from = from;
 		this.to = to;
 		this.mensaje = mensaje;
@@ -54,7 +55,15 @@ public class Mensaje implements Serializable, Comparable{
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		Mensaje otro = (Mensaje) o;
-		return this.date.compareTo(otro.getDate());
+		if (this.getDate().equals(otro.getDate())) {
+			if (this.getFrom() != otro.getFrom()) {
+				return (int) (this.getFrom()-otro.getFrom());
+			}else {
+				return 1;
+			}
+		}else {
+			return this.date.compareTo(otro.getDate());
+		}
 	}
 	
 	
