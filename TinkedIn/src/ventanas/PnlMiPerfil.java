@@ -65,11 +65,11 @@ public class PnlMiPerfil  extends JPanel {
 			
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
-			pnlSup.setBackground(new Color(202, 232, 232));
+			pnlSup.setBackground(VentanaPrincipal.ColorBase);
 			pnlSup.add(ImagenesAzure.crearImagen(usuarioAutenticado,100,100));
 			pnlSup.setPreferredSize(new Dimension(150,150));
 			JPanel pnlNombre = new JPanel();
-			pnlNombre.setBackground(new Color(202, 232, 232));
+			pnlNombre.setBackground(VentanaPrincipal.ColorBase);
 			JLabel lblNombre = new JLabel(personaAutenticada.getNombre() + " " + personaAutenticada.getApellidos());
 			lblNombre.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 			pnlNombre.add(lblNombre);
@@ -235,11 +235,11 @@ public class PnlMiPerfil  extends JPanel {
 			
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
-			pnlSup.setBackground(new Color(202, 232, 232));
+			pnlSup.setBackground(new Color(255,255,220));
 			pnlSup.add(ImagenesAzure.crearImagen(empresaAutenticada,100,100));
 			pnlSup.setPreferredSize(new Dimension(150,150));
 			JPanel pnlNombre = new JPanel();
-			pnlNombre.setBackground(new Color(202, 232, 232));
+			pnlNombre.setBackground(VentanaPrincipal.ColorBase);
 			JLabel lblNombre = new JLabel(empresaAutenticada.getNombre());
 			lblNombre.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 			pnlNombre.add(lblNombre);

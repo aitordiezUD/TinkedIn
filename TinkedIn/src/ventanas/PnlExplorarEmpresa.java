@@ -454,6 +454,25 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
 		
 		clPaneles.show(pnlInfoUsu, "pnlLogo");
+		
+			
+		habilidadesPersona.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    // Obtener el índice seleccionado
+                    int indiceSeleccionado = habilidadesPersona.getSelectedIndex();
+                        // Obtener la habilidad seleccionada
+                        Habilidad habilidadSeleccionada = modeloHP.getElementAt(indiceSeleccionado);
+                        int destreza = habilidadSeleccionada.getDestreza();
+
+                        JOptionPane.showMessageDialog(null, "Nivel requerido: " + destreza, "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+		
+	
 	}
 
 	public void xArojo() {
@@ -485,6 +504,10 @@ public class PnlExplorarEmpresa extends JPanel {
 
 	}
 
+	
+	
+	
+	
 	public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
 		Empresa usuarioE = (Empresa) usuarioAutenticado;
 		TreeSet<Persona> personasCandidatas = new TreeSet<Persona>(new Comparator<Persona>() {
