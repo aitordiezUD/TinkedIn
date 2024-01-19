@@ -454,6 +454,9 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
 		
 		clPaneles.show(pnlInfoUsu, "pnlLogo");
+		
+		
+
 	}
 
 	public void xArojo() {
@@ -483,6 +486,9 @@ public class PnlExplorarEmpresa extends JPanel {
 			e.printStackTrace();
 		}
 
+		
+		
+		
 	}
 
 	public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
