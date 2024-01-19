@@ -368,15 +368,18 @@ public class Main {
                 new ArrayList<>(Arrays.asList("Madrid", "Barcelona", "Sevilla")),
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "adminE"};
         Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
-        System.out.println("Id adminE :" + adminE.getId());
-		
-        
+
+        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs, AdminE", "Administración de organizaciones benéficas en entornos rurales, prueba AdminE",new ArrayList<>(Arrays.asList(h30, h13)), adminE);
+        servicio.anadirPuesto(puestoAdmin);
+
 		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", LocalDateTime.now());
 		servicio.anadirMensaje(m1);
-		Mensaje m2 = new Mensaje(adminE.getId(), adminP.getId(), "Buenas!", LocalDateTime.now());
-		servicio.anadirMensaje(m2);
 		
+        Mensaje m2 = new Mensaje(adminE.getId(), adminP.getId(), "Buenas!", LocalDateTime.now());
+		servicio.anadirMensaje(m2);
+        
 		servicio.close();
+		System.out.println("Inserción de datos de prueba finalizada.");
 		
 	}
 	

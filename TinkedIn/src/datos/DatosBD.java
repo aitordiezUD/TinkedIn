@@ -263,7 +263,7 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub 
 		int idFrom = (int) like.getFrom().getId();
 		int idTo = (int)like.getTo().getId();
-		final String comprobarLikeInverso = "SELECT * FROM LIKES WHERE 'TO_US' = ? AND 'FROM_US' = ? ";
+		final String comprobarLikeInverso = "SELECT * FROM LIKES WHERE TO_US = ? AND FROM_US = ?";
 		final String anadirMatch = "INSERT INTO MATCHES VALUES(?,?) ";
 		try {
 			prepStatement = connection.prepareStatement(comprobarLikeInverso);
@@ -297,7 +297,6 @@ public class DatosBD implements ManejoDatos {
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO,NOMBRE,DESTREZA,DESCRIPCION,ID_PUESTO) VALUES(?,?,?,?,?)";
 		int clave;
 		try {
-			connection.setAutoCommit(false);
 			//INTRODUCCION DEL PUESTO DE TRABAJO EN SU TABLA
 			prepStatement = connection.prepareStatement(anadirPuesto,Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setInt(1, (int) puesto.getIdEmpresa());
@@ -324,7 +323,6 @@ public class DatosBD implements ManejoDatos {
 				prepStatement.executeUpdate();
 				prepStatement.close();
 			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -449,7 +447,7 @@ public class DatosBD implements ManejoDatos {
 	@Override
 	public void anadirMensaje(Mensaje mensaje) {
 		// TODO Auto-generated method stub
-		final String insertarMensaje = "INSERT INTO MENSAJE VALUES(?,?,?,?);";
+		final String insertarMensaje = "INSERT INTO MENSAJE(FROM_US,TO_US,FECHA,MENSAJE_TEXTO) VALUES(?,?,?,?);";
 		try {
 			prepStatement = connection.prepareStatement(insertarMensaje);
 			prepStatement.setInt(1, (int) mensaje.getFrom());
@@ -459,6 +457,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setString(4, mensaje.getMensaje());
 			prepStatement.executeUpdate();
 			prepStatement.close();
+			System.out.println(new Object[]{mensaje.getFrom(),mensaje.getTo(),sqlTimestamp,mensaje.getMensaje()});
+			System.out.println("Mensaje anadido correctamente: " + mensaje);
 		} catch (Exception e) {
 			System.err.println("No se ha podido añadir el mensaje: " +  mensaje);
 			e.printStackTrace();

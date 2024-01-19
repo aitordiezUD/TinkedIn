@@ -33,7 +33,7 @@ public class Like implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Like de: " + From + ", recibe el like: " + To;
+		return "Like [From: " + From + " ; To: " + To + "]";
 	}
 
 

@@ -54,6 +54,7 @@ import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import servidor.ServicioPersistenciaFicheros;
+import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -109,9 +110,11 @@ public class PnlExplorarEmpresa extends JPanel {
 	protected ServicioPersistencia servicio;
 	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	protected CardLayout clPaneles;
+	protected Persona personaActual
+	
 ;
 
-	public PnlExplorarEmpresa(Empresa e, ServicioPersistencia servicio) {
+	public PnlExplorarEmpresa(Empresa empr, ServicioPersistencia servicio) {
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 
@@ -119,7 +122,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		
 		mapaIteradorPersonas = new HashMap<>();
 		
-		this.usuarioAutenticado = e;
+		this.usuarioAutenticado = empr;
 		this.servicio = servicio;
 		// PuestoTrabajo primerPuesto = puestosCandidatos.first();
 
@@ -161,7 +164,17 @@ public class PnlExplorarEmpresa extends JPanel {
 //		btnLike.setPreferredSize( new Dimension(70,70));
 		pnlLike.add(btnLike, BorderLayout.CENTER);
 		pnlBotonera.add(pnlLike);
-
+		
+		btnLike.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Like like = new Like(empr, personaActual);
+				servicio.anadirLike(like);
+			}
+		});
+		
 		JPanel pnlVacio = new JPanel();
 		pnlVacio.setPreferredSize(new Dimension(10, 10));
 		pnlBotonera.add(pnlVacio);
@@ -229,7 +242,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
 		modeloListaPt = new DefaultListModel<PuestoTrabajo>();
 
-		for (PuestoTrabajo pt : e.getPuestos()) {
+		for (PuestoTrabajo pt : empr.getPuestos()) {
 			modeloListaPt.addElement(pt);
 		}
 
@@ -441,10 +454,6 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
 		
 		clPaneles.show(pnlInfoUsu, "pnlLogo");
-		
-		
-		
-		
 	}
 
 	public void xArojo() {
@@ -535,7 +544,7 @@ public class PnlExplorarEmpresa extends JPanel {
 			System.out.println(puestoElegido);
 			System.out.println(mapaIteradorPersonas);
 			if (iterador != null && iterador.hasNext()) {
-				Persona personaActual = iterador.next();
+				personaActual = iterador.next();
 				System.err.println(personaActual);
 				lblNombreUsu.setText(personaActual.getNombre());
 				lblNombreDatosPer.setText(personaActual.getNombre());

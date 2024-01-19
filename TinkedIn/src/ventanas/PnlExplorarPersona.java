@@ -54,6 +54,7 @@ import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import servidor.ServicioPersistenciaFicheros;
+import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
@@ -103,8 +104,8 @@ public class PnlExplorarPersona extends JPanel {
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static TreeSet<PuestoTrabajo> puestosCandidatos;
 	protected static Iterator<PuestoTrabajo> iteradorPuestos;
-	protected static Iterator<Persona> iteradorPersonas;
 	protected ServicioPersistencia servicio;
+	protected Empresa empresaActual = null; //La empresa que se esta mostrando en el panel
 
 	public PnlExplorarPersona(Persona pers, ServicioPersistencia servicio) {
 		setLayout(new BorderLayout());
@@ -165,7 +166,17 @@ public class PnlExplorarPersona extends JPanel {
 		btnLike.setPreferredSize( new Dimension(55,55));
 		pnlLike.add(btnLike, BorderLayout.CENTER);
 		pnlBotonera.add(pnlLike);
-
+		
+		btnLike.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Like like = new Like(pers, empresaActual);
+				servicio.anadirLike(like);
+			}
+		});
+		
 		JPanel pnlVacio = new JPanel();
 		pnlVacio.setPreferredSize(new Dimension(10, 10));
 		pnlBotonera.add(pnlVacio);
@@ -405,17 +416,17 @@ public class PnlExplorarPersona extends JPanel {
 	private void mostrarSiguientePuesto() {
 		if (iteradorPuestos.hasNext()) {
 			PuestoTrabajo puestoActual = iteradorPuestos.next();
-			Empresa empresaPertenece = servicio.getEmpresaFromPuesto(puestoActual);
+			empresaActual = servicio.getEmpresaFromPuesto(puestoActual);
 //			System.out.println(empresaPertenece);
 //			System.out.println(empresaPertenece.getNombre());
 //			System.out.println(empresaPertenece.getDescripcion());
 //			System.out.println(puestoActual.getDescripcion());
 
-			lblNombreUsu.setText(empresaPertenece.getNombre());
-			lblNomEInfo.setText(empresaPertenece.getNombre());
+			lblNombreUsu.setText(empresaActual.getNombre());
+			lblNomEInfo.setText(empresaActual.getNombre());
 			DescripcionPuesto.setText(puestoActual.getDescripcion());
 			// Cambiar
-			JLabel Imagen = ImagenesAzure.crearImagen(empresaPertenece, 150, 150);
+			JLabel Imagen = ImagenesAzure.crearImagen(empresaActual, 150, 150);
 			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
 			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
 			lblNombreUsu.setForeground(new Color(4, 32, 63));

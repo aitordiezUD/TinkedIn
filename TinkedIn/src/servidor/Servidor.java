@@ -173,6 +173,8 @@ public class Servidor {
 		    			if (objRecibido.equals(ConfigServer.ANADIR_LIKE)) {
 		    				Like like = (Like) input.readObject();
 		    				Match match = datos.comprobarMatch(like);
+		    				taMensajes.append(like.toString()+ "\n");
+			    			taMensajes.setSelectionStart( taMensajes.getText().length() );
 		    				if (match != null) {
 		    					int idOther;
 			    				if (match.getU1() == idSender) {
@@ -184,6 +186,8 @@ public class Servidor {
 		    					if (mapaDirecciones.get(idOther) != null) {
 		    						mapaDirecciones.get(idOther).writeObject(match);
 		    					}
+		    					taMensajes.append(match.toString()+ "\n");
+				    			taMensajes.setSelectionStart( taMensajes.getText().length() );
 		    				}
 		    			}
 		    			
@@ -299,6 +303,7 @@ public class Servidor {
 		    			if (objRecibido.equals(ConfigServer.ANADIR_MENSAJE)) {
 		    				Mensaje m = (Mensaje) input.readObject();
 		    				datos.anadirMensaje(m);
+		    				System.out.println("Nuevo mensaje anadido");
 		    			}
 		    				
 		    			if (objRecibido.equals(ConfigServer.GET_PERSONAS)) {

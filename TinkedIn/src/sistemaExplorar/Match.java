@@ -34,7 +34,7 @@ public class Match {
 	
 	@Override
 	public String toString() {
-		return "Match: " + u1 + " ; " + u2 ;
+		return "Match[ Usuario1: " + u1 + " ; Usuario2: " + u2 + "]";
 	}
 	
 	
