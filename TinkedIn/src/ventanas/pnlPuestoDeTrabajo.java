@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -12,6 +14,8 @@ import clases.PuestoTrabajo;
 import componentes.SquareLabel;
 import componentes.botonAceptar;
 import componentes.botonAnEl;
+import servidor.ServicioPersistencia;
+import usuarios.Empresa;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -31,11 +35,21 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private DefaultListModel modeloLista;
 	private DefaultListModel modeloListaPt;
 	private JTextField tfNombrePuesto;
+	protected ServicioPersistencia servicio;
+	protected Empresa usuarioAu;
+	
+	private String areaHabilidad;
 	
 	public pnlPuestoDeTrabajo( ) {
 
+		if(PnlBotonera.usuarioAutenticado instanceof Empresa) {
+			usuarioAu = (Empresa) (PnlBotonera.usuarioAutenticado);
+		}
+		
 		setSize(750,650);
 		setLayout( new BorderLayout());
+		
+		servicio = VentanaPrincipal.servicio;
 		
 		areasDeTrabajo = new TreeMap<>();
 		
@@ -92,7 +106,8 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlPrevDescrHab.add(lblPreviewDescr);
 		
 		JPanel pnlBtnConfirm = new JPanel();
-		pnlBtnConfirm.add( new botonAceptar("Confirmar habilidad"));
+		botonAceptar btnConfirm = new botonAceptar("Confirmar");
+		pnlBtnConfirm.add( btnConfirm );
 		
 		pnlPrevDestreza.add(lblPrevDestreza);
 		
@@ -100,7 +115,8 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlPreviewHab.add(pnlNombrePrev);
 		pnlPreviewHab.add(pnlPrevDestreza);
 		pnlPreviewHab.add(pnlPrevDescrHab);
-		pnlPrevDestreza.add( new SquareLabel(0) );
+		SquareLabel prevDest = new SquareLabel(0);
+		pnlPrevDestreza.add( prevDest );
 		pnlPreviewHab.add(pnlBtnConfirm);
 		
 		
@@ -131,7 +147,8 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlBotonAc.setBackground( Color.WHITE );
 		pnlBotonAc.setLayout( new FlowLayout() );
 		
-		pnlBotonAc.add( new botonAceptar("Aceptar") );
+		botonAceptar btnAc = new botonAceptar("Aceptar");
+		pnlBotonAc.add( btnAc );
 		
 		pnlEditHab.setBackground( Color.BLUE );
 		
@@ -147,8 +164,10 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	 	pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
 	 	pnlBotoneraIzq.setLayout( new FlowLayout() );
 	    pnlBotoneraIzq.setPreferredSize( new Dimension( getWidth()/4, 50));
-	    pnlBotoneraIzq.add( new botonAnEl("Añadir") );
-	    pnlBotoneraIzq.add( new botonAnEl("Eliminar") );
+	    botonAnEl btnAñadirHab = new botonAnEl("Añadir");
+	    botonAnEl btnEliminarHab = new botonAnEl("Eliminar");
+	    pnlBotoneraIzq.add( btnAñadirHab );
+	    pnlBotoneraIzq.add( btnEliminarHab );
 	    
 	    JList<?> listaHab = new JList<Object>();
 		modeloLista = new DefaultListModel<Object>();
@@ -170,9 +189,88 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlEditCampos.add(pnlBotonAc, BorderLayout.SOUTH);
 		
 		
+		
+		btnConfirm.addActionListener((ActionListener) new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
+				for(int i = 0; i<modeloLista.size(); i++) {
+					Habilidad h = (Habilidad) modeloLista.get(i);
+					habilidades.add(h);
+				}
+				PuestoTrabajo p = new PuestoTrabajo(lblNombrePrev.getText(), "Descripcion p", habilidades, usuarioAu);
+				servicio.anadirPuesto(p);
+			}});
+		
+		btnAñadirHab.addActionListener( (ActionListener) new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Habilidad h = new Habilidad(areaHabilidad, lblNombrePrev.getText(), (int)spDestreza.getValue(), taDescrHab.getText() );
+				modeloLista.addElement((Habilidad)h);
+			}
+			
+		});
+			
+		btnEliminarHab.addActionListener( (ActionListener) new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int indiceElegido = listaHab.getSelectedIndex();
+				modeloLista.removeElementAt(indiceElegido);
+			}});
+		
+		btnAc.addActionListener((ActionListener) new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				prevDest.setText(spDestreza.getValue().toString());
+				lblPreviewDescr.setText(taDescrHab.getText());
+
+			}
+		});
         
 		this.crearMapaAreas();
 		this.crearArbol(areasDeTrabajo);
+		
+		ArbolHabilidades.addTreeSelectionListener( (TreeSelectionListener) new TreeSelectionListener() {
+
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				// TODO Auto-generated method stub
+				TreePath ruta = ArbolHabilidades.getSelectionPath();
+				if (ruta.getPathCount() == 2) { 
+			    	lblNombrePrev.setText("");
+			        Object selectedNode = ArbolHabilidades.getLastSelectedPathComponent();
+			        if (selectedNode instanceof DefaultMutableTreeNode) {
+			            DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
+			            Object area = node.getUserObject(); // Obtenemos el objeto asociado al nodo
+			            if (area != null && area instanceof String) {
+			               areaHabilidad = ( ( String ) area );
+			            }
+			        }
+				}else if( ruta.getPathCount() == 3) {
+			    	Object selectedNode = ArbolHabilidades.getLastSelectedPathComponent();
+			    	if( selectedNode instanceof DefaultMutableTreeNode ) {
+			    		DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) selectedNode;
+			    		DefaultMutableTreeNode padre = (DefaultMutableTreeNode) node.getParent();
+			    		if((String) padre.getUserObject() != areaHabilidad) {
+			    			areaHabilidad = "";
+			    		}else {
+			    		Object habilidad = node.getUserObject();
+			    		if ( habilidad != null && habilidad instanceof String ) {
+			    			lblNombrePrev.setText( ( String ) habilidad );
+			    		}}
+			    	}
+			    }
+			}});
+		
+		
 		
 	}
 	

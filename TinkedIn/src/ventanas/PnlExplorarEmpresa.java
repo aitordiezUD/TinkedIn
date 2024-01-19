@@ -299,8 +299,24 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlBotoneraIzq.setLayout(new FlowLayout());
 		pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
 		pnlBotoneraIzq.setPreferredSize(new Dimension(pnlLista.getWidth(), 75));
-		pnlBotoneraIzq.add(new botonAnEl("Añadir"));
-		pnlBotoneraIzq.add(new botonAnEl("Eliminar"));
+		botonAnEl btnAnadir = new botonAnEl("Añadir");
+		botonAnEl btnEliminar = new botonAnEl("Eliminar");
+		pnlBotoneraIzq.add(btnAnadir);
+		pnlBotoneraIzq.add(btnEliminar);
+		
+		btnAnadir.addActionListener( (ActionListener) new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFrame vent = new JFrame();
+				vent.setSize(750,600);
+				vent.setLocationRelativeTo(null);
+				vent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
+				vent.add(new pnlPuestoDeTrabajo());
+				vent.setVisible(true);
+			}});
 
 		listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -396,6 +412,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		lblFechaDatosPer = new JLabel("Prueba Fecha");
 		lblUbicacionDatosPer = new JLabel("Prueba ubicacion");
 		
+		
 		pnlDatosPers.add(Box.createVerticalStrut(40));
 		pnlDatosPers.add(lblNombreDatosPer);
 		pnlDatosPers.add(Box.createVerticalStrut(40));
@@ -424,6 +441,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
 		
 		clPaneles.show(pnlInfoUsu, "pnlLogo");
+		
 		
 		
 		
