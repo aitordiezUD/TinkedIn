@@ -199,9 +199,10 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		pnlLike = new JPanel();
 		pnlLike.setLayout(new BorderLayout());
-		pnlLike.setPreferredSize( new Dimension(70,70));
+		pnlLike.setLayout(new FlowLayout());
+		pnlLike.setPreferredSize( new Dimension(150,70));
 		botonLike btnLike = new botonLike();
-		btnLike.setPreferredSize( new Dimension(70,70));
+//		btnLike.setPreferredSize( new Dimension(70,70));
 		pnlLike.add(btnLike, BorderLayout.CENTER);
 		pnlBotonera.add(pnlLike);
 
