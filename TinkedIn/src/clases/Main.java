@@ -15,7 +15,6 @@ import servidor.ServicioPersistencia;
 import servidor.ServicioPersistenciaFicheros;
 import usuarios.Empresa;
 import usuarios.Persona;
-import ventanas.PnlExplorar;
 
 public class Main {
 

@@ -442,6 +442,7 @@ public class ServicioPersistenciaFicheros implements ServicioPersistencia{
 			flujoOut.writeObject(m);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	

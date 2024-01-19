@@ -416,11 +416,11 @@ public class DatosBD implements ManejoDatos {
 				+ ");\r\n"
 				+ "\r\n"
 				+ "CREATE TABLE MENSAJE(\r\n"
+				+ " ID INT PRIMARY KEY IDENTITY(0,1),"
 				+ "	FROM_US INT,\r\n"
 				+ "	TO_US INT,\r\n"
 				+ "	FECHA DATE,\r\n"
 				+ "	MENSAJE_TEXTO TEXT,\r\n"
-				+ "	PRIMARY KEY (FROM_US,TO_US,FECHA),\r\n"
 				+ "	FOREIGN KEY (FROM_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION,\r\n"
 				+ "	FOREIGN KEY (TO_US) REFERENCES USUARIO(ID) ON DELETE NO ACTION\r\n"
 				+ ");\r\n"
@@ -456,6 +456,7 @@ public class DatosBD implements ManejoDatos {
 			java.sql.Date sqlDate = new java.sql.Date(mensaje.getDate().getTime());
 			prepStatement.setDate(3, sqlDate);
 			prepStatement.setString(4, mensaje.getMensaje());
+			prepStatement.executeUpdate();
 			prepStatement.close();
 		} catch (Exception e) {
 			System.err.println("No se ha podido añadir el mensaje: " +  mensaje);
@@ -475,7 +476,9 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.setInt(2, idUsuario);
 			ResultSet rs = prepStatement.executeQuery();
 			while(rs.next()) {
-				Mensaje m = new Mensaje(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDate(4));
+				java.sql.Date sqlDate = rs.getDate(4);
+				Date fecha = new Date(sqlDate.getTime());
+				Mensaje m = new Mensaje(rs.getInt(2), rs.getInt(3), rs.getString(5), fecha);
 				set.add(m);
 			}
 			rs.close();
@@ -483,6 +486,7 @@ public class DatosBD implements ManejoDatos {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println("Error: no se han podido obtener los mensajes filtrados");
+			e.printStackTrace();
 		}
 		return set;
 	}
@@ -491,7 +495,6 @@ public class DatosBD implements ManejoDatos {
 		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE NOMBRE = ?";
 		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		try {
-			System.err.println(ubicacion);
 			PreparedStatement psUbicacion = connection.prepareStatement(comprobarUbicacion);
 			int idUbi;
 			psUbicacion.setString(1, ubicacion);
@@ -574,7 +577,7 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.close();
 //			INTRODUCCION DE HABILIDADES EN LA TABLA HABILIDAD
 			for (Habilidad h : habilidades) {
-				System.out.println(h);
+//				System.out.println(h);
 				prepStatement = connection.prepareStatement(anadirHabilidad);
 				prepStatement.setString(1, h.getCampo()); //CAMPO
 				prepStatement.setString(2, h.getNombre()); //NOMBRE

@@ -268,6 +268,7 @@ public class PnlChat extends JPanel{
     			@Override
     			public void actionPerformed(ActionEvent e) {
     				Mensaje mensaje = new Mensaje((int) usuario.getId(), (int) contacto.getId(), tfMensaje.getText(), new Date());
+    				VentanaPrincipal.servicio.anadirMensaje(mensaje);
     				locateMessage(TipoMensaje.ENVIO, mensaje);
     				tfMensaje.setText( "" );
     				try {

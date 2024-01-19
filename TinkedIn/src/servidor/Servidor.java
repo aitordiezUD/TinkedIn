@@ -284,6 +284,7 @@ public class Servidor {
 //		    	    		output.writeObject(ConfigServer.NO_OK);
 //		    				TreeSet<Mensaje> set = datos.filtrarMensajes(DatosFicheros.getMapaIdUsuario().get(idSender));
 		    				TreeSet<Mensaje> set = datos.filtrarMensajes(datos.getUsuarioFromId(idSender));
+		    				System.err.println("Mensajes pendientes: " + set);
 		    				output.writeObject(set);
 		    			}
 		    			

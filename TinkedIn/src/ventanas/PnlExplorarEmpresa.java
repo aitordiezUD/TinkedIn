@@ -108,6 +108,7 @@ public class PnlExplorarEmpresa extends JPanel {
 	protected static HashMap<PuestoTrabajo, Iterator<Persona>> mapaIteradorPersonas;
 	protected ServicioPersistencia servicio;
 	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	protected CardLayout clPaneles;
 ;
 
 	public PnlExplorarEmpresa(Empresa e, ServicioPersistencia servicio) {
@@ -212,7 +213,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
 		lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
-		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
+		
 
 		pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
 		pnlInfo.repaint();
@@ -262,6 +263,7 @@ public class PnlExplorarEmpresa extends JPanel {
 				if (index != -1) {
 					puestoElegido  = modeloListaPt.get(index);
 					System.err.println("Puesto Elegido: " + puestoElegido);
+					clPaneles.show(pnlInfoUsu, "pnlInfoDatos");
 
 				}
 			}
@@ -347,7 +349,7 @@ public class PnlExplorarEmpresa extends JPanel {
 			}
 		});
 
-		CardLayout clPaneles = new CardLayout();
+		clPaneles = new CardLayout();
 		pnlInfoUsu.setLayout(clPaneles);
 
 		
@@ -417,16 +419,11 @@ public class PnlExplorarEmpresa extends JPanel {
 		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
+		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
 		
 		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
 		
-		//Visualizacion puestos
-		if(puestoElegido == null) {
-//			clPaneles.show(pnlInfoUsu, "pnlLogo");
-		}else {
-//			clPaneles.show(pnlInfoUsu, "pnlInfoDatos");
-
-		}
+		clPaneles.show(pnlInfoUsu, "pnlLogo");
 		
 		
 		
@@ -554,6 +551,7 @@ public class PnlExplorarEmpresa extends JPanel {
     }
 	
 	public static void main(String[] args) {
+		System.out.println("Creando pnlExplorar");
 		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
 		servicio.init();
 // 		System.out.println(servicio.getPersonas().size());
