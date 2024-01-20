@@ -1072,12 +1072,41 @@ public class DatosBD implements ManejoDatos {
 		return mapaFreHab;
 	}
 	
+	@Override
+	public Vector<Usuario> getUsuariosConMatch(int id) {
+		final String querySQL = "SELECT * FROM MATCHES WHERE USUARIO1 = ? OR USUARIO2 = ?";
+		PreparedStatement prepStatementMatch = null;
+		Vector<Usuario> usuarios = new Vector<>();
+		try {
+			prepStatementMatch = connection.prepareStatement(querySQL);
+			prepStatementMatch.setInt(1, id);
+			prepStatementMatch.setInt(2, id);
+			ResultSet rs = prepStatementMatch.executeQuery();
+			while (rs.next()) {
+				int id1 = rs.getInt(1);
+				int id2 = rs.getInt(2);
+				Usuario usuario = null;
+				if (id == id1) {
+					usuario = getUsuarioFromId(id2);
+				}else {
+					usuario = getUsuarioFromId(id1);
+				}
+				usuarios.add(usuario);
+			}
+			rs.close();
+			prepStatementMatch.close();
+			return usuarios;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
 		datos.fin();
 	}
-
 
 
 }

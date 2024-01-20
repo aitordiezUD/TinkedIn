@@ -181,7 +181,6 @@ public class PnlChat extends JPanel{
 		
 		tiempoInicio = System.currentTimeMillis();
 		TreeSet<Mensaje> mensajesPendientes = servicio.mensajesPendientes();
-		System.out.println("MapaPaneles: " + mapaPaneles);
 		if (mensajesPendientes != null) {
 			for (Mensaje m : mensajesPendientes) {
 				if (m.getFrom() == usuario.getId()) {
@@ -200,8 +199,8 @@ public class PnlChat extends JPanel{
 	}
 	
 	public void anadirContactos() {
-//		for (Usuario u: servicio.getUsuariosConMatch(int usuario))
-		for (Usuario u: servicio.getUsuarios()) {
+		for (Usuario u: servicio.getUsuariosConMatch((int) usuario.getId())) {
+//		for (Usuario u: servicio.getUsuarios()) {
 			long tiempoInicio1 = System.currentTimeMillis();
 			if (!u.equals(this.usuario)) {
 				if (!modeloLista.contains(u)) {
@@ -218,9 +217,16 @@ public class PnlChat extends JPanel{
 		}
 	}
 	
+	public void anadirContacto(Usuario contacto) {
+		MiPanelChat p = new MiPanelChat(usuario,contacto, PnlChat.this);
+		pnlChatsContent.add(p,contacto.getId()+"");
+		mapaPaneles.put((int) contacto.getId(), p);
+		listaContactos.repaint();
+	}
 	
     public static class MiPanelChat extends JPanel{
-    	JScrollPane spPnlChatMensajes;
+		private static final long serialVersionUID = 1L;
+		JScrollPane spPnlChatMensajes;
     	JLabel lblContacto;
     	JPanel pnlChatMensajes;
     	JPanel pnlContacto;

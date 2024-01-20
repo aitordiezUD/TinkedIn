@@ -310,6 +310,7 @@ public class Servidor {
 		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
 		    				output.writeObject(mapaFrec);
 		    			}
+		    			
 		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID)) {
 		    				int id = (int) input.readObject();
 		    				String nombre = datos.getNombreEmpresaFromId(id);
@@ -320,6 +321,18 @@ public class Servidor {
 		    				int id = (int) input.readObject();
 		    				String nombre = datos.getNombrePersonaFromId(id);
 		    				output.writeObject(nombre);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS_CON_MATCH)) {
+		    				int id = (int) input.readObject();
+		    				Vector<Usuario> usuarios = datos.getUsuariosConMatch(id);
+		    				output.writeObject(usuarios);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIO_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				Usuario usuario = datos.getUsuarioFromId(id);
+		    				output.writeObject(usuario);
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema

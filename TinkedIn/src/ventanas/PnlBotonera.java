@@ -63,6 +63,7 @@ public class PnlBotonera extends JPanel {
 	protected static CardLayout CardLayout;
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
 	//protected static TreeSet<PuestoTrabajo> puestosCandidatos;
+	protected static PnlChat pnlChat;
 	
 //	Pruebas tiempo
 	long tiempoInicio;
@@ -253,8 +254,6 @@ public class PnlBotonera extends JPanel {
 			pnlFuncional.add(pExplorarEmpresa,"pnlExplorar");
 
 		}
-//		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
-//		pnlFuncional.add(pExplorar,"pnlExplorar");
 		
 		JLabel lblExplorar = new JLabel("Explorar");
 		lblExplorar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -327,7 +326,7 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
-		PnlChat pnlChat= new PnlChat();
+		pnlChat= new PnlChat();
 		pnlChat.setBackground(Color.GREEN);
 		VentanaPrincipal.servicio.setPnlChat(pnlChat);
 		pnlFuncional.add(pnlChat,"pnlChat");
@@ -566,23 +565,29 @@ public class PnlBotonera extends JPanel {
 
 	public static void notificarMatch(Match match) {
 		String nombre;
+		Usuario usuario;
 		if (usuarioAutenticado instanceof Persona) {
 			if (match.getU1() != usuarioAutenticado.getId()) {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU1());
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
 				new NotificacionMatch(nombre);
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU2());
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
 				new NotificacionMatch(nombre);
 			}
 		}else {
 			if (match.getU1() != usuarioAutenticado.getId()) {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU1());
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
 				new NotificacionMatch(nombre);
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU2());
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
 				new NotificacionMatch(nombre);
 			}
 		}
+		pnlChat.anadirContacto(usuario);
 	}
 	
 	private static class NotificacionMatch extends JDialog {
