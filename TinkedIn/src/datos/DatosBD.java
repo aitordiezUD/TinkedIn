@@ -12,7 +12,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.IntSummaryStatistics;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -1007,9 +1009,68 @@ public class DatosBD implements ManejoDatos {
         return usuarios;
     }
 
-	
+	@Override
+	public String getNombrePersonaFromId(int id) {
+		final String queryNombre = "SELECT * FROM PERSONA WHERE ID = ?";
+		String nombreApellidos = "";
+		try {
+			prepStatement = connection.prepareStatement(queryNombre);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				String nombre = rs.getString(2);
+				String apellidos = rs.getString(3);
+				nombreApellidos = nombre + " " + apellidos;
+			}
+			rs.close();
+			prepStatement.close();
+			return nombreApellidos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return nombreApellidos;
+		}
+	}
 
+	@Override
+	public String getNombreEmpresaFromId(int id) {
+		final String queryNombre = "SELECT * FROM EMPRESA WHERE ID = ?";
+		String nombre = "";
+		try {
+			prepStatement = connection.prepareStatement(queryNombre);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				nombre = rs.getString(2);
+			}
+			rs.close();
+			prepStatement.close();
+			return nombre;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return nombre;
+		}
+	}
 
+	@Override
+	public Map<String, Integer> getFreHab(String campo) {
+		// TODO Auto-generated method stub
+		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
+		final String queryCampo = "SELECT NOMBRE, COUNT(*) AS CUENTA FROM HABILIDAD WHERE CAMPO = ? GROUP BY NOMBRE;";
+		try {
+			prepStatement = connection.prepareStatement(queryCampo);
+			prepStatement.setString(1, campo);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				int frecuencia = rs.getInt("CUENTA");
+				String nombre = rs.getString("NOMBRE");
+				mapaFreHab.put(nombre, frecuencia);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return mapaFreHab;
+	}
 	
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();

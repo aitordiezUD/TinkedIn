@@ -3,6 +3,7 @@ package datos;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -75,7 +76,6 @@ public interface ManejoDatos {
 	 */
 	public void anadirUsuarioPersona(Persona persona);
 	
-	
 	/**
 	 * Añadir un nuevo usuario de tipo Empresa a la base de datos. Comprobaremos que los datos de usuario como
 	 * telefono o email no esten ya asignados a otros usuarios de nuestro sistema
@@ -95,14 +95,10 @@ public interface ManejoDatos {
 	 */
 	public boolean autenticarUsuario( String correo, String contraseña);
 	
-	
-	
 	/**Comprueba si el telefono esta en la base de datos
 	 * @param telefono
 	 */
 	public boolean containsTelefono(String telefono);
-	
-	
 	
 	/**Comprueba si el telefono esta en la base de datos
 	 * @param email
@@ -135,20 +131,16 @@ public interface ManejoDatos {
 	 */
 	public void anadirMensaje(Mensaje mensaje);
 	
-	
 	/**Función para que cuando se crean los paneles de los chats, poder obtener los mensajes donde ha interferido un Usuario (para posteriormente colocarlo en el chat)
 	 * @param usuario Usuario del cual queremos obtener sus mensajes
 	 */
 	public TreeSet<Mensaje> filtrarMensajes(Usuario usuario);
-	
 	
 	/**Función que devuelve una empresa dada su Id
 	 * @param id
 	 * @return
 	 */
 	public Usuario getUsuarioFromId(int id);
-	
-	
 	
 	/**Devuelve todas las empresas de la base de datos
 	 * @return vector de empresas
@@ -164,4 +156,24 @@ public interface ManejoDatos {
 	 * @return vector de usuarios
 	 */
 	public Vector<Usuario> getUsuarios();
+	
+	/**Dado el id de una Persona, devolver su nombre y apellidos.
+	 * @param id de la persona
+	 * @return nombre de la persona
+	 */
+	public String getNombrePersonaFromId(int id);
+	
+	
+	/**Dado el id de una Empresa, devolver su nombre.
+	 * @param id de la empresa
+	 * @return nombre de la empresa
+	 */
+	public String getNombreEmpresaFromId(int id);
+	
+	/**
+	 * @param campo nombre del campo del que se quiere saber la frecuencia de sus habilidades
+	 * @return mapa con clave nombre de la habilidad y valor la frecuencia
+	 */
+	public Map<String, Integer> getFreHab(String campo);
 }
+
