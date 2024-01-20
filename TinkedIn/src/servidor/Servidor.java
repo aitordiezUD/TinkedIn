@@ -162,8 +162,8 @@ public class Servidor {
 			    			taMensajes.setSelectionStart( taMensajes.getText().length() );  // Pone el cursor al final del textarea
 			    			// Envía el mensaje al cliente destinatario si su OOS esta en el mapa de direcciones, sino se almacenara en el 
 			    			//mapa de mensajes por enviar hasta que el destinatario este conectado.
-			    			if (mapaDirecciones.get(mensaje.getTo()) != null) {
-			    				mapaDirecciones.get(mensaje.getTo()).writeObject(mensaje);
+			    			if (mapaDirecciones.get((int) mensaje.getTo()) != null) {
+			    				mapaDirecciones.get((int) mensaje.getTo()).writeObject(mensaje);
 			    				datos.anadirMensaje(mensaje);
 			    			}else {
 			    				datos.anadirMensaje(mensaje);
@@ -175,6 +175,7 @@ public class Servidor {
 		    				Match match = datos.comprobarMatch(like);
 		    				taMensajes.append(like.toString()+ "\n");
 			    			taMensajes.setSelectionStart( taMensajes.getText().length() );
+			    			System.out.println("Match: " + match);
 		    				if (match != null) {
 		    					int idOther;
 			    				if (match.getU1() == idSender) {
@@ -183,6 +184,7 @@ public class Servidor {
 			    					idOther = match.getU1();
 			    				}
 		    					output.writeObject(match);
+		    					
 		    					if (mapaDirecciones.get(idOther) != null) {
 		    						mapaDirecciones.get(idOther).writeObject(match);
 		    					}

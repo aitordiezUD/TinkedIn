@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
-import servidor.ServicioPersistenciaFicheros;
 import usuarios.Empresa;
 import usuarios.Persona;
 
@@ -21,16 +20,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
+		ServicioPersistencia servicio = new ServicioPersistencia();
 		servicio.init();
 		servicio.delete();
-//		ImagenesAzure.deleteBlobsFicheros();
-		
-//		DatosFicheros datos = new DatosFicheros();
-//		Persona p1 = new Persona("Aitor", "Diez Mateo", "Alava", 19, "aitor.diez@opendeusto.es",
-//				"688680738",new ArrayList<Habilidad>(), null, "passWd");
-//		Empresa e1 = new Empresa("Google", "673264634", "google@gmail.com", "",
-//				null, null, null, "psswd") ;
 		
 //		HABILIDADES
         Habilidad h1 = new Habilidad("Informática", "Desarrollo Web", 4, "Experiencia en desarrollo de sitios web");
@@ -111,8 +103,6 @@ public class Main {
 		
 		
 //      EMPRESAS
-        
-        
         // Empresa 1
         Object[] atribsE1 = {"TechIbérica", "912345678", "info@techiberica.es",
                 "Desarrollo de soluciones tecnológicas avanzadas",

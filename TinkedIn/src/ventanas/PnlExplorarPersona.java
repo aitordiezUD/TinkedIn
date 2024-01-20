@@ -53,7 +53,6 @@ import componentes.botonAnEl;
 import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
-import servidor.ServicioPersistenciaFicheros;
 import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
@@ -461,9 +460,8 @@ public class PnlExplorarPersona extends JPanel {
 
 
 	public static void main(String[] args) {
-		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
+		ServicioPersistencia servicio = new ServicioPersistencia();
 		servicio.init();
-// 		System.out.println(servicio.getPersonas().size());
 		JFrame frame = new JFrame();
 		frame.addWindowListener(new WindowListener() {
 			

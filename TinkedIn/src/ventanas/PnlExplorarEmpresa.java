@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
@@ -32,49 +31,30 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import javax.swing.Icon;
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.StrokeBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import clases.Habilidad;
 import clases.PuestoTrabajo;
 import componentes.botonAnEl;
-import datos.DatosFicheros;
-import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
-import servidor.ServicioPersistenciaFicheros;
 import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
-import componentes.botonCorazon;
 import componentes.botonLike;
 import componentes.botonX;
 
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
-import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -503,15 +483,10 @@ public class PnlExplorarEmpresa extends JPanel {
 		}
 
 	}
-
-	
-	
-	
 	
 	public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
 		Empresa usuarioE = (Empresa) usuarioAutenticado;
 		TreeSet<Persona> personasCandidatas = new TreeSet<Persona>(new Comparator<Persona>() {
-
 			@Override
 			public int compare(Persona o1, Persona o2) {
 				int contador1 = 0;
@@ -524,7 +499,6 @@ public class PnlExplorarEmpresa extends JPanel {
 						}
 					}
 				}
-
 				for (PuestoTrabajo pt : usuarioE.getPuestos()) {
 					for (Habilidad h : pt.getHabilidadesReq()) {
 						for (Habilidad h2 : o2.getCurriculum()) {
@@ -534,10 +508,8 @@ public class PnlExplorarEmpresa extends JPanel {
 						}
 					}
 				}
-
 				return contador2 - contador1 + 1;
 			}
-
 		});
 		for (Persona p : servicio.getPersonas()) {
 			personasCandidatas.add(p);
@@ -602,7 +574,7 @@ public class PnlExplorarEmpresa extends JPanel {
 	
 	public static void main(String[] args) {
 		System.out.println("Creando pnlExplorar");
-		ServicioPersistencia servicio = new ServicioPersistenciaFicheros();
+		ServicioPersistencia servicio = new ServicioPersistencia();
 		servicio.init();
 // 		System.out.println(servicio.getPersonas().size());
 		JFrame frame = new JFrame();

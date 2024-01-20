@@ -239,15 +239,13 @@ public class DatosBD implements ManejoDatos {
 	}
 
 	@Override
-	public void crearLike(Usuario from, Usuario to) {
+	public void crearLike(int from, int to) {
 		// TODO Auto-generated method stub
 		final String crearLike = "INSERT INTO LIKES VALUES(?,?)";
-		final long idFrom = from.getId();
-		final long idTo = to.getId();
 		try {
 			prepStatement = connection.prepareStatement(crearLike);
-			prepStatement.setInt( 1, (int) idFrom );
-			prepStatement.setInt( 2, (int) idTo );
+			prepStatement.setInt( 1, (int) from );
+			prepStatement.setInt( 2, (int) to );
 			prepStatement.executeUpdate();
 			prepStatement.close();
 			
@@ -263,15 +261,18 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub 
 		int idFrom = (int) like.getFrom().getId();
 		int idTo = (int)like.getTo().getId();
+		crearLike(idFrom, idTo);
 		final String comprobarLikeInverso = "SELECT * FROM LIKES WHERE TO_US = ? AND FROM_US = ?";
 		final String anadirMatch = "INSERT INTO MATCHES VALUES(?,?) ";
 		try {
 			prepStatement = connection.prepareStatement(comprobarLikeInverso);
+			System.out.println("ID FROM: " + idFrom);
+			System.out.println("ID TO:" + idTo);
 			prepStatement.setInt(1, idFrom);
 			prepStatement.setInt(2, idTo);
 			ResultSet rs = prepStatement.executeQuery();
-			
 			if(rs.next()) {
+				System.out.println("Si que hay Match");
 				prepStatement = connection.prepareStatement(anadirMatch);
 				prepStatement.setInt(1, idFrom);
 				prepStatement.setInt(2, idTo);
@@ -285,6 +286,7 @@ public class DatosBD implements ManejoDatos {
 			return null;
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("Error en comprobarMatch");
 			e.printStackTrace();
 			return null;
 		}
@@ -763,10 +765,12 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub
 		Vector<Empresa> empresas = new Vector<>();
 		final String selectEmpresas = "SELECT * FROM USUARIO U, EMPRESA E WHERE U.ID = E.ID";
+		ResultSet rs = null;
+		PreparedStatement prepStatementGetEmpresas = null;
 		try {
 //			RECORRER EMPRESAS:
-			prepStatement = connection.prepareStatement(selectEmpresas);
-			ResultSet rs = prepStatement.executeQuery();
+			prepStatementGetEmpresas = connection.prepareStatement(selectEmpresas);
+			rs = prepStatementGetEmpresas.executeQuery();
 			while (rs.next()) {
 				int id;
 				String nombre;
@@ -793,13 +797,24 @@ public class DatosBD implements ManejoDatos {
 				empresas.add(e);
 			}
 			rs.close();
-			prepStatement.close();
-			return empresas;
+			prepStatementGetEmpresas.close();
 		
 		} catch (Exception e) {
 			e.printStackTrace();
-			return empresas;
+		}finally {
+		    try {
+		        if (rs != null) {
+		            rs.close();
+		        }
+		        if (prepStatementGetEmpresas != null) {
+		        	prepStatementGetEmpresas.close();
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
 		}
+
+		return empresas;
 		
 	}
 	
@@ -807,15 +822,14 @@ public class DatosBD implements ManejoDatos {
 	public Vector<Persona> getPersonas() {
 		Vector<Persona> personas = new Vector<>();
 		final String selectPersonas = "SELECT * FROM PERSONA P, USUARIO U WHERE P.ID = U.ID";
+		PreparedStatement prepStatementGetPersonas;
 		try {
-			prepStatement = connection.prepareStatement(selectPersonas);
+			prepStatementGetPersonas = connection.prepareStatement(selectPersonas);
 			tiempoInicio = System.currentTimeMillis();
-			ResultSet rs = prepStatement.executeQuery();
+			ResultSet rs = prepStatementGetPersonas.executeQuery();
 			tiempoActual = System.currentTimeMillis();
 			tiempoResultante = tiempoActual-tiempoInicio;
-//			System.out.println("Tiempo en ejecutar query SELECT * PERSONAS: " + tiempoResultante);
 			
-//			POR HACER: COMPROBAR TIEMPOS
 			while(rs.next()) {
 				tiempoInicio = System.currentTimeMillis();
 				int id = rs.getInt(1);
@@ -851,7 +865,8 @@ public class DatosBD implements ManejoDatos {
 				
 			}
 			rs.close();
-			prepStatement.close();
+			System.out.println("Cerrado rsPersonas");
+			prepStatementGetPersonas.close();
 			return personas;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -971,8 +986,6 @@ public class DatosBD implements ManejoDatos {
 	public Vector<Usuario> getUsuarios() {
 		Vector<Usuario> usuarios = new Vector<>();
 
-        long tiempoInicio3 = System.currentTimeMillis();
-
         Thread threadEmpresas = new Thread(() -> {
             usuarios.addAll(new Vector<>(getEmpresas()));
         });
@@ -990,9 +1003,6 @@ public class DatosBD implements ManejoDatos {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        long tiempoActual3 = System.currentTimeMillis();
-//        System.err.println("Tiempo añadir usuarios: " + (tiempoActual3 - tiempoInicio3));
 
         return usuarios;
     }
