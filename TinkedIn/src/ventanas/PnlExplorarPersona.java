@@ -174,6 +174,7 @@ public class PnlExplorarPersona extends JPanel {
 				// TODO Auto-generated method stub
 				Like like = new Like(pers, empresaActual);
 				servicio.anadirLike(like);
+				mostrarSiguientePuesto();
 			}
 		});
 		

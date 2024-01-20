@@ -468,7 +468,7 @@ public class PnlExplorarEmpresa extends JPanel {
                         Habilidad habilidadSeleccionada = modeloHP.getElementAt(indiceSeleccionado);
                         int destreza = habilidadSeleccionada.getDestreza();
 
-                        JOptionPane.showMessageDialog(null, "Nivel requerido: " + destreza, "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nivel de destreza: " + destreza, "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
