@@ -307,7 +307,11 @@ public class Servidor {
 		    				Empresa empresa = (Empresa) datos.getUsuarioFromId( (int) puesto.getIdEmpresa());
 		    				output.writeObject(empresa);
 		    			}
-		    			
+		    			if(objRecibido.equals(ConfigServer.GET_FRECUENCIA_HABS)) {
+		    				String campo = (String) input.readObject();
+		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
+		    				output.writeObject(mapaFrec);
+		    			}
 		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID)) {
 		    				int id = (int) input.readObject();
 		    				
