@@ -1,9 +1,13 @@
 package sistemaExplorar;
 
+import java.io.Serializable;
+
 import usuarios.Usuario;
 
-public class Match {
+public class Match implements Serializable{
 
+
+	private static final long serialVersionUID = 1L;
 	private int u1;
 	private int u2;
 	

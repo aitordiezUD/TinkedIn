@@ -113,7 +113,7 @@ public interface ManejoDatos {
 	 * @param from: Usuario que da like 
 	 * @param to: Usuario que recibe like
 	 */
-	public void crearLike(Usuario from, Usuario to);
+	public void crearLike(int from, int to);
 	
 	/**Funcion que dado un like, sube el like a la BD y comprueba si hay match entre los dos usuarios 
 	 * @param like
