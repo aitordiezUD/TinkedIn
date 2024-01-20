@@ -1007,8 +1007,47 @@ public class DatosBD implements ManejoDatos {
         return usuarios;
     }
 
-	
+	@Override
+	public String getNombrePersonaFromId(int id) {
+		final String queryNombre = "SELECT * FROM PERSONA WHERE ID = ?";
+		String nombreApellidos = "";
+		try {
+			prepStatement = connection.prepareStatement(queryNombre);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				String nombre = rs.getString(2);
+				String apellidos = rs.getString(3);
+				nombreApellidos = nombre + " " + apellidos;
+			}
+			rs.close();
+			prepStatement.close();
+			return nombreApellidos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return nombreApellidos;
+		}
+	}
 
+	@Override
+	public String getNombreEmpresaFromId(int id) {
+		final String queryNombre = "SELECT * FROM EMPRESA WHERE ID = ?";
+		String nombre = "";
+		try {
+			prepStatement = connection.prepareStatement(queryNombre);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				nombre = rs.getString(2);
+			}
+			rs.close();
+			prepStatement.close();
+			return nombre;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return nombre;
+		}
+	}
 
 	
 	public static void main(String[] args) {
@@ -1016,7 +1055,5 @@ public class DatosBD implements ManejoDatos {
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
 		datos.fin();
 	}
-
-
 
 }

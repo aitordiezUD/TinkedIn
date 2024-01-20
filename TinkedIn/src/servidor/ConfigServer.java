@@ -70,5 +70,12 @@ public class ConfigServer {
 //		Añade un match a los datos
 		static String ANADIR_MATCH = "añadir_match";
 		
-
+//		Devuelve el nombre de la persona con un ID dado - va seguido del id del Usuario
+		static String GET_NOMBRE_PERSONA_FROM_ID = "get_nombre_persona_from_id";
+		
+//		Devuelve el nombre de la empresa con un ID dado - va seguido del id del Usuario
+		static String GET_NOMBRE_EMPRESA_FROM_ID = "get_nombre_empresa_from_id";
+		
+//		Devuelve un mapa de usuarios con los que un usuario ha hecho match - va seguido del id del Usuario 
+		static String GET_USUARIOS_CON_MATCH = "get_usuarios_con_match";
 }

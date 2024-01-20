@@ -10,7 +10,9 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -315,7 +317,6 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlExplorar.setBackground(new Color(122, 199, 218));
 				}
-				
 			}
 		});
 		
@@ -562,9 +563,49 @@ public class PnlBotonera extends JPanel {
 
 	}
 
-	public static void notificarMatch(Match m) {
-		JOptionPane.showMessageDialog(null, "Enhorabuena, tienes un Match pendiente por revisar!!","Notificación" ,JOptionPane.INFORMATION_MESSAGE);
+	public static void notificarMatch(Match match) {
+		String nombre;
+		if (usuarioAutenticado instanceof Persona) {
+			if (match.getU1() != usuarioAutenticado.getId()) {
+				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU1());
+				new NotificacionMatch(nombre);
+			}else {
+				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU2());
+				new NotificacionMatch(nombre);
+			}
+		}else {
+			if (match.getU1() != usuarioAutenticado.getId()) {
+				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU1());
+				new NotificacionMatch(nombre);
+			}else {
+				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU2());
+				new NotificacionMatch(nombre);
+			}
+		}
 	}
 	
+	private static class NotificacionMatch extends JDialog {
+		private static final long serialVersionUID = 1L;
+
+		public NotificacionMatch(String nombreUsuario) {
+	        setTitle("¡Nuevo Match!");
+	        setSize(300, 150);
+	        setLocationRelativeTo(null); // Centra el diálogo en la pantalla
+	        ImageIcon icon = new ImageIcon("TinkedinPNG.png");
+	        Image iconImage = icon.getImage();
+	        setIconImage(iconImage);
+	        
+	        JPanel panel = new JPanel(new BorderLayout());
+	        panel.setBackground(Color.white);
+	        String mensaje = "<html>¡Felicidades! Tienes un nuevo match con:<br>" + nombreUsuario + "</html>";
+	        JLabel lblMensaje = new JLabel(mensaje);
+	        lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+
+	        panel.add(lblMensaje, BorderLayout.CENTER);
+	        getContentPane().add(panel);
+	        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    }
+
+	}
 	
 }

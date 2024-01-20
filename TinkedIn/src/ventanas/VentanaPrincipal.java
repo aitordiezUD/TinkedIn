@@ -2,6 +2,8 @@ package ventanas;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -11,13 +13,14 @@ import servidor.ServicioPersistencia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Image;
 
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlContenido;
 	protected static ServicioPersistencia servicio;
-	protected static Color ColorBase;
+	protected static Color ColorBase = new Color(208, 235, 242);
 
 	public JPanel getPnlContenido() {
 		return pnlContenido;
@@ -41,15 +44,15 @@ public class VentanaPrincipal extends JFrame {
 	}
 	
 	public VentanaPrincipal() {
-		
-		ColorBase = new Color(208, 235, 242);
-		
 		servicio = new ServicioPersistencia();
 		servicio.init();
 		setTitle("TinkedIn");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(900, 650);
 		setLocationRelativeTo(null);
+		ImageIcon icon = new ImageIcon("TinkedinPNG.png");
+        Image iconImage = icon.getImage();
+        setIconImage(iconImage);
 		new ImagenesAzure();
 		pnlContenido = new JPanel();
 		pnlContenido.setLayout(new BorderLayout());
@@ -61,11 +64,7 @@ public class VentanaPrincipal extends JFrame {
 		pnlLog.setSize(450, 600);
 		pnlContenido.add(pnlLog,"pnlLogIn");
 		layoutVentana.show(pnlContenido, "pnlLogIn");
-		
-
-		
 		setContentPane(pnlContenido);
-
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -73,8 +72,5 @@ public class VentanaPrincipal extends JFrame {
 				System.out.println("Servicio cerrado");
 			}
 		});
-			
 	}
-
-	
 }
