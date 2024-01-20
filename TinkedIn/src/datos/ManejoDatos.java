@@ -3,6 +3,7 @@ package datos;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -168,5 +169,11 @@ public interface ManejoDatos {
 	 * @return nombre de la empresa
 	 */
 	public String getNombreEmpresaFromId(int id);
+	
+	/**
+	 * @param campo nombre del campo del que se quiere saber la frecuencia de sus habilidades
+	 * @return mapa con clave nombre de la habilidad y valor la frecuencia
+	 */
+	public Map<String, Integer> getFreHab(String campo);
 }
 

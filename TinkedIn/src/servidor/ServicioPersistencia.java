@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -478,6 +479,27 @@ public class ServicioPersistencia{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+	
+	public Map<String, Integer> getFreHab(String campo){
+		try {
+			flujoOut.writeObject(ConfigServer.GET_FRECUENCIA_HABS);
+			flujoOut.writeObject(campo);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el nombre de la empresa, timeout servidor");
+				return null;
+			}
+			Map<String, Integer> mapa = (Map<String, Integer>) respuestasServidor.remove(0);
+			return mapa;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
 		}
 	}
 	

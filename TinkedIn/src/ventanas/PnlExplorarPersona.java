@@ -173,6 +173,7 @@ public class PnlExplorarPersona extends JPanel {
 				// TODO Auto-generated method stub
 				Like like = new Like(pers, empresaActual);
 				servicio.anadirLike(like);
+				mostrarSiguientePuesto();
 			}
 		});
 		
@@ -425,8 +426,10 @@ public class PnlExplorarPersona extends JPanel {
 			lblNomEInfo.setText(empresaActual.getNombre());
 			DescripcionPuesto.setText(puestoActual.getDescripcion());
 			// Cambiar
+			pnlInfoUsu.remove(1);
 			JLabel Imagen = ImagenesAzure.crearImagen(empresaActual, 150, 150);
 			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
+			pnlInfoUsu.repaint();
 			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
 			lblNombreUsu.setForeground(new Color(4, 32, 63));
 			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);

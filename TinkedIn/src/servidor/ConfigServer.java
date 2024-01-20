@@ -78,4 +78,7 @@ public class ConfigServer {
 		
 //		Devuelve un mapa de usuarios con los que un usuario ha hecho match - va seguido del id del Usuario 
 		static String GET_USUARIOS_CON_MATCH = "get_usuarios_con_match";
+		
+//		Devuelve un mapa con los nombres de todas las habilidades de un campo y su frecuencia
+		static String GET_FRECUENCIA_HABS = "get_frecuencia_habs";
 }

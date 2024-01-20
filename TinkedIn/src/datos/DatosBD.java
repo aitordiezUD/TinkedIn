@@ -12,7 +12,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.IntSummaryStatistics;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -1049,11 +1051,33 @@ public class DatosBD implements ManejoDatos {
 		}
 	}
 
+	@Override
+	public Map<String, Integer> getFreHab(String campo) {
+		// TODO Auto-generated method stub
+		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
+		final String queryCampo = "SELECT NOMBRE, COUNT(*) AS CUENTA FROM HABILIDAD WHERE CAMPO = ? GROUP BY NOMBRE;";
+		try {
+			prepStatement = connection.prepareStatement(queryCampo);
+			prepStatement.setString(1, campo);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				int frecuencia = rs.getInt("CUENTA");
+				String nombre = rs.getString("NOMBRE");
+				mapaFreHab.put(nombre, frecuencia);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return mapaFreHab;
+	}
 	
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
 		datos.fin();
 	}
+
+
 
 }
