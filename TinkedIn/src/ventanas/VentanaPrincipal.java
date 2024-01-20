@@ -30,8 +30,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel pnlContenido;
 //	private static DatosFicheros datos;
 	protected static ServicioPersistencia servicio;
-	
-
+	protected static Color ColorBase;
 
 //	public static DatosFicheros getDatos() {
 //		return datos;
@@ -83,6 +82,9 @@ public class VentanaPrincipal extends JFrame {
 	 */
 //	public VentanaPrincipal( DatosFicheros datos ) {
 	public VentanaPrincipal() {
+		
+		ColorBase = new Color(208, 235, 242);
+		
 		servicio = new ServicioPersistenciaFicheros();
 		servicio.init();
 //		datos = new DatosFicheros();
@@ -103,6 +105,7 @@ public class VentanaPrincipal extends JFrame {
 		pnlContenido.add(pnlLog,"pnlLogIn");
 		layoutVentana.show(pnlContenido, "pnlLogIn");
 		
+
 		
 		setContentPane(pnlContenido);
 
