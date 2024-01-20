@@ -279,16 +279,6 @@ public class Servidor {
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.MENSAJES_PENDIENTES)) {
-//		    	    		if (mapaMensajasPorEnviar.containsKey(idSender)) {
-//		    	    			if(mapaMensajasPorEnviar.get(idSender) != null && mapaMensajasPorEnviar.get(idSender).size()>0) {
-//		    	    				output.writeObject(ConfigServer.OK);
-//		    	    				output.writeObject(mapaMensajasPorEnviar.get(idSender));
-//		    	    			}else {
-//		    	    				output.writeObject(ConfigServer.NO_OK);
-//		    	    			}
-//		    	    		}
-//		    	    		output.writeObject(ConfigServer.NO_OK);
-//		    				TreeSet<Mensaje> set = datos.filtrarMensajes(DatosFicheros.getMapaIdUsuario().get(idSender));
 		    				TreeSet<Mensaje> set = datos.filtrarMensajes(datos.getUsuarioFromId(idSender));
 		    				System.err.println("Mensajes pendientes: " + set);
 		    				output.writeObject(set);
@@ -316,6 +306,11 @@ public class Servidor {
 		    				PuestoTrabajo puesto = (PuestoTrabajo) input.readObject();
 		    				Empresa empresa = (Empresa) datos.getUsuarioFromId( (int) puesto.getIdEmpresa());
 		    				output.writeObject(empresa);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema

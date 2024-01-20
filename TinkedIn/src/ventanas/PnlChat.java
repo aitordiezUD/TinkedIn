@@ -200,7 +200,7 @@ public class PnlChat extends JPanel{
 	}
 	
 	public void anadirContactos() {
-//		for (Usuario u: DatosFicheros.getUsuarios()) {
+//		for (Usuario u: servicio.getUsuariosConMatch(int usuario))
 		for (Usuario u: servicio.getUsuarios()) {
 			long tiempoInicio1 = System.currentTimeMillis();
 			if (!u.equals(this.usuario)) {

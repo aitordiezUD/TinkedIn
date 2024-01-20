@@ -80,21 +80,12 @@ public class ServicioPersistencia{
 		}
 	}
 	
-//	private class HiloEscuchadorMensajes extends Thread{
-//		@Override
-//		public void run() {
-//			// TODO Auto-generated method stub
-//			while (!finComunicacion) {
-//				
-//			}
-//		}
-//	}
-	
 	public void init() {
 		try {
 			hilo = new HiloComunicacionServidor( ConfigServer.HOST, ConfigServer.PUERTO );
 			hilo.start();
 			(new Thread( () ->  escuchadorMensajes())).start();
+			(new Thread( () ->  comprobadorDeMatches())).start();
 			long time = System.currentTimeMillis();
 			while (flujoOut==null && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
 				Thread.sleep( 100 );
@@ -112,22 +103,21 @@ public class ServicioPersistencia{
 		while (!finComunicacion) {
 			while(mensajesRecibidos.size() != 0) {
 				Mensaje m = mensajesRecibidos.remove(0);
-				this.pnlChat.getMapaPaneles().get(m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
+				this.pnlChat.getMapaPaneles().get((int) m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
 	
 	public void comprobadorDeMatches() {
-		System.out.println("Comprobador de matches corriendo");
 		while (!finComunicacion) {
 			while(listaMatches.size() !=0) {
 				Match m = listaMatches.remove(0);
+				System.out.println("Nuevo match:" + m);
 				PnlBotonera.notificarMatch(m);
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e){e.printStackTrace();}
 		}
-		System.out.println("Comprobador de matches dead");
 	}
 	
 	public void close() {
@@ -451,14 +441,56 @@ public class ServicioPersistencia{
 		}
 	}
 
-	public void anyadirMatch(Match match) {
-		// TODO Auto-generated method stub
+	public String getNombrePersonaFromId(int id) {
 		try {
-			flujoOut.writeObject(ConfigServer.ANADIR_MATCH);
-			flujoOut.writeObject(match);
-		}catch (Exception e) {
-			// TODO: handle exception
+			flujoOut.writeObject( ConfigServer.GET_NOMBRE_PERSONA_FROM_ID );
+			flujoOut.writeObject( id );
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el nombre de la persona, timeout servidor");
+				return "";
+			}
+			String nombre = (String) respuestasServidor.remove(0);
+			return nombre;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
 		}
 	}
 	
+	public String getNombreEmpresaFromId(int id) {
+		try {
+			flujoOut.writeObject( ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID );
+			flujoOut.writeObject( id );
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el nombre de la empresa, timeout servidor");
+				return "";
+			}
+			String nombre = (String) respuestasServidor.remove(0);
+			return nombre;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	/**Dado el id de un usuario devuelve la lista de usuarios con los que ha hecho match
+	 * @param idUsuario
+	 * @return
+	 */
+	public Vector<Usuario> getUsuariosConMatch(int idUsuario){
+		try {
+			
+		} catch (Exception e) {
+			
+		}
+		return null;
+	};
 }
