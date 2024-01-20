@@ -176,6 +176,7 @@ public class PnlBotonera extends JPanel {
 		lblPerfil.setBounds(38, 0, 112, 38);
 		pnlPerfil.add(lblPerfil);
 		
+		
 		try {
             // Carga la imagen original desde el archivo en el paquete "imagenes"
             InputStream imageStream = PnlBotonera.class.getResourceAsStream("perfil.png");
@@ -409,7 +410,7 @@ public class PnlBotonera extends JPanel {
 		pnlEstadisticas.setBounds(0, 275, 150, 38);
 		PnlBotones.add(pnlEstadisticas);
 		
-		JPanel pStats = new JPanel();
+		JPanel pStats = new PnlEstadisticas();
 		pStats.setBackground(Color.LIGHT_GRAY);
 		pnlFuncional.add(pStats,"pStats");
 		
