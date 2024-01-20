@@ -435,6 +435,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		
 		clPaneles.show(pnlInfoUsu, "pnlLogo");
 		
+
 			
 		habilidadesPersona.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
 
@@ -453,6 +454,7 @@ public class PnlExplorarEmpresa extends JPanel {
         });
 		
 	
+
 	}
 
 	public void xArojo() {
@@ -482,6 +484,9 @@ public class PnlExplorarEmpresa extends JPanel {
 			e.printStackTrace();
 		}
 
+		
+		
+		
 	}
 	
 	public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
