@@ -62,7 +62,7 @@ public class VentanaPrincipal extends JFrame {
 		pnlContenido.setSize(900, 650);
 		CardLayout layoutVentana = new CardLayout();
 		pnlContenido.setLayout(layoutVentana);
-		PnlLogIn pnlLog = new PnlLogIn(pnlContenido,layoutVentana);
+		PnlLogIn pnlLog = new PnlLogIn(pnlContenido,layoutVentana, this);
 		pnlLog.setSize(450, 600);
 		pnlContenido.add(pnlLog,"pnlLogIn");
 		layoutVentana.show(pnlContenido, "pnlLogIn");

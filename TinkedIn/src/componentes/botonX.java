@@ -39,8 +39,8 @@ public class botonX extends JButton {
         g2d.setStroke(new BasicStroke(20));
 
         
-        g.drawLine(60, 50, 110, 100);
-        g.drawLine(60, 100, 110, 50);
+        g.drawLine(15, 15, width-15, height-15);
+        g.drawLine(width-15, 15, 15, height-15);
     }
 
     public static void main(String[] args) {

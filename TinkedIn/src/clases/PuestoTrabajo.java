@@ -2,6 +2,7 @@ package clases;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import usuarios.Empresa;
 
@@ -63,6 +64,11 @@ public class PuestoTrabajo implements Serializable, Comparable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, descripcion, habilidadesReq, idEmpresa);
+    }
 	
 	
 }

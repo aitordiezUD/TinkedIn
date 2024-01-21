@@ -350,7 +350,6 @@ public class Main {
         
 		Object[] atribsPAdmin = {"admin", "admin", "Alava",fecha ,"admin","admin", crearCurriculum( h30, h13  ),new File("adminpng.png"),"admin"};
 		Persona adminP = (Persona) servicio.crearUsuario(atribsPAdmin);
-//		System.out.println("adminP: " + adminP);
 		
 		// Empresa admin
         Object[] atribsAdmin = {"adminE", "001010101", "adminE",
@@ -359,7 +358,7 @@ public class Main {
                 new File("src/ventanas/defaultFotoPerfil.jpg"), "adminE"};
         Empresa adminE = (Empresa) servicio.crearUsuario(atribsAdmin);
 
-        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs, AdminE", "Administración de organizaciones benéficas en entornos rurales, prueba AdminE",new ArrayList<>(Arrays.asList(h30, h13)), adminE);
+        PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs AdminE", "Administración de organizaciones benéficas en entornos rurales, prueba AdminE",new ArrayList<>(Arrays.asList(h30, h13)), adminE);
         servicio.anadirPuesto(puestoAdmin);
 
 		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", LocalDateTime.now());

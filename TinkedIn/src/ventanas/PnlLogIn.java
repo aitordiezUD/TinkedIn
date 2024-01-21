@@ -48,7 +48,7 @@ public class PnlLogIn extends JPanel {
 	
 	
 
-	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana) {
+	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana, VentanaPrincipal vp) {
 		this.servicio = VentanaPrincipal.servicio;
 		
 		setBackground(new Color(202, 232, 232));
@@ -258,7 +258,7 @@ public class PnlLogIn extends JPanel {
 					Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
 					System.out.println(u);
 					System.out.println(u.getFotoDePerfil());
-					PnlBotonera pnlBotones = new PnlBotonera( u );
+					PnlBotonera pnlBotones = new PnlBotonera( u,vp );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");
 				}else {
@@ -286,7 +286,7 @@ public class PnlLogIn extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(servicio.logIn(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
 						Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
-						PnlBotonera pnlBotones = new PnlBotonera( u );
+						PnlBotonera pnlBotones = new PnlBotonera( u,vp );
 						pnlContenido.add(pnlBotones,"pnlBotones");
 						layoutVentana.show(pnlContenido, "pnlBotones");
 					}else {

@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
@@ -34,7 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -54,8 +54,6 @@ import nube.ImagenesAzure;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
@@ -69,31 +67,15 @@ public class PnlExplorarEmpresa extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 
-	private JLabel lblGrafExpX;
-	private JPanel pnlLike;
-	private JPanel pnlPass;
-	private JPanel pnlInfoUsu;
-	private JPanel pnlDatosPers;
-	private JPanel pnlDatos;
+	private JPanel pnlInicial;
 	private PuestoTrabajo puestoElegido;
-	protected JLabel lblNombreUsu;
-	protected JLabel lblNomEInfo;
-	protected JLabel lblDescrPInfo;
-	protected JLabel lblPuesto;
-	protected JLabel FotoPf;
-	protected JLabel lblNombreDatosPer;
-	protected JLabel lblApellidosDatosPer;
-	protected JLabel lblFechaDatosPer;
-	protected JLabel lblUbicacionDatosPer;
-	protected DefaultListModel<Habilidad> modeloHP;
 	protected static Usuario usuarioAutenticado;
-	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
-	protected static HashMap<PuestoTrabajo, Iterator<Persona>> mapaIteradorPersonas;
-	protected HashMap<PuestoTrabajo, Persona> guardarPrimero;
 	protected ServicioPersistencia servicio;
 	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	protected CardLayout clPaneles;
 	protected Persona personaActual;
+	protected HashMap<PuestoTrabajo,String> mapaPaneles = new HashMap<>();
+	protected boolean pnlLogoOn = true;
 
 	public PnlExplorarEmpresa(Empresa empr, ServicioPersistencia servicio) {
 		setLayout(new BorderLayout());
@@ -101,8 +83,6 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		setLayout(new BorderLayout(0, 0));
 		
-		mapaIteradorPersonas = new HashMap<>();
-		guardarPrimero = new HashMap<>();
 		
 		this.usuarioAutenticado = empr;
 		this.servicio = servicio;
@@ -114,137 +94,47 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlContenido.setPreferredSize(new Dimension(getWidth() - 250, getHeight()));
 		add(pnlContenido, BorderLayout.CENTER);
 
-		JPanel pnlInfo = new JPanel();
-		pnlInfo.setLayout(new BorderLayout());
-		pnlInfo.setBackground(new Color(129, 186, 207));
-		pnlContenido.add(pnlInfo, BorderLayout.CENTER);
-
-		pnlInfoUsu = new JPanel();
-		pnlInfoUsu.setBackground(new Color(129, 186, 207));
-		pnlInfoUsu.setPreferredSize( new Dimension(186,207));
-		pnlInfoUsu.setLayout(new BorderLayout());
-
-
-		pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
-
-
-		JPanel pnlBotonera = new JPanel();
-		pnlBotonera.setLayout(new GridLayout(0, 3));
-		pnlBotonera.setPreferredSize(new Dimension(getWidth() - 250, 120));
-		pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
-
-		pnlLike = new JPanel();
-		pnlLike.setLayout(new BorderLayout());
-		pnlLike.setLayout(new FlowLayout());
-		pnlLike.setPreferredSize( new Dimension(150,70));
-		botonLike btnLike = new botonLike();
-//		btnLike.setPreferredSize( new Dimension(70,70));
-		pnlLike.add(btnLike, BorderLayout.CENTER);
-		pnlBotonera.add(pnlLike);
-		
-		btnLike.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				Like like = new Like(empr, personaActual);
-				servicio.anadirLike(like);
-			}
-		});
-		
-		JPanel pnlVacio = new JPanel();
-		pnlVacio.setPreferredSize(new Dimension(10, 10));
-		pnlBotonera.add(pnlVacio);
-
-		pnlPass = new JPanel();
-		pnlPass.setLayout(new BorderLayout());
-		botonX btnX = new botonX();
-
-		pnlPass.add(btnX, BorderLayout.CENTER);
-		pnlBotonera.add(pnlPass);
-
-		try {
-			// Carga la imagen original desde el archivo en el paquete "imagenes"
-			InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
-			//BufferedImage originalImage = ImageIO.read(imageStream);
-			BufferedImage originalImage = ImageIO.read(imageStream);
-
-			// Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-			int width = 70;
-			int height = 70;
-			Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-			// Convierte la imagen escalada en un BufferedImage
-			BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = resizedImage.createGraphics();
-			Shape circle = new Ellipse2D.Float(0, 0, width, height);
-			g2d.setClip(circle);
-			g2d.drawImage(scaledImage, 0, 0, null);
-			g2d.dispose();
-
-			// Crea un JLabel y asigna la imagen escalada como ícono
-			JLabel lblGrafExp = new JLabel(new ImageIcon(resizedImage));
-			lblGrafExp.setBackground(new Color(240, 240, 240));
-			lblGrafExp.setBounds(20, 0, 38, 38);
-			// pnlDatos.add(lblGrafExp);
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		
-
-		// botonCorazon btnCorazon = new botonCorazon();
-		// pnlLike.add(btnCorazon, BorderLayout.EAST);
-		lblNombreUsu = new JLabel("      Nombre de Usuario");
-		lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18));
-		// pnlDatos.add(lblNombreUsu);
-
-//	         if( usuarioAutenticado instanceof Empresa ) {
-		JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
-		lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
-		
-
-		pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
-		pnlInfo.repaint();
-
-//       	Empresa e = (Empresa) usuarioAutenticado;
-		mapaPersonasPorPuesto = crearMapaPersonasPorPuesto();
-		
 
 		JPanel pnlLista = new JPanel();
 		pnlLista.setLayout(new BorderLayout());
 		pnlLista.setBackground(new Color(129, 186, 207));
 
+		
+		pnlInicial = new JPanel();
+		clPaneles = new CardLayout();
+		pnlInicial.setLayout(clPaneles);
+		pnlContenido.add(pnlInicial);
+		
+		JPanel pnlLogo = new JPanel(new BorderLayout());
+		pnlLogo.setBackground(new Color(202, 232, 232));
+		
+		ImageIcon icono = new ImageIcon("TinkedinPNG.png");
+		ImageIcon iconoRedimensionado = new ImageIcon(getScaledImage(icono.getImage(), 350, 300));
+		
+		JLabel lblLogo = new JLabel(iconoRedimensionado);
+		lblLogo.setHorizontalAlignment(JLabel.CENTER);
+        lblLogo.setVerticalAlignment(JLabel.CENTER);
+        pnlLogo.add(lblLogo,BorderLayout.CENTER);
+        
+        pnlInicial.add( pnlLogo,"pnlLogo" );
+        
+        JPanel panelesPuestos = new JPanel();
+        CardLayout clPanelesExplorar = new CardLayout();
+        panelesPuestos.setLayout(clPanelesExplorar);
+        pnlInicial.add(panelesPuestos, "panelesPuestos");
+		
 		JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
 		modeloListaPt = new DefaultListModel<PuestoTrabajo>();
 
 		for (PuestoTrabajo pt : empr.getPuestos()) {
+			System.out.println(pt.getHabilidadesReq());
 			modeloListaPt.addElement(pt);
+			panelesPuestos.add(new PanelExploracion(empr, servicio, pt), pt.hashCode()+"");
+			mapaPaneles.put(pt,pt.hashCode()+"");
 		}
 
 		listaPuestos.setModel(modeloListaPt);
 		listaPuestos.setBackground(new Color(202, 232, 232));
-		
-
-		
-
-//		listaPuestos.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
-//
-//			@Override
-//			public void valueChanged(ListSelectionEvent e) {
-//				puestoElegido = listaPuestos.getSelectedValue();
-//				System.err.println("Puesto Elegido: " + puestoElegido);
-//
-//			}
-//		});
-		for(PuestoTrabajo p : mapaIteradorPersonas.keySet()) {
-			if (mapaIteradorPersonas.get(p) != null) {
-				guardarPrimero.put(p, mapaIteradorPersonas.get(p).next());
-			}
-		}
-		
 		
 		listaPuestos.addMouseListener(new MouseAdapter() {
             @Override
@@ -258,16 +148,11 @@ public class PnlExplorarEmpresa extends JPanel {
 				int index = listaPuestos.locationToIndex(e.getPoint());
 				if (index != -1) {
 					puestoElegido  = modeloListaPt.get(index);
-					clPaneles.show(pnlInfoUsu, "pnlInfoDatos");
-					lblPuesto.setText(puestoElegido.getNombre());
-					lblNombreUsu.setText(guardarPrimero.get(puestoElegido).getNombre());
-					lblNombreDatosPer.setText(guardarPrimero.get(puestoElegido).getNombre());
-					lblApellidosDatosPer.setText(guardarPrimero.get(puestoElegido).getApellidos());
-					lblFechaDatosPer.setText(sdf.format(guardarPrimero.get(puestoElegido).getEdad()));
-					lblUbicacionDatosPer.setText(guardarPrimero.get(puestoElegido).getUbicacion());
-					JLabel Imagen = ImagenesAzure.crearImagen(guardarPrimero.get(puestoElegido), 150, 150);
-					FotoPf = Imagen;
-					pnlDatosPers.add(FotoPf);
+					if (pnlLogoOn) {
+						clPaneles.show(pnlInicial, "panelesPuestos");
+						pnlLogoOn = false;
+					}
+					clPanelesExplorar.show(panelesPuestos, puestoElegido.hashCode()+"");
 				}
 			}
         });
@@ -282,14 +167,6 @@ public class PnlExplorarEmpresa extends JPanel {
             }
         });
 		
-		btnX.addActionListener((ActionListener) new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mostrarSiguientePersona(puestoElegido);
-			}
-		});
-
 		JScrollPane spLista = new JScrollPane(listaPuestos);
 		spLista.setPreferredSize(new Dimension(250, getHeight()));
 		spLista.setMaximumSize(new Dimension(250, getHeight()));
@@ -325,7 +202,6 @@ public class PnlExplorarEmpresa extends JPanel {
 			private static final long serialVersionUID = 1L;
 			JPanel pnl;
 			JLabel lbl1;
-			JLabel lbl2;
 
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
@@ -343,10 +219,7 @@ public class PnlExplorarEmpresa extends JPanel {
 					pnl.setForeground(list.getForeground());
 				}
 				lbl1 = new JLabel(value.toString());
-				lbl2 = new JLabel("Numero de plazas");
-				lbl2.setForeground(new Color(128, 128, 128));
 				pnl.add(lbl1);
-				pnl.add(lbl2);
 				return pnl;
 			}
 		});
@@ -368,222 +241,10 @@ public class PnlExplorarEmpresa extends JPanel {
 			}
 		});
 
-		clPaneles = new CardLayout();
-		pnlInfoUsu.setLayout(clPaneles);
 
-		
-		JPanel pnlLogo = new JPanel(new BorderLayout());
-		pnlLogo.setBackground(new Color(202, 232, 232));
-		
-		ImageIcon icono = new ImageIcon("TinkedinPNG.png");
-		ImageIcon iconoRedimensionado = new ImageIcon(getScaledImage(icono.getImage(), 350, 300));
-		
-		JLabel lblLogo = new JLabel(iconoRedimensionado);
-		lblLogo.setHorizontalAlignment(JLabel.CENTER);
-        lblLogo.setVerticalAlignment(JLabel.CENTER);
-        pnlLogo.add(lblLogo,BorderLayout.CENTER);
         
-        pnlInfoUsu.add( pnlLogo,"pnlLogo" );
-        
-        JPanel pnlInfoDatos = new JPanel();
-        pnlInfoDatos.setLayout(new BorderLayout());
-        pnlInfoUsu.add(pnlInfoDatos, "pnlInfoDatos");
-        
-		JPanel pnlInfoHabi = new JPanel();
-		pnlInfoHabi.setPreferredSize( new Dimension(258, 0));
-		JList<Habilidad> habilidadesPersona = new JList<>();
-		habilidadesPersona.setBorder(new LineBorder(new Color(129, 186, 207), 3));
-		modeloHP = new DefaultListModel<>();
-		habilidadesPersona.setModel(modeloHP);
-		JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
-		spListaHP.setPreferredSize( new Dimension(250,300));
-		pnlInfoHabi.add(spListaHP);
 		
-		pnlInfoDatos.add(pnlInfoHabi, BorderLayout.EAST);
-        
-		JPanel pnlInfoPersonal = new JPanel();
-		pnlInfoPersonal.setPreferredSize( new Dimension(240, 103));
-		
-		JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
-		lblTitInfP.setForeground(new Color(4, 32, 63));
-		pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
-		
-		pnlDatosPers = new JPanel();
-		JPanel pnlParaNombre = new JPanel();
-		pnlDatosPers.setPreferredSize( new Dimension(200, 280));
-		pnlDatosPers.setLayout( new BorderLayout());
-		pnlDatosPers.add(pnlParaNombre, BorderLayout.SOUTH);
-		pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
-		FotoPf = new JLabel();
-		lblNombreDatosPer =  new JLabel("");
-		lblNombreDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-		lblApellidosDatosPer = new JLabel("");
-		lblApellidosDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
-		lblFechaDatosPer = new JLabel("");
-		lblUbicacionDatosPer = new JLabel("");
-		lblUbicacionDatosPer.setForeground(new Color(150, 150, 150));
-		
-		
-		pnlDatosPers.add(FotoPf, BorderLayout.CENTER);
-		pnlParaNombre.add(lblNombreDatosPer, BorderLayout.SOUTH);
-		pnlParaNombre.add(lblApellidosDatosPer, BorderLayout.SOUTH);
-		pnlInfoPersonal.add( lblFechaDatosPer, BorderLayout.SOUTH);
-		pnlInfoPersonal.add( lblUbicacionDatosPer, BorderLayout.SOUTH);
-		
-
-		
-		pnlDatos = new JPanel();
-		pnlDatos.setBackground(new Color(208, 235, 242));
-		pnlDatos.setLayout(new BorderLayout());
-//	 	        pnlDatos.setBackground(Color.GREEN);
-		pnlDatos.setPreferredSize(new Dimension(getWidth() - 250, 125));
-		pnlContenido.add(pnlDatos, BorderLayout.NORTH);
-
-		lblPuesto = new JLabel("");
-		lblPuesto.setForeground(new Color(192, 192, 192));
-		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
-		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
-		pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
-		
-		pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
-		
-		clPaneles.show(pnlInfoUsu, "pnlLogo");
-		
-
-			
-		habilidadesPersona.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // Obtener el índice seleccionado
-                    int indiceSeleccionado = habilidadesPersona.getSelectedIndex();
-                        // Obtener la habilidad seleccionada
-                        Habilidad habilidadSeleccionada = modeloHP.getElementAt(indiceSeleccionado);
-                        int destreza = habilidadSeleccionada.getDestreza();
-
-                        JOptionPane.showMessageDialog(null, "Nivel de destreza: " + destreza, "Nivel de destreza", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
-		
-	
-
-	}
-
-	public void xArojo() {
-		try {
-			// Carga la imagen original desde el archivo en el paquete "imagenes"
-			InputStream imageStream = PnlBotonera.class.getResourceAsStream("xRoja.png");
-			BufferedImage originalImage = ImageIO.read(imageStream);
-
-			// Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-			int width = 40;
-			int height = 40;
-			Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-			// Convierte la imagen escalada en un BufferedImage
-			BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = resizedImage.createGraphics();
-			g2d.drawImage(scaledImage, 0, 0, null);
-			g2d.dispose();
-
-			// Crea un JLabel y asigna la imagen escalada como ícono
-			lblGrafExpX = new JLabel(new ImageIcon(resizedImage));
-			lblGrafExpX.setBackground(new Color(240, 240, 240));
-			lblGrafExpX.setBounds(20, 0, 38, 38);
-			pnlPass.add(lblGrafExpX, BorderLayout.WEST);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		
-		
-		
-	}
-	
-	public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
-		Empresa usuarioE = (Empresa) usuarioAutenticado;
-		TreeSet<Persona> personasCandidatas = new TreeSet<Persona>(new Comparator<Persona>() {
-			@Override
-			public int compare(Persona o1, Persona o2) {
-				int contador1 = 0;
-				int contador2 = 0;
-
-				for (Habilidad h : pt.getHabilidadesReq()) {
-					for (Habilidad h1 : o1.getCurriculum()) {
-						if (h.equals(h1)) {
-							contador1++;
-						}
-					}
-				}
-				for (PuestoTrabajo pt : usuarioE.getPuestos()) {
-					for (Habilidad h : pt.getHabilidadesReq()) {
-						for (Habilidad h2 : o2.getCurriculum()) {
-							if (h.equals(h2)) {
-								contador2++;
-							}
-						}
-					}
-				}
-				return contador2 - contador1 + 1;
-			}
-		});
-		for (Persona p : servicio.getPersonas()) {
-			personasCandidatas.add(p);
-		}
-		return personasCandidatas;
-	}
-
-	public HashMap<PuestoTrabajo, TreeSet<Persona>> crearMapaPersonasPorPuesto() {
-		HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto = new HashMap<PuestoTrabajo, TreeSet<Persona>>();
-		Empresa usuarioE = (Empresa) usuarioAutenticado;
-		for (PuestoTrabajo pt : usuarioE.getPuestos()) {
-			TreeSet<Persona> tsPersona = crearTreeSetPersonas(pt);
-			mapaPersonasPorPuesto.put(pt, tsPersona);
-			mapaIteradorPersonas.put(pt, tsPersona.iterator());
-		}
-		System.err.println("Mapa Personas Puesto: " + mapaPersonasPorPuesto);
-		System.err.println("Mapa Iterador: " + mapaIteradorPersonas);
-		return mapaPersonasPorPuesto;
-	}
-
-	private void mostrarSiguientePersona(PuestoTrabajo puestoElegido) {
-		if (modeloListaPt.getSize() > 0) {
-			modeloHP.clear();
-			
-			Iterator<Persona> iterador = mapaIteradorPersonas.get(puestoElegido);
-			if (iterador != null && iterador.hasNext()) {
-				personaActual = iterador.next();
-				System.err.println(personaActual);
-				lblNombreUsu.setText(personaActual.getNombre());
-				lblNombreDatosPer.setText(personaActual.getNombre());
-				lblApellidosDatosPer.setText(personaActual.getApellidos());
-				lblFechaDatosPer.setText(sdf.format(personaActual.getEdad()));
-				lblUbicacionDatosPer.setText(personaActual.getUbicacion());
-				pnlDatosPers.remove(1);
-				JLabel Imagen = ImagenesAzure.crearImagen(personaActual, 150, 150);
-				FotoPf = Imagen;
-				pnlDatosPers.add(FotoPf);
-				pnlDatosPers.repaint();
-				repaint();
-				llenarListaHabilidades(personaActual);
-			} else {
-				System.out.println("No quedan puestos. ");
-				;
-			}
-
-		}
-	}
-
-	private void llenarListaHabilidades(Persona p) {
-		ArrayList<Habilidad> habilidades = p.getCurriculum();
-		System.out.println("Habilidades: " + habilidades);
-		for (Habilidad h : habilidades) {
-			modeloHP.addElement(h);
-		}
+		clPaneles.show(pnlInicial, "pnlLogo");
 	}
 
 	private Image getScaledImage(Image srcImg, int width, int height) {
@@ -599,7 +260,6 @@ public class PnlExplorarEmpresa extends JPanel {
 		System.out.println("Creando pnlExplorar");
 		ServicioPersistencia servicio = new ServicioPersistencia();
 		servicio.init();
-// 		System.out.println(servicio.getPersonas().size());
 		JFrame frame = new JFrame();
 		Vector<Empresa> empresasVc = servicio.getEmpresas();
 		Empresa empr = empresasVc.get(3);
@@ -608,16 +268,258 @@ public class PnlExplorarEmpresa extends JPanel {
 		frame.getContentPane().add(new PnlExplorarEmpresa(empr, servicio));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(750, 650);
-		// frame.getContentPane().add(new
-		// PnlExplorar(DatosFicheros.getEmpresas().get(0)));
 		frame.setVisible(true);
 
 	}
 	
 	private static class PanelExploracion extends JPanel{
-		
-		public PanelExploracion() {
-			
+		private static final long serialVersionUID = 1L;
+		private JPanel pnlLike;
+		private JPanel pnlPass;
+		private JPanel pnlInfoUsu;
+		private JPanel pnlDatosPers;
+		private JPanel pnlDatos;
+		protected JLabel lblNombreUsu;
+		protected JLabel lblPuesto;
+		protected JLabel FotoPf;
+		protected JLabel lblNombreDatosPer;
+		protected JLabel lblApellidosDatosPer;
+		protected JLabel lblFechaDatosPer;
+		protected JLabel lblUbicacionDatosPer;
+		protected Empresa empresaAutenticada;
+		protected TreeSet<Persona> tsPersonas;
+		protected Iterator<Persona> iteradorPersonas;
+		protected ServicioPersistencia servicio;
+		protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		protected Persona personaActual;
+		protected DefaultListModel<Habilidad> modeloHP;
+		protected PuestoTrabajo puestoTrabajo;
+
+		public PanelExploracion(Empresa empr, ServicioPersistencia servicio, PuestoTrabajo puestoTrabajo) {
+			setLayout(new BorderLayout());
+			setBackground(Color.WHITE);
+
+			this.servicio = servicio;
+			this.empresaAutenticada = empr;
+			this.puestoTrabajo = puestoTrabajo;
+
+			tsPersonas = crearTreeSetPersonas(puestoTrabajo);
+			iteradorPersonas = tsPersonas.iterator();
+			System.err.println(tsPersonas.size());
+
+			JPanel pnlContenido = new JPanel();
+			pnlContenido.setLayout(new BorderLayout());
+			pnlContenido.setBackground(Color.WHITE);
+			pnlContenido.setPreferredSize(new Dimension(getWidth() - 250, getHeight()));
+			add(pnlContenido, BorderLayout.CENTER);
+
+			JPanel pnlInfo = new JPanel();
+			pnlInfo.setLayout(new BorderLayout());
+			pnlInfo.setBackground(new Color(129, 186, 207));
+			pnlContenido.add(pnlInfo, BorderLayout.CENTER);
+
+			pnlInfoUsu = new JPanel();
+			pnlInfoUsu.setBackground(new Color(129, 186, 207));
+			pnlInfoUsu.setPreferredSize(new Dimension(186, 207));
+			pnlInfoUsu.setLayout(new BorderLayout());
+
+			pnlInfo.add(pnlInfoUsu, BorderLayout.CENTER);
+
+			JPanel pnlBotonera = new JPanel();
+			pnlBotonera.setLayout(new GridLayout(0, 3));
+			pnlBotonera.setPreferredSize(new Dimension(getWidth() - 250, 120));
+			pnlContenido.add(pnlBotonera, BorderLayout.SOUTH);
+
+			pnlLike = new JPanel();
+			pnlLike.setLayout(new BorderLayout());
+			pnlLike.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0-1));
+			JPanel p = new JPanel(new BorderLayout());
+			p.setPreferredSize(new Dimension(150,90));
+			botonLike btnLike = new botonLike();
+			btnLike.setVerticalAlignment(SwingConstants.CENTER);
+			p.add(btnLike);
+			pnlLike.add(p);
+			pnlBotonera.add(pnlLike);
+
+			btnLike.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					Like like = new Like(empr, personaActual);
+					servicio.anadirLike(like);
+					tsPersonas.remove(personaActual);
+					mostrarSiguientePersona();
+				}
+			});
+
+			JPanel pnlVacio = new JPanel();
+			pnlVacio.setPreferredSize(new Dimension(10, 10));
+			pnlBotonera.add(pnlVacio);
+			pnlPass = new JPanel();
+			pnlPass.setLayout(new FlowLayout());
+			p = new JPanel(new BorderLayout());
+			p.setPreferredSize(new Dimension(80,80));
+			botonX btnX = new botonX();
+			btnX.setVerticalAlignment(SwingConstants.CENTER);
+			p.add(btnX);
+			pnlPass.add(p);
+			pnlBotonera.add(pnlPass);
+
+			lblNombreUsu = new JLabel("Nombre de Usuario");
+			lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18));
+
+			JLabel lblExplorarPersonas = new JLabel("Explora Trabajadores");
+			lblExplorarPersonas.setFont(new Font("Tahoma", Font.BOLD, 30));
+			lblExplorarPersonas.setHorizontalAlignment(SwingConstants.CENTER);
+
+			pnlInfoUsu.setPreferredSize(new Dimension(100, pnlInfo.getHeight()));
+			pnlInfo.repaint();
+			btnX.addActionListener((ActionListener) new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mostrarSiguientePersona();
+				}
+			});
+
+			JPanel pnlInfoDatos = new JPanel();
+			pnlInfoDatos.setLayout(new BorderLayout());
+
+			pnlInfoUsu.add(pnlInfoDatos);
+
+			JPanel pnlInfoHabi = new JPanel();
+			pnlInfoHabi.setPreferredSize(new Dimension(258, 0));
+			JList<Habilidad> habilidadesPersona = new JList<>();
+			habilidadesPersona.setBorder(new LineBorder(new Color(129, 186, 207), 3));
+			modeloHP = new DefaultListModel<>();
+			habilidadesPersona.setModel(modeloHP);
+			JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
+			spListaHP.setPreferredSize(new Dimension(250, 300));
+			pnlInfoHabi.add(spListaHP);
+
+			pnlInfoDatos.add(pnlInfoHabi, BorderLayout.EAST);
+
+			JPanel pnlInfoPersonal = new JPanel();
+			pnlInfoPersonal.setPreferredSize(new Dimension(240, 103));
+
+			JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
+			lblTitInfP.setForeground(new Color(4, 32, 63));
+			pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
+
+			pnlDatosPers = new JPanel();
+			JPanel pnlParaNombre = new JPanel();
+			pnlDatosPers.setPreferredSize(new Dimension(200, 280));
+			pnlDatosPers.setLayout(new BorderLayout());
+			pnlDatosPers.add(pnlParaNombre, BorderLayout.SOUTH);
+			pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
+			FotoPf = new JLabel();
+			lblNombreDatosPer = new JLabel("");
+			lblNombreDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+			lblApellidosDatosPer = new JLabel("");
+			lblApellidosDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+			lblFechaDatosPer = new JLabel("");
+			lblUbicacionDatosPer = new JLabel("");
+			lblUbicacionDatosPer.setForeground(new Color(150, 150, 150));
+
+			pnlDatosPers.add(FotoPf, BorderLayout.CENTER);
+			pnlParaNombre.add(lblNombreDatosPer, BorderLayout.SOUTH);
+			pnlParaNombre.add(lblApellidosDatosPer, BorderLayout.SOUTH);
+			pnlInfoPersonal.add(lblFechaDatosPer, BorderLayout.SOUTH);
+			pnlInfoPersonal.add(lblUbicacionDatosPer, BorderLayout.SOUTH);
+
+			pnlDatos = new JPanel();
+			pnlDatos.setBackground(new Color(208, 235, 242));
+			pnlDatos.setLayout(new BorderLayout());
+			pnlDatos.setPreferredSize(new Dimension(getWidth() - 250, 125));
+			pnlContenido.add(pnlDatos, BorderLayout.NORTH);
+
+			lblPuesto = new JLabel("");
+			lblPuesto.setForeground(new Color(192, 192, 192));
+			lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
+			lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
+			pnlDatos.add(lblPuesto, BorderLayout.CENTER);
+			pnlDatos.add(lblExplorarPersonas, BorderLayout.NORTH);
+
+			pnlInfoDatos.add(pnlInfoPersonal, BorderLayout.WEST);
+
+			habilidadesPersona.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					if (!e.getValueIsAdjusting()) {
+						int indiceSeleccionado = habilidadesPersona.getSelectedIndex();
+						Habilidad habilidadSeleccionada = (Habilidad) modeloHP.getElementAt(indiceSeleccionado);
+						int destreza = habilidadSeleccionada.getDestreza();
+						JOptionPane.showMessageDialog(null, "Nivel de destreza: " + destreza, "Nivel de destreza",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			});
+			mostrarSiguientePersona();
+		}
+
+		public TreeSet<Persona> crearTreeSetPersonas(PuestoTrabajo pt) {
+			TreeSet<Persona> personasCandidatas = new TreeSet<Persona>(new Comparator<Persona>() {
+				@Override
+				public int compare(Persona o1, Persona o2) {
+					int contador1 = 0;
+					int contador2 = 0;
+
+					for (Habilidad h : pt.getHabilidadesReq()) {
+						for (Habilidad h1 : o1.getCurriculum()) {
+							if (h.equals(h1)) {
+								contador1++;
+							}
+						}
+						for (Habilidad h2 : o2.getCurriculum()) {
+							if (h.equals(h2)) {
+								contador2++;
+							}
+						}
+					}
+					if (contador2 != contador1) {
+						return contador2 - contador1;
+					}else if (contador1 == 0 && contador2 == 0){
+						return 0;
+					}else {
+						return 1;
+					}
+				}
+			});
+			for (Persona p : servicio.getPersonas()) {
+				personasCandidatas.add(p);
+			}
+			return personasCandidatas;
+		}
+
+		private void mostrarSiguientePersona() {
+			if (iteradorPersonas != null && iteradorPersonas.hasNext()) {
+				modeloHP.clear();
+				personaActual = iteradorPersonas.next();
+				lblNombreUsu.setText(personaActual.getNombre());
+				lblNombreDatosPer.setText(personaActual.getNombre());
+				lblApellidosDatosPer.setText(personaActual.getApellidos());
+				lblFechaDatosPer.setText(sdf.format(personaActual.getEdad()));
+				lblUbicacionDatosPer.setText(personaActual.getUbicacion());
+				pnlDatosPers.remove(1);
+				JLabel Imagen = ImagenesAzure.crearImagen(personaActual, 150, 150);
+				FotoPf = Imagen;
+				pnlDatosPers.add(FotoPf);
+				pnlDatosPers.repaint();
+				llenarListaHabilidades(personaActual);
+				repaint();
+			} else {
+				iteradorPersonas = tsPersonas.iterator();
+				mostrarSiguientePersona();
+			}
+
+		}
+
+		private void llenarListaHabilidades(Persona p) {
+			ArrayList<Habilidad> habilidades = p.getCurriculum();
+			System.out.println("Habilidades: " + habilidades);
+			for (Habilidad h : habilidades) {
+				modeloHP.addElement(h);
+			}
 		}
 	}
 }

@@ -217,6 +217,7 @@ public class PnlChat extends JPanel{
 	}
 	
 	public void anadirContacto(Usuario contacto) {
+		modeloLista.add(modeloLista.getSize(),contacto);
 		MiPanelChat p = new MiPanelChat(usuario,contacto, PnlChat.this);
 		pnlChatsContent.add(p,contacto.getId()+"");
 		mapaPaneles.put((int) contacto.getId(), p);

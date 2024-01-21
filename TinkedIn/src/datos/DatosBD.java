@@ -681,11 +681,11 @@ public class DatosBD implements ManejoDatos {
 		String password;
 		String tipo;
 		String telefono;
-		
+		PreparedStatement prepStatementUsuarioId;
 		try {
-			prepStatement = connection.prepareStatement(buscarUsuarios);
-			prepStatement.setInt(1, id);
-			ResultSet rs = prepStatement.executeQuery();
+			prepStatementUsuarioId = connection.prepareStatement(buscarUsuarios);
+			prepStatementUsuarioId.setInt(1, id);
+			ResultSet rs = prepStatementUsuarioId.executeQuery();
 			if (rs.next()) {
 				fotoDePerfil = rs.getString(2);
 				password = rs.getString(3);
@@ -694,11 +694,11 @@ public class DatosBD implements ManejoDatos {
 				telefono = rs.getString(6);
 			}else {
 				rs.close();
-				prepStatement.close();
+				prepStatementUsuarioId.close();
 				return null;
 			}
 			rs.close();
-			prepStatement.close();
+			prepStatementUsuarioId.close();
 			if (tipo.equals("PERSONA")) {
 				String nombre = null;
 				String apellidos = null;
@@ -706,9 +706,9 @@ public class DatosBD implements ManejoDatos {
 				String ubicacion = null;
 				Date nacimiento = null;
 				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
-				prepStatement = connection.prepareStatement(buscarPersona);
-				prepStatement.setInt(1,id);
-				ResultSet rsPersona = prepStatement.executeQuery();
+				prepStatementUsuarioId = connection.prepareStatement(buscarPersona);
+				prepStatementUsuarioId.setInt(1,id);
+				ResultSet rsPersona = prepStatementUsuarioId.executeQuery();
 				if (rsPersona.next()) {
 					nombre = rsPersona.getString(2);
 					apellidos = rsPersona.getString(3);
@@ -718,18 +718,18 @@ public class DatosBD implements ManejoDatos {
 					ubicacion = getUbicacionFromId(idUbicacion);
 				}
 				rsPersona.close();
-				prepStatement.close();
+				prepStatementUsuarioId.close();
 //				OBTENCION DEL ARRAYLIST DE HABILIDADES
-				prepStatement = connection.prepareStatement(buscarHabilidadesPersona);
-				prepStatement.setInt(1, id);
-				ResultSet rsHabilidadesPersona = prepStatement.executeQuery();
+				prepStatementUsuarioId = connection.prepareStatement(buscarHabilidadesPersona);
+				prepStatementUsuarioId.setInt(1, id);
+				ResultSet rsHabilidadesPersona = prepStatementUsuarioId.executeQuery();
 				while (rsHabilidadesPersona.next()) {
 					Habilidad h = new Habilidad(rsHabilidadesPersona.getString(2),rsHabilidadesPersona.getString(3),rsHabilidadesPersona.getInt(4),
 							rsHabilidadesPersona.getString(5));
 					habilidades.add(h);
 				}
 				rsHabilidadesPersona.close();
-				prepStatement.close();
+				prepStatementUsuarioId.close();
 				return new Persona(id, nombre, apellidos, ubicacion, nacimiento, correo, telefono, habilidades, fotoDePerfil, password);
 			}else {
 //				OBTENER EMPRESA
@@ -737,15 +737,15 @@ public class DatosBD implements ManejoDatos {
 				String descripcion = null;
 				ArrayList<String> ubicaciones = new ArrayList<String>();
 				ArrayList<PuestoTrabajo> puestos = new ArrayList<PuestoTrabajo>();
-				prepStatement = connection.prepareStatement(buscarEmpresa);
-				prepStatement.setInt(1, id);
-				ResultSet rsEmpresa = prepStatement.executeQuery();
+				PreparedStatement prepStatementEmpr = connection.prepareStatement(buscarEmpresa);
+				prepStatementEmpr.setInt(1, id);
+				ResultSet rsEmpresa = prepStatementEmpr.executeQuery();
 				if (rsEmpresa.next()) {
 					nombre = rsEmpresa.getString(2);
 					descripcion = rsEmpresa.getString(3);
 				}
 				rsEmpresa.close();
-				prepStatement.close();
+				prepStatementEmpr.close();
 //				OBTENER PUESTOS Y UBICACIONES
 				puestos = crearPuestos(id);
 				ubicaciones = crearUbicaciones(id);
@@ -1010,17 +1010,18 @@ public class DatosBD implements ManejoDatos {
 	public String getNombrePersonaFromId(int id) {
 		final String queryNombre = "SELECT * FROM PERSONA WHERE ID = ?";
 		String nombreApellidos = "";
+		PreparedStatement prepStatementNombre;
 		try {
-			prepStatement = connection.prepareStatement(queryNombre);
-			prepStatement.setInt(1, id);
-			ResultSet rs = prepStatement.executeQuery();
+			prepStatementNombre = connection.prepareStatement(queryNombre);
+			prepStatementNombre.setInt(1, id);
+			ResultSet rs = prepStatementNombre.executeQuery();
 			if (rs.next()) {
 				String nombre = rs.getString(2);
 				String apellidos = rs.getString(3);
 				nombreApellidos = nombre + " " + apellidos;
 			}
 			rs.close();
-			prepStatement.close();
+			prepStatementNombre.close();
 			return nombreApellidos;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1032,15 +1033,16 @@ public class DatosBD implements ManejoDatos {
 	public String getNombreEmpresaFromId(int id) {
 		final String queryNombre = "SELECT * FROM EMPRESA WHERE ID = ?";
 		String nombre = "";
+		PreparedStatement prepStatementNombre;
 		try {
-			prepStatement = connection.prepareStatement(queryNombre);
-			prepStatement.setInt(1, id);
-			ResultSet rs = prepStatement.executeQuery();
+			prepStatementNombre = connection.prepareStatement(queryNombre);
+			prepStatementNombre.setInt(1, id);
+			ResultSet rs = prepStatementNombre.executeQuery();
 			if (rs.next()) {
 				nombre = rs.getString(2);
 			}
 			rs.close();
-			prepStatement.close();
+			prepStatementNombre.close();
 			return nombre;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1124,13 +1126,16 @@ public class DatosBD implements ManejoDatos {
 	public String getUrlImagenFromId(int id) {
 		final String querySQL = "SELECT FOTO_PERFIL FROM USUARIO WHERE ID = ?";
 		String url = "";
+		PreparedStatement prepStatementUrl;
 		try {
-			prepStatement = connection.prepareStatement(querySQL);
-			prepStatement.setInt(1, id);
-			ResultSet rs = prepStatement.executeQuery();
+			prepStatementUrl = connection.prepareStatement(querySQL);
+			prepStatementUrl.setInt(1, id);
+			ResultSet rs = prepStatementUrl.executeQuery();
 			if (rs.next()) {
 				url = rs.getString(1);
 			};
+			rs.close();
+			prepStatementUrl.close();
 			return url;
 		} catch (SQLException e) {
 			e.printStackTrace();

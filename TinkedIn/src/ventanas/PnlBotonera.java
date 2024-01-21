@@ -65,6 +65,7 @@ public class PnlBotonera extends JPanel {
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
 	protected static PnlChat pnlChat;
 	
+	
 //	Pruebas tiempo
 	long tiempoInicio;
 	long tiempoActual;
@@ -78,9 +79,9 @@ public class PnlBotonera extends JPanel {
 		this.usuarioAutenticado = usuarioAutenticado;
 	}
 
-	public PnlBotonera( Usuario usuarioAutenticado ) {
+	public PnlBotonera( Usuario usuarioAutenticado, VentanaPrincipal vp ) {
 		setLayout(new BorderLayout());
-		
+		this.vp = vp;
 		this.usuarioAutenticado = usuarioAutenticado;
 		mapaPaneles = new HashMap<JPanel,JPanel>();
 
@@ -323,7 +324,7 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
-		PnlChat pnlChat= new PnlChat();
+		pnlChat= new PnlChat();
 		pnlChat.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 
 		pnlChat= new PnlChat();
@@ -549,12 +550,8 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlAjustes.setBackground(new Color(122, 199, 218));
 				}
-				
 			}
 		});
-		
-		
-
 	}
 
 	public static void notificarMatch(Match match) {
@@ -566,24 +563,28 @@ public class PnlBotonera extends JPanel {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU1());
 				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
 				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU1());
-				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
+				NotificacionMatch notificacion = new NotificacionMatch(nombre,url);
+				notificacion.mostrarDialogo();
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU2());
 				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
 				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU2());
-				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
+				NotificacionMatch notificacion = new NotificacionMatch(nombre,url);
+				notificacion.mostrarDialogo();
 			}
 		}else {
 			if (match.getU1() != usuarioAutenticado.getId()) {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU1());
 				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
 				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU1());
-				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
+				NotificacionMatch notificacion = new NotificacionMatch(nombre,url);
+				notificacion.mostrarDialogo();
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU2());
 				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
 				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU2());
-				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
+				NotificacionMatch notificacion = new NotificacionMatch(nombre,url);
+				notificacion.mostrarDialogo();
 			}
 		}
 		pnlChat.anadirContacto(usuario);
@@ -592,10 +593,12 @@ public class PnlBotonera extends JPanel {
 	private static class NotificacionMatch extends JDialog {
 		private static final long serialVersionUID = 1L;
 		public NotificacionMatch(String nombreUsuario,String urlImagen) {
+			super(vp);
+			System.out.println("Frame: " + vp);
 	        setTitle("¡Nuevo Match!");
-	        setSize(300, 150);
+	        setSize(300, 180);
 	        setResizable(false);
-	        setLocationRelativeTo(null);
+	        setLocationRelativeTo(vp);
 	        ImageIcon icon = new ImageIcon("TinkedinPNG.png");
 	        Image iconImage = icon.getImage();
 	        setIconImage(iconImage);
@@ -609,6 +612,10 @@ public class PnlBotonera extends JPanel {
 	        panel.add(new pnlFotoNombre(nombreUsuario,urlImagen), BorderLayout.CENTER);
 	        getContentPane().add(panel);
 	        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    }
+		
+		public void mostrarDialogo() {
+	        setVisible(true);
 	    }
 		
 		private static class pnlFotoNombre extends JPanel{
