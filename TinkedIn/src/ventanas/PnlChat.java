@@ -58,7 +58,7 @@ public class PnlChat extends JPanel{
 	private Usuario contacto = null;
 	private JPanel pnlChatsContent;
 	private CardLayout layoutChats;
-	protected HashMap<Integer, MiPanelChat> mapaPaneles;
+	protected HashMap<Integer, MiPanelChat> mapaPaneles = new HashMap<>();
 	
 //	PRUEBAS TIEMPO:
 	long tiempoInicio;
@@ -96,7 +96,6 @@ public class PnlChat extends JPanel{
 //		(new Thread(() -> {PnlChat.this.lanzaCliente();})).start();
 		
 		this.usuario = usuario;
-		mapaPaneles = new HashMap<>();
 		
 //		CREACION PANEL CHAT
 

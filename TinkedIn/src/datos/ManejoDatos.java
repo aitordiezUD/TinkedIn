@@ -188,6 +188,13 @@ public interface ManejoDatos {
 	 * @return
 	 */
 	public Vector<Usuario> getUsuariosConMatch(int id);
+	
+	
+	/**Dado el id de un usuario, devuelve el url de su foto de perfil
+	 * @param id del usuario
+	 * @return 
+	 */
+	public String getUrlImagenFromId(int id);
 
 }
 

@@ -329,6 +329,12 @@ public class Servidor {
 		    				output.writeObject(nombre);
 		    			}
 		    			
+		    			if (objRecibido.equals(ConfigServer.GET_URL_IMAGEN_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				String url = datos.getUrlImagenFromId(id);
+		    				output.writeObject(url);
+		    			}
+		    			
 		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS_CON_MATCH)) {
 		    				int id = (int) input.readObject();
 		    				Vector<Usuario> usuarios = datos.getUsuariosConMatch(id);

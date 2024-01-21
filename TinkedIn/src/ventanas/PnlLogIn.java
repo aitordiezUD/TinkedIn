@@ -256,6 +256,8 @@ public class PnlLogIn extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(servicio.logIn(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
 					Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
+					System.out.println(u);
+					System.out.println(u.getFotoDePerfil());
 					PnlBotonera pnlBotones = new PnlBotonera( u );
 					pnlContenido.add(pnlBotones,"pnlBotones");
 					layoutVentana.show(pnlContenido, "pnlBotones");

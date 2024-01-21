@@ -13,8 +13,7 @@ import nube.ImagenesAzure;
 enum Tipo {PERSONA, EMPRESA}
 
 public abstract class Usuario implements Serializable{
-	private static final String rutaBase = "https://tinkedin.blob.core.windows.net/tinkedinv1/";
-	
+	private static final String rutaBase = "https://tinkedin.blob.core.windows.net/tinkedinbd/";
 	private static int count = 0;
 	
 	//Atributos 

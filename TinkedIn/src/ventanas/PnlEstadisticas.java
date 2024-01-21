@@ -57,13 +57,11 @@ public class PnlEstadisticas extends JPanel {
 	private JComboBox<String> cbCampos;
 	private JPanel botonSelecccionado = null;
 	
-	public PnlEstadisticas() {
+	public PnlEstadisticas(ServicioPersistencia servicio) {
 		
 		setLayout( new BorderLayout() );
 		
-		//Persistencia
-		servicio = new ServicioPersistencia();
-		servicio.init();
+		this.servicio = servicio;
 		
 		//Listas para crear los datasets.
 		
@@ -189,15 +187,15 @@ public class PnlEstadisticas extends JPanel {
 		        if (botonSelecccionado != null) {
 		            if (botonSelecccionado.equals(pnlBotonPers)) {
 		                if (campoSeleccionado.equals("-- General --")) {
-		                    actualizarGrafico(crearDataSetPersonas(personas));
+		                    actualizarGraficoPersonas(crearDataSetPersonas(personas));
 		                } else {
-		                    actualizarGrafico(crearDataSetCampos(personas, campoSeleccionado));
+		                    actualizarGraficoPersonas(crearDataSetCampos(personas, campoSeleccionado));
 		                }
 		            } else if (botonSelecccionado.equals(pnlBotonPuestos)) {
 		                if (campoSeleccionado.equals("-- General --")) {
-		                    actualizarGrafico(crearDataSetPuestos(puestos));
+		                    actualizarGraficoPuestos(crearDataSetPuestos(puestos));
 		                } else {
-		                    actualizarGrafico(crearDataSetPuestosCampos(puestos, campoSeleccionado));
+		                    actualizarGraficoPuestos(crearDataSetPuestosCampos(puestos, campoSeleccionado));
 		                }
 		            }
 		        }
@@ -395,17 +393,27 @@ public class PnlEstadisticas extends JPanel {
 	 * @param dataset El dataset sobre el cual se quiere construir (en este caso actualizar)
 	 * la tabla
 	 */
-	private void actualizarGrafico( CategoryDataset dataset ) {
+	private void actualizarGraficoPersonas( CategoryDataset dataset ) {
 		chartPersonas.getCategoryPlot().setDataset(dataset);
 	}
 		
+	/**
+	 * @param dataset El dataset sobre el cual se quiere construir (en este caso actualizar)
+	 * la tabla
+	 */
+	private void actualizarGraficoPuestos( CategoryDataset dataset ) {
+		chartPuestos.getCategoryPlot().setDataset(dataset);
+	}
+	
 	public static void main(String[] args) {
-		
+		ServicioPersistencia servicio = new ServicioPersistencia();
+		servicio.init();
+		System.out.println("Servicio iniciado");
 		JFrame vent = new JFrame();
 		vent.setSize(750,650);
 		vent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		vent.setLocationRelativeTo(null);
-		vent.setContentPane( new PnlEstadisticas() );
+		vent.setContentPane( new PnlEstadisticas(servicio) );
 		vent.setVisible(true);
 	}
 	

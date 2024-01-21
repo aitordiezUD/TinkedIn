@@ -4,7 +4,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -114,7 +113,6 @@ public class ServicioPersistencia{
 		while (!finComunicacion) {
 			while(listaMatches.size() !=0) {
 				Match m = listaMatches.remove(0);
-				System.out.println("Nuevo match:" + m);
 				PnlBotonera.notificarMatch(m);
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e){e.printStackTrace();}
@@ -205,7 +203,6 @@ public class ServicioPersistencia{
 	}
 
 	public Usuario crearUsuario(Object[] atribs) {
-		// TODO Auto-generated method stub
 		try {
 			flujoOut.writeObject(ConfigServer.CREAR_USUARIO);
 			flujoOut.writeObject(atribs);
@@ -465,6 +462,26 @@ public class ServicioPersistencia{
 	public String getNombreEmpresaFromId(int id) {
 		try {
 			flujoOut.writeObject( ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID );
+			flujoOut.writeObject( id );
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el nombre de la empresa, timeout servidor");
+				return "";
+			}
+			String nombre = (String) respuestasServidor.remove(0);
+			return nombre;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	public String getUrlImagenFromId(int id) {
+		try {
+			flujoOut.writeObject( ConfigServer.GET_URL_IMAGEN_FROM_ID );
 			flujoOut.writeObject( id );
 			long time = System.currentTimeMillis();
 			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
