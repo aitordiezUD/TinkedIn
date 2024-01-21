@@ -1055,7 +1055,28 @@ public class DatosBD implements ManejoDatos {
 	public Map<String, Integer> getFreHab(String campo) {
 		// TODO Auto-generated method stub
 		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
-		final String queryCampo = "SELECT NOMBRE, COUNT(*) AS CUENTA FROM HABILIDAD WHERE CAMPO = ? GROUP BY NOMBRE;";
+		final String queryCampo = "SELECT NOMBRE,COUNT(*) AS CUENTA FROM HABILIDAD WHERE ID_PUESTO IS NULL AND CAMPO = ? GROUP BY NOMBRE";
+		try {
+			prepStatement = connection.prepareStatement(queryCampo);
+			prepStatement.setString(1, campo);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				int frecuencia = rs.getInt("CUENTA");
+				String nombre = rs.getString("NOMBRE");
+				mapaFreHab.put(nombre, frecuencia);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return mapaFreHab;
+	}
+	
+	@Override
+	public Map<String, Integer> getFreHabPues(String campo) {
+		// TODO Auto-generated method stub
+		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
+		final String queryCampo = "SELECT NOMBRE,COUNT(*) AS CUENTA FROM HABILIDAD WHERE ID_PERSONA IS NULL AND CAMPO = 'Química' GROUP BY NOMBRE;";
 		try {
 			prepStatement = connection.prepareStatement(queryCampo);
 			prepStatement.setString(1, campo);
@@ -1077,6 +1098,8 @@ public class DatosBD implements ManejoDatos {
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
 		datos.fin();
 	}
+
+
 
 
 
