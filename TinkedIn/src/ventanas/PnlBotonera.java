@@ -331,7 +331,6 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
-
 		PnlChat pnlChat= new PnlChat();
 		pnlChat.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 
