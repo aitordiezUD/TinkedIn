@@ -176,10 +176,18 @@ public interface ManejoDatos {
 	 */
 	public Map<String, Integer> getFreHab(String campo);
 	
+
 	/**
 	 * @param campo nombre del campo del que se quiere saber la frecuencia de sus habilidades
 	 * @return mapa con clave nombre y valor frecuencia de sus habilidades en puestos de trabajo
 	 */
 	public Map<String, Integer> getFreHabPues(String campo);
+
+	/**Devuelve un vector de usuarios con los que ha hecho match un usuario - id del usuario a buscar
+	 * @param id
+	 * @return
+	 */
+	public Vector<Usuario> getUsuariosConMatch(int id);
+
 }
 

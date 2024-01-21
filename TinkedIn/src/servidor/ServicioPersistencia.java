@@ -531,10 +531,41 @@ public class ServicioPersistencia{
 	 */
 	public Vector<Usuario> getUsuariosConMatch(int idUsuario){
 		try {
-			
+			flujoOut.writeObject(ConfigServer.GET_USUARIOS_CON_MATCH);
+			flujoOut.writeObject(idUsuario);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el vector de usuarios, timeout servidor");
+				return null;
+			}
+			Vector<Usuario> usuarios = (Vector<Usuario>) respuestasServidor.remove(0);
+			return usuarios;
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			return null;
 		}
-		return null;
+	};
+	
+	public Usuario getUsuarioFromId(int id) {
+		try {
+			flujoOut.writeObject(ConfigServer.GET_USUARIO_FROM_ID);
+			flujoOut.writeObject(id);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido buscar el usuario, timeout servidor");
+				return null;
+			}
+			Usuario usuario = (Usuario) respuestasServidor.remove(0);
+			return usuario;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	};
 }

@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -47,6 +49,7 @@ import usuarios.Persona;
 import usuarios.Usuario;
 import componentes.botonLike;
 import componentes.botonX;
+import nube.ImagenesAzure;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -73,12 +76,14 @@ public class PnlExplorarEmpresa extends JPanel {
 	private JPanel pnlLike;
 	private JPanel pnlPass;
 	private JPanel pnlInfoUsu;
+	private JPanel pnlDatosPers;
 	private JPanel pnlDatos;
 	private PuestoTrabajo puestoElegido;
 	protected JLabel lblNombreUsu;
 	protected JLabel lblNomEInfo;
 	protected JLabel lblDescrPInfo;
 	protected JLabel lblPuesto;
+	protected JLabel FotoPf;
 	protected JLabel lblNombreDatosPer;
 	protected JLabel lblApellidosDatosPer;
 	protected JLabel lblFechaDatosPer;
@@ -87,6 +92,7 @@ public class PnlExplorarEmpresa extends JPanel {
 	protected static Usuario usuarioAutenticado;
 	protected static HashMap<PuestoTrabajo, TreeSet<Persona>> mapaPersonasPorPuesto;
 	protected static HashMap<PuestoTrabajo, Iterator<Persona>> mapaIteradorPersonas;
+	protected HashMap<PuestoTrabajo, Persona> guardarPrimero;
 	protected ServicioPersistencia servicio;
 	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	protected CardLayout clPaneles;
@@ -101,6 +107,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		mapaIteradorPersonas = new HashMap<>();
+		guardarPrimero = new HashMap<>();
 		
 		this.usuarioAutenticado = empr;
 		this.servicio = servicio;
@@ -169,6 +176,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		try {
 			// Carga la imagen original desde el archivo en el paquete "imagenes"
 			InputStream imageStream = PnlBotonera.class.getResourceAsStream("fotoPerfilEjemplo.jpg");
+			//BufferedImage originalImage = ImageIO.read(imageStream);
 			BufferedImage originalImage = ImageIO.read(imageStream);
 
 			// Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
@@ -199,7 +207,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		// botonCorazon btnCorazon = new botonCorazon();
 		// pnlLike.add(btnCorazon, BorderLayout.EAST);
 		lblNombreUsu = new JLabel("      Nombre de Usuario");
-		lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18));
 		// pnlDatos.add(lblNombreUsu);
 
 //	         if( usuarioAutenticado instanceof Empresa ) {
@@ -241,6 +249,11 @@ public class PnlExplorarEmpresa extends JPanel {
 //
 //			}
 //		});
+		for(PuestoTrabajo p : mapaIteradorPersonas.keySet()) {
+			if (mapaIteradorPersonas.get(p) != null) {
+				guardarPrimero.put(p, mapaIteradorPersonas.get(p).next());
+			}
+		}
 		
 		
 		listaPuestos.addMouseListener(new MouseAdapter() {
@@ -257,6 +270,17 @@ public class PnlExplorarEmpresa extends JPanel {
 					puestoElegido  = modeloListaPt.get(index);
 					System.err.println("Puesto Elegido: " + puestoElegido);
 					clPaneles.show(pnlInfoUsu, "pnlInfoDatos");
+					lblPuesto.setText(puestoElegido.getNombre());
+					lblNombreUsu.setText(guardarPrimero.get(puestoElegido).getNombre());
+					lblNombreDatosPer.setText(guardarPrimero.get(puestoElegido).getNombre());
+					lblApellidosDatosPer.setText(guardarPrimero.get(puestoElegido).getApellidos());
+					lblFechaDatosPer.setText("" + guardarPrimero.get(puestoElegido).getEdad());;
+					lblUbicacionDatosPer.setText(guardarPrimero.get(puestoElegido).getUbicacion());
+					JLabel Imagen = ImagenesAzure.crearImagen(guardarPrimero.get(puestoElegido), 150, 150);
+					FotoPf = Imagen;
+					pnlDatosPers.add(FotoPf);
+					
+					
 
 				}
 			}
@@ -382,6 +406,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		JPanel pnlInfoHabi = new JPanel();
 		pnlInfoHabi.setPreferredSize( new Dimension(258, 0));
 		JList<Habilidad> habilidadesPersona = new JList<>();
+		habilidadesPersona.setBorder(new LineBorder(new Color(129, 186, 207), 3));
 		modeloHP = new DefaultListModel<>();
 		habilidadesPersona.setModel(modeloHP);
 		JScrollPane spListaHP = new JScrollPane(habilidadesPersona);
@@ -394,26 +419,30 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlInfoPersonal.setPreferredSize( new Dimension(240, 103));
 		
 		JLabel lblTitInfP = new JLabel("INFORMACIÓN PERSONAL");
+		lblTitInfP.setForeground(new Color(4, 32, 63));
 		pnlInfoPersonal.add(lblTitInfP, BorderLayout.NORTH);
 		
-		JPanel pnlDatosPers = new JPanel();
+		pnlDatosPers = new JPanel();
+		JPanel pnlParaNombre = new JPanel();
 		pnlDatosPers.setPreferredSize( new Dimension(200, 280));
-		pnlDatosPers.setLayout( new BoxLayout(pnlDatosPers, BoxLayout.Y_AXIS));
+		pnlDatosPers.setLayout( new BorderLayout());
+		pnlDatosPers.add(pnlParaNombre, BorderLayout.SOUTH);
 		pnlInfoPersonal.add(pnlDatosPers, BorderLayout.CENTER);
-		lblNombreDatosPer =  new JLabel("Prueba");
-		lblApellidosDatosPer = new JLabel("Prueba apellidos");
-		lblFechaDatosPer = new JLabel("Prueba Fecha");
-		lblUbicacionDatosPer = new JLabel("Prueba ubicacion");
+		FotoPf = new JLabel();
+		lblNombreDatosPer =  new JLabel("");
+		lblNombreDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		lblApellidosDatosPer = new JLabel("");
+		lblApellidosDatosPer.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		lblFechaDatosPer = new JLabel("");
+		lblUbicacionDatosPer = new JLabel("");
+		lblUbicacionDatosPer.setForeground(new Color(150, 150, 150));
 		
 		
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add(lblNombreDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add(lblApellidosDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add( lblFechaDatosPer);
-		pnlDatosPers.add(Box.createVerticalStrut(40));
-		pnlDatosPers.add( lblUbicacionDatosPer );
+		pnlDatosPers.add(FotoPf, BorderLayout.CENTER);
+		pnlParaNombre.add(lblNombreDatosPer, BorderLayout.SOUTH);
+		pnlParaNombre.add(lblApellidosDatosPer, BorderLayout.SOUTH);
+		pnlInfoPersonal.add( lblFechaDatosPer, BorderLayout.SOUTH);
+		pnlInfoPersonal.add( lblUbicacionDatosPer, BorderLayout.SOUTH);
 		
 
 		
@@ -538,6 +567,7 @@ public class PnlExplorarEmpresa extends JPanel {
 	private void mostrarSiguientePersona(PuestoTrabajo puestoElegido) {
 		if (modeloListaPt.getSize() > 0) {
 			modeloHP.clear();
+			
 			Iterator<Persona> iterador = mapaIteradorPersonas.get(puestoElegido);
 			System.out.println(mapaIteradorPersonas.get(puestoElegido));
 			System.out.println(mapaIteradorPersonas.keySet());
@@ -551,6 +581,12 @@ public class PnlExplorarEmpresa extends JPanel {
 				lblApellidosDatosPer.setText(personaActual.getApellidos());
 				lblFechaDatosPer.setText(sdf.format(personaActual.getEdad()));
 				lblUbicacionDatosPer.setText(personaActual.getUbicacion());
+				pnlDatosPers.remove(1);
+				JLabel Imagen = ImagenesAzure.crearImagen(personaActual, 150, 150);
+				FotoPf = Imagen;
+				pnlDatosPers.add(FotoPf);
+				pnlDatosPers.repaint();
+				repaint();
 				llenarListaHabilidades(personaActual);
 			} else {
 				System.out.println("No quedan puestos. ");

@@ -147,7 +147,7 @@ public class PnlExplorarPersona extends JPanel {
 
 		lblPuesto = new JLabel("");
 		lblPuesto.setForeground(new Color(192, 192, 192));
-		lblPuesto.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPuesto.setFont(VentanaPrincipal.fuente_titulos);
 		lblPuesto.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlDatos.add(lblPuesto, BorderLayout.CENTER);
 
@@ -218,7 +218,7 @@ public class PnlExplorarPersona extends JPanel {
 		// botonCorazon btnCorazon = new botonCorazon();
 		// pnlLike.add(btnCorazon, BorderLayout.EAST);
 		lblNombreUsu = new JLabel("      Nombre de Usuario");
-		lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		lblNombreUsu.setFont(VentanaPrincipal.fuente_titulos);
 		// pnlDatos.add(lblNombreUsu);
 
 		JPanel pnlInfoPuesto = new JPanel();
@@ -230,7 +230,7 @@ public class PnlExplorarPersona extends JPanel {
 		JLabel nomEmpresa = new JLabel("Nombre de la empresa: ");
 		JLabel lblDescripcionPuesto = new JLabel("   Descripcion del puesto: ");
 		lblDescripcionPuesto.setPreferredSize(new Dimension(pnlInfoPuesto.getWidth(), 60));
-		lblDescripcionPuesto.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblDescripcionPuesto.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 21));
 
 		DescripcionPuesto = new JTextPane();
 		DescripcionPuesto.setBorder(new LineBorder(new Color(129, 186, 207), 3));
@@ -257,7 +257,7 @@ public class PnlExplorarPersona extends JPanel {
 		// pnlInfoPuesto.add(nomEmpresa);
 		pnlInfoPuesto.add(lblDescripcionPuesto, BorderLayout.NORTH);
 		JLabel lblExplorarPuestos = new JLabel("Explora Puestos De Trabajo");
-		lblExplorarPuestos.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblExplorarPuestos.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 30));
 		lblExplorarPuestos.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlDatos.add(lblExplorarPuestos, BorderLayout.NORTH);
 
@@ -277,7 +277,7 @@ public class PnlExplorarPersona extends JPanel {
 		DescripcionPuesto.setText(puestosCandidatos.first().getDescripcion());
 		JLabel Imagen = ImagenesAzure.crearImagen(primeraEmpresa, 150, 150);
 		pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
-		lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
+		lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 25));
 		lblNombreUsu.setForeground(new Color(4, 32, 63));
 		pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
 		lblPuesto.removeAll();
@@ -426,9 +426,11 @@ public class PnlExplorarPersona extends JPanel {
 			lblNomEInfo.setText(empresaActual.getNombre());
 			DescripcionPuesto.setText(puestoActual.getDescripcion());
 			// Cambiar
+			pnlInfoUsu.remove(1);
 			JLabel Imagen = ImagenesAzure.crearImagen(empresaActual, 150, 150);
 			pnlInfoUsu.add(Imagen, BorderLayout.CENTER);
-			lblNombreUsu.setFont(new Font("Tahoma", Font.BOLD, 31));
+			pnlInfoUsu.repaint();
+			lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 27));
 			lblNombreUsu.setForeground(new Color(4, 32, 63));
 			pnlAbajo.add(lblNombreUsu, BorderLayout.NORTH);
 
