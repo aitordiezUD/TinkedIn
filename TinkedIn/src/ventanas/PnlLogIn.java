@@ -189,24 +189,11 @@ public class PnlLogIn extends JPanel {
 		pc.setLayout(new BorderLayout());
 		pc.setMaximumSize(new Dimension(20000, 30));
 		JLabel lblRegistro = new JLabel("¿No tienes cuenta todavía? Regístrate");
-//		lblRegistro.setMaximumSize(new Dimension(20000, 28));
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		pc.add(lblRegistro);
 		pnlFunc.add(pc);
 		
 		pnlCont.add(pnlFunc,BorderLayout.CENTER);
-		
-		
-//		try {
-//		    InputStream imageStream = PnlBotonera.class.getResourceAsStream("TinkedinPNG.png");
-//		    if (imageStream != null) {
-//		        BufferedImage originalImage = ImageIO.read(imageStream);
-//		        ImageIcon icono = new ImageIcon(originalImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH));
-//		        lblImagen.setIcon(icono);
-//		    }
-//		} catch (IOException e) {
-//		    e.printStackTrace(); // Manejo de la excepción, imprime el seguimiento de la pila en la consola
-//		}
 		
 		
 //		Listener para abrir la ventana de registrarse

@@ -49,6 +49,7 @@ import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 public class PnlBotonera extends JPanel {
@@ -86,7 +87,8 @@ public class PnlBotonera extends JPanel {
 	 * Create the panel.
 	 */
 	public PnlBotonera( Usuario usuarioAutenticado ) {
-		setLayout(null);
+//		setLayout(null);
+		setLayout(new BorderLayout());
 		
 		this.usuarioAutenticado = usuarioAutenticado;
 		mapaPaneles = new HashMap<JPanel,JPanel>();
@@ -106,7 +108,7 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.setLayout(CardLayout);
 		pnlFuncional.setBounds(150, 0, 750, 610);
 		setSize(900, 650);
-		add(pnlFuncional);
+		add(pnlFuncional,BorderLayout.CENTER);
 		
 		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil(usuarioAutenticado);
 		
@@ -136,8 +138,9 @@ public class PnlBotonera extends JPanel {
 		
 		JPanel PnlBotones = new JPanel();
 		PnlBotones.setBounds(0, 0, 150, 650);
+		PnlBotones.setPreferredSize(new Dimension(150,650));
 		PnlBotones.setBackground(new Color(208, 235, 242));
-		add(PnlBotones);
+		add(PnlBotones, BorderLayout.WEST);
 		PnlBotones.setLayout(null);
 		
 		JPanel pnlPerfil = new JPanel();
