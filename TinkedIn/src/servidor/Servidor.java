@@ -1,3 +1,4 @@
+
 package servidor;
 
 
@@ -280,7 +281,6 @@ public class Servidor {
 		    			
 		    			if (objRecibido.equals(ConfigServer.MENSAJES_PENDIENTES)) {
 		    				TreeSet<Mensaje> set = datos.filtrarMensajes(datos.getUsuarioFromId(idSender));
-		    				System.err.println("Mensajes pendientes: " + set);
 		    				output.writeObject(set);
 		    			}
 		    			
@@ -295,7 +295,6 @@ public class Servidor {
 		    			if (objRecibido.equals(ConfigServer.ANADIR_MENSAJE)) {
 		    				Mensaje m = (Mensaje) input.readObject();
 		    				datos.anadirMensaje(m);
-		    				System.out.println("Nuevo mensaje anadido");
 		    			}
 		    				
 		    			if (objRecibido.equals(ConfigServer.GET_PERSONAS)) {
@@ -312,9 +311,41 @@ public class Servidor {
 		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
 		    				output.writeObject(mapaFrec);
 		    			}
+
+		    			if(objRecibido.equals(ConfigServer.GET_FRECUENCIA_HABS_PUESTOS)) {
+		    				String campo = (String) input.readObject();
+		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
+		    				output.writeObject(mapaFrec);
+		    			}
+
 		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID)) {
 		    				int id = (int) input.readObject();
-		    				
+		    				String nombre = datos.getNombreEmpresaFromId(id);
+		    				output.writeObject(nombre);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_PERSONA_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				String nombre = datos.getNombrePersonaFromId(id);
+		    				output.writeObject(nombre);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_URL_IMAGEN_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				String url = datos.getUrlImagenFromId(id);
+		    				output.writeObject(url);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIOS_CON_MATCH)) {
+		    				int id = (int) input.readObject();
+		    				Vector<Usuario> usuarios = datos.getUsuariosConMatch(id);
+		    				output.writeObject(usuarios);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.GET_USUARIO_FROM_ID)) {
+		    				int id = (int) input.readObject();
+		    				Usuario usuario = datos.getUsuarioFromId(id);
+		    				output.writeObject(usuario);
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema

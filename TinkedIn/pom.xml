@@ -23,11 +23,16 @@
     <artifactId>azure-storage-blob</artifactId>
     <version>12.16.0</version> <!-- Reemplaza con la última versión disponible -->
 	</dependency>
-	    <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>12.4.2.jre11</version>
-        </dependency>
+	<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>12.4.2.jre11</version>
+    </dependency>
+    <dependency>
+    <groupId>com.toedter</groupId>
+    <artifactId>jcalendar</artifactId>
+    <version>1.4</version>
+	</dependency>
 	</dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>

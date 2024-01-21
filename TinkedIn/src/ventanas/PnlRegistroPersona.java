@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,8 @@ import javax.swing.JFrame;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.toedter.calendar.JDateChooser;
 
 import clases.Habilidad;
 import datos.DatosFicheros;
@@ -76,6 +79,8 @@ public class PnlRegistroPersona extends JPanel {
 	private JList<Habilidad> listaHabilidades;
 	private DefaultListModel modeloLista;
 	private File selectedFile = null;
+	private JPanel p_1;
+	private JPanel p_2;
 
 
 	public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
@@ -159,12 +164,14 @@ public class PnlRegistroPersona extends JPanel {
         pnlDer.add(pnlDerCont);
         
         lblDatos = new JLabel("Datos personales");
+        lblDatos.setBackground(new Color(255, 255, 255));
         lblDatos.setHorizontalAlignment(SwingConstants.CENTER);
         lblDatos.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        p = new JPanel(new BorderLayout());
-        p.setMaximumSize(new Dimension(300,60));
-        p.add(lblDatos);
-        pnlIzqCont.add(p);
+        p_1 = new JPanel(new BorderLayout());
+        p_1.setBackground(new Color(255, 255, 255));
+        p_1.setMaximumSize(new Dimension(300,60));
+        p_1.add(lblDatos);
+        pnlIzqCont.add(p_1);
         
         lblNombre = new JLabel("Nombre:");
         p = new JPanel(new BorderLayout());
@@ -194,6 +201,21 @@ public class PnlRegistroPersona extends JPanel {
         p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,25));
         p.add(tfApellidos);
+        pnlIzqCont.add(p);
+        
+        JLabel lblFecha = new JLabel("Fecha de nacimiento:");
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(lblFecha);
+        pnlIzqCont.add(p);
+        
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("dd-MM-yyyy");
+        p = new JPanel(new BorderLayout());
+        p.setBackground(Color.WHITE);
+        p.setMaximumSize(new Dimension(300,25));
+        p.add(dateChooser);
         pnlIzqCont.add(p);
         
         JLabel lblCorreo = new JLabel("Correo electrónico:");
@@ -318,13 +340,15 @@ public class PnlRegistroPersona extends JPanel {
 
         
         lblCurriculum = new JLabel("Curriculum");
+        lblCurriculum.setBackground(new Color(255, 255, 255));
         lblCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
         lblCurriculum.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        p = new JPanel(new BorderLayout());
-        p.setMaximumSize(new Dimension(300,60));
-        p.setPreferredSize(new Dimension(300,60));
-        p.add(lblCurriculum);
-        pnlDerCont.add(p);
+        p_2 = new JPanel(new BorderLayout());
+        p_2.setBackground(new Color(255, 255, 255));
+        p_2.setMaximumSize(new Dimension(300,60));
+        p_2.setPreferredSize(new Dimension(300,60));
+        p_2.add(lblCurriculum);
+        pnlDerCont.add(p_2);
         
         JLabel lblHabilidades = new JLabel("Habilidades:");
         p = new JPanel(new BorderLayout());
@@ -394,6 +418,7 @@ public class PnlRegistroPersona extends JPanel {
 		        String contrasena1 = new String(passwordChars1);
 		        String contrasena2 = new String(passwordChars2);
 		        
+		        Date fecha = dateChooser.getDate();
 		        
 		        if (!contrasena1.equals(contrasena2)) {
 		        	JOptionPane.showOptionDialog(
@@ -405,7 +430,6 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");	
-//		        }else if (VentanaPrincipal.getDatos().containsEmail(tfCorreo.getText())) {
 		        }else if (VentanaPrincipal.servicio.contieneCorreo(tfCorreo.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
@@ -416,7 +440,6 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
-//		        } else if (VentanaPrincipal.getDatos().containsTelefono(tfTelefono.getText())) {
 		        } else if (VentanaPrincipal.servicio.contieneCorreo(tfTelefono.getText())) {
 		        	JOptionPane.showOptionDialog(
 							null, 
@@ -427,16 +450,37 @@ public class PnlRegistroPersona extends JPanel {
 							null,
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
+		        }else if (fecha == null) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"Es obligatorio introducir la fecha de nacimiento.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        }else if (selectedFile == null) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"Es obligatorio seleccionar una foto de perfil.", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
+		        }else if (calcularDiferenciaAnios(fecha) < 18 ) {
+		        	JOptionPane.showOptionDialog(
+							null, 
+							"Es obligatorio tener mínimo 18 años para poder registrarse", 
+							"Error", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE,
+							null,
+							new Object[] {"Aceptar"}, 
+							"Aceptar");
 		        }else {
-		        	Date fecha;
-					try {
-						fecha = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						fecha = null;
-						e1.printStackTrace();
-					}
-		        	
 		        	ArrayList<Habilidad> habilidades = crearArrayListHabilidades();
 					Object[] atribsP = {tfNombre.getText(), tfApellidos.getText(), ( String )cbProvincia.getSelectedItem(),
 							 fecha, tfCorreo.getText(), tfTelefono.getText(),
@@ -458,20 +502,34 @@ public class PnlRegistroPersona extends JPanel {
 				
 			}
 		});
-        
-      
-        
+
         DefaultListModel<Habilidad> modeloLista = new DefaultListModel<Habilidad>();
         listaHabilidades.setModel(modeloLista);
 
     }
     
-    @Override
-    protected void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-    	
-    	g.setColor(Color.BLACK);
-    	g.drawLine(450, 50, 450, 540);
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//    	super.paintComponent(g);
+//    	g.setColor(Color.BLACK);
+//    	g.drawLine(getWidth()/2, 50, getWidth()/2, getHeight()-50);
+//    }
+    
+    /**Funcion para calcular la edad de un usuario segun su fecha de nacimiento
+     * @param fechaInicio
+     * @return
+     */
+    protected static int calcularDiferenciaAnios(Date fechaInicio) {
+    	Date fechaFin = new Date();
+        Calendar calInicio = Calendar.getInstance();
+        calInicio.setTime(fechaInicio);
+        Calendar calFin = Calendar.getInstance();
+        calFin.setTime(fechaFin);
+        int anios = calInicio.get(Calendar.YEAR) - calFin.get(Calendar.YEAR); 
+        if (calInicio.get(Calendar.DAY_OF_YEAR) > calFin.get(Calendar.DAY_OF_YEAR)) {
+            anios--;
+        }
+        return anios;
     }
     
     public void asignarModeloParaPnlHabilidad() {
@@ -504,7 +562,7 @@ public class PnlRegistroPersona extends JPanel {
     	JFrame f = new JFrame();
     	f.setSize(900,650);
     	f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    	f.add(p);
+    	f.getContentPane().add(p);
     	
     	f.setVisible(true);
 	}

@@ -13,6 +13,7 @@ import servidor.ServicioPersistencia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 
 public class VentanaPrincipal extends JFrame {
@@ -21,7 +22,8 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel pnlContenido;
 	protected static ServicioPersistencia servicio;
 	protected static Color ColorBase = new Color(208, 235, 242);
-
+	protected static Font fuente_titulos = new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18);
+	
 	public JPanel getPnlContenido() {
 		return pnlContenido;
 	}

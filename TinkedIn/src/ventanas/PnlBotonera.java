@@ -35,6 +35,7 @@ import javax.swing.SwingUtilities;
 
 import clases.Main;
 import datos.DatosFicheros;
+import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import sistemaExplorar.Match;
 import usuarios.Empresa;
@@ -46,9 +47,11 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 public class PnlBotonera extends JPanel {
@@ -56,13 +59,11 @@ public class PnlBotonera extends JPanel {
 	private ImageIcon icono;
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
-	//public static PnlMiPerfil pnlMiPerfil = new PnlMiPerfil();
 	protected static Usuario usuarioAutenticado;
-	//private PnlExplorar pExplorar = new PnlExplorar( usuarioAutenticado );
 	public static JPanel pnlFuncional;
 	protected static CardLayout CardLayout;
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
-	//protected static TreeSet<PuestoTrabajo> puestosCandidatos;
+	protected static PnlChat pnlChat;
 	
 //	Pruebas tiempo
 	long tiempoInicio;
@@ -73,19 +74,12 @@ public class PnlBotonera extends JPanel {
 		return usuarioAutenticado;
 	}
 
-
-
 	public void setUsuarioAutenticado(Usuario usuarioAutenticado) {
 		this.usuarioAutenticado = usuarioAutenticado;
 	}
 
-
-
-	/**
-	 * Create the panel.
-	 */
 	public PnlBotonera( Usuario usuarioAutenticado ) {
-		setLayout(null);
+		setLayout(new BorderLayout());
 		
 		this.usuarioAutenticado = usuarioAutenticado;
 		mapaPaneles = new HashMap<JPanel,JPanel>();
@@ -105,7 +99,7 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.setLayout(CardLayout);
 		pnlFuncional.setBounds(150, 0, 750, 610);
 		setSize(900, 650);
-		add(pnlFuncional);
+		add(pnlFuncional,BorderLayout.CENTER);
 		
 		PnlMiPerfil pnlMiPerfil = new PnlMiPerfil(usuarioAutenticado);
 		
@@ -134,12 +128,15 @@ public class PnlBotonera extends JPanel {
 		CardLayout.show(pnlFuncional, "pnlInicial");		
 		
 		JPanel PnlBotones = new JPanel();
+		PnlBotones.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		PnlBotones.setBounds(0, 0, 150, 650);
+		PnlBotones.setPreferredSize(new Dimension(150,650));
 		PnlBotones.setBackground(new Color(208, 235, 242));
-		add(PnlBotones);
+		add(PnlBotones, BorderLayout.WEST);
 		PnlBotones.setLayout(null);
 		
 		JPanel pnlPerfil = new JPanel();
+		pnlPerfil.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlPerfil.setBackground(new Color(208, 235, 242));
 		pnlPerfil.setBounds(0, 161, 150, 38);
 		PnlBotones.add(pnlPerfil);
@@ -148,7 +145,6 @@ public class PnlBotonera extends JPanel {
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
 		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
-//		puestosCandidatos = CrearTreeSet();
 		
 		if (usuarioAutenticado instanceof Persona) {
 			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
@@ -238,6 +234,7 @@ public class PnlBotonera extends JPanel {
 		
 		JPanel pnlExplorar = new JPanel();
 		pnlExplorar.setLayout(null);
+		pnlExplorar.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlExplorar.setBackground(new Color(208, 235, 242));
 		pnlExplorar.setBounds(0, 199, 150, 38);
 		PnlBotones.add(pnlExplorar);
@@ -253,8 +250,6 @@ public class PnlBotonera extends JPanel {
 			pnlFuncional.add(pExplorarEmpresa,"pnlExplorar");
 
 		}
-//		PnlExplorar pExplorar = new PnlExplorar(usuarioAutenticado);
-//		pnlFuncional.add(pExplorar,"pnlExplorar");
 		
 		JLabel lblExplorar = new JLabel("Explorar");
 		lblExplorar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -322,12 +317,16 @@ public class PnlBotonera extends JPanel {
 		});
 		
 		JPanel pnlMensajes = new JPanel();
+		pnlMensajes.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlMensajes.setLayout(null);
 		pnlMensajes.setBackground(new Color(208, 235, 242));
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
 		PnlChat pnlChat= new PnlChat();
+		pnlChat.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
+
+		pnlChat= new PnlChat();
 		pnlChat.setBackground(Color.GREEN);
 		VentanaPrincipal.servicio.setPnlChat(pnlChat);
 		pnlFuncional.add(pnlChat,"pnlChat");
@@ -373,7 +372,6 @@ public class PnlBotonera extends JPanel {
 		pnlMensajes.addMouseListener( new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if (btnSeleccionado != null) {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
@@ -389,8 +387,6 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlMensajes.setBackground(new Color(208, 235, 242));
 				}
-					
-				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -400,17 +396,17 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlMensajes.setBackground(new Color(122, 199, 218));
 				}
-				
 			}
 		});
 		
 		JPanel pnlEstadisticas = new JPanel();
+		pnlEstadisticas.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlEstadisticas.setLayout(null);
 		pnlEstadisticas.setBackground(new Color(208, 235, 242));
 		pnlEstadisticas.setBounds(0, 275, 150, 38);
 		PnlBotones.add(pnlEstadisticas);
 		
-		JPanel pStats = new PnlEstadisticas();
+		JPanel pStats = new PnlEstadisticas(VentanaPrincipal.servicio);
 		pStats.setBackground(Color.LIGHT_GRAY);
 		pnlFuncional.add(pStats,"pStats");
 		
@@ -467,22 +463,19 @@ public class PnlBotonera extends JPanel {
 				}else {
 					pnlEstadisticas.setBackground(new Color(208, 235, 242));
 				}
-					
-				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if (btnSeleccionado == pnlEstadisticas) {
-					
 				}else {
 					pnlEstadisticas.setBackground(new Color(122, 199, 218));
 				}
-				
 			}
 		});
 		
 		JPanel pnlAjustes = new JPanel();
+		pnlAjustes.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlAjustes.setLayout(null);
 		pnlAjustes.setBackground(new Color(208, 235, 242));
 		pnlAjustes.setBounds(0, 313, 150, 38);
@@ -566,46 +559,79 @@ public class PnlBotonera extends JPanel {
 
 	public static void notificarMatch(Match match) {
 		String nombre;
+		Usuario usuario;
+		String url;
 		if (usuarioAutenticado instanceof Persona) {
 			if (match.getU1() != usuarioAutenticado.getId()) {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU1());
-				new NotificacionMatch(nombre);
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
+				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU1());
+				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombreEmpresaFromId(match.getU2());
-				new NotificacionMatch(nombre);
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
+				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU2());
+				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
 			}
 		}else {
 			if (match.getU1() != usuarioAutenticado.getId()) {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU1());
-				new NotificacionMatch(nombre);
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU1());
+				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU1());
+				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
 			}else {
 				nombre = VentanaPrincipal.servicio.getNombrePersonaFromId(match.getU2());
-				new NotificacionMatch(nombre);
+				usuario = VentanaPrincipal.servicio.getUsuarioFromId(match.getU2());
+				url = VentanaPrincipal.servicio.getUrlImagenFromId(match.getU2());
+				new NotificacionMatch(nombre,usuario.getFotoDePerfil());
 			}
 		}
+		pnlChat.anadirContacto(usuario);
 	}
 	
 	private static class NotificacionMatch extends JDialog {
 		private static final long serialVersionUID = 1L;
-
-		public NotificacionMatch(String nombreUsuario) {
+		public NotificacionMatch(String nombreUsuario,String urlImagen) {
 	        setTitle("¡Nuevo Match!");
 	        setSize(300, 150);
-	        setLocationRelativeTo(null); // Centra el diálogo en la pantalla
+	        setResizable(false);
+	        setLocationRelativeTo(null);
 	        ImageIcon icon = new ImageIcon("TinkedinPNG.png");
 	        Image iconImage = icon.getImage();
 	        setIconImage(iconImage);
-	        
 	        JPanel panel = new JPanel(new BorderLayout());
 	        panel.setBackground(Color.white);
-	        String mensaje = "<html>¡Felicidades! Tienes un nuevo match con:<br>" + nombreUsuario + "</html>";
+	        String mensaje = "<html>¡Felicidades! Tienes un nuevo match con:<br>";
 	        JLabel lblMensaje = new JLabel(mensaje);
 	        lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-
-	        panel.add(lblMensaje, BorderLayout.CENTER);
+	        lblMensaje.setPreferredSize(new Dimension(300,40));
+	        panel.add(lblMensaje, BorderLayout.NORTH);
+	        panel.add(new pnlFotoNombre(nombreUsuario,urlImagen), BorderLayout.CENTER);
 	        getContentPane().add(panel);
 	        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	    }
+		
+		private static class pnlFotoNombre extends JPanel{
+			private static final long serialVersionUID = 1L;
+			public pnlFotoNombre(String nombre, String urlImagen) {
+				setLayout(new BorderLayout());
+				setBackground(Color.white);
+				JPanel pnlFoto = new JPanel();
+				pnlFoto.setBackground(Color.WHITE);
+				JLabel fotoPerfil = ImagenesAzure.crearImagen(urlImagen, 90, 90);
+				pnlFoto.add(fotoPerfil);
+				JPanel pnlNombre = new JPanel(new BorderLayout());
+				pnlNombre.setBackground(Color.white);
+				pnlNombre.setAlignmentY(CENTER_ALIGNMENT);
+				JLabel lblNombre = new JLabel(nombre);
+				lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
+				lblNombre.setVerticalAlignment(SwingConstants.CENTER);
+				lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
+				pnlNombre.add(lblNombre);
+				add(pnlFoto,BorderLayout.WEST);
+				add(pnlNombre,BorderLayout.CENTER);
+			}
+		}
 
 	}
 	

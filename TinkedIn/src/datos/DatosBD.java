@@ -51,7 +51,6 @@ public class DatosBD implements ManejoDatos {
 		// TODO Auto-generated method stub
 		try {
 			this.connection = DriverManager.getConnection(SQLCredentials.connectionString);
-			System.out.println("Conexion establecida: " + connection);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,6 +101,7 @@ public class DatosBD implements ManejoDatos {
 			if (rs.next()) {
 				id = rs.getInt(1);
 				fotoDePerfil = rs.getString(2);
+				System.out.println(fotoDePerfil);
 				password = rs.getString(3);
 				tipo = rs.getString(4);
 				telefono = rs.getString(6);
@@ -540,8 +540,6 @@ public class DatosBD implements ManejoDatos {
 		final String actualizarUsuario = "UPDATE USUARIO SET FOTO_PERFIL = ?, CONTRASENA = ?, CORREO = ?, TELEFONO = ? WHERE ID = ?";
 		final String anadirPersona = "INSERT INTO PERSONA VALUES(?, ?, ?, ?, ?)";
 		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO, NOMBRE, DESTREZA, DESCRIPCION, ID_PERSONA) VALUES(?,?,?,?,?)";
-//		final String comprobarUbicacion = "SELECT ID FROM UBICACION WHERE NOMBRE = ?";
-//		final String crearUbicacion = "INSERT INTO UBICACION(NOMBRE) VALUES(?)";
 		int id;
 		try {
 			connection.setAutoCommit(false);
@@ -633,8 +631,8 @@ public class DatosBD implements ManejoDatos {
 			prepStatement.close();
 //			ACTUALIZACION DE DATOS
 			prepStatement = connection.prepareStatement(actualizarUsuario);
-//			new ImagenesAzure();
 			String rutaImagen = ImagenesAzure.subirImagenBD(fotoDePerfil, id+".jpg");
+			System.err.println("ruta imagen: " + rutaImagen);
 			prepStatement.setString(1, rutaImagen);
 			prepStatement.setString(2, password);
 			prepStatement.setString(3, correo);
@@ -867,7 +865,6 @@ public class DatosBD implements ManejoDatos {
 				
 			}
 			rs.close();
-			System.out.println("Cerrado rsPersonas");
 			prepStatementGetPersonas.close();
 			return personas;
 		} catch (Exception e) {
@@ -1055,7 +1052,7 @@ public class DatosBD implements ManejoDatos {
 	public Map<String, Integer> getFreHab(String campo) {
 		// TODO Auto-generated method stub
 		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
-		final String queryCampo = "SELECT NOMBRE, COUNT(*) AS CUENTA FROM HABILIDAD WHERE CAMPO = ? GROUP BY NOMBRE;";
+		final String queryCampo = "SELECT NOMBRE,COUNT(*) AS CUENTA FROM HABILIDAD WHERE ID_PUESTO IS NULL AND CAMPO = ? GROUP BY NOMBRE";
 		try {
 			prepStatement = connection.prepareStatement(queryCampo);
 			prepStatement.setString(1, campo);
@@ -1072,11 +1069,82 @@ public class DatosBD implements ManejoDatos {
 		return mapaFreHab;
 	}
 	
+	@Override
+	public Map<String, Integer> getFreHabPues(String campo) {
+		// TODO Auto-generated method stub
+		Map<String, Integer> mapaFreHab = new HashMap<String, Integer>();
+		final String queryCampo = "SELECT NOMBRE,COUNT(*) AS CUENTA FROM HABILIDAD WHERE ID_PERSONA IS NULL AND CAMPO = 'Química' GROUP BY NOMBRE;";
+		try {
+			prepStatement = connection.prepareStatement(queryCampo);
+			prepStatement.setString(1, campo);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()) {
+				int frecuencia = rs.getInt("CUENTA");
+				String nombre = rs.getString("NOMBRE");
+				mapaFreHab.put(nombre, frecuencia);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return mapaFreHab;
+	}
+	
+	@Override
+	public Vector<Usuario> getUsuariosConMatch(int id) {
+		final String querySQL = "SELECT * FROM MATCHES WHERE USUARIO1 = ? OR USUARIO2 = ?";
+		PreparedStatement prepStatementMatch = null;
+		Vector<Usuario> usuarios = new Vector<>();
+		try {
+			prepStatementMatch = connection.prepareStatement(querySQL);
+			prepStatementMatch.setInt(1, id);
+			prepStatementMatch.setInt(2, id);
+			ResultSet rs = prepStatementMatch.executeQuery();
+			while (rs.next()) {
+				int id1 = rs.getInt(1);
+				int id2 = rs.getInt(2);
+				Usuario usuario = null;
+				if (id == id1) {
+					usuario = getUsuarioFromId(id2);
+				}else {
+					usuario = getUsuarioFromId(id1);
+				}
+				usuarios.add(usuario);
+			}
+			rs.close();
+			prepStatementMatch.close();
+			return usuarios;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public String getUrlImagenFromId(int id) {
+		final String querySQL = "SELECT FOTO_PERFIL FROM USUARIO WHERE ID = ?";
+		String url = "";
+		try {
+			prepStatement = connection.prepareStatement(querySQL);
+			prepStatement.setInt(1, id);
+			ResultSet rs = prepStatement.executeQuery();
+			if (rs.next()) {
+				url = rs.getString(1);
+			};
+			return url;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return url;
+		}
+	}
+	
 	public static void main(String[] args) {
 		DatosBD datos = new DatosBD();
 		System.out.println(datos.getEmpresas().get(2).getPuestos());
 		datos.fin();
 	}
+
+
 
 
 
