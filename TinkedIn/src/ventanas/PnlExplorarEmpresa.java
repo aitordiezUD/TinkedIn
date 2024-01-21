@@ -145,7 +145,6 @@ public class PnlExplorarEmpresa extends JPanel {
 
 		pnlLike = new JPanel();
 		pnlLike.setLayout(new BorderLayout());
-		pnlLike.setLayout(new FlowLayout());
 		pnlLike.setPreferredSize( new Dimension(150,70));
 		botonLike btnLike = new botonLike();
 //		btnLike.setPreferredSize( new Dimension(70,70));
@@ -159,6 +158,7 @@ public class PnlExplorarEmpresa extends JPanel {
 				// TODO Auto-generated method stub
 				Like like = new Like(empr, personaActual);
 				servicio.anadirLike(like);
+				mostrarSiguientePersona(puestoElegido);
 			}
 		});
 		
