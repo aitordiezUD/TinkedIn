@@ -95,6 +95,8 @@ public class PnlExplorarEmpresa extends JPanel {
 		add(pnlContenido, BorderLayout.CENTER);
 
 
+		
+
 		JPanel pnlLista = new JPanel();
 		pnlLista.setLayout(new BorderLayout());
 		pnlLista.setBackground(new Color(129, 186, 207));
