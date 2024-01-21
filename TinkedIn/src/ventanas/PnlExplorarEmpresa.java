@@ -199,6 +199,8 @@ public class PnlExplorarEmpresa extends JPanel {
 				vent.add(new pnlPuestoDeTrabajo());
 				vent.setVisible(true);
 			}});
+		
+
 
 		listaPuestos.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -244,6 +246,21 @@ public class PnlExplorarEmpresa extends JPanel {
 		});
 
 
+		btnEliminar.addActionListener( (ActionListener) new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(listaPuestos.getSelectedValue()!= null) {
+					PuestoTrabajo p = listaPuestos.getSelectedValue();
+					modeloListaPt.removeElement(p);
+					servicio.deletePuesto((int)PnlBotonera.usuarioAutenticado.getId(), p.getNombre(), p.getDescripcion());
+				}else {System.out.println("Nada seleccionado");}
+
+				
+			}
+			
+		});
         
 		
 		clPaneles.show(pnlInicial, "pnlLogo");

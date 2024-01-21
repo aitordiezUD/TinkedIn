@@ -91,5 +91,8 @@ public class ConfigServer {
 		
 //		Devuelve el url de la imagen de un usuario - va seguido del id del usuario
 		static String GET_URL_IMAGEN_FROM_ID = "get_url_imagen_from_id";
+		
+//		Elimina un puesto de trabajo buscado por id
+		static String DELETE_PUESTO = "delete_puesto";
 
 }

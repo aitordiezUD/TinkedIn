@@ -482,6 +482,27 @@ public class ServicioPersistencia{
 		}
 	}
 	
+	public void deletePuesto(int id, String nombre, String descripcion) {
+		try {
+			flujoOut.writeObject(ConfigServer.DELETE_PUESTO);
+			flujoOut.writeObject(id);
+			flujoOut.writeObject(nombre);
+			flujoOut.writeObject(descripcion);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				if(logger!=null) logger.log(Level.WARNING, "No se ha podido eliminar el puesto de trabajo, timeout servidor");
+				return ;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(logger!=null) logger.log(Level.WARNING, "No se ha podido eliminar el puesto de trabajo", e);
+		}
+	}
+	
 	public String getNombreEmpresaFromId(int id) {
 		try {
 			flujoOut.writeObject( ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID );
@@ -613,4 +634,6 @@ public class ServicioPersistencia{
 			return null;
 		}
 	};
+	
+
 }
