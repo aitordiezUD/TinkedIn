@@ -81,7 +81,13 @@ public class ConfigServer {
 		
 //		Devuelve un mapa con los nombres de todas las habilidades de un campo y su frecuencia
 		static String GET_FRECUENCIA_HABS = "get_frecuencia_habs";
+
+
+//		Devuelve un mapa con los nombres de todas las habilidades de un campo y su frecuencia
+		static String GET_FRECUENCIA_HABS_PUESTOS = "get_frecuencia_habs_puestos";
+
 		
 //		Búsqueda de un usuario partiendo de un id - va seguido de un id
 		static String GET_USUARIO_FROM_ID = "get_usuario_from_id";
+
 }

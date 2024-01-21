@@ -46,6 +46,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import java.awt.ComponentOrientation;
@@ -137,6 +138,7 @@ public class PnlBotonera extends JPanel {
 		CardLayout.show(pnlFuncional, "pnlInicial");		
 		
 		JPanel PnlBotones = new JPanel();
+		PnlBotones.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		PnlBotones.setBounds(0, 0, 150, 650);
 		PnlBotones.setPreferredSize(new Dimension(150,650));
 		PnlBotones.setBackground(new Color(208, 235, 242));
@@ -144,6 +146,7 @@ public class PnlBotonera extends JPanel {
 		PnlBotones.setLayout(null);
 		
 		JPanel pnlPerfil = new JPanel();
+		pnlPerfil.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlPerfil.setBackground(new Color(208, 235, 242));
 		pnlPerfil.setBounds(0, 161, 150, 38);
 		PnlBotones.add(pnlPerfil);
@@ -242,6 +245,7 @@ public class PnlBotonera extends JPanel {
 		
 		JPanel pnlExplorar = new JPanel();
 		pnlExplorar.setLayout(null);
+		pnlExplorar.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlExplorar.setBackground(new Color(208, 235, 242));
 		pnlExplorar.setBounds(0, 199, 150, 38);
 		PnlBotones.add(pnlExplorar);
@@ -324,11 +328,16 @@ public class PnlBotonera extends JPanel {
 		});
 		
 		JPanel pnlMensajes = new JPanel();
+		pnlMensajes.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlMensajes.setLayout(null);
 		pnlMensajes.setBackground(new Color(208, 235, 242));
 		pnlMensajes.setBounds(0, 237, 150, 38);
 		PnlBotones.add(pnlMensajes);
 		
+
+		PnlChat pnlChat= new PnlChat();
+		pnlChat.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
+
 		pnlChat= new PnlChat();
 		pnlChat.setBackground(Color.GREEN);
 		VentanaPrincipal.servicio.setPnlChat(pnlChat);
@@ -407,6 +416,7 @@ public class PnlBotonera extends JPanel {
 		});
 		
 		JPanel pnlEstadisticas = new JPanel();
+		pnlEstadisticas.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlEstadisticas.setLayout(null);
 		pnlEstadisticas.setBackground(new Color(208, 235, 242));
 		pnlEstadisticas.setBounds(0, 275, 150, 38);
@@ -485,6 +495,7 @@ public class PnlBotonera extends JPanel {
 		});
 		
 		JPanel pnlAjustes = new JPanel();
+		pnlAjustes.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
 		pnlAjustes.setLayout(null);
 		pnlAjustes.setBackground(new Color(208, 235, 242));
 		pnlAjustes.setBounds(0, 313, 150, 38);

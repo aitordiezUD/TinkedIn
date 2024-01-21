@@ -310,7 +310,13 @@ public class Servidor {
 		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
 		    				output.writeObject(mapaFrec);
 		    			}
-		    			
+
+		    			if(objRecibido.equals(ConfigServer.GET_FRECUENCIA_HABS_PUESTOS)) {
+		    				String campo = (String) input.readObject();
+		    				Map<String, Integer> mapaFrec = (Map<String, Integer>) datos.getFreHab(campo);
+		    				output.writeObject(mapaFrec);
+		    			}
+
 		    			if (objRecibido.equals(ConfigServer.GET_NOMBRE_EMPRESA_FROM_ID)) {
 		    				int id = (int) input.readObject();
 		    				String nombre = datos.getNombreEmpresaFromId(id);

@@ -491,7 +491,7 @@ public class ServicioPersistencia{
 				Thread.sleep( 100 );
 			}
 			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
-				System.err.println("No se ha podido obtener el nombre de la empresa, timeout servidor");
+				System.err.println("No se ha podido obtener el mapa de frecuencia de habilidades, timeout servidor");
 				return null;
 			}
 			Map<String, Integer> mapa = (Map<String, Integer>) respuestasServidor.remove(0);
@@ -502,6 +502,28 @@ public class ServicioPersistencia{
 			return null;
 		}
 	}
+	
+	public Map<String, Integer> getFreHabPuestos(String campo){
+		try {
+			flujoOut.writeObject(ConfigServer.GET_FRECUENCIA_HABS_PUESTOS);
+			flujoOut.writeObject(campo);
+			long time = System.currentTimeMillis();
+			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
+				Thread.sleep( 100 );
+			}
+			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
+				System.err.println("No se ha podido obtener el mapa de frecuencia de habilidades, timeout servidor");
+				return null;
+			}
+			Map<String, Integer> mapa = (Map<String, Integer>) respuestasServidor.remove(0);
+			return mapa;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	/**Dado el id de un usuario devuelve la lista de usuarios con los que ha hecho match
 	 * @param idUsuario

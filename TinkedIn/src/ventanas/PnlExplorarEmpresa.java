@@ -207,7 +207,7 @@ public class PnlExplorarEmpresa extends JPanel {
 		// botonCorazon btnCorazon = new botonCorazon();
 		// pnlLike.add(btnCorazon, BorderLayout.EAST);
 		lblNombreUsu = new JLabel("      Nombre de Usuario");
-		lblNombreUsu.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
+		lblNombreUsu.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18));
 		// pnlDatos.add(lblNombreUsu);
 
 //	         if( usuarioAutenticado instanceof Empresa ) {

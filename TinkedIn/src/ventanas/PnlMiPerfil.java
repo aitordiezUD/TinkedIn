@@ -28,6 +28,8 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import clases.Habilidad;
+import clases.PuestoTrabajo;
+import componentes.botonAnEl;
 import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import usuarios.Empresa;
@@ -45,11 +47,15 @@ public class PnlMiPerfil  extends JPanel {
 	private Persona personaAutenticada;
 	private Empresa empresaAutenticada;
 	private DefaultListModel<Habilidad> modeloListaPersona;
-	
+	private DefaultListModel<PuestoTrabajo> modeloListaEmpresa;
 	
 	public DefaultListModel<Habilidad> getModeloListaPersona() {
 		return modeloListaPersona;
 	}
+	public DefaultListModel<PuestoTrabajo> getModeloListaEmpresa(){
+		return modeloListaEmpresa;
+	}
+	
 	public PnlMiPerfil(Usuario usuarioAutenticado) {
 		
 		setBackground(Color.WHITE);
@@ -71,12 +77,10 @@ public class PnlMiPerfil  extends JPanel {
 			JPanel pnlNombre = new JPanel();
 			pnlNombre.setBackground(VentanaPrincipal.ColorBase);
 			JLabel lblNombre = new JLabel(personaAutenticada.getNombre() + " " + personaAutenticada.getApellidos());
-			lblNombre.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+			lblNombre.setFont(VentanaPrincipal.fuente_titulos);
 			pnlNombre.add(lblNombre);
 			pnlSup.add(pnlNombre, BorderLayout.SOUTH);
 			add(pnlSup,BorderLayout.NORTH);
-			
-			
 			
 //			JPanel pnlDatos = new JPanel() {
 //				@Override
@@ -176,8 +180,8 @@ public class PnlMiPerfil  extends JPanel {
 			p.setPreferredSize(new Dimension(30,50));
 			pnlLista.add(p,BorderLayout.EAST);
 			
-			JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
-			lblFuenteCurriculum.setFont(new Font("Tahoma", Font.BOLD, 15));
+			JLabel lblFuenteCurriculum = new JLabel("CURRICULUM:");
+			lblFuenteCurriculum.setFont(VentanaPrincipal.fuente_titulos);
 			lblFuenteCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
 			p = new JPanel(new BorderLayout());
 			p.setMaximumSize(new Dimension(1000,40));
@@ -213,7 +217,7 @@ public class PnlMiPerfil  extends JPanel {
 			pnlListaContenido.add(new JScrollPane(list));
 			
 			p = new JPanel(new FlowLayout());
-			JButton btnAnadir = new JButton("Añadir");
+			botonAnEl btnAnadir = new botonAnEl("Añadir");
 			
 			btnAnadir.addActionListener(new ActionListener() {
 				@Override
@@ -224,24 +228,25 @@ public class PnlMiPerfil  extends JPanel {
 			});
 			
 			p.add(btnAnadir);
-			JButton btnEliminar = new JButton("Eliminar");
+			botonAnEl btnEliminar = new botonAnEl("Eliminar");
 			p.add(btnEliminar);
 			pnlListaContenido.add(p, BorderLayout.SOUTH);
 			
 		} else {
+			
 			empresaAutenticada = (Empresa) usuarioAutenticado;
 			
 			pnlEditarPerfil = new PnlEditarPerfil();
 			
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
-			pnlSup.setBackground(new Color(255,255,220));
+			pnlSup.setBackground(VentanaPrincipal.ColorBase);
 			pnlSup.add(ImagenesAzure.crearImagen(empresaAutenticada,100,100));
 			pnlSup.setPreferredSize(new Dimension(150,150));
 			JPanel pnlNombre = new JPanel();
 			pnlNombre.setBackground(VentanaPrincipal.ColorBase);
 			JLabel lblNombre = new JLabel(empresaAutenticada.getNombre());
-			lblNombre.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+			lblNombre.setFont(VentanaPrincipal.fuente_titulos);
 			pnlNombre.add(lblNombre);
 			pnlSup.add(pnlNombre, BorderLayout.SOUTH);
 			add(pnlSup,BorderLayout.NORTH);
@@ -353,61 +358,45 @@ public class PnlMiPerfil  extends JPanel {
 			p = new JPanel();
 			p.setPreferredSize(new Dimension(30,50));
 			pnlLista.add(p,BorderLayout.EAST);
-			
-			JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
-			lblFuenteCurriculum.setFont(new Font("Tahoma", Font.BOLD, 15));
-			lblFuenteCurriculum.setHorizontalAlignment(SwingConstants.CENTER);
+					
+			JLabel lblFuentePuestosTrabajo = new JLabel("Puestos de Trabajo:");
+			lblFuentePuestosTrabajo.setFont(VentanaPrincipal.fuente_titulos);
+			lblFuentePuestosTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
 			p = new JPanel(new BorderLayout());
 			p.setMaximumSize(new Dimension(1000,40));
 			p.setPreferredSize(new Dimension(1000,40));
-			p.add(lblFuenteCurriculum);
+			p.add(lblFuentePuestosTrabajo);
 			pnlListaContenido.add(p, BorderLayout.NORTH);
 			
-//			JList<Habilidad> list = new JList<Habilidad>();
-//			modeloListaPersona = new DefaultListModel<Habilidad>();
-//			modeloListaPersona.addListDataListener(new ListDataListener() {
-//				
-//				@Override
-//				public void intervalRemoved(ListDataEvent e) {
-//					// TODO Auto-generated method stub
-//					actualizarCurriculum();
-//				}
-//				
-//				@Override
-//				public void intervalAdded(ListDataEvent e) {
-//					// TODO Auto-generated method stub
-//					actualizarCurriculum();
-//				}
-//				
-//				@Override
-//				public void contentsChanged(ListDataEvent e) {
-//					// TODO Auto-generated method stub
-//					actualizarCurriculum();
-//				}
-//			});
-//			llenarListaCurriculum();
-//			list.setModel(modeloListaPersona);
-			
-//			pnlListaContenido.add(new JScrollPane(list));
-			
-			p = new JPanel(new FlowLayout());
-			JButton btnAnadir = new JButton("Añadir");
-			
-			btnAnadir.addActionListener(new ActionListener() {
+			JList<PuestoTrabajo> list = new JList<PuestoTrabajo>();
+			modeloListaEmpresa = new DefaultListModel<PuestoTrabajo>();
+			modeloListaEmpresa.addListDataListener(new ListDataListener() {
+				
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void intervalRemoved(ListDataEvent e) {
 					// TODO Auto-generated method stub
-					PnlBotonera.CardLayout.show(PnlBotonera.pnlFuncional, "pnlHabilidad");
+					actualizarListaPuestosTrabajo();
+				}
+				
+				@Override
+				public void intervalAdded(ListDataEvent e) {
+					// TODO Auto-generated method stub
+					actualizarListaPuestosTrabajo();
+				}
+				
+				@Override
+				public void contentsChanged(ListDataEvent e) {
+					// TODO Auto-generated method stub
+					actualizarListaPuestosTrabajo();
 				}
 			});
+			llenarListaPuestosTrabajo();
+			list.setModel(modeloListaEmpresa);
 			
-			p.add(btnAnadir);
-			JButton btnEliminar = new JButton("Eliminar");
-			p.add(btnEliminar);
-			pnlListaContenido.add(p, BorderLayout.SOUTH);
-			
+			pnlListaContenido.add(new JScrollPane(list));
+
+
 		}
-		
 		
 //		
 //		try {
@@ -524,6 +513,7 @@ public class PnlMiPerfil  extends JPanel {
 //	});
 	
 }
+	
 	private void llenarListaCurriculum() {
 		if (personaAutenticada.getCurriculum()!=null) {
 			for (Habilidad h : personaAutenticada.getCurriculum()) {
@@ -539,6 +529,20 @@ public class PnlMiPerfil  extends JPanel {
         }
 	}
 
+	private void llenarListaPuestosTrabajo() {
+		if (empresaAutenticada.getPuestos()!=null) {
+			for (PuestoTrabajo p : empresaAutenticada.getPuestos()) {
+				modeloListaEmpresa.add(modeloListaEmpresa.size(),p);
+			}
+		}
+	}
+	
+	private void actualizarListaPuestosTrabajo() {
+		empresaAutenticada.setPuestos(new ArrayList<PuestoTrabajo>());
+		for (int i = 0; i < modeloListaEmpresa.size(); i++) {
+            empresaAutenticada.getPuestos().add(modeloListaEmpresa.getElementAt(i));
+        }
+	}
    
 	
 	public static void main(String[] args) {
