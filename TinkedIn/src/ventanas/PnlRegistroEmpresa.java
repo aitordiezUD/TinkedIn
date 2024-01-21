@@ -71,6 +71,8 @@ public class PnlRegistroEmpresa extends JPanel {
 	private JLabel lblDesc;
 	private DefaultListModel<String> modeloLista;
 	private File selectedFile = null;
+	private JTextArea tADescripcion;
+	private JComboBox<String> cbProvincia;
 	
     public PnlRegistroEmpresa(JPanel pnlContenido, CardLayout layoutVentana) {
         setBackground(Color.WHITE);
@@ -297,7 +299,7 @@ public class PnlRegistroEmpresa extends JPanel {
         p.add(spProvincias);
         pnlIzqCont.add(p);
         
-        JComboBox<String> cbProvincia = new JComboBox<String>();
+        cbProvincia = new JComboBox<String>();
         p = new JPanel(new BorderLayout());
         p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,30));
@@ -377,7 +379,7 @@ public class PnlRegistroEmpresa extends JPanel {
         pnlDerCont.add(p);
         
         
-        JTextArea tADescripcion = new JTextArea();
+        tADescripcion = new JTextArea();
         JScrollPane spTextArea = new JScrollPane(tADescripcion);
         p = new JPanel(new BorderLayout());
         p.setBackground(Color.WHITE);
@@ -478,19 +480,18 @@ public class PnlRegistroEmpresa extends JPanel {
     	}
     	return arr;
     }
+    public void limpiarCampos () {
+    	tfNombre.setText("");
+    	tfCorreo.setText("");
+    	tfTelefono.setText("");
+    	pfContrasena.setText("");
+    	pfRepetirContrasena.setText("");
+    	tADescripcion.setText("");
+    	cbProvincia.setSelectedIndex(0);
+    	selectedFile = null;
+    	modeloLista.clear();
+    	this.repaint();
+    }
     
-    public static void main(String[] args) {
-    	
-    	PnlRegistroEmpresa p = new PnlRegistroEmpresa(new JPanel(), new CardLayout());
-    	JFrame f = new JFrame();
-    	f.setSize(900,650);
-    	f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//    	SwingUtilities.invokeLater(() -> {p.setPreferredSize(new Dimension((int) (f.getPreferredSize().getWidth()/2),100));});
-    	f.add(p);
-    	
-    	
-    	
-    	f.setVisible(true);
-	}
 }
 

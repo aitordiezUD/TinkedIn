@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import clases.TipoMensaje;
@@ -613,4 +614,32 @@ public class ServicioPersistencia{
 			return null;
 		}
 	};
+	
+	public void anadirHabilidad(Habilidad habilidad, long id) {
+		try {
+			flujoOut.writeObject(ConfigServer.ANADIR_HABILIDAD);
+			flujoOut.writeObject(habilidad);
+			flujoOut.writeObject(id);
+			if(logger!=null) logger.log(Level.INFO, "Se ha añadido una habilidad: "+ habilidad);
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(logger!=null) logger.log(Level.WARNING, "No se ha añadir una habilidad" , e);
+
+		}
+	}
+	
+	public void eliminarHabilidad(Habilidad habilidad, long id) {
+		try {
+			flujoOut.writeObject(ConfigServer.ELIMINAR_HABILIDAD);
+			flujoOut.writeObject(habilidad);
+			flujoOut.writeObject(id);
+			if(logger!=null) logger.log(Level.INFO, "Se ha eliminado una habilidad: "+ habilidad);
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(logger!=null) logger.log(Level.WARNING, "No se ha eliminar una habilidad" , e);
+
+		}
+	}
+
+
 }

@@ -196,5 +196,20 @@ public interface ManejoDatos {
 	 */
 	public String getUrlImagenFromId(int id);
 
+
+
+	/**Dado el id de un usuario y una habilidad, añade la habilidad a la base de datos
+	 * @param habilidad
+	 * @param id
+	 */
+	public void anadirHabilidad(Habilidad habilidad, long id);
+
+
+	/**Dado el id de un usuario y una habilidad, elimina la habilidad de la base de datos
+	 * @param habilidad
+	 * @param id
+	 */
+	public void eliminarHabilidad(Habilidad habilidad, long id);
+
 }
 

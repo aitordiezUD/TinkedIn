@@ -49,8 +49,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public class PnlRegistroPersona extends JPanel {
-	
-//	Provincias de España para añadirlas al ComboBox
+	private static final long serialVersionUID = 1L;
+	//	Provincias de España para añadirlas al ComboBox
 	private final String[] provincias = {
             "Álava", "Albacete", "Alicante", "Almería", "Asturias",
             "Ávila", "Badajoz", "Barcelona", "Bizkaia", "Burgos", "Cáceres",
@@ -66,7 +66,6 @@ public class PnlRegistroPersona extends JPanel {
 	private JLabel lblNombre;
 	private JTextField tfNombre;
 	private JTextField tfApellidos;
-	private JTextField tfUsername;
 	private JTextField tfCorreo;
 	private JPasswordField pfContrasena;
 	private JPasswordField pfRepetirContrasena;
@@ -81,6 +80,9 @@ public class PnlRegistroPersona extends JPanel {
 	private File selectedFile = null;
 	private JPanel p_1;
 	private JPanel p_2;
+	private JDateChooser dateChooser;
+	private JCheckBox check;
+	private JComboBox<String> cbProvincia;
 
 
 	public PnlRegistroPersona(JPanel pnlContenido, CardLayout layoutVentana) {
@@ -210,7 +212,7 @@ public class PnlRegistroPersona extends JPanel {
         p.add(lblFecha);
         pnlIzqCont.add(p);
         
-        JDateChooser dateChooser = new JDateChooser();
+        dateChooser = new JDateChooser();
         dateChooser.setDateFormatString("dd-MM-yyyy");
         p = new JPanel(new BorderLayout());
         p.setBackground(Color.WHITE);
@@ -283,7 +285,7 @@ public class PnlRegistroPersona extends JPanel {
         pnlIzqCont.add(p);
         
         JButton btnSelImg = new JButton("Seleccionar imagen");
-        JCheckBox check = new JCheckBox();
+        check = new JCheckBox();
         check.setEnabled(false);
         check.setBackground(Color.WHITE);
         check.setPreferredSize(new Dimension(25,25));
@@ -326,7 +328,7 @@ public class PnlRegistroPersona extends JPanel {
         p.setBackground(Color.WHITE);
         pnlIzqCont.add(p);
         
-        JComboBox<String> cbProvincia = new JComboBox<String>();
+        cbProvincia = new JComboBox<String>();
         p = new JPanel(new BorderLayout());
         p.setBackground(Color.WHITE);
         p.setMaximumSize(new Dimension(300,30));
@@ -405,7 +407,6 @@ public class PnlRegistroPersona extends JPanel {
         p.add(btnAtras);
         add(p,BorderLayout.SOUTH);
         
-        
         //Listener del boton registrarse
         
         btnRegistrarse.addActionListener( new ActionListener() {
@@ -471,6 +472,7 @@ public class PnlRegistroPersona extends JPanel {
 							new Object[] {"Aceptar"}, 
 							"Aceptar");
 		        }else if (calcularDiferenciaAnios(fecha) < 18 ) {
+		        	System.out.println(calcularDiferenciaAnios(fecha));
 		        	JOptionPane.showOptionDialog(
 							null, 
 							"Es obligatorio tener mínimo 18 años para poder registrarse", 
@@ -519,19 +521,19 @@ public class PnlRegistroPersona extends JPanel {
      * @param fechaInicio
      * @return
      */
-    protected static int calcularDiferenciaAnios(Date fechaInicio) {
-    	Date fechaFin = new Date();
-        Calendar calInicio = Calendar.getInstance();
-        calInicio.setTime(fechaInicio);
-        Calendar calFin = Calendar.getInstance();
-        calFin.setTime(fechaFin);
-        int anios = calInicio.get(Calendar.YEAR) - calFin.get(Calendar.YEAR); 
-        if (calInicio.get(Calendar.DAY_OF_YEAR) > calFin.get(Calendar.DAY_OF_YEAR)) {
-            anios--;
-        }
-        return anios;
-    }
-    
+	protected static int calcularDiferenciaAnios(Date fechaFin) {
+		Date fechaInicio = new Date();
+		Calendar calInicio = Calendar.getInstance();
+		calInicio.setTime(fechaInicio);
+		Calendar calFin = Calendar.getInstance();
+		calFin.setTime(fechaFin);
+		int anios = calInicio.get(Calendar.YEAR) - calFin.get(Calendar.YEAR);
+		if (calInicio.get(Calendar.DAY_OF_YEAR) > calFin.get(Calendar.DAY_OF_YEAR)) {
+			anios--;
+		}
+		return anios;
+	}
+
     public void asignarModeloParaPnlHabilidad() {
     	PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlContenido,layoutVentana,(DefaultListModel<Habilidad>) listaHabilidades.getModel(),0);
         pnlContenido.add(pnlHabilidad,"pnlHabilidad");
@@ -556,6 +558,20 @@ public class PnlRegistroPersona extends JPanel {
 				new Object[] {"Aceptar"}, 
 				"Aceptar");    	
     };
+    
+    public void limpiarCampos () {
+    	tfNombre.setText("");
+    	tfApellidos.setText("");
+    	tfCorreo.setText("");
+    	pfContrasena.setText(""); 
+    	pfRepetirContrasena.setText("");
+    	cbProvincia.setSelectedIndex(0);
+    	dateChooser.setDate(null); 
+    	check.setSelected(false);
+        modeloLista.clear();
+        selectedFile = null;
+    	this.repaint();
+    }
     
     public static void main(String[] args) {
     	PnlRegistroPersona p = new PnlRegistroPersona(new JPanel(), new CardLayout());

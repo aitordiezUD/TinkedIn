@@ -91,5 +91,10 @@ public class ConfigServer {
 		
 //		Devuelve el url de la imagen de un usuario - va seguido del id del usuario
 		static String GET_URL_IMAGEN_FROM_ID = "get_url_imagen_from_id";
+		
+//		Añade una habilidad a la base de datos - va seguido de una habilidad y de un id de usuario
+		static String ANADIR_HABILIDAD = "anadir_habilidad";
 
+//		Añade una habilidad a la base de datos - va seguido de una habilidad y de un id de usuario
+		static String ELIMINAR_HABILIDAD = "eliminar_habilidad";
 }

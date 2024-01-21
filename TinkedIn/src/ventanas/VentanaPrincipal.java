@@ -23,7 +23,7 @@ public class VentanaPrincipal extends JFrame {
 	protected static ServicioPersistencia servicio;
 	protected static Color ColorBase = new Color(208, 235, 242);
 	protected static Font fuente_titulos = new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18);
-	
+
 	public JPanel getPnlContenido() {
 		return pnlContenido;
 	}
@@ -44,7 +44,7 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 	}
-	
+
 	public VentanaPrincipal() {
 		servicio = new ServicioPersistencia();
 		servicio.init();
@@ -53,8 +53,8 @@ public class VentanaPrincipal extends JFrame {
 		setSize(900, 650);
 		setLocationRelativeTo(null);
 		ImageIcon icon = new ImageIcon("TinkedinPNG.png");
-        Image iconImage = icon.getImage();
-        setIconImage(iconImage);
+		Image iconImage = icon.getImage();
+		setIconImage(iconImage);
 		new ImagenesAzure();
 		pnlContenido = new JPanel();
 		pnlContenido.setLayout(new BorderLayout());
@@ -62,9 +62,9 @@ public class VentanaPrincipal extends JFrame {
 		pnlContenido.setSize(900, 650);
 		CardLayout layoutVentana = new CardLayout();
 		pnlContenido.setLayout(layoutVentana);
-		PnlLogIn pnlLog = new PnlLogIn(pnlContenido,layoutVentana, this);
+		PnlLogIn pnlLog = new PnlLogIn(pnlContenido, layoutVentana, this);
 		pnlLog.setSize(450, 600);
-		pnlContenido.add(pnlLog,"pnlLogIn");
+		pnlContenido.add(pnlLog, "pnlLogIn");
 		layoutVentana.show(pnlContenido, "pnlLogIn");
 		setContentPane(pnlContenido);
 		addWindowListener(new WindowAdapter() {

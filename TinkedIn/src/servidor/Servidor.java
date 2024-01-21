@@ -348,6 +348,18 @@ public class Servidor {
 		    				output.writeObject(usuario);
 		    			}
 		    			
+		    			if (objRecibido.equals(ConfigServer.ANADIR_HABILIDAD)) {
+		    				Habilidad habilidad = (Habilidad) input.readObject();
+		    				long id = (long) input.readObject();
+		    				datos.anadirHabilidad(habilidad,id);
+		    			}
+		    			
+		    			if (objRecibido.equals(ConfigServer.ELIMINAR_HABILIDAD)) {
+		    				Habilidad habilidad = (Habilidad) input.readObject();
+		    				long id = (long) input.readObject();
+		    				datos.eliminarHabilidad(habilidad,id);
+		    			}
+		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	    		}
 	    		System.out.println("Servidor: fin comunicacion");

@@ -82,24 +82,6 @@ public class PnlMiPerfil  extends JPanel {
 			pnlSup.add(pnlNombre, BorderLayout.SOUTH);
 			add(pnlSup,BorderLayout.NORTH);
 			
-//			JPanel pnlDatos = new JPanel() {
-//				@Override
-//				protected void paintComponent(Graphics g) {
-//					super.paintComponent(g);
-//			    	
-//			    	g.setColor(Color.BLACK);
-//			    	g.drawLine(  355,10,355,420 );
-//				}
-//			};
-//			pnlDatos.setBackground(new Color(202, 232, 232));
-//			add(pnlDatos);
-//			pnlDatos.setLayout(null);
-			
-			
-//			JPanel pnlFotoPerfil = new JPanel();
-//			pnlFotoPerfil.setLayout(new BorderLayout());
-//			pnlFotoPerfil.add(ImagenesAzure.crearImagen(usuarioAutenticado));
-			
 			JPanel pnlDatos = new JPanel(new GridLayout(1,2));
 			add(pnlDatos);
 			
@@ -229,6 +211,17 @@ public class PnlMiPerfil  extends JPanel {
 			
 			p.add(btnAnadir);
 			botonAnEl btnEliminar = new botonAnEl("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (list.getSelectedValue()!=null) {
+						Habilidad habilidad = list.getSelectedValue();
+						VentanaPrincipal.servicio.eliminarHabilidad(habilidad, PnlBotonera.usuarioAutenticado.getId());
+						modeloListaPersona.removeElement(habilidad);
+						list.repaint();
+					}
+				}
+			});
 			p.add(btnEliminar);
 			pnlListaContenido.add(p, BorderLayout.SOUTH);
 			

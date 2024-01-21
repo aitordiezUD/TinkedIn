@@ -1142,11 +1142,41 @@ public class DatosBD implements ManejoDatos {
 			return url;
 		}
 	}
-	
-	public static void main(String[] args) {
-		DatosBD datos = new DatosBD();
-		System.out.println(datos.getEmpresas().get(2).getPuestos());
-		datos.fin();
+
+	@Override
+	public void anadirHabilidad(Habilidad habilidad, long id) {
+		// TODO Auto-generated method stub
+		final String anadirHabilidad = "INSERT INTO HABILIDAD(CAMPO, NOMBRE, DESTREZA, DESCRIPCION, ID_PERSONA) VALUES(?,?,?,?,?)";
+		PreparedStatement prepStatementHabilidad = null;
+		try {
+			prepStatementHabilidad = connection.prepareStatement(anadirHabilidad);
+			prepStatementHabilidad.setString(1, habilidad.getCampo());
+			prepStatementHabilidad.setString(2, habilidad.getNombre());
+			prepStatementHabilidad.setInt(3, habilidad.getDestreza());
+			prepStatementHabilidad.setString(4, habilidad.getDescripcion());
+			prepStatementHabilidad.setInt(5, (int) id);
+			prepStatementHabilidad.executeUpdate();
+			prepStatementHabilidad.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void eliminarHabilidad(Habilidad habilidad, long id) {
+		// TODO Auto-generated method stub
+		final String eliminarHabilidad = "DELETE FROM HABILIDAD WHERE ID_PERSONA = ? AND NOMBRE = ?";
+		PreparedStatement preparedStatementEliminarHab = null;
+		try {
+			preparedStatementEliminarHab = connection.prepareStatement(eliminarHabilidad);
+			preparedStatementEliminarHab.setInt(1, (int) id);
+			preparedStatementEliminarHab.setString(2,habilidad.getNombre());
+			preparedStatementEliminarHab.executeUpdate();
+			preparedStatementEliminarHab.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 

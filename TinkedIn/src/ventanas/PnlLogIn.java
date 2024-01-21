@@ -8,6 +8,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import datos.DatosFicheros;
 import servidor.ServicioPersistencia;
@@ -16,6 +17,7 @@ import usuarios.Persona;
 import usuarios.Usuario;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -45,7 +47,8 @@ public class PnlLogIn extends JPanel {
 	private PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
 	private ServicioPersistencia servicio;
-	
+    private int angle = 0;
+    private SpinnerPanel spinnerPanel;
 	
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana, VentanaPrincipal vp) {
@@ -65,12 +68,7 @@ public class PnlLogIn extends JPanel {
 		lblLogo.setHorizontalAlignment(JLabel.CENTER);
         lblLogo.setVerticalAlignment(JLabel.CENTER);
         pnlLogo.add(lblLogo,BorderLayout.CENTER);
-		
 		add(pnlLogo);
-		
-		
-		
-
 		JPanel pnlCont = new JPanel(new BorderLayout());
 		pnlCont.setPreferredSize(new Dimension(400, 10));
 		pnlCont.setBackground(Color.WHITE);
@@ -135,8 +133,6 @@ public class PnlLogIn extends JPanel {
 		pc.setBackground(Color.white);
 		JLabel lblCorreo = new JLabel("Correo electrónico");
 		lblCorreo.setHorizontalAlignment(SwingConstants.LEFT);
-//		lblCorreo.setMaximumSize(new Dimension(200, 30));
-//		lblCorreo.setMinimumSize(new Dimension(200, 30));
 		pc.add(lblCorreo);
 		pnlFunc.add(pc);
 		
@@ -193,7 +189,21 @@ public class PnlLogIn extends JPanel {
 		pc.add(lblRegistro);
 		pnlFunc.add(pc);
 		
+		spinnerPanel = new SpinnerPanel();
+		Timer timer = new Timer(50, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                angle = (angle + 5) % 360;
+                spinnerPanel.repaint();
+            }
+        });
+        timer.start();
+        spinnerPanel.setMaximumSize(new Dimension(100,100));
+        pnlFunc.add(spinnerPanel);
+		
 		pnlCont.add(pnlFunc,BorderLayout.CENTER);
+		
+		
 		
 		
 //		Listener para abrir la ventana de registrarse
@@ -216,7 +226,7 @@ public class PnlLogIn extends JPanel {
 		        Object[] opciones = {"Empresa", "Persona"};
 		        // Muestra el JOptionPane
 		        int seleccion = JOptionPane.showOptionDialog(
-		                null,
+		                vp,
 		                "¿Qué tipo de cuenta quieres crear?",
 		                "Selecciona un tipo de cuenta",
 		                JOptionPane.YES_NO_OPTION,
@@ -231,6 +241,7 @@ public class PnlLogIn extends JPanel {
 		        	layoutVentana.show(pnlContenido, "pnlRegistroEmpresa");
 		        } else if (seleccion == JOptionPane.NO_OPTION) {
 		            // Opción "Persona" seleccionada
+		        	pnlRegistroPersona.limpiarCampos();;
 		        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
 		        } else {}
 				
@@ -256,11 +267,16 @@ public class PnlLogIn extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(servicio.logIn(tfCorreo.getText(), new String(pfContrasnya.getPassword()))) {
 					Usuario u = servicio.getUsuarioFromCorreo(tfCorreo.getText());
-					System.out.println(u);
-					System.out.println(u.getFotoDePerfil());
-					PnlBotonera pnlBotones = new PnlBotonera( u,vp );
-					pnlContenido.add(pnlBotones,"pnlBotones");
-					layoutVentana.show(pnlContenido, "pnlBotones");
+					spinnerPanel.hacerVisible();
+					tfCorreo.setEditable(false);
+					pfContrasnya.setEditable(false);
+					btnIniciarSesion.setEnabled(false);
+					Thread t1 = new Thread(()->{
+						PnlBotonera pnlBotones = new PnlBotonera( u,vp );
+						pnlContenido.add(pnlBotones,"pnlBotones");
+						layoutVentana.show(pnlContenido, "pnlBotones");
+					});
+					t1.start();
 				}else {
 					lblCredIncorrectas.setVisible(true);
 				}
@@ -308,5 +324,37 @@ public class PnlLogIn extends JPanel {
         g2d.drawImage(srcImg, 0, 0, width, height, null);
         g2d.dispose();
         return resizedImg;
+    }
+	
+    private class SpinnerPanel extends JPanel {
+    	public SpinnerPanel() {
+    		setBackground(Color.WHITE);
+    		setVisible(false);
+    	}
+    	
+    	public void hacerVisible() {
+    		setVisible(true);
+    	}
+    	
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            int centerX = getWidth() / 2;
+            int centerY = (getHeight() / 2) - 15;
+
+            // Dibuja la ruleta giratoria
+            int radius = 30;
+            int x = centerX - radius;
+            int y = centerY - radius;
+
+            g.setColor(VentanaPrincipal.ColorBase);
+            g.fillArc(x, y, 2 * radius, 2 * radius, angle, 30);
+
+            g.setColor(VentanaPrincipal.ColorBase);
+            g.fillArc(x, y, 2 * radius, 2 * radius, angle + 120, 30);
+
+            g.setColor(VentanaPrincipal.ColorBase);
+            g.fillArc(x, y, 2 * radius, 2 * radius, angle + 240, 30);
+        }
     }
 }

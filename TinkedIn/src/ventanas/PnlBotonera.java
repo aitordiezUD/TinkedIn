@@ -64,7 +64,7 @@ public class PnlBotonera extends JPanel {
 	protected static CardLayout CardLayout;
 	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
 	protected static PnlChat pnlChat;
-	
+	protected PnlHabilidad pnlHabilidad;
 	
 //	Pruebas tiempo
 	long tiempoInicio;
@@ -148,7 +148,7 @@ public class PnlBotonera extends JPanel {
 		
 		
 		if (usuarioAutenticado instanceof Persona) {
-			PnlHabilidad pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
+			pnlHabilidad = new PnlHabilidad(pnlFuncional, CardLayout, pnlMiPerfil.getModeloListaPersona(), 1);
 			pnlFuncional.add(pnlHabilidad,"pnlHabilidad");
 			
 			tiempoActual = System.currentTimeMillis();
