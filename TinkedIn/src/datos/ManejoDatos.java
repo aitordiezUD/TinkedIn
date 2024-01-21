@@ -195,6 +195,13 @@ public interface ManejoDatos {
 	 * @return 
 	 */
 	public String getUrlImagenFromId(int id);
+	
+	/**
+	 * @param id de la empresa a la que pertenece el puesto
+	 * @param nombre del puesto
+	 * @param descripcion del puesto
+	 */
+	public void deletePuesto(int id, String nombre, String descripcion);
 
 
 

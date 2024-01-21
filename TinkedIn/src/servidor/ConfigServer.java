@@ -94,6 +94,9 @@ public class ConfigServer {
 		
 //		Añade una habilidad a la base de datos - va seguido de una habilidad y de un id de usuario
 		static String ANADIR_HABILIDAD = "anadir_habilidad";
+		
+//		Elimina un puesto de trabajo buscado por id
+		static String DELETE_PUESTO = "delete_puesto";
 
 //		Añade una habilidad a la base de datos - va seguido de una habilidad y de un id de usuario
 		static String ELIMINAR_HABILIDAD = "eliminar_habilidad";

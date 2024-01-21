@@ -360,6 +360,13 @@ public class Servidor {
 		    				datos.eliminarHabilidad(habilidad,id);
 		    			}
 		    			
+		    			if (objRecibido.equals(ConfigServer.DELETE_PUESTO)) {
+		    				int id = (int) input.readObject();
+		    				String nombre = (String) input.readObject();
+		    				String descripcion = (String) input.readObject();
+		    				datos.deletePuesto(id, nombre, descripcion);
+		    			}
+		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
 	    		}
 	    		System.out.println("Servidor: fin comunicacion");

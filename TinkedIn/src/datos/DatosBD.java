@@ -1178,9 +1178,22 @@ public class DatosBD implements ManejoDatos {
 			e.printStackTrace();
 		}
 	}
-
-
-
-
-
+	
+	@Override
+	public void deletePuesto(int id, String nombre, String descripcion) {
+		// TODO Auto-generated method stub
+		final String updateSql = "DELETE FROM PUESTO_TRABAJO WHERE ID_EMPRESA = ? AND NOMBRE = ? AND DESCRIPCION = ?;";
+		try {
+			prepStatement = connection.prepareStatement(updateSql);
+			prepStatement.setInt(1, id);
+			prepStatement.setString(2, nombre);
+			prepStatement.setString(3, descripcion);
+			prepStatement.executeUpdate();
+			prepStatement.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 }
