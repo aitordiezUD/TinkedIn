@@ -8,7 +8,10 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+
+import componentes.botonAnEl;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;
@@ -23,6 +26,8 @@ import java.awt.RenderingHints;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -41,17 +46,20 @@ import javax.swing.BoxLayout;
 
 public class PnlLogIn extends JPanel {
 	private JTextField tfCorreo;
-	private PnlRegistroPersona pnlRegistroPersona;
-	private PnlRegistroEmpresa pnlRegistroEmpresa;
+	protected static PnlRegistroPersona pnlRegistroPersona;
+	protected static PnlRegistroEmpresa pnlRegistroEmpresa;
 	private JPasswordField pfContrasnya;
 	private ServicioPersistencia servicio;
     private int angle = 0;
     private SpinnerPanel spinnerPanel;
-	
+    protected static JPanel pnlContenido;
+    protected static CardLayout layoutVentana;
 
 	public PnlLogIn(JPanel pnlContenido, CardLayout layoutVentana, VentanaPrincipal vp) {
 		this.servicio = VentanaPrincipal.servicio;
-		
+		PnlLogIn.pnlContenido = pnlContenido;
+		PnlLogIn.layoutVentana = layoutVentana;
+
 		setBackground(new Color(202, 232, 232));
 		setSize(900, 650);
 		setLayout(new BorderLayout(0, 0));
@@ -220,29 +228,29 @@ public class PnlLogIn extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Array de opciones
-		        Object[] opciones = {"Empresa", "Persona"};
-		        // Muestra el JOptionPane
-		        int seleccion = JOptionPane.showOptionDialog(
-		                vp,
-		                "¿Qué tipo de cuenta quieres crear?",
-		                "Selecciona un tipo de cuenta",
-		                JOptionPane.YES_NO_OPTION,
-		                JOptionPane.QUESTION_MESSAGE,
-		                null,
-		                opciones,
-		                opciones[0]
-		        );
-
-		        // Comprueba la opción seleccionada
-		        if (seleccion == JOptionPane.YES_OPTION) {
-		        	layoutVentana.show(pnlContenido, "pnlRegistroEmpresa");
-		        } else if (seleccion == JOptionPane.NO_OPTION) {
-		            // Opción "Persona" seleccionada
-		        	pnlRegistroPersona.limpiarCampos();;
-		        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
-		        } else {}
-				
+//				// Array de opciones
+//		        Object[] opciones = {"Empresa", "Persona"};
+//		        // Muestra el JOptionPane
+//		        int seleccion = JOptionPane.showOptionDialog(
+//		                vp,
+//		                "¿Qué tipo de cuenta quieres crear?",
+//		                "Selecciona un tipo de cuenta",
+//		                JOptionPane.YES_NO_OPTION,
+//		                JOptionPane.QUESTION_MESSAGE,
+//		                null,
+//		                opciones,
+//		                opciones[0]
+//		        );
+//
+//		        // Comprueba la opción seleccionada
+//		        if (seleccion == JOptionPane.YES_OPTION) {
+//		        	layoutVentana.show(pnlContenido, "pnlRegistroEmpresa");
+//		        } else if (seleccion == JOptionPane.NO_OPTION) {
+//		            // Opción "Persona" seleccionada
+//		        	pnlRegistroPersona.limpiarCampos();;
+//		        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
+//		        } else {}
+				new DialogoCreacionUsuario(vp);
 			}
 		});
 		
@@ -315,7 +323,7 @@ public class PnlLogIn extends JPanel {
 
 	}
 	
-	private Image getScaledImage(Image srcImg, int width, int height) {
+	private static Image getScaledImage(Image srcImg, int width, int height) {
         BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = resizedImg.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -323,6 +331,92 @@ public class PnlLogIn extends JPanel {
         g2d.dispose();
         return resizedImg;
     }
+	private static class DialogoCreacionUsuario extends JDialog {
+
+	    public DialogoCreacionUsuario(VentanaPrincipal vp) {
+	    	super(vp);
+	    	setTitle("Bienvenido!");
+	        setSize(450, 250);
+	        setResizable(false);
+	        setLocationRelativeTo(vp); // Centra el diálogo en la pantalla
+	        ImageIcon icon = new ImageIcon("TinkedinPNG.png");
+	        Image iconImage = icon.getImage();
+	        setIconImage(iconImage);
+	        
+	        JPanel panel = new JPanel(new BorderLayout());
+	        panel.setBackground(Color.white);
+	        String mensaje = "<html>¡Bienvenido a TinkedIn! ¡Gracias por elegirnos!<br>";
+	        JLabel lblMensaje = new JLabel(mensaje);
+	        lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+	        lblMensaje.setPreferredSize(new Dimension(300,40));
+	        panel.add(lblMensaje, BorderLayout.NORTH);
+	        getContentPane().add(panel);
+	        
+			JPanel pnlLogo = new JPanel(new BorderLayout());
+			pnlLogo.setBackground(Color.white);
+			pnlLogo.setPreferredSize(new Dimension(190,190));
+			
+			ImageIcon icono = new ImageIcon("TinkedinPNG.png");
+			ImageIcon iconoRedimensionado = new ImageIcon(getScaledImage(icono.getImage(), 150, 150));
+			
+			JLabel lblLogo = new JLabel(iconoRedimensionado);
+			lblLogo.setHorizontalAlignment(JLabel.CENTER);
+	        lblLogo.setVerticalAlignment(JLabel.TOP);
+	        pnlLogo.add(lblLogo,BorderLayout.CENTER);
+	        JPanel p = new JPanel();
+	        p.setPreferredSize(new Dimension(20,20));
+	        p.setBackground(Color.WHITE);
+	        pnlLogo.add(p,BorderLayout.WEST);
+	        panel.add(pnlLogo,BorderLayout.WEST);
+	        
+	        panel.add(new pnlBotones(this),BorderLayout.CENTER);
+	        
+	        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	        setVisible(true);
+	    }
+	    
+	    private void cerrar(){
+	    	dispose();
+	    }
+	    
+	    private static class pnlBotones extends JPanel{
+			private static final long serialVersionUID = 1L;
+			public pnlBotones(DialogoCreacionUsuario dialogo) {
+				setLayout(new BorderLayout());
+				setBackground(Color.WHITE);
+		        String mensaje = "<html>¿Qué tipo de usuario quieres crear?<br>";
+		        JLabel lblMensaje = new JLabel(mensaje);
+		        lblMensaje.setHorizontalAlignment(JLabel.CENTER);
+		        lblMensaje.setPreferredSize(new Dimension(50,50));
+		        add(lblMensaje, BorderLayout.NORTH);
+		        JPanel pnlBtns = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		        pnlBtns.setBackground(Color.white);
+		        botonAnEl btnEmpresa = new botonAnEl("Empresa");
+		        botonAnEl btnPersona = new botonAnEl("Persona");
+		        pnlBtns.add(btnEmpresa);
+		        btnEmpresa.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dialogo.cerrar();
+						pnlRegistroEmpresa.limpiarCampos();
+			        	layoutVentana.show(pnlContenido, "pnlRegistroEmpresa");
+					}
+				});
+		        btnPersona.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dialogo.cerrar();
+						pnlRegistroPersona.limpiarCampos();
+			        	layoutVentana.show(pnlContenido, "pnlRegistroPersona");
+					}
+				});
+		        pnlBtns.add(btnPersona);
+		        add(pnlBtns,BorderLayout.CENTER);
+			}
+		}
+
+	}
 	
     private class SpinnerPanel extends JPanel {
     	public SpinnerPanel() {

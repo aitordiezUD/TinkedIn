@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
+import sistemaExplorar.Like;
 import usuarios.Empresa;
 import usuarios.Persona;
 
@@ -360,6 +361,9 @@ public class Main {
         PuestoTrabajo puestoAdmin = new PuestoTrabajo("Gestión de ONGs AdminE", "Administración de organizaciones benéficas en entornos rurales, prueba AdminE",new ArrayList<>(Arrays.asList(h30, h13)), adminE);
         servicio.anadirPuesto(puestoAdmin);
 
+        servicio.anadirLike(new Like(adminE, adminP));
+        servicio.anadirLike(new Like(adminP, adminE));
+        
 		Mensaje m1 = new Mensaje(adminP.getId(), adminE.getId(), "Hola!", LocalDateTime.now());
 		servicio.anadirMensaje(m1);
 		
