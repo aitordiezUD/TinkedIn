@@ -35,7 +35,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.Habilidad;
 import clases.PuestoTrabajo;
-import datos.DatosFicheros;
 import usuarios.Empresa;
 import usuarios.Persona;
 

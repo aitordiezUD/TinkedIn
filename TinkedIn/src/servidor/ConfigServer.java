@@ -100,4 +100,8 @@ public class ConfigServer {
 
 //		Añade una habilidad a la base de datos - va seguido de una habilidad y de un id de usuario
 		static String ELIMINAR_HABILIDAD = "eliminar_habilidad";
+		
+		static String NUEVO_PUESTO_ANADIDO = "nuevo_puesto_anadido";
+		
+		static String NUEVA_HABILIDAD_ANADIDA = "nueva_habilidad_anadida";
 }

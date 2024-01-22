@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-
-import datos.DatosFicheros;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;

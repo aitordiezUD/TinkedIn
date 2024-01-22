@@ -41,7 +41,6 @@ import javax.swing.border.EmptyBorder;
 
 import clases.Mensaje;
 import clases.TipoMensaje;
-import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;

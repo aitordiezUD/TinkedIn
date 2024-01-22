@@ -10,7 +10,6 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 
-import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;

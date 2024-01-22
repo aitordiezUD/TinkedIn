@@ -20,11 +20,13 @@ import usuarios.Empresa;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.awt.BorderLayout;
+import java.awt.Component;
 
 public class pnlPuestoDeTrabajo extends JPanel {
 	private JTree ArbolHabilidades;
@@ -32,15 +34,15 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	private TreeMap<String, ArrayList<String>> areasDeTrabajo;
 	private DefaultTreeModel modeloArbol;
 	private DefaultMutableTreeNode root;
-	private DefaultListModel modeloLista;
-	private DefaultListModel modeloListaPt;
+	private DefaultListModel<Habilidad> modeloLista;
+	private DefaultListModel<PuestoTrabajo> modeloListaPt;
 	private JTextField tfNombrePuesto;
 	protected ServicioPersistencia servicio;
 	protected Empresa usuarioAu;
 	
 	private String areaHabilidad;
 	
-	public pnlPuestoDeTrabajo( ) {
+	public pnlPuestoDeTrabajo( PnlExplorarEmpresa pnlExplorarEmpresa) {
 
 		if(PnlBotonera.usuarioAutenticado instanceof Empresa) {
 			usuarioAu = (Empresa) (PnlBotonera.usuarioAutenticado);
@@ -85,70 +87,15 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlPreviewHab.setBackground( Color.GREEN );
 		
 		JPanel pnlTituloPreview = new JPanel();
+		pnlTituloPreview.setBackground(new Color(255, 255, 255));
 		pnlTituloPreview.setPreferredSize( new Dimension(getWidth()/2, 30));
 		pnlTituloPreview.setBorder( BorderFactory.createLineBorder(Color.BLACK) );
-		JLabel lblTituloPreview = new JLabel( "VISTA PREVIA DE LA HABILIDAD" );
+		JLabel lblTituloPreview = new JLabel( "DATOS PUESTOS DE TRABAJO" );
 		lblTituloPreview.setFont(new Font("Segoe UI Black", Font.BOLD, 14));
 		pnlTituloPreview.add(lblTituloPreview);
 		
-		JPanel pnlNombrePrev = new JPanel();
-		pnlNombrePrev.setBorder( BorderFactory.createLineBorder( Color.BLACK));
-		JLabel lblNombrePrev = new JLabel("Nombre de la habilidad: ");
-		pnlNombrePrev.add(lblNombrePrev);
-		
-		JPanel pnlPrevDestreza = new JPanel();
-		pnlPrevDestreza.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
-		JLabel lblPrevDestreza = new JLabel( "Destreza: " );
-		
-		JPanel pnlPrevDescrHab = new JPanel();
-		pnlPrevDescrHab.setBorder( BorderFactory.createLineBorder( Color.BLACK ) ); 
-		JLabel lblPreviewDescr = new JLabel("Descripcion: ");
-		pnlPrevDescrHab.add(lblPreviewDescr);
-		
-		JPanel pnlBtnConfirm = new JPanel();
-		botonAceptar btnConfirm = new botonAceptar("Confirmar");
-		pnlBtnConfirm.add( btnConfirm );
-		
-		pnlPrevDestreza.add(lblPrevDestreza);
-		
 		pnlPreviewHab.add(pnlTituloPreview);
-		pnlPreviewHab.add(pnlNombrePrev);
-		pnlPreviewHab.add(pnlPrevDestreza);
-		pnlPreviewHab.add(pnlPrevDescrHab);
-		SquareLabel prevDest = new SquareLabel(0);
-		pnlPrevDestreza.add( prevDest );
-		pnlPreviewHab.add(pnlBtnConfirm);
-		
-		
-		JPanel pnlSpinner = new JPanel();
-		pnlSpinner.setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
-		pnlSpinner.setLayout( new FlowLayout() );
-		JPanel pnlDescrHab = new JPanel();
-		pnlDescrHab.setLayout( new FlowLayout() );
-		pnlDescrHab.setBorder( BorderFactory.createLineBorder( Color.BLACK) );
-		
-		JLabel lblDestreza = new JLabel("Destreza: ");
 		SpinnerNumberModel modelSp = new SpinnerNumberModel(0, 0, 5, 1);
-		JSpinner spDestreza = new JSpinner( modelSp );
-		
-		JLabel lblDescrHab = new JLabel("Descripcion: ");
-		JTextArea taDescrHab = new JTextArea();
-		JScrollPane spDescrHab = new JScrollPane(taDescrHab);
-		spDescrHab.setPreferredSize( new Dimension(100,40) );
-		pnlDescrHab.add(lblDescrHab);
-		pnlDescrHab.add(spDescrHab);
-		pnlSpinner.add(lblDestreza);
-		pnlSpinner.add( spDestreza );
-		
-		pnlEditCampos.add( pnlSpinner );
-		pnlEditCampos.add( pnlDescrHab );
-		JPanel pnlBotonAc = new JPanel();
-		pnlBotonAc.setPreferredSize( new Dimension(getWidth()/2, 35));
-		pnlBotonAc.setBackground( Color.WHITE );
-		pnlBotonAc.setLayout( new FlowLayout() );
-		
-		botonAceptar btnAc = new botonAceptar("Aceptar");
-		pnlBotonAc.add( btnAc );
 		
 		pnlEditHab.setBackground( Color.BLUE );
 		
@@ -164,17 +111,29 @@ public class pnlPuestoDeTrabajo extends JPanel {
 	 	pnlBotoneraIzq.setBorder( BorderFactory.createBevelBorder(0));
 	 	pnlBotoneraIzq.setLayout( new FlowLayout() );
 	    pnlBotoneraIzq.setPreferredSize( new Dimension( getWidth()/4, 50));
-	    botonAnEl btnAñadirHab = new botonAnEl("Añadir");
 	    botonAnEl btnEliminarHab = new botonAnEl("Eliminar");
-	    pnlBotoneraIzq.add( btnAñadirHab );
 	    pnlBotoneraIzq.add( btnEliminarHab );
 	    
-	    JList<?> listaHab = new JList<Object>();
-		modeloLista = new DefaultListModel<Object>();
+	    JList<Habilidad> listaHab = new JList<Habilidad>();
+	    listaHab.setBackground(new Color(255, 255, 255));
+	    listaHab.setForeground(new Color(0, 0, 0));
+		modeloLista = new DefaultListModel<Habilidad>();
 		listaHab.setModel(modeloLista);
 		
+		JPanel pnlLblHabilidad = new JPanel();
+		pnlLblHabilidad.setPreferredSize(new Dimension(375, 30));
+		pnlLblHabilidad.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		pnlLblHabilidad.setBackground(Color.WHITE);
+		pnlLista.add(pnlLblHabilidad);
+		
+		JLabel lblHabilidades = new JLabel("HABILIDADES");
+		lblHabilidades.setFont(new Font("Segoe UI Black", Font.BOLD, 14));
+		pnlLblHabilidad.add(lblHabilidades);
+		pnlEditHab.add(pnlEditCampos, BorderLayout.NORTH);
+		pnlEditHab.add( pnlPreviewHab);
+		
 		JScrollPane spLista = new JScrollPane(listaHab);
-		spLista.setPreferredSize( new Dimension(187, 505));
+		spLista.setPreferredSize( new Dimension(187, 450));
 		pnlLista.add(spLista);
 		
 		add(pnlTitulo, BorderLayout.NORTH);
@@ -184,35 +143,114 @@ public class pnlPuestoDeTrabajo extends JPanel {
 		pnlArbolyLista.add(pnlLista, BorderLayout.EAST);
 		pnlArbolyLista.add( pnlArbol, BorderLayout.WEST );
 		pnlLista.add(pnlBotoneraIzq, BorderLayout.SOUTH);
-		pnlEditHab.add(pnlEditCampos, BorderLayout.NORTH);
-		pnlEditHab.add( pnlPreviewHab);
-		pnlEditCampos.add(pnlBotonAc, BorderLayout.SOUTH);
 		
-		
-		
-		btnConfirm.addActionListener((ActionListener) new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				ArrayList<Habilidad> habilidades = new ArrayList<Habilidad>();
-				for(int i = 0; i<modeloLista.size(); i++) {
-					Habilidad h = (Habilidad) modeloLista.get(i);
-					habilidades.add(h);
-				}
-				PuestoTrabajo p = new PuestoTrabajo(lblNombrePrev.getText(), "Descripcion p", habilidades, usuarioAu);
-				servicio.anadirPuesto(p);
-			}});
 		
-		btnAñadirHab.addActionListener( (ActionListener) new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				Habilidad h = new Habilidad(areaHabilidad, lblNombrePrev.getText(), (int)spDestreza.getValue(), taDescrHab.getText() );
-				modeloLista.addElement((Habilidad)h);
-			}
+		JPanel pnlDescrHab_1_1 = new JPanel();
+		pnlDescrHab_1_1.setBorder(BorderFactory.createLineBorder( Color.BLACK));
+		pnlDescrHab_1_1.setBackground(Color.WHITE);
+		pnlPreviewHab.add(pnlDescrHab_1_1);
+		pnlDescrHab_1_1.setLayout(new FlowLayout());
+		
+		JLabel lblNombrePuesto = new JLabel("Nombre:");
+		pnlDescrHab_1_1.add(lblNombrePuesto);
+		
+		JTextArea taNombrePuesto = new JTextArea();
+		taNombrePuesto.setPreferredSize(new Dimension(200, 100));
+		JScrollPane spNombrePuesto = new JScrollPane(taNombrePuesto);
+		pnlDescrHab_1_1.add(spNombrePuesto);
+		
+		JPanel pnlDescrHab_1 = new JPanel();
+		pnlDescrHab_1.setBorder(BorderFactory.createLineBorder( Color.BLACK));
+		pnlDescrHab_1.setBackground(Color.WHITE);
+		pnlPreviewHab.add(pnlDescrHab_1);
+		pnlDescrHab_1.setLayout(new FlowLayout());
+		
+		JLabel lblDescrPuesto = new JLabel("Descripcion: ");
+		pnlDescrHab_1.add(lblDescrPuesto);
+		
+		JTextArea taDescrPuesto = new JTextArea();
+		taDescrPuesto.setPreferredSize(new Dimension(200, 100));
+		JScrollPane spDescrPuesto = new JScrollPane(taDescrPuesto);
+		pnlDescrHab_1.add(spDescrPuesto);
+		
+		JPanel pnlBtnConfirm = new JPanel();
+		pnlBtnConfirm.setBackground(Color.WHITE);
+		pnlPreviewHab.add(pnlBtnConfirm);
+		
+		botonAceptar btnConfirm = new botonAceptar("Confirmar");
+		pnlBtnConfirm.add(btnConfirm);
+		
+		JPanel pnlDatosHabilidad = new JPanel();
+		pnlDatosHabilidad.setPreferredSize(new Dimension(375, 30));
+		pnlDatosHabilidad.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		pnlDatosHabilidad.setBackground(Color.WHITE);
+		pnlEditCampos.add(pnlDatosHabilidad);
+		
+		JLabel lblDatosHab = new JLabel("DATOS HABILIDAD");
+		lblDatosHab.setFont(new Font("Segoe UI Black", Font.BOLD, 14));
+		pnlDatosHabilidad.add(lblDatosHab);
+		
+		JPanel pnlSpinner = new JPanel();
+		pnlSpinner.setBorder(BorderFactory.createLineBorder( Color.BLACK ));
+		pnlSpinner.setBackground(Color.WHITE);
+		pnlEditCampos.add(pnlSpinner);
+		pnlSpinner.setLayout(new FlowLayout());
+		
+		JLabel lblDestreza = new JLabel("Destreza: ");
+		pnlSpinner.add(lblDestreza);
+		
+		JSpinner spDestreza = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
+		pnlSpinner.add(spDestreza);
+		
+		JPanel pnlDescrHab = new JPanel();
+		pnlDescrHab.setBorder(BorderFactory.createLineBorder( Color.BLACK));
+		pnlDescrHab.setBackground(Color.WHITE);
+		pnlEditCampos.add(pnlDescrHab);
+		pnlDescrHab.setLayout(new FlowLayout());
+		
+		JLabel lblDescrHab = new JLabel("Descripcion: ");
+		pnlDescrHab.add(lblDescrHab);
+		
+		TextArea taDescrHab = new TextArea();
+		taDescrHab.setPreferredSize(new Dimension(150, 80));
+		JScrollPane spDescrHab = new JScrollPane(taDescrHab);
+		pnlDescrHab.add(spDescrHab);
+		
+		JPanel pnlBotonAc = new JPanel();
+		pnlBotonAc.setPreferredSize(new Dimension(375, 35));
+		pnlBotonAc.setBackground(Color.WHITE);
+		pnlEditCampos.add(pnlBotonAc);
+		pnlBotonAc.setLayout(new FlowLayout());
+		
+		botonAceptar btnAc = new botonAceptar("Aceptar");
+		pnlBotonAc.add(btnAc);
+		
+//		btnAñadirHab.addActionListener( (ActionListener) new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				Habilidad h = new Habilidad(areaHabilidad, lblNombrePrev.getText(), (int)spDestreza.getValue(), taDescrHab.getText() );
+//				modeloLista.addElement(h);
+//				listaHab.repaint();
+//			}
+//			
+//		});
+		
+		btnConfirm.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Habilidad> habilidades = new ArrayList<>();
+				for (int i = 0; i < modeloLista.size(); i++) {
+				    habilidades.add(modeloLista.getElementAt(i));
+				}
+				PuestoTrabajo puesto = new PuestoTrabajo(taNombrePuesto.getText(), taDescrPuesto.getText(), habilidades, PnlBotonera.usuarioAutenticado.getId());
+				servicio.anadirPuesto(puesto);
+				pnlExplorarEmpresa.anadirPuesto(puesto);
+				PnlMiPerfil.anadirPuestoLista(puesto);
+			}
 		});
 			
 		btnEliminarHab.addActionListener( (ActionListener) new ActionListener() {
@@ -221,16 +259,26 @@ public class pnlPuestoDeTrabajo extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int indiceElegido = listaHab.getSelectedIndex();
-				modeloLista.removeElementAt(indiceElegido);
+				if (indiceElegido != -1) {
+					modeloLista.removeElementAt(indiceElegido);
+					listaHab.repaint();
+				}
 			}});
 		
 		btnAc.addActionListener((ActionListener) new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				prevDest.setText(spDestreza.getValue().toString());
-				lblPreviewDescr.setText(taDescrHab.getText());
+				TreePath path = ArbolHabilidades.getSelectionPath();
+				if (path != null) {
+					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+					DefaultMutableTreeNode fieldNode = (DefaultMutableTreeNode) selectedNode.getParent();
+					String campo = (String) fieldNode.getUserObject();
+					String nombre = (String) selectedNode.getUserObject();
+					Habilidad habilidad = new Habilidad(campo, nombre, (int) spDestreza.getValue(), taDescrHab.getText());
+					modeloLista.addElement(habilidad);
+					listaHab.repaint();
+				}
 
 			}
 		});
@@ -245,7 +293,6 @@ public class pnlPuestoDeTrabajo extends JPanel {
 				// TODO Auto-generated method stub
 				TreePath ruta = ArbolHabilidades.getSelectionPath();
 				if (ruta.getPathCount() == 2) { 
-			    	lblNombrePrev.setText("");
 			        Object selectedNode = ArbolHabilidades.getLastSelectedPathComponent();
 			        if (selectedNode instanceof DefaultMutableTreeNode) {
 			            DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
@@ -264,7 +311,6 @@ public class pnlPuestoDeTrabajo extends JPanel {
 			    		}else {
 			    		Object habilidad = node.getUserObject();
 			    		if ( habilidad != null && habilidad instanceof String ) {
-			    			lblNombrePrev.setText( ( String ) habilidad );
 			    		}}
 			    	}
 			    }
@@ -886,11 +932,5 @@ public class pnlPuestoDeTrabajo extends JPanel {
         this.areasDeTrabajo=areasDeTrabajo;
 	}
 	
-	public static void main(String[] args) {
-		JFrame vent = new JFrame();
-		vent.add( new pnlPuestoDeTrabajo() );
-		vent.getContentPane().add(new pnlPuestoDeTrabajo());
-		vent.setSize(750,650);
-		vent.setVisible(true);
-	}
+
 }

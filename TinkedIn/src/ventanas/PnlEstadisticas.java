@@ -14,7 +14,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import clases.Habilidad;
 import clases.PuestoTrabajo;
-import datos.DatosFicheros;
 import servidor.ServicioPersistencia;
 import usuarios.Empresa;
 import usuarios.Persona;

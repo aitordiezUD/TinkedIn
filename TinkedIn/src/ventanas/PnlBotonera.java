@@ -34,7 +34,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import clases.Main;
-import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import servidor.ServicioPersistencia;
 import sistemaExplorar.Match;
@@ -59,12 +58,15 @@ public class PnlBotonera extends JPanel {
 	private ImageIcon icono;
 	private JPanel btnSeleccionado = null;
 	private HashMap<JPanel,JPanel> mapaPaneles;
-	protected static Usuario usuarioAutenticado;
+	public static Usuario usuarioAutenticado;
 	public static JPanel pnlFuncional;
 	protected static CardLayout CardLayout;
-	protected static VentanaPrincipal vp; //Necesario para cuando falle la conexion con el servidor cerrar la ventana
+	protected static VentanaPrincipal vp; 
 	protected static PnlChat pnlChat;
+	public static PnlExplorarPersona pExplorarPersona;
+	public static PnlExplorarEmpresa pExplorarEmpresa;
 	protected PnlHabilidad pnlHabilidad;
+	protected String pnlActual = "";
 	
 //	Pruebas tiempo
 	long tiempoInicio;
@@ -110,7 +112,6 @@ public class PnlBotonera extends JPanel {
 		tiempoInicio = System.currentTimeMillis();
 		
 		
-		pnlPuestoDeTrabajo pnlPuestoTrabajo = new pnlPuestoDeTrabajo();
 		
 		tiempoActual = System.currentTimeMillis();
 		tiempoResultante = tiempoActual - tiempoInicio;
@@ -126,7 +127,7 @@ public class PnlBotonera extends JPanel {
 		pnlInicial.add(lblInicial,BorderLayout.CENTER);
         
 		pnlFuncional.add(pnlInicial,"pnlInicial");
-		CardLayout.show(pnlFuncional, "pnlInicial");		
+		mostrarPnlInicial();
 		
 		JPanel PnlBotones = new JPanel();
 		PnlBotones.setBorder( BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
@@ -144,7 +145,6 @@ public class PnlBotonera extends JPanel {
 		pnlPerfil.setLayout(null);
 		
 		pnlFuncional.add(pnlMiPerfil,"pnlMiPerfil");
-		pnlFuncional.add(pnlPuestoTrabajo, "pnlPuestoTrabajo");
 		
 		
 		if (usuarioAutenticado instanceof Persona) {
@@ -158,14 +158,12 @@ public class PnlBotonera extends JPanel {
 		}
 
 		
-		PnlEditarPerfil pnlEditarPerfil = new PnlEditarPerfil();
 		
 		tiempoActual = System.currentTimeMillis();
 		tiempoResultante = tiempoActual - tiempoInicio;
 		System.err.println("PnlEditarPerfil: " + tiempoResultante);
 		tiempoInicio = System.currentTimeMillis();
 		
-		pnlFuncional.add(pnlEditarPerfil,"pnlEditarPerfil");
 		
 		JLabel lblPerfil = new JLabel("Mi Perfil");
 		lblPerfil.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -209,7 +207,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlPerfil;
-				CardLayout.show(pnlFuncional, "pnlMiPerfil");
+				mostrarPnlMiPerfil();
 				pnlPerfil.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -243,11 +241,11 @@ public class PnlBotonera extends JPanel {
 		
 		if (usuarioAutenticado instanceof Persona) {
 			Persona personaAutenticada = (Persona) usuarioAutenticado;
-			PnlExplorarPersona pExplorarPersona = new PnlExplorarPersona(personaAutenticada, VentanaPrincipal.servicio);
+			pExplorarPersona = new PnlExplorarPersona(personaAutenticada, VentanaPrincipal.servicio);
 			pnlFuncional.add(pExplorarPersona,"pnlExplorar");
 		}else {
 			Empresa empresaAutenticada = (Empresa) usuarioAutenticado;
-			PnlExplorarEmpresa pExplorarEmpresa = new PnlExplorarEmpresa(empresaAutenticada, VentanaPrincipal.servicio);
+			pExplorarEmpresa = new PnlExplorarEmpresa(empresaAutenticada, VentanaPrincipal.servicio);
 			pnlFuncional.add(pExplorarEmpresa,"pnlExplorar");
 
 		}
@@ -293,7 +291,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlExplorar;
-				CardLayout.show(pnlFuncional, "pnlExplorar");
+				mostrarPnlExplorar();
 				pnlExplorar.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -377,7 +375,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlMensajes;
-				CardLayout.show(pnlFuncional, "pnlChat");
+				mostrarPnlChat();
 				pnlMensajes.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -453,7 +451,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlEstadisticas;
-				CardLayout.show(pnlFuncional, "pStats");
+				mostrarPnlStats();
 				pnlEstadisticas.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -528,7 +526,7 @@ public class PnlBotonera extends JPanel {
 					btnSeleccionado.setBackground(new Color(208, 235, 242));
 				}
 				btnSeleccionado = pnlAjustes;
-				CardLayout.show(pnlFuncional, "pAjustes");
+				mostrarPnlAjustes();
 				pnlAjustes.setBackground(new Color(122, 199, 218));
 			}
 			@Override
@@ -554,6 +552,35 @@ public class PnlBotonera extends JPanel {
 		});
 	}
 
+	private void mostrarPnlInicial() {
+		CardLayout.show(pnlFuncional, "pnlInicial");		
+		pnlActual = "pnlInicial";
+	}
+	
+	private void mostrarPnlChat() {
+		CardLayout.show(pnlFuncional, "pnlChat");
+		pnlActual = "pnlChat";
+	}
+	private void mostrarPnlAjustes() {
+		CardLayout.show(pnlFuncional, "pAjustes");
+		pnlActual = "pAjustes";
+	}
+	
+	private void mostrarPnlMiPerfil() {
+		CardLayout.show(pnlFuncional, "pnlMiPerfil");
+		pnlActual = "pnlMiPerfil";
+	}
+	
+	private void mostrarPnlStats() {
+		CardLayout.show(pnlFuncional, "pStats");
+		pnlActual = "pStats";
+	}
+	
+	private void mostrarPnlExplorar() {
+		CardLayout.show(pnlFuncional, "pnlExplorar");
+		pnlActual = "pnlExplorar";
+	}
+	
 	public static void notificarMatch(Match match) {
 		String nombre;
 		Usuario usuario;

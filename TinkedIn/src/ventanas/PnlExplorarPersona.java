@@ -225,6 +225,13 @@ public class PnlExplorarPersona extends JPanel {
 		}
 		mostrarSiguientePuesto();
 	}
+	
+	public void actualizar() {
+		puestosCandidatos = CrearTreeSetPuestos();
+		iteradorPuestos = puestosCandidatos.iterator();
+		mostrarSiguientePuesto();
+		repaint();
+	};
 
 	public void xArojo() {
 		try {

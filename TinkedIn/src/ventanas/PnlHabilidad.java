@@ -268,10 +268,12 @@ public class PnlHabilidad extends JPanel {
 					Habilidad hab = new Habilidad(campo, nombre, destreza, descripcion);
 					if (!(modeloLista.contains(hab))) {
 						modeloLista.addElement(hab);
+						listaHabilidades.repaint();
 						spDestreza.setValue(0);
 						textArea.setText("");
 						if (cod == 1) {
 							VentanaPrincipal.servicio.anadirHabilidad(hab, PnlBotonera.usuarioAutenticado.getId());
+							PnlBotonera.pExplorarPersona.actualizar();
 						}
 					} else {
 						JOptionPane.showOptionDialog(null, "La habilidad seleccionada ya está añadida", "Error",

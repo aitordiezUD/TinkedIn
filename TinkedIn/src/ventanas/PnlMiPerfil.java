@@ -2,27 +2,15 @@ package ventanas;
 
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -30,25 +18,19 @@ import javax.swing.event.ListDataListener;
 import clases.Habilidad;
 import clases.PuestoTrabajo;
 import componentes.botonAnEl;
-import datos.DatosFicheros;
 import nube.ImagenesAzure;
 import usuarios.Empresa;
 import usuarios.Persona;
 import usuarios.Usuario;
 
-import java.awt.Font;
-import java.awt.Graphics;
-
 
 public class PnlMiPerfil  extends JPanel {
-	
-	private PnlEditarPerfil pnlEditarPerfil;
-//	private Usuario usuarioAutenticado;
+	private static final long serialVersionUID = 1L;
 	private Persona personaAutenticada;
 	private Empresa empresaAutenticada;
 	private DefaultListModel<Habilidad> modeloListaPersona;
-	private DefaultListModel<PuestoTrabajo> modeloListaEmpresa;
-	
+	private static DefaultListModel<PuestoTrabajo> modeloListaEmpresa;
+	private static JList<PuestoTrabajo> listaPuestosTrabajo;
 	public DefaultListModel<Habilidad> getModeloListaPersona() {
 		return modeloListaPersona;
 	}
@@ -61,13 +43,9 @@ public class PnlMiPerfil  extends JPanel {
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
 		setSize(750,650);
-//		usuarioAutenticado = PnlBotonera.usuarioAutenticado;
-		
 		
 		if (usuarioAutenticado instanceof Persona) {
 			personaAutenticada = (Persona) usuarioAutenticado;
-			
-			pnlEditarPerfil = new PnlEditarPerfil();
 			
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
@@ -119,6 +97,13 @@ public class PnlMiPerfil  extends JPanel {
 			p.setPreferredSize(new Dimension(1000,40));
 			p.setMaximumSize(new Dimension(1000,40));
 			p.add(lblNTelefono);
+			pnlDatosContactoContenido.add(p);
+			
+			JLabel lblEdad = new JLabel("Edad: " + calcularDiferenciaAnios(personaAutenticada.getEdad()));
+			p = new JPanel(new BorderLayout());
+			p.setPreferredSize(new Dimension(1000,40));
+			p.setMaximumSize(new Dimension(1000,40));
+			p.add(lblEdad);
 			pnlDatosContactoContenido.add(p);
 
 			JLabel lblUbicacion = new JLabel("Ubicación: " + personaAutenticada.getUbicacion());
@@ -219,6 +204,7 @@ public class PnlMiPerfil  extends JPanel {
 						VentanaPrincipal.servicio.eliminarHabilidad(habilidad, PnlBotonera.usuarioAutenticado.getId());
 						modeloListaPersona.removeElement(habilidad);
 						list.repaint();
+						PnlBotonera.pExplorarPersona.repaint();
 					}
 				}
 			});
@@ -228,9 +214,6 @@ public class PnlMiPerfil  extends JPanel {
 		} else {
 			
 			empresaAutenticada = (Empresa) usuarioAutenticado;
-			
-			pnlEditarPerfil = new PnlEditarPerfil();
-			
 			
 			JPanel pnlSup = new JPanel(new BorderLayout());
 			pnlSup.setBackground(VentanaPrincipal.ColorBase);
@@ -361,7 +344,7 @@ public class PnlMiPerfil  extends JPanel {
 			p.add(lblFuentePuestosTrabajo);
 			pnlListaContenido.add(p, BorderLayout.NORTH);
 			
-			JList<PuestoTrabajo> list = new JList<PuestoTrabajo>();
+			listaPuestosTrabajo = new JList<PuestoTrabajo>();
 			modeloListaEmpresa = new DefaultListModel<PuestoTrabajo>();
 			modeloListaEmpresa.addListDataListener(new ListDataListener() {
 				
@@ -384,128 +367,30 @@ public class PnlMiPerfil  extends JPanel {
 				}
 			});
 			llenarListaPuestosTrabajo();
-			list.setModel(modeloListaEmpresa);
+			listaPuestosTrabajo.setModel(modeloListaEmpresa);
 			
-			pnlListaContenido.add(new JScrollPane(list));
+			pnlListaContenido.add(new JScrollPane(listaPuestosTrabajo));
 
 
 		}
-		
-//		
-//		try {
-//	        InputStream imageStream = PnlBotonera.class.getResourceAsStream("EditarPerfil.png");
-//	        BufferedImage originalImage = ImageIO.read(imageStream);
-//
-//	        // Redimensiona la imagen a un tamaño más pequeño (50x50 pixeles)
-//	        int width = 25;
-//	        int height = 25;
-//	        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//
-//	        // Convierte la imagen escalada en un BufferedImage
-//	        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-//	        Graphics2D g2d = resizedImage.createGraphics();
-//	        g2d.drawImage(scaledImage, 0, 0, null);
-//	        g2d.dispose();
-//			
-//	        JButton btnEditar =new JButton(new ImageIcon(resizedImage));
-//	        btnEditar.setBounds(20, 80, 25, 25);
-//	  
-//
-//	        pnlDatosContacto.add(btnEditar);
-//	        
-//	        btnEditar.addActionListener(new ActionListener() {
-//				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					
-//					PnlBotonera.pnlFuncional.add(pnlEditarPerfil,"pnlEditarPerfil");
-//					PnlBotonera.CardLayout.show(PnlBotonera.pnlFuncional, "pnlEditarPerfil");
-//					
-//				}
-//			});
-//			
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//		
-//		
-//		JLabel lblDatosPerfil = new JLabel("Datos:");
-//		lblDatosPerfil.setHorizontalAlignment(SwingConstants.LEFT);
-//		lblDatosPerfil.setFont(new Font("Tahoma", Font.BOLD, 15));
-//		pnlDatosContacto.add(lblDatosPerfil);
-//		
-//		JLabel lblFuenteCurriculum = new JLabel("Curriculum:");
-//		lblFuenteCurriculum.setFont(new Font("Tahoma", Font.BOLD, 15));
-//		lblFuenteCurriculum.setBounds(488, 11, 105, 22);
-//		pnlDatosContacto.add(lblFuenteCurriculum);
-//		
-//		JList list = new JList();
-//		list.setBounds(399, 44, 286, 332);
-//		pnlDatosContacto.add(list);
-//		
-//		JLabel lblTitPrincipal = new JLabel("Titulacion principal (ejemplo)");
-//		lblTitPrincipal.setForeground(new Color(128, 128, 128));
-//		lblTitPrincipal.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-//		lblTitPrincipal.setBounds(20, 50, 261, 23);
-//		pnlDatosContacto.add(lblTitPrincipal);
-//		
-//		JLabel lblNombre = new JLabel("Nombre de la persona (ejemplo)");
-//		lblNombre.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
-//		lblNombre.setBounds(20, 23, 332, 31);
-//		pnlDatosContacto.add(lblNombre);
-//		
-//		JLabel lblProvincia = new JLabel("Provincia:");
-//		lblProvincia.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-//		lblProvincia.setBounds(20, 202, 80, 23);
-//		pnlDatosContacto.add(lblProvincia);
-//		JLabel lblProvU = new JLabel("");
-//		lblProvU.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
-//		lblProvU.setBounds(106, 199, 163, 48);
-//		pnlDatosContacto.add(lblProvU);
-//		JLabel lblNumTlfU = new JLabel("");
-//		lblNumTlfU.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
-//		lblNumTlfU.setForeground(new Color(0, 0, 160));
-//		lblNumTlfU.setBounds(118, 163, 151, 39);
-//		pnlDatosContacto.add(lblNumTlfU);
-//		
-//		
-//		if (usuarioAutenticado instanceof Persona) {
-//			Persona per = (Persona) usuarioAutenticado;
-//			System.out.println(per.getUbicacion());
-//			lblNombre.setText( per.getNombre() + " " + per.getApellidos() );
-//			lblProvU.setText( per.getUbicacion() );
-//			lblNumTlfU.setText( per.getTelefono() );
-//			
-//		}	
-//		
-//		JButton btnCrearPt = new JButton("Crear Puestos");
-//		btnCrearPt.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				PnlBotonera.CardLayout.show( PnlBotonera.pnlFuncional, "pnlPuestoTrabajo");
-//			}
-//		});
-//		btnCrearPt.setBounds(20, 347, 133, 23);
-//		pnlDatosContacto.add(btnCrearPt);
-		
-
-		
-		//TODO: Arreglar
-	
-//		lblEditarFoto.addMouseListener( new MouseAdapter() {			
-//		@Override
-//		public void mouseClicked(MouseEvent e) {
-//			// TODO Auto-generated method stub
-//			lblEditarFoto.setBackground(new Color(208, 235, 242));
-//		}
-//		@Override
-//		public void mouseEntered(MouseEvent e) {
-//			// TODO Auto-generated method stub
-//			lblEditarFoto.setBackground(new Color(122, 199, 218));
-//		}
-//		
-//	});
-	
 }
+	protected static int calcularDiferenciaAnios(Date fechaFin) {
+		Date fechaInicio = new Date();
+		Calendar calInicio = Calendar.getInstance();
+		calInicio.setTime(fechaInicio);
+		Calendar calFin = Calendar.getInstance();
+		calFin.setTime(fechaFin);
+		int anios = calInicio.get(Calendar.YEAR) - calFin.get(Calendar.YEAR);
+		if (calInicio.get(Calendar.DAY_OF_YEAR) > calFin.get(Calendar.DAY_OF_YEAR)) {
+			anios--;
+		}
+		return anios;
+	}
+
+	public static void anadirPuestoLista(PuestoTrabajo pt) {
+		modeloListaEmpresa.addElement(pt);
+		listaPuestosTrabajo.repaint();
+	}
 	
 	private void llenarListaCurriculum() {
 		if (personaAutenticada.getCurriculum()!=null) {
@@ -537,24 +422,6 @@ public class PnlMiPerfil  extends JPanel {
         }
 	}
    
-	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		DatosFicheros datos = new DatosFicheros();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		PnlMiPerfil pnlPerfil = new PnlMiPerfil(DatosFicheros.getEmpresas().get(0));
-
-		
-		frame.setSize(750, 650);
-		frame.setVisible(true);
-		
-	}
 }
 	
 

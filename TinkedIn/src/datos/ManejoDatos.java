@@ -32,7 +32,7 @@ public interface ManejoDatos {
 	 */
 	public void init();
 	
-	
+	public void generarDatosPrueba();
 	
 	/**
 	 * Proceso de finalización del programa donde guardaremos los datos necesarios

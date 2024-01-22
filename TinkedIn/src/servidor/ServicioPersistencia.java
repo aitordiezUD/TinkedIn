@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -23,6 +24,7 @@ import usuarios.Persona;
 import usuarios.Usuario;
 import ventanas.PnlBotonera;
 import ventanas.PnlChat;
+import ventanas.PnlExplorarPersona;
 
 public class ServicioPersistencia{
 	private HiloComunicacionServidor hilo = null;
@@ -33,6 +35,9 @@ public class ServicioPersistencia{
 	private Vector<Object> respuestasServidor = new Vector<>();  // Respuestas del servidor encoladas para ser procesadas según procedan
 	private Vector<Mensaje> mensajesRecibidos = new Vector<>();  // Mensajes de otros usuarios recibidos (por medio del servidor) encolados para ser procesados según procedan
 	private Vector<Match> listaMatches = new Vector<>(); //Matches encolados para ser procesados segun procedan
+	private Vector<String> listaActualizacionesPuesto = new Vector<>();
+	private Vector<String> listaActualizacionesHabilidad = new Vector<>();
+
 	
 	private PnlChat pnlChat = null;
 	
@@ -71,6 +76,10 @@ public class ServicioPersistencia{
 	            			mensajesRecibidos.add( (Mensaje) respuesta );
 	            		}else if(respuesta instanceof Match) {
 	            			listaMatches.add((Match)respuesta);
+	            		}else if(respuesta instanceof String && respuesta.equals(ConfigServer.NUEVO_PUESTO_ANADIDO)) {
+	            			listaActualizacionesPuesto.add((String)respuesta);
+	            		}else if(respuesta instanceof String && respuesta.equals(ConfigServer.NUEVA_HABILIDAD_ANADIDA)) {
+	            			listaActualizacionesHabilidad.add((String)respuesta);
 	            		}
 	            		else {
 	            			respuestasServidor.add( respuesta );
@@ -92,6 +101,8 @@ public class ServicioPersistencia{
 			hilo.start();
 			(new Thread( () ->  escuchadorMensajes())).start();
 			(new Thread( () ->  comprobadorDeMatches())).start();
+			(new Thread( () ->  escuchadorNuevosPuestos())).start();
+			(new Thread( () ->  escuchadorNuevasHabilidades())).start();
 			long time = System.currentTimeMillis();
 			while (flujoOut==null && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
 				Thread.sleep( 100 );
@@ -112,6 +123,31 @@ public class ServicioPersistencia{
 			while(mensajesRecibidos.size() != 0) {
 				Mensaje m = mensajesRecibidos.remove(0);
 				this.pnlChat.getMapaPaneles().get((int) m.getFrom()).locateMessage(TipoMensaje.RECEPCION, m);
+			}
+			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+		}
+	}
+	
+	public void escuchadorNuevosPuestos() {
+		while (!finComunicacion) {
+			while(listaActualizacionesPuesto.size() != 0) {
+				listaActualizacionesPuesto.remove(0);
+				if (PnlBotonera.usuarioAutenticado instanceof Persona) {
+					PnlBotonera.pExplorarPersona.actualizar();
+					System.out.println("El panel explorar se debera de Actualizar");
+				}
+			}
+			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+		}
+	}
+	
+	public void escuchadorNuevasHabilidades() {
+		while (!finComunicacion) {
+			while(listaActualizacionesHabilidad.size() != 0) {
+				listaActualizacionesHabilidad.remove(0);
+				if (PnlBotonera.usuarioAutenticado instanceof Empresa) {
+					PnlBotonera.pExplorarEmpresa.actualizar();
+				}
 			}
 			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 		}
@@ -489,14 +525,6 @@ public class ServicioPersistencia{
 			flujoOut.writeObject(id);
 			flujoOut.writeObject(nombre);
 			flujoOut.writeObject(descripcion);
-			long time = System.currentTimeMillis();
-			while (respuestasServidor.isEmpty() && (System.currentTimeMillis()-time < TIMEOUT_ESPERA_SERVIDOR)) {
-				Thread.sleep( 100 );
-			}
-			if (System.currentTimeMillis()-time >= TIMEOUT_ESPERA_SERVIDOR) {  // Timeout
-				if(logger!=null) logger.log(Level.WARNING, "No se ha podido eliminar el puesto de trabajo, timeout servidor");
-				return ;
-			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

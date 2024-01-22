@@ -69,13 +69,17 @@ public class PnlExplorarEmpresa extends JPanel {
 
 	private JPanel pnlInicial;
 	private PuestoTrabajo puestoElegido;
-	protected static Usuario usuarioAutenticado;
+	protected static Empresa usuarioAutenticado;
 	protected ServicioPersistencia servicio;
 	protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	protected CardLayout clPaneles;
 	protected Persona personaActual;
 	protected HashMap<PuestoTrabajo,String> mapaPaneles = new HashMap<>();
 	protected boolean pnlLogoOn = true;
+	protected JList<PuestoTrabajo> listaPuestos;
+	protected JPanel panelesPuestos;
+	protected JFrame vent;
+	protected ArrayList<PanelExploracion> listaPaneles = new ArrayList<>();
 
 	public PnlExplorarEmpresa(Empresa empr, ServicioPersistencia servicio) {
 		setLayout(new BorderLayout());
@@ -94,8 +98,6 @@ public class PnlExplorarEmpresa extends JPanel {
 		pnlContenido.setPreferredSize(new Dimension(getWidth() - 250, getHeight()));
 		add(pnlContenido, BorderLayout.CENTER);
 
-
-		
 
 		JPanel pnlLista = new JPanel();
 		pnlLista.setLayout(new BorderLayout());
@@ -120,18 +122,20 @@ public class PnlExplorarEmpresa extends JPanel {
         
         pnlInicial.add( pnlLogo,"pnlLogo" );
         
-        JPanel panelesPuestos = new JPanel();
+        panelesPuestos = new JPanel();
         CardLayout clPanelesExplorar = new CardLayout();
         panelesPuestos.setLayout(clPanelesExplorar);
         pnlInicial.add(panelesPuestos, "panelesPuestos");
 		
-		JList<PuestoTrabajo> listaPuestos = new JList<PuestoTrabajo>();
+		listaPuestos = new JList<PuestoTrabajo>();
 		modeloListaPt = new DefaultListModel<PuestoTrabajo>();
 
 		for (PuestoTrabajo pt : empr.getPuestos()) {
 			System.out.println(pt.getHabilidadesReq());
 			modeloListaPt.addElement(pt);
-			panelesPuestos.add(new PanelExploracion(empr, servicio, pt), pt.hashCode()+"");
+			PanelExploracion pe = new PanelExploracion(empr, servicio, pt);
+			panelesPuestos.add(pe, pt.hashCode()+"");
+			listaPaneles.add(pe);
 			mapaPaneles.put(pt,pt.hashCode()+"");
 		}
 
@@ -191,12 +195,11 @@ public class PnlExplorarEmpresa extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JFrame vent = new JFrame();
+				vent = new JFrame();
 				vent.setSize(750,600);
 				vent.setLocationRelativeTo(null);
 				vent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				
-				vent.add(new pnlPuestoDeTrabajo());
+				vent.add(new pnlPuestoDeTrabajo(PnlExplorarEmpresa.this));
 				vent.setVisible(true);
 			}});
 		
@@ -251,13 +254,15 @@ public class PnlExplorarEmpresa extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(listaPuestos.getSelectedValue()!= null) {
-					PuestoTrabajo p = listaPuestos.getSelectedValue();
-					modeloListaPt.removeElement(p);
-					servicio.deletePuesto((int)PnlBotonera.usuarioAutenticado.getId(), p.getNombre(), p.getDescripcion());
+				System.out.println(modeloListaPt.size());
+				if (puestoElegido != null) {
+					modeloListaPt.removeElement(puestoElegido);
+					listaPuestos.repaint();
+					servicio.deletePuesto((int)PnlBotonera.usuarioAutenticado.getId(), puestoElegido.getNombre(), puestoElegido.getDescripcion());
+					mapaPaneles.remove(puestoElegido);
+					clPanelesExplorar.show(panelesPuestos, mapaPaneles.get(modeloListaPt.get(0)));
+					puestoElegido = null;
 				}else {System.out.println("Nada seleccionado");}
-
-				
 			}
 			
 		});
@@ -274,6 +279,14 @@ public class PnlExplorarEmpresa extends JPanel {
         g2d.dispose();
         return resizedImg;
     }
+	
+	public void anadirPuesto(PuestoTrabajo puesto) {
+		modeloListaPt.addElement(puesto);
+		listaPuestos.repaint();
+		panelesPuestos.add(new PanelExploracion(usuarioAutenticado, servicio, puesto), puesto.hashCode()+"");
+		mapaPaneles.put(puesto,puesto.hashCode()+"");
+		vent.dispose();
+	}
 	
 	public static void main(String[] args) {
 		System.out.println("Creando pnlExplorar");
@@ -539,6 +552,19 @@ public class PnlExplorarEmpresa extends JPanel {
 			for (Habilidad h : habilidades) {
 				modeloHP.addElement(h);
 			}
+		}
+		
+		private void actualizarPanel() {
+			tsPersonas = crearTreeSetPersonas(puestoTrabajo);
+			iteradorPersonas = tsPersonas.iterator();
+			mostrarSiguientePersona();
+			repaint();
+		}
+	}
+
+	public void actualizar() {
+		for (PanelExploracion pe : listaPaneles) {
+			pe.actualizarPanel();
 		}
 	}
 }

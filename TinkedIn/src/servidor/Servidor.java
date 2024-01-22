@@ -5,6 +5,7 @@ package servidor;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,10 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -24,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +31,6 @@ import clases.Habilidad;
 import clases.Mensaje;
 import clases.PuestoTrabajo;
 import datos.DatosBD;
-import datos.DatosFicheros;
 import datos.ManejoDatos;
 import sistemaExplorar.Like;
 import sistemaExplorar.Match;
@@ -153,6 +148,7 @@ public class Servidor {
 	    		while(!finComunicacion) {  // Bucle de comunicación de tiempo real con el cliente
 	    			try {
 		    			Object objRecibido = input.readObject();  // Espera a recibir petición de cliente (1) - se acaba con timeout
+		    			
 		    			if (objRecibido.equals(ConfigServer.FIN)) {
 		    				break;
 		    			}
@@ -245,6 +241,9 @@ public class Servidor {
 		    					Persona p = datos.crearUsuarioPersona((String) atribs[0],(String) atribs[1],(String) atribs[2],(Date) atribs[3],
 		    							(String) atribs[4],(String) atribs[5], (ArrayList<Habilidad>) atribs[6], (File) atribs[7], (String) atribs[8]);
 		    					output.writeObject(p);
+			    				for (int i : mapaDirecciones.keySet()) {
+				    				mapaDirecciones.get(i).writeObject(ConfigServer.NUEVA_HABILIDAD_ANADIDA);
+			    				}
 		    				}else {
 		    					Empresa e = datos.crearUsuarioEmpresa((String) atribs[0], (String) atribs[1], (String) atribs[2], (String) atribs[3], 
 		    							(ArrayList<String>) atribs[4], (File) atribs[5], (String) atribs[6]);
@@ -273,6 +272,9 @@ public class Servidor {
 		    			if (objRecibido.equals(ConfigServer.ANADIR_PUESTO)) {
 		    				PuestoTrabajo p = (PuestoTrabajo) input.readObject();
 		    				datos.anadirPuesto(p);
+		    				for (int i : mapaDirecciones.keySet()) {
+			    				mapaDirecciones.get(i).writeObject(ConfigServer.NUEVO_PUESTO_ANADIDO);
+		    				}
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.DELETE)) {
@@ -352,12 +354,18 @@ public class Servidor {
 		    				Habilidad habilidad = (Habilidad) input.readObject();
 		    				long id = (long) input.readObject();
 		    				datos.anadirHabilidad(habilidad,id);
+		    				for (int i : mapaDirecciones.keySet()) {
+			    				mapaDirecciones.get(i).writeObject(ConfigServer.NUEVA_HABILIDAD_ANADIDA);
+		    				}		    			
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.ELIMINAR_HABILIDAD)) {
 		    				Habilidad habilidad = (Habilidad) input.readObject();
 		    				long id = (long) input.readObject();
 		    				datos.eliminarHabilidad(habilidad,id);
+		    				for (int i : mapaDirecciones.keySet()) {
+			    				mapaDirecciones.get(i).writeObject(ConfigServer.NUEVA_HABILIDAD_ANADIDA);
+		    				}	
 		    			}
 		    			
 		    			if (objRecibido.equals(ConfigServer.DELETE_PUESTO)) {
@@ -365,9 +373,14 @@ public class Servidor {
 		    				String nombre = (String) input.readObject();
 		    				String descripcion = (String) input.readObject();
 		    				datos.deletePuesto(id, nombre, descripcion);
+		    				for (int i : mapaDirecciones.keySet()) {
+			    				mapaDirecciones.get(i).writeObject(ConfigServer.NUEVO_PUESTO_ANADIDO);
+		    				}	
 		    			}
 		    			
 	    			} catch (SocketTimeoutException e) {} // Excepción de timeout - no es un problema
+	    		   catch (EOFException e) {
+	    		    }
 	    		}
 	    		System.out.println("Servidor: fin comunicacion");
 	    		if (idSender != -1) {
